@@ -24,9 +24,39 @@
 		-->
 		<bean class="converters.ActorToStringConverter" />
 		<bean class="converters.AdministratorToStringConverter" />
+		<bean class="converters.BetToStringConverter" />
+		<bean class="converters.CategoryToStringConverter" />
+		<bean class="converters.CustomerToStringConverter" />
+		<bean class="converters.FixtureToStringConverter" />
+		<bean class="converters.ManagerToStringConverter" />
+		<bean class="converters.MarketToStringConverter" />
+		<bean class="converters.MatchToStringConverter" />
+		<bean class="converters.MessageToStringConverter" />
+		<bean class="converters.PromotionToStringConverter" />
+		<bean class="converters.PunctuationToStringConverter" />
+		<bean class="converters.TeamToStringConverter" />
+		<bean class="converters.TicketToStringConverter" />
+		<bean class="converters.TopicToStringConverter" />
+		<bean class="converters.TournamentToStringConverter" />
+		<bean class="converters.WelcomeOfferToStringConverter" />
 		
 		<bean class="converters.StringToActorConverter" />
 		<bean class="converters.StringToAdministratorConverter" />
+		<bean class="converters.StringToBetConverter" />
+		<bean class="converters.StringToCategoryConverter" />
+		<bean class="converters.StringToCustomerConverter" />
+		<bean class="converters.StringToFixtureConverter" />
+		<bean class="converters.StringToManagerConverter" />
+		<bean class="converters.StringToMarketConverter" />
+		<bean class="converters.StringToMatchConverter" />
+		<bean class="converters.StringToMessageConverter" />
+		<bean class="converters.StringToPromotionConverter" />
+		<bean class="converters.StringToPunctuationConverter" />
+		<bean class="converters.StringToTeamConverter" />
+		<bean class="converters.StringToTicketConverter" />
+		<bean class="converters.StringToTopicConverter" />
+		<bean class="converters.StringToTournamentConverter" />
+		<bean class="converters.StringToWelcomeOfferConverter" />
 		
 	</util:list>
 	

@@ -1,14 +1,14 @@
 package domain;
 
-public enum Sport {
+public enum Type {
 
-	FOOTBALL("FOOTBALL","FÚTBOL"), BASKETBALL("BASKETBALL","BALONCESTO");
+	SIMPLE("SIMPLE","SIMPLE"), MULTIPLE("MULTIPLE","MULTIPLE"), CHILD("CHILD","NIÑO");
 
 	private final String	name;
 	private final String	spanishName;
 
 
-	private Sport(String name, String spanishName) {
+	private Type(String name, String spanishName) {
 		this.name = name;
 		this.spanishName = spanishName;
 	}
@@ -20,6 +20,4 @@ public enum Sport {
 	public String getSpanishName() {
 		return spanishName;
 	}
-	
-	
 }
