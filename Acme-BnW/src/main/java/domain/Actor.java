@@ -9,6 +9,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Email;
@@ -26,10 +27,12 @@ import security.UserAccount;
 public class Actor extends DomainEntity {
 
 	// Attributes
-	private String	name;
-	private String	surname;
-	private String	phone;
-	private String	email;
+	private String		name;
+	private String		surname;
+	private String		phone;
+	private String		email;
+	private String		nid;
+	private Coordinates	coordinates;
 
 
 	// Constructor
@@ -81,10 +84,30 @@ public class Actor extends DomainEntity {
 		this.email = email;
 	}
 
+	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	public String getNid() {
+		return nid;
+	}
+
+	public void setNid(String nid) {
+		this.nid = nid;
+	}
+
+	@NotNull
+	@Valid
+	public Coordinates getCoordinates() {
+		return coordinates;
+	}
+
+	public void setCoordinates(Coordinates coordinates) {
+		this.coordinates = coordinates;
+	}
+
 
 	//RelationShips
 
-	private UserAccount	userAccount;
+	private UserAccount userAccount;
 
 
 	@Valid

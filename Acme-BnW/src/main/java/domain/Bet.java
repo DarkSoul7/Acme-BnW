@@ -1,11 +1,28 @@
+
 package domain;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.validation.Valid;
 
-@Embeddable
+@Entity
 @Access(AccessType.PROPERTY)
 public class Bet extends DomainEntity {
+
+	//Relationships
+	private Customer customer;
+
+
+	@Valid
+	@ManyToOne(optional = false)
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
 
 }
