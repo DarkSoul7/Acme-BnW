@@ -31,13 +31,198 @@
 			</list>
 		</property>
 	</bean>
-
+	
+	<bean id="userAccount2" class="security.UserAccount">
+		<property name="username" value="customer1" />
+		<property name="password" value="c6250cd2ee8d96d09515b1424bf47233" />
+		<property name="enabled" value="true" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CUSTOMER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount3" class="security.UserAccount">
+		<property name="username" value="customer2" />
+		<property name="password" value="d8ec29cd3f1a1f25498e2b7a3b2c2e57" />
+		<property name="enabled" value="true" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CUSTOMER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount4" class="security.UserAccount">
+		<property name="username" value="customer3" />
+		<property name="password" value="033f7f6121501ae98285ad77f216d5e7" />
+		<property name="enabled" value="true" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CUSTOMER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount5" class="security.UserAccount">
+		<property name="username" value="manager1" />
+		<property name="password" value="c240642ddef994358c96da82c0361a58" />
+		<property name="enabled" value="true" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
 	
 	<!-- Other domain beans come here -->	
 	
 	<!-- ADMINISTRATORS -->
 	
+	<bean id="administrator" class="domain.Administrator">
+		<property name="name" value="Pablo" />
+		<property name="surname" value="Garcia Rubio" />
+		<property name="phone" value="+34 632145987" />
+		<property name="email" value="pabgarrub@gmail.com" />
+		<property name="nid" value="nid1" />
+		<!--<property name="coordinates" ref="coordinates1"/>-->
+		<property name="userAccount" ref="userAccount1"/>
+	</bean>
 	
+	<!-- MANAGER -->
+	
+	<bean id="manager1" class="domain.Manager">
+		<property name="name" value="Alejandro" />
+		<property name="surname" value="Garcia Bola" />
+		<property name="phone" value="+34 632133987" />
+		<property name="email" value="alegarbol@gmail.com" />
+		<property name="nid" value="nid4" />
+		<property name="coordinates" ref="coordinates1"/>
+		<property name="userAccount" ref="userAccount5"/>
+	</bean>
+	
+	<!-- CUSTOMER -->
+	
+	<bean id="customer1" class="domain.Customer">
+		<property name="name" value="Salvador" />
+		<property name="surname" value="Perez Garrote" />
+		<property name="phone" value="+34 632141187" />
+		<property name="email" value="salpergar@gmail.com" />
+		<property name="nid" value="nid2" />
+		<property name="birthDate" value="02/05/1990" />
+		<property name="creditCard" ref="creditCard1"/>
+		<property name="balance" value="20.00" />
+		<property name="finishedOffer" value="false" />
+		<property name="coordinates" ref="coordinates2"/>
+		<property name="userAccount" ref="userAccount2"/>
+		<property name="welcomeOffer" ref="welcomeOffer1"/>
+	</bean>
+	
+	<bean id="customer2" class="domain.Customer">
+		<property name="name" value="Laura" />
+		<property name="surname" value="Perez Garrote" />
+		<property name="phone" value="+34 632144487" />
+		<property name="email" value="laupergar@gmail.com" />
+		<property name="nid" value="nid3" />
+		<property name="birthDate" value="20/09/1990" />
+		<property name="creditCard" ref="creditCard2"/>
+		<property name="balance" value="52.00" />
+		<property name="finishedOffer" value="false" />
+		<property name="coordinates" ref="coordinates3"/>
+		<property name="userAccount" ref="userAccount3"/>
+		<property name="welcomeOffer" ref="welcomeOffer1"/>
+	</bean>
+	
+	<bean id="customer3" class="domain.Customer">
+		<property name="name" value="Sergio" />
+		<property name="surname" value="Perez Domingo" />
+		<property name="phone" value="+34 611144487" />
+		<property name="email" value="serperdom@gmail.com" />
+		<property name="nid" value="nid3" />
+		<property name="birthDate" value="20/12/1989" />
+		<property name="creditCard" ref="creditCard3"/>
+		<property name="balance" value="100.00" />
+		<property name="finishedOffer" value="false" />
+		<property name="coordinates" ref="coordinates4"/>
+		<property name="userAccount" ref="userAccount4"/>
+		<property name="welcomeOffer" ref="welcomeOffer1"/>
+	</bean>
+	
+	<!-- CREDIT CARDS -->
+	
+	<bean id="creditCard1" class="domain.CreditCard">
+		<property name="holderName" value="Alfonso Pérez del Álamo" />
+		<property name="brandName" value="VISA" />
+		<property name="number" value="4800553115069231" />
+		<property name="expirationMonth" value="03" />
+		<property name="expirationYear" value="2019" />
+		<property name="cvv" value="123" />
+	</bean>
+	
+	<bean id="creditCard2" class="domain.CreditCard">
+		<property name="holderName" value="Margarita Flores del Campo" />
+		<property name="brandName" value="VISA" />
+		<property name="number" value="4028762584020247" />
+		<property name="expirationMonth" value="12" />
+		<property name="expirationYear" value="2018" />
+		<property name="cvv" value="341" />
+	</bean>
+	
+	<bean id="creditCard3" class="domain.CreditCard">
+		<property name="holderName" value="Ana Perales López" />
+		<property name="brandName" value="VISA" />
+		<property name="number" value="4916584865185175" />
+		<property name="expirationMonth" value="01" />
+		<property name="expirationYear" value="2018" />
+		<property name="cvv" value="195" />
+	</bean>
+	
+	<!-- COORDINATES -->
+	
+	<bean id="coordinates1" class="domain.Coordinates">
+		<property name="country" value="España" />
+		<property name="state" value="Andalucía" />
+		<property name="province" value="Sevilla" />
+		<property name="city" value="Sevilla" />
+	</bean>
+	
+	<bean id="coordinates2" class="domain.Coordinates">
+		<property name="country" value="España" />
+		<property name="state" value="" />
+		<property name="province" value="Madrid" />
+		<property name="city" value="Madrid" />
+	</bean>
+	
+	<bean id="coordinates3" class="domain.Coordinates">
+		<property name="country" value="España" />
+		<property name="state" value="" />
+		<property name="province" value="" />
+		<property name="city" value="Cádiz" />
+	</bean>
+	
+	<bean id="coordinates4" class="domain.Coordinates">
+		<property name="country" value="España" />
+		<property name="state" value="Cataluña" />
+		<property name="province" value="" />
+		<property name="city" value="Barcelona" />
+	</bean>
+	
+	<!-- WELCOMEOFFER -->
+	<bean id="welcomeOffer1" class="domain.WelcomeOffer">
+		<property name="openPeriod" value="22/02/2017" />
+		<property name="endPeriod" value="22/02/2019" />
+		<property name="amount" value="30.00" />
+		<property name="extractionAmount" value="10.00" />
+	</bean>	
 
 	
 </beans>

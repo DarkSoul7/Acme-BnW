@@ -27,7 +27,7 @@ public class Authority implements GrantedAuthority {
 
 	// Constructors -----------------------------------------------------------
 
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 
 	public Authority() {
@@ -37,9 +37,9 @@ public class Authority implements GrantedAuthority {
 
 	// Values -----------------------------------------------------------------
 
-	public static final String	ADMIN	= "ADMINISTRATOR";
-	public static final String	CHORBI	= "CHORBI";
-	public static final String	MANAGER	= "MANAGER";
+	public static final String	ADMIN		= "ADMINISTRATOR";
+	public static final String	CUSTOMER	= "CUSTOMER";
+	public static final String	MANAGER		= "MANAGER";
 
 	// Attributes -------------------------------------------------------------
 
@@ -47,7 +47,7 @@ public class Authority implements GrantedAuthority {
 
 
 	@NotBlank
-	@Pattern(regexp = "^" + Authority.ADMIN + "|" + Authority.CHORBI + "|" + Authority.MANAGER + "$")
+	@Pattern(regexp = "^" + Authority.ADMIN + "|" + Authority.CUSTOMER + "|" + Authority.MANAGER + "$")
 	@Override
 	public String getAuthority() {
 		return this.authority;
@@ -68,7 +68,7 @@ public class Authority implements GrantedAuthority {
 		result.add(authority);
 
 		authority = new Authority();
-		authority.setAuthority(Authority.CHORBI);
+		authority.setAuthority(Authority.CUSTOMER);
 		result.add(authority);
 
 		authority = new Authority();
