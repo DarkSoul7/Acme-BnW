@@ -9,36 +9,53 @@ import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
 public class Match extends DomainEntity {
 
-	private Date startMoment;
-	private Date endMoment;
-	
+	private Date	startMoment;
+	private Date	endMoment;
+
+
+	@Past
+	@NotNull
+	@Temporal(value = TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getStartMoment() {
 		return startMoment;
 	}
 	public void setStartMoment(Date startMoment) {
 		this.startMoment = startMoment;
 	}
+
+	@NotNull
+	@Temporal(value = TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getEndMoment() {
 		return endMoment;
 	}
 	public void setEndMoment(Date endMoment) {
 		this.endMoment = endMoment;
 	}
-	
+
+
 	//RelationShip
-	private Fixture fixture;
-	private Collection<Market> markets;
-	private Team visitorTeam;
-	private Team localTeam;
+	private Fixture				fixture;
+	private Collection<Market>	markets;
+	private Team				visitorTeam;
+	private Team				localTeam;
+
 
 	@Valid
-	@ManyToOne(optional=false)
+	@ManyToOne(optional = false)
 	public Fixture getFixture() {
 		return fixture;
 	}
@@ -46,7 +63,7 @@ public class Match extends DomainEntity {
 		this.fixture = fixture;
 	}
 	@Valid
-	@OneToMany(mappedBy="match")
+	@OneToMany(mappedBy = "match")
 	public Collection<Market> getMarkets() {
 		return markets;
 	}
@@ -54,7 +71,7 @@ public class Match extends DomainEntity {
 		this.markets = markets;
 	}
 	@Valid
-	@ManyToOne(optional=false)
+	@ManyToOne(optional = false)
 	public Team getVisitorTeam() {
 		return visitorTeam;
 	}
@@ -62,15 +79,12 @@ public class Match extends DomainEntity {
 		this.visitorTeam = visitorTeam;
 	}
 	@Valid
-	@ManyToOne(optional=false)
+	@ManyToOne(optional = false)
 	public Team getLocalTeam() {
 		return localTeam;
 	}
 	public void setLocalTeam(Team localTeam) {
 		this.localTeam = localTeam;
 	}
-	
-	
-	
-	
+
 }

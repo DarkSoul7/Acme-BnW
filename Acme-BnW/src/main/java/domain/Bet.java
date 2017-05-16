@@ -9,23 +9,27 @@ import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
 public class Bet extends DomainEntity {
 
-	private Double quantity;
-	private Double fee;
-	private Date creationMoment;
-	private Type type;
-	private Status status;
-	
-	
+	private Double	quantity;
+	private Double	fee;
+	private Date	creationMoment;
+	private Type	type;
+	private Status	status;
+
+
 	@NotNull
-	//TODO @Min(0,01)
+	//TODO @Min(1,01)
 	public Double getQuantity() {
 		return quantity;
 	}
@@ -46,6 +50,8 @@ public class Bet extends DomainEntity {
 
 	@Past
 	@NotNull
+	@Temporal(value = TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getCreationMoment() {
 		return creationMoment;
 	}
@@ -72,11 +78,12 @@ public class Bet extends DomainEntity {
 		this.status = status;
 	}
 
+
 	//Relationships
-	private Customer customer;
-	private Bet parentBet;
-	private Collection<Bet> childrenBets;
-	private Market market;
+	private Customer		customer;
+	private Bet				parentBet;
+	private Collection<Bet>	childrenBets;
+	private Market			market;
 
 
 	@Valid
@@ -118,9 +125,5 @@ public class Bet extends DomainEntity {
 	public void setMarket(Market market) {
 		this.market = market;
 	}
-	
-	
-	
-	
 
 }

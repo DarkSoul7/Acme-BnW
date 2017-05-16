@@ -10,13 +10,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
+import org.hibernate.validator.constraints.URL;
+
 @Entity
 @Access(AccessType.PROPERTY)
 public class Team extends DomainEntity {
 
-	private String name;
-	private String shield;
-	
+	private String	name;
+	private String	shield;
+
+
+	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getName() {
 		return name;
 	}
@@ -25,6 +33,9 @@ public class Team extends DomainEntity {
 		this.name = name;
 	}
 
+	@NotBlank
+	@URL
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getShield() {
 		return shield;
 	}
@@ -33,10 +44,11 @@ public class Team extends DomainEntity {
 		this.shield = shield;
 	}
 
+
 	//Relationships
-	private Customer customer;
-	private Collection<Match> visitorMatches;
-	private Collection<Match> localMatches;
+	private Customer			customer;
+	private Collection<Match>	visitorMatches;
+	private Collection<Match>	localMatches;
 
 
 	@Valid
@@ -50,7 +62,7 @@ public class Team extends DomainEntity {
 	}
 
 	@Valid
-	@OneToMany(mappedBy="visitorTeam")
+	@OneToMany(mappedBy = "visitorTeam")
 	public Collection<Match> getVisitorMatches() {
 		return visitorMatches;
 	}
@@ -60,7 +72,7 @@ public class Team extends DomainEntity {
 	}
 
 	@Valid
-	@OneToMany(mappedBy="localTeam")
+	@OneToMany(mappedBy = "localTeam")
 	public Collection<Match> getLocalMatches() {
 		return localMatches;
 	}
@@ -68,7 +80,5 @@ public class Team extends DomainEntity {
 	public void setLocalMatches(Collection<Match> localMatches) {
 		this.localMatches = localMatches;
 	}
-	
-	
 
 }
