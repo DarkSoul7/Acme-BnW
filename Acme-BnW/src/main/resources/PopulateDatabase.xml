@@ -840,7 +840,7 @@
 	<bean id="message1" class="domain.Message">
 		<property name="title" value="Pole" />
 		<property name="description" value="sitio en first page" />
-		<property name="ord" value="1" />
+		<property name="order" value="1" />
 		<property name="creationMoment" value="2017/05/15 15:30" />
 		<property name="customer" ref="customer1" />
 		<property name="topic" ref="topic1" />
@@ -849,7 +849,7 @@
 	<bean id="message2" class="domain.Message">
 		<property name="title" value="Subpole" />
 		<property name="description" value="Sitio en hilo mítico" />
-		<property name="ord" value="2" />
+		<property name="order" value="2" />
 		<property name="creationMoment" value="2017/05/15 15:33" />
 		<property name="customer" ref="customer3" />
 		<property name="topic" ref="topic1" />
@@ -858,7 +858,7 @@
 	<bean id="message3" class="domain.Message">
 		<property name="title" value="Reportaditos" />
 		<property name="description" value="Al carrer" />
-		<property name="ord" value="3" />
+		<property name="order" value="3" />
 		<property name="creationMoment" value="2017/05/15 15:40" />
 		<property name="customer" ref="customer2" />
 		<property name="topic" ref="topic1" />

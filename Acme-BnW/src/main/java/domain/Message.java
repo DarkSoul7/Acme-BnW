@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -24,9 +25,7 @@ public class Message extends DomainEntity {
 
 	private String	title;
 	private String	description;
-
-	private Integer	ord;
-
+	private Integer	order;
 	private Date	creationMoment;
 
 
@@ -51,12 +50,13 @@ public class Message extends DomainEntity {
 	}
 
 	@NotNull
-	public Integer getOrd() {
-		return this.ord;
+	@Column(name = "`order`")
+	public Integer getOrder() {
+		return this.order;
 	}
 
-	public void setOrd(final Integer ord) {
-		this.ord = ord;
+	public void setOrder(final Integer order) {
+		this.order = order;
 	}
 
 	@Past
