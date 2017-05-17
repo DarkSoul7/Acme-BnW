@@ -24,7 +24,9 @@ public class Message extends DomainEntity {
 
 	private String	title;
 	private String	description;
-	private Integer	order;
+
+	private Integer	ord;
+
 	private Date	creationMoment;
 
 
@@ -49,12 +51,12 @@ public class Message extends DomainEntity {
 	}
 
 	@NotNull
-	public Integer getOrder() {
-		return this.order;
+	public Integer getOrd() {
+		return this.ord;
 	}
 
-	public void setOrder(final Integer order) {
-		this.order = order;
+	public void setOrd(final Integer ord) {
+		this.ord = ord;
 	}
 
 	@Past

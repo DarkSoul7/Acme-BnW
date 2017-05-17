@@ -311,6 +311,166 @@
 		</property>
 	</bean>	
 	
+	<bean id="team2" class="domain.Team">
+		<property name="name" value="Sporting" />
+		<property name="shield" value="https://c1.staticflickr.com/4/3524/5742743808_546e4941d6_t.jpg" />
+		<property name="customers">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="visitorMatches">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="localMatches">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="team3" class="domain.Team">
+		<property name="name" value="Real Madrid" />
+		<property name="shield" value="https://c1.staticflickr.com/6/5507/10977515193_349062c2b7_t.jpg" />
+		<property name="customers">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="visitorMatches">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="localMatches">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="team4" class="domain.Team">
+		<property name="name" value="Barcelona" />
+		<property name="shield" value="https://c1.staticflickr.com/4/3539/3350512197_dc4e50b365_t.jpg" />
+		<property name="customers">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="visitorMatches">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="localMatches">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="team5" class="domain.Team">
+		<property name="name" value="Sevilla" />
+		<property name="shield" value="https://c1.staticflickr.com/4/3656/3327145618_640e250442_t.jpg" />
+		<property name="customers">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="visitorMatches">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="localMatches">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="team6" class="domain.Team">
+		<property name="name" value="Valencia" />
+		<property name="shield" value="https://c1.staticflickr.com/5/4006/4285778072_7185413968_t.jpg" />
+		<property name="customers">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="visitorMatches">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="localMatches">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="team7" class="domain.Team">
+		<property name="name" value="Atlético de Madrid" />
+		<property name="shield" value="https://c1.staticflickr.com/8/7400/13134999053_4c089d7dda_t.jpg" />
+		<property name="customers">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="visitorMatches">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="localMatches">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="team8" class="domain.Team">
+		<property name="name" value="Villareal" />
+		<property name="shield" value="https://c1.staticflickr.com/4/3544/3492072432_fbded57cc8_t.jpg" />
+		<property name="customers">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="visitorMatches">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="localMatches">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="team9" class="domain.Team">
+		<property name="name" value="Celta" />
+		<property name="shield" value="https://c1.staticflickr.com/5/4099/4829930219_4e4ca3ac04_t.jpg" />
+		<property name="customers">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="visitorMatches">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="localMatches">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
 	<!-- FIXTURE -->
 	
 	<bean id="fixture1" class="domain.Fixture">
@@ -360,6 +520,7 @@
 	<bean id="market2" class="domain.Market">
 		<property name="title" value="Visitor wins" />
 		<property name="fee" value="2.35" />
+		<property name="match" ref="match1" />
 		<property name="promotions">
 			<list>
 				<null/>
@@ -375,6 +536,7 @@
 	<bean id="market3" class="domain.Market">
 		<property name="title" value="Tie" />
 		<property name="fee" value="2.02" />
+		<property name="match" ref="match1" />
 		<property name="promotions">
 			<list>
 				<null/>
