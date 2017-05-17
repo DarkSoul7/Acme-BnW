@@ -6,7 +6,9 @@ import java.util.Collection;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
 
@@ -26,10 +28,10 @@ public class Team extends DomainEntity {
 	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -37,47 +39,48 @@ public class Team extends DomainEntity {
 	@URL
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getShield() {
-		return shield;
+		return this.shield;
 	}
 
-	public void setShield(String shield) {
+	public void setShield(final String shield) {
 		this.shield = shield;
 	}
 
 
 	//Relationships
-	private Customer			customer;
-	private Collection<Match>	visitorMatches;
-	private Collection<Match>	localMatches;
+	private Collection<Customer>	customers;
+	private Collection<Match>		visitorMatches;
+	private Collection<Match>		localMatches;
 
 
 	@Valid
-	@ManyToOne(optional = false)
-	public Customer getCustomer() {
-		return customer;
+	@ManyToMany
+	@JoinTable(name = "team_customer", joinColumns = @JoinColumn(name = "team_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "customer_id", referencedColumnName = "id"))
+	public Collection<Customer> getCustomers() {
+		return this.customers;
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setCustomers(final Collection<Customer> customers) {
+		this.customers = customers;
 	}
 
 	@Valid
 	@OneToMany(mappedBy = "visitorTeam")
 	public Collection<Match> getVisitorMatches() {
-		return visitorMatches;
+		return this.visitorMatches;
 	}
 
-	public void setVisitorMatches(Collection<Match> visitorMatches) {
+	public void setVisitorMatches(final Collection<Match> visitorMatches) {
 		this.visitorMatches = visitorMatches;
 	}
 
 	@Valid
 	@OneToMany(mappedBy = "localTeam")
 	public Collection<Match> getLocalMatches() {
-		return localMatches;
+		return this.localMatches;
 	}
 
-	public void setLocalMatches(Collection<Match> localMatches) {
+	public void setLocalMatches(final Collection<Match> localMatches) {
 		this.localMatches = localMatches;
 	}
 

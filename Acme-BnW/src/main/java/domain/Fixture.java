@@ -13,7 +13,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -25,24 +24,23 @@ public class Fixture extends DomainEntity {
 	private Date	endMoment;
 
 
-	@Past
 	@NotNull
 	@Temporal(value = TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getStartMoment() {
-		return startMoment;
+		return this.startMoment;
 	}
-	public void setStartMoment(Date startMoment) {
+	public void setStartMoment(final Date startMoment) {
 		this.startMoment = startMoment;
 	}
 
 	@NotNull
 	@Temporal(value = TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getEndMoment() {
-		return endMoment;
+		return this.endMoment;
 	}
-	public void setEndMoment(Date endMoment) {
+	public void setEndMoment(final Date endMoment) {
 		this.endMoment = endMoment;
 	}
 
@@ -55,17 +53,17 @@ public class Fixture extends DomainEntity {
 	@Valid
 	@OneToMany(mappedBy = "fixture")
 	public Collection<Match> getMatches() {
-		return matches;
+		return this.matches;
 	}
-	public void setMatches(Collection<Match> matches) {
+	public void setMatches(final Collection<Match> matches) {
 		this.matches = matches;
 	}
 	@Valid
 	@ManyToOne(optional = false)
 	public Category getCategory() {
-		return category;
+		return this.category;
 	}
-	public void setCategory(Category category) {
+	public void setCategory(final Category category) {
 		this.category = category;
 	}
 

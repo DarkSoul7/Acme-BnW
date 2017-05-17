@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
@@ -29,22 +30,22 @@ public class Bet extends DomainEntity {
 
 
 	@NotNull
-	//TODO @Min(1,01)
+	@DecimalMin("0.01")
 	public Double getQuantity() {
-		return quantity;
+		return this.quantity;
 	}
 
-	public void setQuantity(Double quantity) {
+	public void setQuantity(final Double quantity) {
 		this.quantity = quantity;
 	}
 
 	@NotNull
-	//TODO @Min(0,01)
+	@DecimalMin("1.01")
 	public Double getFee() {
-		return fee;
+		return this.fee;
 	}
 
-	public void setFee(Double fee) {
+	public void setFee(final Double fee) {
 		this.fee = fee;
 	}
 
@@ -53,28 +54,28 @@ public class Bet extends DomainEntity {
 	@Temporal(value = TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getCreationMoment() {
-		return creationMoment;
+		return this.creationMoment;
 	}
 
-	public void setCreationMoment(Date creationMoment) {
+	public void setCreationMoment(final Date creationMoment) {
 		this.creationMoment = creationMoment;
 	}
 
 	@NotNull
 	public Type getType() {
-		return type;
+		return this.type;
 	}
 
-	public void setType(Type type) {
+	public void setType(final Type type) {
 		this.type = type;
 	}
 
 	@NotNull
 	public Status getStatus() {
-		return status;
+		return this.status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(final Status status) {
 		this.status = status;
 	}
 
@@ -89,40 +90,40 @@ public class Bet extends DomainEntity {
 	@Valid
 	@ManyToOne(optional = false)
 	public Customer getCustomer() {
-		return customer;
+		return this.customer;
 	}
 
-	public void setCustomer(Customer customer) {
+	public void setCustomer(final Customer customer) {
 		this.customer = customer;
 	}
 
 	@Valid
 	@ManyToOne(optional = true)
 	public Bet getParentBet() {
-		return parentBet;
+		return this.parentBet;
 	}
 
-	public void setParentBet(Bet parentBet) {
+	public void setParentBet(final Bet parentBet) {
 		this.parentBet = parentBet;
 	}
 
 	@Valid
 	@OneToMany(mappedBy = "parentBet")
 	public Collection<Bet> getChildrenBets() {
-		return childrenBets;
+		return this.childrenBets;
 	}
 
-	public void setChildrenBets(Collection<Bet> childrenBets) {
+	public void setChildrenBets(final Collection<Bet> childrenBets) {
 		this.childrenBets = childrenBets;
 	}
 
 	@Valid
 	@ManyToOne(optional = false)
 	public Market getMarket() {
-		return market;
+		return this.market;
 	}
 
-	public void setMarket(Market market) {
+	public void setMarket(final Market market) {
 		this.market = market;
 	}
 

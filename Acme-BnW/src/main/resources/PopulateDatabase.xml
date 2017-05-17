@@ -34,7 +34,7 @@
 	
 	<bean id="userAccount2" class="security.UserAccount">
 		<property name="username" value="customer1" />
-		<property name="password" value="c6250cd2ee8d96d09515b1424bf47233" />
+		<property name="password" value="ffbc4675f864e0e9aab8bdf7a0437010" />
 		<property name="enabled" value="true" />
 		<property name="authorities">
 			<list>
@@ -47,7 +47,7 @@
 	
 	<bean id="userAccount3" class="security.UserAccount">
 		<property name="username" value="customer2" />
-		<property name="password" value="d8ec29cd3f1a1f25498e2b7a3b2c2e57" />
+		<property name="password" value="5ce4d191fd14ac85a1469fb8c29b7a7b" />
 		<property name="enabled" value="true" />
 		<property name="authorities">
 			<list>
@@ -84,6 +84,19 @@
 		</property>
 	</bean>
 	
+	<bean id="userAccount6" class="security.UserAccount">
+		<property name="username" value="manager2" />
+		<property name="password" value="8df5127cd164b5bc2d2b78410a7eea0c" />
+		<property name="enabled" value="true" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
 	<!-- Other domain beans come here -->	
 	
 	<!-- ADMINISTRATORS -->
@@ -93,8 +106,8 @@
 		<property name="surname" value="Garcia Rubio" />
 		<property name="phone" value="+34 632145987" />
 		<property name="email" value="pabgarrub@gmail.com" />
-		<property name="nid" value="nid1" />
-		<!--<property name="coordinates" ref="coordinates1"/>-->
+		<property name="nid" value="37252086K" />
+		<property name="coordinates" ref="coordinates1"/>
 		<property name="userAccount" ref="userAccount1"/>
 	</bean>
 	
@@ -105,9 +118,19 @@
 		<property name="surname" value="Garcia Bola" />
 		<property name="phone" value="+34 632133987" />
 		<property name="email" value="alegarbol@gmail.com" />
-		<property name="nid" value="nid4" />
-		<property name="coordinates" ref="coordinates1"/>
+		<property name="nid" value="52279349G" />
+		<property name="coordinates" ref="coordinates2"/>
 		<property name="userAccount" ref="userAccount5"/>
+	</bean>
+	
+	<bean id="manager2" class="domain.Manager">
+		<property name="name" value="Manuel" />
+		<property name="surname" value="López Guevara" />
+		<property name="phone" value="+34 632133987" />
+		<property name="email" value="manlopgue@gmail.com" />
+		<property name="nid" value="41871680L" />
+		<property name="coordinates" ref="coordinates3"/>
+		<property name="userAccount" ref="userAccount6"/>
 	</bean>
 	
 	<!-- CUSTOMER -->
@@ -117,12 +140,12 @@
 		<property name="surname" value="Perez Garrote" />
 		<property name="phone" value="+34 632141187" />
 		<property name="email" value="salpergar@gmail.com" />
-		<property name="nid" value="nid2" />
+		<property name="nid" value="41817122V" />
 		<property name="birthDate" value="02/05/1990" />
 		<property name="creditCard" ref="creditCard1"/>
 		<property name="balance" value="20.00" />
 		<property name="finishedOffer" value="false" />
-		<property name="coordinates" ref="coordinates2"/>
+		<property name="coordinates" ref="coordinates4"/>
 		<property name="userAccount" ref="userAccount2"/>
 		<property name="welcomeOffer" ref="welcomeOffer1"/>
 	</bean>
@@ -132,12 +155,12 @@
 		<property name="surname" value="Perez Garrote" />
 		<property name="phone" value="+34 632144487" />
 		<property name="email" value="laupergar@gmail.com" />
-		<property name="nid" value="nid3" />
+		<property name="nid" value="69590934H" />
 		<property name="birthDate" value="20/09/1990" />
 		<property name="creditCard" ref="creditCard2"/>
 		<property name="balance" value="52.00" />
 		<property name="finishedOffer" value="false" />
-		<property name="coordinates" ref="coordinates3"/>
+		<property name="coordinates" ref="coordinates5"/>
 		<property name="userAccount" ref="userAccount3"/>
 		<property name="welcomeOffer" ref="welcomeOffer1"/>
 	</bean>
@@ -147,12 +170,12 @@
 		<property name="surname" value="Perez Domingo" />
 		<property name="phone" value="+34 611144487" />
 		<property name="email" value="serperdom@gmail.com" />
-		<property name="nid" value="nid3" />
+		<property name="nid" value="81963239W" />
 		<property name="birthDate" value="20/12/1989" />
 		<property name="creditCard" ref="creditCard3"/>
 		<property name="balance" value="100.00" />
 		<property name="finishedOffer" value="false" />
-		<property name="coordinates" ref="coordinates4"/>
+		<property name="coordinates" ref="coordinates6"/>
 		<property name="userAccount" ref="userAccount4"/>
 		<property name="welcomeOffer" ref="welcomeOffer1"/>
 	</bean>
@@ -197,32 +220,189 @@
 	
 	<bean id="coordinates2" class="domain.Coordinates">
 		<property name="country" value="España" />
-		<property name="state" value="" />
+		<property name="state" value="Comunidad de Madrid" />
 		<property name="province" value="Madrid" />
 		<property name="city" value="Madrid" />
 	</bean>
 	
 	<bean id="coordinates3" class="domain.Coordinates">
 		<property name="country" value="España" />
-		<property name="state" value="" />
-		<property name="province" value="" />
+		<property name="state" value="Andalucía" />
+		<property name="province" value="Cádiz" />
 		<property name="city" value="Cádiz" />
 	</bean>
 	
 	<bean id="coordinates4" class="domain.Coordinates">
 		<property name="country" value="España" />
 		<property name="state" value="Cataluña" />
-		<property name="province" value="" />
+		<property name="province" value="Barcelona" />
 		<property name="city" value="Barcelona" />
+	</bean>
+	
+	<bean id="coordinates5" class="domain.Coordinates">
+		<property name="country" value="España" />
+		<property name="state" value="Galicia" />
+		<property name="province" value="Vigo" />
+		<property name="city" value="Vigo" />
+	</bean>
+	
+	<bean id="coordinates6" class="domain.Coordinates">
+		<property name="country" value="España" />
+		<property name="state" value="Andalucía" />
+		<property name="province" value="Sevilla" />
+		<property name="city" value="Sevilla" />
 	</bean>
 	
 	<!-- WELCOMEOFFER -->
 	<bean id="welcomeOffer1" class="domain.WelcomeOffer">
-		<property name="openPeriod" value="22/02/2017" />
-		<property name="endPeriod" value="22/02/2019" />
+		<property name="openPeriod" value="2017/02/22" />
+		<property name="endPeriod" value="2019/02/22" />
 		<property name="amount" value="30.00" />
 		<property name="extractionAmount" value="10.00" />
 	</bean>	
+	
+	<!-- TOURNAMENT -->
+	
+	<bean id="tournament1" class="domain.Tournament">
+		<property name="name" value="Liga Santander" />
+		<property name="description" value="Liga nacional de fútbol de primera división española" />
+		<property name="startMoment" value="2016/09/10" />
+		<property name="endMoment" value="2017/05/21" />
+		<property name="sport" value="FOOTBALL" />
+		<property name="categories">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<!-- CATEGORY -->
+	
+	<bean id="category1" class="domain.Category">
+		<property name="name" value="Primera División" />
+		<property name="description" value="Primera división española, categoría más alta del fútbol español" />
+		<property name="tournament" ref="tournament1" />
+		<property name="fixtures">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<!-- TEAM -->
+	
+	<bean id="team1" class="domain.Team">
+		<property name="name" value="Real Betis Balompie" />
+		<property name="shield" value="https://c1.staticflickr.com/9/8108/8531201674_60519d433a.jpg" />
+		<property name="customers">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="visitorMatches">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="localMatches">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<!-- FIXTURE -->
+	
+	<bean id="fixture1" class="domain.Fixture">
+		<property name="startMoment" value="2017/05/20 12:45" />
+		<property name="endMoment" value="2017/05/21 23:15" />
+		<property name="category" ref="category1" />
+		<property name="matches">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<!-- MATCH -->
+	
+	<bean id="match1" class="domain.Match">
+		<property name="startMoment" value="2017/05/20" />
+		<property name="endMoment" value="2017/05/20" />
+		<property name="fixture" ref="fixture1" />
+		<property name="markets">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="visitorTeam" ref="team2" />
+		<property name="localTeam" ref="team1" />
+	</bean>	
+	
+	<!-- MARKET -->
 
+	<bean id="market1" class="domain.Market">
+		<property name="title" value="Local wins" />
+		<property name="fee" value="1.15" />
+		<property name="match" ref="match1" />
+		<property name="promotions">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="bets">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="market2" class="domain.Market">
+		<property name="title" value="Visitor wins" />
+		<property name="fee" value="2.35" />
+		<property name="promotions">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="bets">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="market3" class="domain.Market">
+		<property name="title" value="Tie" />
+		<property name="fee" value="2.02" />
+		<property name="promotions">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="bets">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>
+
+	<!-- BET -->
+	
+	<bean id="bet1" class="domain.Bet">
+		<property name="quantity" value="2.0" />
+		<property name="fee" value="1.15" />
+		<property name="creationMoment" value="2017/05/16" />
+		<property name="type" value="SIMPLE" />
+		<property name="status" value="PENDING" />
+		<property name="customer" ref="customer1" />
+		<property name="parentBet"><null/></property>
+		<property name="childrenBets">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="market" ref="market1" />
+	</bean>	
 	
 </beans>

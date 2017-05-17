@@ -33,36 +33,36 @@ public class Customer extends Actor {
 	@Temporal(value = TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getBirthDate() {
-		return birthDate;
+		return this.birthDate;
 	}
 
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(final Date birthDate) {
 		this.birthDate = birthDate;
 	}
 
 	@Valid
 	public CreditCard getCreditCard() {
-		return creditCard;
+		return this.creditCard;
 	}
 
-	public void setCreditCard(CreditCard creditCard) {
+	public void setCreditCard(final CreditCard creditCard) {
 		this.creditCard = creditCard;
 	}
 
 	@NotNull
 	public Double getBalance() {
-		return balance;
+		return this.balance;
 	}
 
-	public void setBalance(Double balance) {
+	public void setBalance(final Double balance) {
 		this.balance = balance;
 	}
 
 	public Boolean getFinishedOffer() {
-		return finishedOffer;
+		return this.finishedOffer;
 	}
 
-	public void setFinishedOffer(Boolean finishedOffer) {
+	public void setFinishedOffer(final Boolean finishedOffer) {
 		this.finishedOffer = finishedOffer;
 	}
 
@@ -80,70 +80,70 @@ public class Customer extends Actor {
 	@Valid
 	@OneToMany(mappedBy = "customer")
 	public Collection<Topic> getTopics() {
-		return topics;
+		return this.topics;
 	}
 
-	public void setTopics(Collection<Topic> topics) {
+	public void setTopics(final Collection<Topic> topics) {
 		this.topics = topics;
 	}
 
 	@Valid
 	@OneToMany(mappedBy = "customer")
 	public Collection<Punctuation> getPunctuacions() {
-		return punctuacions;
+		return this.punctuacions;
 	}
 
-	public void setPunctuacions(Collection<Punctuation> punctuacions) {
+	public void setPunctuacions(final Collection<Punctuation> punctuacions) {
 		this.punctuacions = punctuacions;
 	}
 
 	@Valid
 	@OneToMany(mappedBy = "customer")
 	public Collection<Ticket> getTickets() {
-		return tickets;
+		return this.tickets;
 	}
 
-	public void setTickets(Collection<Ticket> tickets) {
+	public void setTickets(final Collection<Ticket> tickets) {
 		this.tickets = tickets;
 	}
 
 	@Valid
 	@OneToMany(mappedBy = "customer")
 	public Collection<Message> getMessages() {
-		return messages;
+		return this.messages;
 	}
 
-	public void setMessages(Collection<Message> messages) {
+	public void setMessages(final Collection<Message> messages) {
 		this.messages = messages;
 	}
 
 	@Valid
 	@OneToMany(mappedBy = "customer")
 	public Collection<Bet> getBets() {
-		return bets;
+		return this.bets;
 	}
 
-	public void setBets(Collection<Bet> bets) {
+	public void setBets(final Collection<Bet> bets) {
 		this.bets = bets;
 	}
 
 	@Valid
-	@ManyToMany()
+	@ManyToMany
 	public Collection<Team> getTeams() {
-		return teams;
+		return this.teams;
 	}
 
-	public void setTeams(Collection<Team> teams) {
+	public void setTeams(final Collection<Team> teams) {
 		this.teams = teams;
 	}
 
 	@Valid
 	@ManyToOne(optional = true)
 	public WelcomeOffer getWelcomeOffer() {
-		return welcomeOffer;
+		return this.welcomeOffer;
 	}
 
-	public void setWelcomeOffer(WelcomeOffer welcomeOffer) {
+	public void setWelcomeOffer(final WelcomeOffer welcomeOffer) {
 		this.welcomeOffer = welcomeOffer;
 	}
 

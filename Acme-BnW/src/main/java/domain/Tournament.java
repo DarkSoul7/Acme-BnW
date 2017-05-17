@@ -12,7 +12,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -33,29 +32,28 @@ public class Tournament extends DomainEntity {
 	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getName() {
-		return name;
+		return this.name;
 	}
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
 	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
-	@Past
 	@NotNull
 	@Temporal(value = TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getStartMoment() {
-		return startMoment;
+		return this.startMoment;
 	}
-	public void setStartMoment(Date startMoment) {
+	public void setStartMoment(final Date startMoment) {
 		this.startMoment = startMoment;
 	}
 
@@ -63,31 +61,31 @@ public class Tournament extends DomainEntity {
 	@Temporal(value = TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getEndMoment() {
-		return endMoment;
+		return this.endMoment;
 	}
-	public void setEndMoment(Date endMoment) {
+	public void setEndMoment(final Date endMoment) {
 		this.endMoment = endMoment;
 	}
 
 	@NotNull
 	public Sport getSport() {
-		return sport;
+		return this.sport;
 	}
-	public void setSport(Sport sport) {
+	public void setSport(final Sport sport) {
 		this.sport = sport;
 	}
 
 
 	//RelationShip
-	private Collection<Category> categories;
+	private Collection<Category>	categories;
 
 
 	@Valid
 	@OneToMany(mappedBy = "tournament")
 	public Collection<Category> getCategories() {
-		return categories;
+		return this.categories;
 	}
-	public void setCategories(Collection<Category> categories) {
+	public void setCategories(final Collection<Category> categories) {
 		this.categories = categories;
 	}
 

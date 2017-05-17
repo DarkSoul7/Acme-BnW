@@ -32,20 +32,20 @@ public class Topic extends DomainEntity {
 	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.title = title;
 	}
 
 	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
@@ -54,10 +54,10 @@ public class Topic extends DomainEntity {
 	@Temporal(value = TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getCreationMoment() {
-		return creationMoment;
+		return this.creationMoment;
 	}
 
-	public void setCreationMoment(Date creationMoment) {
+	public void setCreationMoment(final Date creationMoment) {
 		this.creationMoment = creationMoment;
 	}
 
@@ -71,30 +71,30 @@ public class Topic extends DomainEntity {
 	@Valid
 	@ManyToOne(optional = false)
 	public Customer getCustomer() {
-		return customer;
+		return this.customer;
 	}
 
-	public void setCustomer(Customer customer) {
+	public void setCustomer(final Customer customer) {
 		this.customer = customer;
 	}
 
 	@Valid
 	@OneToMany(mappedBy = "topic")
 	public Collection<Punctuation> getPunctuations() {
-		return punctuations;
+		return this.punctuations;
 	}
 
-	public void setPunctuations(Collection<Punctuation> punctuations) {
+	public void setPunctuations(final Collection<Punctuation> punctuations) {
 		this.punctuations = punctuations;
 	}
 
 	@Valid
 	@OneToMany(mappedBy = "topic")
 	public Collection<Message> getMessages() {
-		return messages;
+		return this.messages;
 	}
 
-	public void setMessages(Collection<Message> messages) {
+	public void setMessages(final Collection<Message> messages) {
 		this.messages = messages;
 	}
 
