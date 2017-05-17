@@ -1,5 +1,35 @@
+
 package converters;
 
-public class StringToCustomerConverter {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.util.StringUtils;
+
+import domain.Customer;
+import repositories.CustomerRepository;
+
+public class StringToCustomerConverter implements Converter<String, Customer> {
+
+	@Autowired
+	private CustomerRepository customerRepository;
+
+
+	@Override
+	public Customer convert(String text) {
+		Customer result;
+		int id;
+
+		try {
+			if (StringUtils.isEmpty(text)) {
+				result = null;
+			} else {
+				id = Integer.valueOf(text);
+				result = customerRepository.findOne(id);
+			}
+		} catch (Throwable oops) {
+			throw new IllegalArgumentException(oops);
+		}
+		return result;
+	}
 
 }
