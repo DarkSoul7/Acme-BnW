@@ -276,12 +276,60 @@
 		</property>
 	</bean>	
 	
+	<bean id="tournament2" class="domain.Tournament">
+		<property name="name" value="Laliga 123" />
+		<property name="description" value="Liga nacional de fútbol de segunda división española" />
+		<property name="startMoment" value="2016/09/10" />
+		<property name="endMoment" value="2017/05/21" />
+		<property name="sport" value="FOOTBALL" />
+		<property name="categories">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="tournament3" class="domain.Tournament">
+		<property name="name" value="Premier League" />
+		<property name="description" value="Liga nacional de fútbol de primera división inglesa" />
+		<property name="startMoment" value="2016/09/10" />
+		<property name="endMoment" value="2017/05/21" />
+		<property name="sport" value="FOOTBALL" />
+		<property name="categories">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
 	<!-- CATEGORY -->
 	
 	<bean id="category1" class="domain.Category">
 		<property name="name" value="Primera División" />
 		<property name="description" value="Primera división española, categoría más alta del fútbol español" />
 		<property name="tournament" ref="tournament1" />
+		<property name="fixtures">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="category2" class="domain.Category">
+		<property name="name" value="Segunda División" />
+		<property name="description" value="Segunda división española de fútbol" />
+		<property name="tournament" ref="tournament2" />
+		<property name="fixtures">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="category3" class="domain.Category">
+		<property name="name" value="Premier League" />
+		<property name="description" value="English Football first division" />
+		<property name="tournament" ref="tournament3" />
 		<property name="fixtures">
 			<list>
 				<null/>
@@ -484,6 +532,28 @@
 		</property>
 	</bean>	
 	
+	<bean id="fixture2" class="domain.Fixture">
+		<property name="startMoment" value="2017/05/05 12:45" />
+		<property name="endMoment" value="2017/05/07 23:15" />
+		<property name="category" ref="category2" />
+		<property name="matches">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="fixture3" class="domain.Fixture">
+		<property name="startMoment" value="2017/05/12 12:45" />
+		<property name="endMoment" value="2017/05/14 23:15" />
+		<property name="category" ref="category3" />
+		<property name="matches">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
 	<!-- MATCH -->
 	
 	<bean id="match1" class="domain.Match">
@@ -498,6 +568,46 @@
 		<property name="visitorTeam" ref="team2" />
 		<property name="localTeam" ref="team1" />
 	</bean>	
+	
+	<bean id="match2" class="domain.Match">
+		<property name="startMoment" value="2017/05/20" />
+		<property name="endMoment" value="2017/05/20" />
+		<property name="fixture" ref="fixture1" />
+		<property name="markets">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="visitorTeam" ref="team3" />
+		<property name="localTeam" ref="team4" />
+	</bean>	
+	
+	<bean id="match3" class="domain.Match">
+		<property name="startMoment" value="2017/05/20" />
+		<property name="endMoment" value="2017/05/20" />
+		<property name="fixture" ref="fixture1" />
+		<property name="markets">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="visitorTeam" ref="team5" />
+		<property name="localTeam" ref="team6" />
+	</bean>	
+	
+	<bean id="match4" class="domain.Match">
+		<property name="startMoment" value="2017/05/20" />
+		<property name="endMoment" value="2017/05/20" />
+		<property name="fixture" ref="fixture1" />
+		<property name="markets">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="visitorTeam" ref="team7" />
+		<property name="localTeam" ref="team8" />
+	</bean>	
+	
 	
 	<!-- MARKET -->
 
@@ -566,5 +676,192 @@
 		</property>
 		<property name="market" ref="market1" />
 	</bean>	
+	
+	<bean id="bet2" class="domain.Bet">
+		<property name="quantity" value="2.0" />
+		<property name="fee" value="1.23" />
+		<property name="creationMoment" value="2017/05/16" />
+		<property name="type" value="SIMPLE" />
+		<property name="status" value="PENDING" />
+		<property name="customer" ref="customer2" />
+		<property name="parentBet"><null/></property>
+		<property name="childrenBets">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="market" ref="market3" />
+	</bean>	
+	
+	<bean id="bet3" class="domain.Bet">
+		<property name="quantity" value="2.0" />
+		<property name="fee" value="1.45" />
+		<property name="creationMoment" value="2017/05/16" />
+		<property name="type" value="SIMPLE" />
+		<property name="status" value="PENDING" />
+		<property name="customer" ref="customer1" />
+		<property name="parentBet"><null/></property>
+		<property name="childrenBets">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="market" ref="market2" />
+	</bean>	
+	
+	<!-- TICKET -->
+	
+	<bean id="ticket1" class="domain.Ticket">
+		<property name="title" value="La cantidad sacada equivale a..." />
+		<property name="description" value="Reguardo para el cliente de haber retirado los fondos. Conversión a €" />
+		<property name="moment" value="2017/05/17" />
+		<property name="amount" value="42" />
+		<property name="convertedMoney" value="42" />
+		<property name="customer" ref="customer1" />
+	</bean>	
+	
+	<bean id="ticket2" class="domain.Ticket">
+		<property name="title" value="La cantidad sacada equivale a..." />
+		<property name="description" value="Reguardo para el cliente de haber retirado los fondos. Conversión a €" />
+		<property name="moment" value="2017/03/30" />
+		<property name="amount" value="71" />
+		<property name="convertedMoney" value="71" />
+		<property name="customer" ref="customer1" />
+	</bean>	
+	
+	<bean id="ticket3" class="domain.Ticket">
+		<property name="title" value="La cantidad sacada equivale a..." />
+		<property name="description" value="Reguardo para el cliente de haber retirado los fondos. Conversión a €" />
+		<property name="moment" value="2017/04/27" />
+		<property name="amount" value="80" />
+		<property name="convertedMoney" value="80" />
+		<property name="customer" ref="customer2" />
+	</bean>	
+	
+	<!-- TOPIC -->
+	
+	<bean id="topic1" class="domain.Topic">
+		<property name="title" value="Problema con el cobro..." />
+		<property name="description" value="He tenido un problema con el cobro de..." />
+		<property name="creationMoment" value="2017/04/24" />
+		<property name="customer" ref="customer2" />
+		<property name="punctuations">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="messages">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="topic2" class="domain.Topic">
+		<property name="title" value="Comentemos la promoción activa +HD" />
+		<property name="description" value="Hilo creado para comentar la promoción activa" />
+		<property name="creationMoment" value="2017/03/24" />
+		<property name="customer" ref="customer2" />
+		<property name="punctuations">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="messages">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="topic3" class="domain.Topic">
+		<property name="title" value="Hoy el sevilla casca" />
+		<property name="description" value="Me juego la cuneta" />
+		<property name="creationMoment" value="2017/05/10" />
+		<property name="customer" ref="customer1" />
+		<property name="punctuations">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="messages">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<!-- PUNCTUATION -->
+	
+	<bean id="punctuation1" class="domain.Punctuation">
+		<property name="stars" value="5" />
+		<property name="customer" ref="customer1" />
+		<property name="topic" ref="topic1" />
+	</bean>	
+	
+	<bean id="punctuation2" class="domain.Punctuation">
+		<property name="stars" value="5" />
+		<property name="customer" ref="customer2" />
+		<property name="topic" ref="topic1" />
+	</bean>	
+	
+	<bean id="punctuation3" class="domain.Punctuation">
+		<property name="stars" value="5" />
+		<property name="customer" ref="customer3" />
+		<property name="topic" ref="topic1" />
+	</bean>	
+	
+	<bean id="punctuation4" class="domain.Punctuation">
+		<property name="stars" value="2" />
+		<property name="customer" ref="customer1" />
+		<property name="topic" ref="topic2" />
+	</bean>	
+	
+	<bean id="punctuation5" class="domain.Punctuation">
+		<property name="stars" value="5" />
+		<property name="customer" ref="customer3" />
+		<property name="topic" ref="topic2" />
+	</bean>	
+	
+	<bean id="punctuation6" class="domain.Punctuation">
+		<property name="stars" value="5" />
+		<property name="customer" ref="customer1" />
+		<property name="topic" ref="topic3" />
+	</bean>	
+	
+	<bean id="punctuation7" class="domain.Punctuation">
+		<property name="stars" value="5" />
+		<property name="customer" ref="customer2" />
+		<property name="topic" ref="topic3" />
+	</bean>	
+	
+	<!-- MESSAGE -->
+	
+	<bean id="message1" class="domain.Message">
+		<property name="title" value="Pole" />
+		<property name="description" value="sitio en first page" />
+		<property name="ord" value="1" />
+		<property name="creationMoment" value="2017/05/15 15:30" />
+		<property name="customer" ref="customer1" />
+		<property name="topic" ref="topic1" />
+	</bean>
+	
+	<bean id="message2" class="domain.Message">
+		<property name="title" value="Subpole" />
+		<property name="description" value="Sitio en hilo mítico" />
+		<property name="ord" value="2" />
+		<property name="creationMoment" value="2017/05/15 15:33" />
+		<property name="customer" ref="customer3" />
+		<property name="topic" ref="topic1" />
+	</bean>
+	
+	<bean id="message3" class="domain.Message">
+		<property name="title" value="Reportaditos" />
+		<property name="description" value="Al carrer" />
+		<property name="ord" value="3" />
+		<property name="creationMoment" value="2017/05/15 15:40" />
+		<property name="customer" ref="customer2" />
+		<property name="topic" ref="topic1" />
+	</bean>
 	
 </beans>

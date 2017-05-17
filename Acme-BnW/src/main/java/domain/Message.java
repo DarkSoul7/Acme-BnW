@@ -62,7 +62,7 @@ public class Message extends DomainEntity {
 	@Past
 	@NotNull
 	@Temporal(value = TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getCreationMoment() {
 		return this.creationMoment;
 	}
