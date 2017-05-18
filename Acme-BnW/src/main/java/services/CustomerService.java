@@ -18,10 +18,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 
-import repositories.CustomerRepository;
-import security.Authority;
-import security.LoginService;
-import security.UserAccount;
 import domain.Bet;
 import domain.CreditCard;
 import domain.Customer;
@@ -32,6 +28,10 @@ import domain.Ticket;
 import domain.Topic;
 import forms.BalanceForm;
 import forms.CustomerForm;
+import repositories.CustomerRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
 
 @Service
 @Transactional
@@ -132,13 +132,12 @@ public class CustomerService {
 
 
 	@Autowired
-	private Validator	validator;
+	private Validator validator;
 
 
 	public Customer reconstruct(final CustomerForm customerForm, final BindingResult binding) throws CheckDigitException {
 		Assert.notNull(customerForm);
 		Customer result = this.create();
-		;
 
 		//New customer (register)
 		if (customerForm.getId() == 0) {
@@ -226,8 +225,7 @@ public class CustomerService {
 		boolean result = false;
 
 		if (creditCard != null)
-			if (creditCard.getBrandName() != null || !creditCard.getHolderName().isEmpty() || creditCard.getCvv() != null || creditCard.getExpirationMonth() != null
-				|| creditCard.getExpirationYear() != null || !creditCard.getNumber().isEmpty())
+			if (creditCard.getBrandName() != null || !creditCard.getHolderName().isEmpty() || creditCard.getCvv() != null || creditCard.getExpirationMonth() != null || creditCard.getExpirationYear() != null || !creditCard.getNumber().isEmpty())
 				result = true;
 		return result;
 	}
