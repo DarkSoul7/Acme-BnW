@@ -141,7 +141,7 @@
 		<property name="phone" value="+34 632141187" />
 		<property name="email" value="salpergar@gmail.com" />
 		<property name="nid" value="41817122V" />
-		<property name="birthDate" value="02/05/1990" />
+		<property name="birthDate" value="1990/05/02" />
 		<property name="creditCard" ref="creditCard1"/>
 		<property name="balance" value="20.00" />
 		<property name="finishedOffer" value="false" />
@@ -156,7 +156,7 @@
 		<property name="phone" value="+34 632144487" />
 		<property name="email" value="laupergar@gmail.com" />
 		<property name="nid" value="69590934H" />
-		<property name="birthDate" value="20/09/1990" />
+		<property name="birthDate" value="1990/09/07" />
 		<property name="creditCard" ref="creditCard2"/>
 		<property name="balance" value="52.00" />
 		<property name="finishedOffer" value="false" />
@@ -171,7 +171,7 @@
 		<property name="phone" value="+34 611144487" />
 		<property name="email" value="serperdom@gmail.com" />
 		<property name="nid" value="81963239W" />
-		<property name="birthDate" value="20/12/1989" />
+		<property name="birthDate" value="19989/11/06" />
 		<property name="creditCard" ref="creditCard3"/>
 		<property name="balance" value="100.00" />
 		<property name="finishedOffer" value="false" />

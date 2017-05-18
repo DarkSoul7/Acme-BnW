@@ -12,7 +12,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.Valid;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
@@ -26,6 +29,7 @@ public class Customer extends Actor {
 	private CreditCard	creditCard;
 	private Double		balance;
 	private Boolean		finishedOffer;
+	private Boolean		overAge;
 
 
 	@Past
@@ -50,6 +54,7 @@ public class Customer extends Actor {
 	}
 
 	@NotNull
+	@Min(0)
 	public Double getBalance() {
 		return this.balance;
 	}
@@ -66,10 +71,20 @@ public class Customer extends Actor {
 		this.finishedOffer = finishedOffer;
 	}
 
+	@Transient
+	@AssertTrue
+	public Boolean getOverAge() {
+		return this.overAge;
+	}
+
+	public void setOverAge(final Boolean overAge) {
+		this.overAge = overAge;
+	}
+
 
 	//RelationShips
 	private Collection<Topic>		topics;
-	private Collection<Punctuation>	punctuacions;
+	private Collection<Punctuation>	punctuations;
 	private Collection<Ticket>		tickets;
 	private Collection<Message>		messages;
 	private Collection<Bet>			bets;
@@ -89,12 +104,12 @@ public class Customer extends Actor {
 
 	@Valid
 	@OneToMany(mappedBy = "customer")
-	public Collection<Punctuation> getPunctuacions() {
-		return this.punctuacions;
+	public Collection<Punctuation> getPunctuations() {
+		return this.punctuations;
 	}
 
-	public void setPunctuacions(final Collection<Punctuation> punctuacions) {
-		this.punctuacions = punctuacions;
+	public void setPunctuations(final Collection<Punctuation> punctuations) {
+		this.punctuations = punctuations;
 	}
 
 	@Valid

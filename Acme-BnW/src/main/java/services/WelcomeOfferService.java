@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -6,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.WelcomeOffer;
 import repositories.WelcomeOfferRepository;
+import domain.WelcomeOffer;
 
 @Service
 @Transactional
@@ -16,13 +17,18 @@ public class WelcomeOfferService {
 	// Managed repository
 
 	@Autowired
-	private WelcomeOfferRepository welcomeOfferRepository;
+	private WelcomeOfferRepository	welcomeOfferRepository;
+
 
 	// Supported services
+
+	//Constructor
 
 	public WelcomeOfferService() {
 		super();
 	}
+
+	//Simple CRUD methods
 
 	public WelcomeOffer create() {
 		return new WelcomeOffer();
@@ -43,5 +49,11 @@ public class WelcomeOfferService {
 
 	public void delete(final WelcomeOffer welcomeOffer) {
 		this.welcomeOfferRepository.delete(welcomeOffer);
+	}
+
+	//Other business methods
+
+	public WelcomeOffer getActive() {
+		return this.welcomeOfferRepository.getActive();
 	}
 }
