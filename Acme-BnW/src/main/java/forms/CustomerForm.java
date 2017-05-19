@@ -5,6 +5,7 @@ import java.util.Date;
 
 import domain.Coordinates;
 import domain.CreditCard;
+import domain.Customer;
 
 public class CustomerForm {
 
@@ -26,12 +27,32 @@ public class CustomerForm {
 	private String		repeatPassword;
 	private boolean		acceptCondition;
 	private boolean		overAge;
+	private Double		earnings;
+	private Double		losses;
 
 
-	//COnstructor
+	//Constructor
 
 	public CustomerForm() {
 		super();
+	}
+
+	public CustomerForm(final Customer customer, final Double earnings, final Double losses) {
+		super();
+		this.id = customer.getId();
+		this.name = customer.getName();
+		this.surname = customer.getSurname();
+		this.email = customer.getEmail();
+		this.phone = customer.getPhone();
+		this.nid = customer.getNid();
+		this.coordinates = customer.getCoordinates();
+		this.birthDate = customer.getBirthDate();
+		this.creditCard = customer.getCreditCard();
+		this.balance = customer.getBalance();
+		this.finishedOffer = customer.getFinishedOffer();
+		this.userName = customer.getUserAccount().getUsername();
+		this.earnings = earnings;
+		this.losses = losses;
 	}
 
 	//Getter & setter
@@ -162,6 +183,22 @@ public class CustomerForm {
 
 	public void setOverAge(final boolean overAge) {
 		this.overAge = overAge;
+	}
+
+	public Double getEarnings() {
+		return this.earnings;
+	}
+
+	public void setEarnings(final Double earnings) {
+		this.earnings = earnings;
+	}
+
+	public Double getLosses() {
+		return this.losses;
+	}
+
+	public void setLosses(final Double losses) {
+		this.losses = losses;
 	}
 
 }
