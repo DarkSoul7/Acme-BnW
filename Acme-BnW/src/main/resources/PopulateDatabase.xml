@@ -171,7 +171,7 @@
 		<property name="phone" value="+34 611144487" />
 		<property name="email" value="serperdom@gmail.com" />
 		<property name="nid" value="81963239W" />
-		<property name="birthDate" value="19989/11/06" />
+		<property name="birthDate" value="1989/11/06" />
 		<property name="creditCard" ref="creditCard3"/>
 		<property name="balance" value="100.00" />
 		<property name="finishedOffer" value="false" />
@@ -658,6 +658,54 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="market4" class="domain.Market">
+		<property name="title" value="Local wins" />
+		<property name="fee" value="1.15" />
+		<property name="match" ref="match2" />
+		<property name="promotions">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="bets">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="market5" class="domain.Market">
+		<property name="title" value="Visitor wins" />
+		<property name="fee" value="2.35" />
+		<property name="match" ref="match2" />
+		<property name="promotions">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="bets">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="market6" class="domain.Market">
+		<property name="title" value="Tie" />
+		<property name="fee" value="2.30" />
+		<property name="match" ref="match2" />
+		<property name="promotions">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="bets">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>
 
 	<!-- BET -->
 	
@@ -678,7 +726,7 @@
 	</bean>	
 	
 	<bean id="bet2" class="domain.Bet">
-		<property name="quantity" value="2.0" />
+		<property name="quantity" value="10.0" />
 		<property name="fee" value="1.23" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
@@ -694,7 +742,7 @@
 	</bean>	
 	
 	<bean id="bet3" class="domain.Bet">
-		<property name="quantity" value="2.0" />
+		<property name="quantity" value="20.0" />
 		<property name="fee" value="1.45" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
@@ -707,7 +755,55 @@
 			</list>
 		</property>
 		<property name="market" ref="market2" />
-	</bean>	
+	</bean>
+	
+	<bean id="bet4" class="domain.Bet">
+		<property name="quantity" value="60.50" />
+		<property name="fee" value="1.15" />
+		<property name="creationMoment" value="2017/05/16" />
+		<property name="type" value="SIMPLE" />
+		<property name="status" value="SUCCESSFUL" />
+		<property name="customer" ref="customer1" />
+		<property name="parentBet"><null/></property>
+		<property name="childrenBets">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="market" ref="market4" />
+	</bean>		
+	
+		<bean id="bet5" class="domain.Bet">
+		<property name="quantity" value="60.50" />
+		<property name="fee" value="1.15" />
+		<property name="creationMoment" value="2017/05/16" />
+		<property name="type" value="SIMPLE" />
+		<property name="status" value="FAILED" />
+		<property name="customer" ref="customer2" />
+		<property name="parentBet"><null/></property>
+		<property name="childrenBets">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="market" ref="market5" />
+	</bean>		
+	
+	<bean id="bet6" class="domain.Bet">
+		<property name="quantity" value="60.50" />
+		<property name="fee" value="1.15" />
+		<property name="creationMoment" value="2017/05/16" />
+		<property name="type" value="SIMPLE" />
+		<property name="status" value="FAILED" />
+		<property name="customer" ref="customer3" />
+		<property name="parentBet"><null/></property>
+		<property name="childrenBets">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="market" ref="market6" />
+	</bean>		
 	
 	<!-- TICKET -->
 	
