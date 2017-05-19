@@ -19,6 +19,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class WelcomeOffer extends DomainEntity {
 
+	private String title;
+	private String description;
 	private Date	openPeriod;
 	private Date	endPeriod;
 	private Double	amount;
