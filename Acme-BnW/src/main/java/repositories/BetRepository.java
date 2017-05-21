@@ -1,6 +1,8 @@
 
 package repositories;
 
+import java.util.ArrayList;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -19,4 +21,25 @@ public interface BetRepository extends JpaRepository<Bet, Integer> {
 
 	@Query("select avg(b.quantity) from Bet b")
 	Double avgQuantityForBet();
+
+	//C2
+
+	@Query("select count(b) from Bet b join b.customer c where b.status=1 group by c order by count(b) desc")
+	ArrayList<Long> maxBetsWonPerClients();
+
+	@Query("select count(b) from Bet b join b.customer c where b.status=1 group by c order by count(b) asc")
+	ArrayList<Long> minBetsWonPerClients();
+
+	@Query("select count(b)*1.0/(select count(b2) from Bet b2) from Bet b join b.customer c where b.status = 2")
+	Double avgWonBetsPerClients();
+
+	//C3
+	@Query("select count(b) from Bet b join b.customer c where b.status=2 group by c order by count(b) desc")
+	ArrayList<Long> maxBetsLostPerClients();
+
+	@Query("select count(b) from Bet b join b.customer c where b.status=2 group by c order by count(b) asc")
+	ArrayList<Long> minBetsLostPerClients();
+
+	@Query("select count(b)*1.0/(select count(b2) from Bet b2) from Bet b join b.customer c where b.status = 2")
+	Double avgLostBetsPerClients();
 }

@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.Bet;
 import repositories.BetRepository;
+import domain.Bet;
 
 @Service
 @Transactional
@@ -17,7 +17,7 @@ public class BetService {
 	//Managed repository
 
 	@Autowired
-	private BetRepository betRepository;
+	private BetRepository	betRepository;
 
 
 	//Supported services
@@ -45,6 +45,44 @@ public class BetService {
 
 	public void delete(final Bet bet) {
 		this.betRepository.delete(bet);
+	}
+
+	//Other business service
+
+	//DashBoard
+
+	//C2
+
+	//a)
+	public Long maxBetsWonPerClients() {
+		return this.betRepository.maxBetsWonPerClients().get(0);
+	}
+
+	//b)
+	public Long minBetsWonPerClients() {
+		return this.betRepository.minBetsWonPerClients().get(0);
+	}
+
+	//c)
+	public Double avgWonBetsPerClients() {
+		return this.betRepository.avgWonBetsPerClients();
+	}
+
+	//C3
+
+	//a)
+	public Long maxBetsLostPerClients() {
+		return this.betRepository.maxBetsLostPerClients().get(0);
+	}
+
+	//b)
+	public Long minBetsLostPerClients() {
+		return this.betRepository.minBetsLostPerClients().get(0);
+	}
+
+	//c)
+	public Double avgLostBetsPerClients() {
+		return this.betRepository.avgLostBetsPerClients();
 	}
 
 }
