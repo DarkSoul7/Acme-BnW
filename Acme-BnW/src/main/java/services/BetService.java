@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,12 +56,20 @@ public class BetService {
 
 	//a)
 	public Long maxBetsWonPerClients() {
-		return this.betRepository.maxBetsWonPerClients().get(0);
+		final ArrayList<Long> result = this.betRepository.maxBetsWonPerClients();
+		if (!result.isEmpty())
+			return result.get(0);
+		else
+			return 0L;
 	}
 
 	//b)
 	public Long minBetsWonPerClients() {
-		return this.betRepository.minBetsWonPerClients().get(0);
+		final ArrayList<Long> result = this.betRepository.minBetsWonPerClients();
+		if (!result.isEmpty())
+			return result.get(0);
+		else
+			return 0L;
 	}
 
 	//c)
@@ -72,12 +81,20 @@ public class BetService {
 
 	//a)
 	public Long maxBetsLostPerClients() {
-		return this.betRepository.maxBetsLostPerClients().get(0);
+		final ArrayList<Long> result = this.betRepository.maxBetsLostPerClients();
+		if (!result.isEmpty())
+			return result.get(0);
+		else
+			return 0L;
 	}
 
 	//b)
 	public Long minBetsLostPerClients() {
-		return this.betRepository.minBetsLostPerClients().get(0);
+		final ArrayList<Long> result = this.betRepository.minBetsLostPerClients();
+		if (!result.isEmpty())
+			return result.get(0);
+		else
+			return 0L;
 	}
 
 	//c)

@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -11,17 +12,13 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import domain.Category;
+import repositories.TopicRepository;
+import security.Authority;
 import domain.Customer;
-import domain.Fixture;
 import domain.Message;
 import domain.Punctuation;
 import domain.Topic;
-import domain.Tournament;
-import forms.CategoryForm;
 import forms.TopicForm;
-import repositories.TopicRepository;
-import security.Authority;
 
 @Service
 @Transactional
@@ -30,16 +27,17 @@ public class TopicService {
 	// Managed repository
 
 	@Autowired
-	private TopicRepository topicRepository;
-	
+	private TopicRepository	topicRepository;
+
 	@Autowired
-	private Validator validator;
-	
+	private Validator		validator;
+
 	@Autowired
-	private CustomerService customerService;
-	
+	private CustomerService	customerService;
+
 	@Autowired
-	private ActorService actorService;
+	private ActorService	actorService;
+
 
 	// Supported services
 
@@ -48,7 +46,7 @@ public class TopicService {
 	}
 
 	public TopicForm create() {
-		TopicForm result = new TopicForm();
+		final TopicForm result = new TopicForm();
 		return result;
 	}
 
@@ -66,25 +64,27 @@ public class TopicService {
 	}
 
 	public void delete(final Topic topic) {
-		Assert.notNull(actorService.findByPrincipal().getUserAccount().getAuthorities().contains(Authority.ADMIN));
+		Assert.notNull(this.actorService.findByPrincipal().getUserAccount().getAuthorities().contains(Authority.ADMIN));
 		this.topicRepository.delete(topic);
 	}
 
-	public Topic reconstruct(TopicForm topicForm, BindingResult binding) {
+	//Other business methods
+
+	public Topic reconstruct(final TopicForm topicForm, final BindingResult binding) {
 		Assert.notNull(topicForm);
 
 		Topic result = new Topic();
-		if (topicForm.getId() != 0) {
+		if (topicForm.getId() != 0)
 			result = this.findOne(topicForm.getId());
-		} else {
-			Customer customer = customerService.findByPrincipal();
+		else {
+			final Customer customer = this.customerService.findByPrincipal();
 			result.setTitle(topicForm.getTitle());
-			result.setCreationMoment(new Date(System.currentTimeMillis()-1000));
+			result.setCreationMoment(new Date(System.currentTimeMillis() - 1000));
 			result.setCustomer(customer);
 			result.setMessages(new ArrayList<Message>());
 			result.setPunctuations(new ArrayList<Punctuation>());
 		}
-		
+
 		result.setDescription(topicForm.getDescription());
 
 		this.validator.validate(result, binding);
@@ -92,12 +92,48 @@ public class TopicService {
 		return result;
 	}
 
-	public TopicForm toFormObject(Topic topic) {
-		TopicForm result = this.create();
+	public TopicForm toFormObject(final Topic topic) {
+		final TopicForm result = this.create();
 		result.setDescription(topic.getDescription());
 		result.setTitle(topic.getTitle());
 		result.setId(topic.getId());
 		return result;
 	}
 
+	//DashBoard
+
+	//B.3
+
+	//a)
+
+	public Integer getMaxTopicsByCustomer() {
+		return this.topicRepository.getMaxTopicsByCustomer();
+	}
+
+	//b)
+	public Integer getMinTopicsByCustomer() {
+		return this.topicRepository.getMinTopicsByCustomer();
+	}
+
+	//c)
+	public Double getTopicAvgByCustomers() {
+		return this.topicRepository.getTopicAvgByCustomers();
+	}
+
+	//B.4
+
+	//a)
+	public Integer getMaxMessagesByCustomer() {
+		return this.topicRepository.getMaxMessagesByCustomer();
+	}
+
+	//b)
+	public Integer getMinMessagesByCustomer() {
+		return this.topicRepository.getMinMessagesByCustomer();
+	}
+
+	//c)
+	public Double getMessageAvgByCustomers() {
+		return this.topicRepository.getMessageAvgByCustomers();
+	}
 }
