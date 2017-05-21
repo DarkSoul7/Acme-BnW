@@ -26,10 +26,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 
-import repositories.CustomerRepository;
-import security.Authority;
-import security.LoginService;
-import security.UserAccount;
+import domain.Actor;
+import domain.Administrator;
 import domain.Bet;
 import domain.CreditCard;
 import domain.Customer;
@@ -40,6 +38,10 @@ import domain.Ticket;
 import domain.Topic;
 import forms.BalanceForm;
 import forms.CustomerForm;
+import repositories.CustomerRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
 
 @Service
 @Transactional
@@ -57,6 +59,9 @@ public class CustomerService {
 
 	@Autowired
 	private AdministratorService	administratorService;
+	
+	@Autowired
+	private ActorService actorService;
 
 
 	//Constructor
@@ -341,5 +346,40 @@ public class CustomerService {
 		result = query.getResultList();
 
 		return result;
+	}
+	
+	public void disable(int customerId){
+		Actor actor = actorService.findByPrincipal();
+		if(actor.getUserAccount().getAuthorities().contains(Authority.ADMIN) || actor.getUserAccount().getAuthorities().contains(Authority.CUSTOMER)){
+			Customer customer = this.findOne(customerId);
+			this.save(customer);
+		}else{
+			Assert.isTrue(false);
+		}
+	}
+	
+	public void activeCustomer(int customerId){
+		Administrator admin = administratorService.findByPrincipal();
+		Assert.notNull(admin);
+		Customer customer = this.findOne(customerId);
+		customer.getUserAccount().setEnabled(true);
+		this.save(customer);
+	}
+	
+	public void activeOffer(Double charge, int customerId){
+		Customer customer = this.findByPrincipal();
+		Assert.isTrue(charge >= customer.getWelcomeOffer().getExtractionAmount());
+		customer.setBalance(customer.getBalance()+customer.getWelcomeOffer().getAmount());
+		customer.setFinishedOffer(true);
+		this.save(customer);
+	
+		
+	}
+	
+	public void cancelOffer(int customerId){
+		Customer customer = this.findByPrincipal();
+		Assert.isTrue(!customer.getFinishedOffer());
+		customer.setWelcomeOffer(null);
+		this.save(customer);
 	}
 }

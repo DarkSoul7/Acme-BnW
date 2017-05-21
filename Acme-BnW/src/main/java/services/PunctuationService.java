@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import domain.Customer;
 import domain.Punctuation;
+import domain.Topic;
 import repositories.PunctuationRepository;
 
 @Service
@@ -17,6 +19,12 @@ public class PunctuationService {
 
 	@Autowired
 	private PunctuationRepository punctuationRepository;
+	
+	@Autowired
+	private TopicService topicService;
+	
+	@Autowired
+	private CustomerService customerService;
 
 	// Supported services
 
@@ -43,5 +51,14 @@ public class PunctuationService {
 
 	public void delete(final Punctuation punctuation) {
 		this.punctuationRepository.delete(punctuation);
+	}
+	
+	public void givePunctuation(final Punctuation punctuation, int topicId){
+		Topic topic = topicService.findOne(topicId);
+		Customer customer = customerService.findByPrincipal();
+		punctuation.setTopic(topic);
+		punctuation.setCustomer(customer);
+		this.save(punctuation);
+		
 	}
 }
