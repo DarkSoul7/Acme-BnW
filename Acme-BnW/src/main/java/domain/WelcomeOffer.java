@@ -20,12 +20,20 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class WelcomeOffer extends DomainEntity {
 
 	private String title;
-	private String description;
 	private Date	openPeriod;
 	private Date	endPeriod;
 	private Double	amount;
 	private Double	extractionAmount;
 
+	
+	@NotNull
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
 	@NotNull
 	@Temporal(value = TemporalType.TIMESTAMP)

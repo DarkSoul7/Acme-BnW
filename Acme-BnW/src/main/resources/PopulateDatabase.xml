@@ -255,6 +255,7 @@
 	
 	<!-- WELCOMEOFFER -->
 	<bean id="welcomeOffer1" class="domain.WelcomeOffer">
+		<property name="title" value="Si aceptas la oferta al canjear 10 monedas obentras 30 mas!!" />
 		<property name="openPeriod" value="2017/02/22" />
 		<property name="endPeriod" value="2019/02/22" />
 		<property name="amount" value="30.00" />
