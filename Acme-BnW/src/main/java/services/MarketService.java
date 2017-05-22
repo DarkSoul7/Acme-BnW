@@ -4,6 +4,8 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +14,12 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.MarketRepository;
 import domain.Bet;
 import domain.Market;
 import domain.Match;
 import domain.Promotion;
 import forms.MarketForm;
-import repositories.MarketRepository;
 
 @Service
 @Transactional
@@ -29,16 +31,24 @@ public class MarketService {
 	private MarketRepository	marketRepository;
 
 	// Supported services
+
 	@Autowired
 	private MatchService		matchService;
 
+	@Autowired
+	private PromotionService	promotionService;
 
+	@Autowired
+	private CustomerService		customerService;
+
+
+	//Constructor
 	public MarketService() {
 		super();
 	}
 
 	public MarketForm create() {
-		MarketForm result = new MarketForm();
+		final MarketForm result = new MarketForm();
 
 		return result;
 	}
@@ -58,23 +68,25 @@ public class MarketService {
 
 	public void delete(final Market market) {
 		Assert.isTrue(market.getMatch().getEndMoment().before(new Date()));
-		Assert.isTrue(marketRepository.findExistsCustomerOnMarket(market.getId()) == 0);
+		Assert.isTrue(this.marketRepository.findExistsCustomerOnMarket(market.getId()) == 0);
 		this.marketRepository.delete(market);
 	}
 
 
+	//Other business services
+
 	@Autowired
-	private Validator validator;
+	private Validator	validator;
 
 
-	public Market reconstruct(MarketForm marketForm, BindingResult binding) {
+	public Market reconstruct(final MarketForm marketForm, final BindingResult binding) {
 		Assert.notNull(marketForm);
 
 		Market result = new Market();
-		if (marketForm.getId() != 0) {
+		if (marketForm.getId() != 0)
 			result = this.findOne(marketForm.getId());
-		} else {
-			Match match = matchService.findOne(marketForm.getIdMatch());
+		else {
+			final Match match = this.matchService.findOne(marketForm.getIdMatch());
 			result.setBets(new ArrayList<Bet>());
 			result.setPromotions(new ArrayList<Promotion>());
 			result.setMatch(match);
@@ -88,12 +100,30 @@ public class MarketService {
 		return result;
 	}
 
-	public MarketForm toFormObject(Market market) {
-		MarketForm result = this.create();
+	public MarketForm toFormObject(final Market market) {
+		final MarketForm result = this.create();
 		result.setFee(market.getFee());
 		result.setTitle(market.getTitle());
 		result.setId(market.getId());
 		return result;
 	}
 
+	/**
+	 * Devuelve las apuestas destacadas (según la lista de equipos favoritos del cliente registrado)
+	 * 
+	 */
+	public Collection<Market> getNotedMarket() {
+		final Set<Promotion> promotions = new HashSet<>();
+		final Set<Market> result = new HashSet<>();
+		final Collection<Promotion> localPromotions = this.promotionService.getLocalFavouriteTeamPromotions();
+		final Collection<Promotion> visitorPromotions = this.promotionService.getVisitorFavouriteTeamPromotions();
+
+		promotions.addAll(localPromotions);
+		promotions.addAll(visitorPromotions);
+
+		for (final Promotion promotion : promotions)
+			result.add(promotion.getMarket());
+
+		return result;
+	}
 }

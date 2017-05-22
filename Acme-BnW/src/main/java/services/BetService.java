@@ -18,14 +18,21 @@ public class BetService {
 	//Managed repository
 
 	@Autowired
-	private BetRepository	betRepository;
-
+	private BetRepository		betRepository;
 
 	//Supported services
+
+	@Autowired
+	private PromotionService	promotionService;
+
+
+	//Constructor
 
 	public BetService() {
 		super();
 	}
+
+	//Simple CRUD methods
 
 	public Bet create() {
 		return new Bet();

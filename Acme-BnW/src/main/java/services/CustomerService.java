@@ -63,6 +63,9 @@ public class CustomerService {
 	@Autowired
 	private ActorService			actorService;
 
+	@Autowired
+	private TicketService			ticketService;
+
 
 	//Constructor
 
@@ -379,5 +382,28 @@ public class CustomerService {
 		Assert.isTrue(!customer.getFinishedOffer());
 		customer.setWelcomeOffer(null);
 		this.save(customer);
+	}
+
+	public Collection<Team> getFavouriteTeams() {
+		final Customer customer = this.findByPrincipal();
+		return this.customerRepository.getFavouriteTeams(customer.getId());
+	}
+
+	public void getVirtualCredit(final double amount) {
+		final Customer customer = this.findByPrincipal();
+		customer.setBalance(customer.getBalance() + amount);
+
+		this.save(customer);
+	}
+
+	public void getextractVirtualCredit(final double amount) {
+		final Customer customer = this.findByPrincipal();
+
+		final Ticket ticket = this.ticketService.getDefaultExtractionTicket(amount);
+
+		customer.setBalance(customer.getBalance() - amount);
+
+		this.save(customer);
+		this.ticketService.save(ticket);
 	}
 }
