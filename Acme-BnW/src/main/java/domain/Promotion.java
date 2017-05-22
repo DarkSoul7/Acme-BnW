@@ -27,6 +27,7 @@ public class Promotion extends DomainEntity {
 	private Double	fee;
 	private Date	startMoment;
 	private Date	endMoment;
+	private boolean	cancel;
 
 
 	@NotBlank
@@ -74,6 +75,14 @@ public class Promotion extends DomainEntity {
 	}
 	public void setEndMoment(Date endMoment) {
 		this.endMoment = endMoment;
+	}
+
+	public boolean isCancel() {
+		return cancel;
+	}
+
+	public void setCancel(boolean cancel) {
+		this.cancel = cancel;
 	}
 
 
