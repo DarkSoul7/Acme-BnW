@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import domain.Category;
+import domain.Sport;
 import domain.Tournament;
 import forms.TournamentForm;
 import repositories.TournamentRepository;
@@ -91,5 +92,15 @@ public class TournamentService {
 		result.setSport(tournament.getSport());
 		result.setId(tournament.getId());
 		return result;
+	}
+
+	//C6
+	public Sport SportMoreBets() {
+		return tournamentRepository.SportMoreBets();
+	}
+
+	//C7
+	public Sport SportLessBets() {
+		return tournamentRepository.SportLessBets();
 	}
 }

@@ -58,6 +58,16 @@ public class CategoryService {
 		this.categoryRepository.delete(category);
 	}
 
+	//C3
+	public Category categoryMoreBets() {
+		return categoryRepository.categoryMoreBets();
+	}
+
+	//C4
+	public Category categoryLessBets() {
+		return categoryRepository.categoryLessBets();
+	}
+
 
 	@Autowired
 	private Validator validator;

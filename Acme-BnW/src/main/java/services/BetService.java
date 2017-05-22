@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import repositories.BetRepository;
 import domain.Bet;
+import repositories.BetRepository;
 
 @Service
 @Transactional
@@ -58,6 +58,20 @@ public class BetService {
 	//Other business service
 
 	//DashBoard
+
+	//C1
+
+	public Double maxQuantityForBet() {
+		return betRepository.maxQuantityForBet();
+	}
+
+	public Double minQuantityForBet() {
+		return betRepository.minQuantityForBet();
+	}
+
+	public Double avgQuantityForBet() {
+		return betRepository.avgQuantityForBet();
+	}
 
 	//C2
 
