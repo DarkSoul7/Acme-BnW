@@ -345,7 +345,8 @@
 		<property name="shield" value="https://c1.staticflickr.com/9/8108/8531201674_60519d433a.jpg" />
 		<property name="customers">
 			<list>
-				<null/>
+				<ref bean="customer1"/>
+				<ref bean="customer2"/>
 			</list>
 		</property>
 		<property name="visitorMatches">
@@ -365,7 +366,7 @@
 		<property name="shield" value="https://c1.staticflickr.com/4/3524/5742743808_546e4941d6_t.jpg" />
 		<property name="customers">
 			<list>
-				<null/>
+				<ref bean="customer3"/>
 			</list>
 		</property>
 		<property name="visitorMatches">
@@ -385,7 +386,8 @@
 		<property name="shield" value="https://c1.staticflickr.com/6/5507/10977515193_349062c2b7_t.jpg" />
 		<property name="customers">
 			<list>
-				<null/>
+				<ref bean="customer1"/>
+				<ref bean="customer2"/>
 			</list>
 		</property>
 		<property name="visitorMatches">
@@ -405,7 +407,8 @@
 		<property name="shield" value="https://c1.staticflickr.com/4/3539/3350512197_dc4e50b365_t.jpg" />
 		<property name="customers">
 			<list>
-				<null/>
+				<ref bean="customer3"/>
+				<ref bean="customer2"/>
 			</list>
 		</property>
 		<property name="visitorMatches">
@@ -445,7 +448,7 @@
 		<property name="shield" value="https://c1.staticflickr.com/5/4006/4285778072_7185413968_t.jpg" />
 		<property name="customers">
 			<list>
-				<null/>
+				<ref bean="customer1"/>
 			</list>
 		</property>
 		<property name="visitorMatches">
@@ -465,7 +468,7 @@
 		<property name="shield" value="https://c1.staticflickr.com/8/7400/13134999053_4c089d7dda_t.jpg" />
 		<property name="customers">
 			<list>
-				<null/>
+				<ref bean="customer2"/>
 			</list>
 		</property>
 		<property name="visitorMatches">
@@ -959,6 +962,44 @@
 		<property name="creationMoment" value="2017/05/15 15:40" />
 		<property name="customer" ref="customer2" />
 		<property name="topic" ref="topic1" />
+	</bean>
+	
+	<!-- PROMOTION -->
+	
+	<bean id="promotion1" class="domain.Promotion">
+		<property name="title" value="Duplicando ganancias" />
+		<property name="description" value="Las ganancias que obtengas con las cuotas actuales serán duplicadas" />
+		<property name="fee" value="15.0" />
+		<property name="startMoment" value="2017/05/15 " />
+		<property name="endMoment" value="2017/08/15" />
+		<property name="market" ref="market1" />
+	</bean>
+	
+	<bean id="promotion2" class="domain.Promotion">
+		<property name="title" value="Apuesta segura" />
+		<property name="description" value="Si no ganas se te reenvolsará el crédito virtual gastado" />
+		<property name="fee" value="50.0" />
+		<property name="startMoment" value="2017/05/15 " />
+		<property name="endMoment" value="2017/08/15" />
+		<property name="market" ref="market2" />
+	</bean>
+	
+	<bean id="promotion3" class="domain.Promotion">
+		<property name="title" value="Duplicando ganancias" />
+		<property name="description" value="Las ganancias que obtengas con las cuotas actuales serán duplicadas" />
+		<property name="fee" value="5.0" />
+		<property name="startMoment" value="2017/05/15 " />
+		<property name="endMoment" value="2017/08/15" />
+		<property name="market" ref="market3" />
+	</bean>
+	
+	<bean id="promotion4" class="domain.Promotion">
+		<property name="title" value="Apuesta segura" />
+		<property name="description" value="Si no ganas se te reenvolsará el crédito virtual gastado" />
+		<property name="fee" value="50.0" />
+		<property name="startMoment" value="2017/05/15 " />
+		<property name="endMoment" value="2017/08/15" />
+		<property name="market" ref="market3" />
 	</bean>
 	
 </beans>

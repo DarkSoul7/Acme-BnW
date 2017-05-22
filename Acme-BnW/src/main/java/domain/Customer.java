@@ -88,7 +88,7 @@ public class Customer extends Actor {
 	private Collection<Ticket>		tickets;
 	private Collection<Message>		messages;
 	private Collection<Bet>			bets;
-	private Collection<Team>		teams;
+	private Collection<Team>		favouriteTeams;
 	private WelcomeOffer			welcomeOffer;
 
 
@@ -144,12 +144,12 @@ public class Customer extends Actor {
 
 	@Valid
 	@ManyToMany
-	public Collection<Team> getTeams() {
-		return this.teams;
+	public Collection<Team> getFavouriteTeams() {
+		return this.favouriteTeams;
 	}
 
-	public void setTeams(final Collection<Team> teams) {
-		this.teams = teams;
+	public void setFavouriteTeams(final Collection<Team> favouriteTeams) {
+		this.favouriteTeams = favouriteTeams;
 	}
 
 	@Valid

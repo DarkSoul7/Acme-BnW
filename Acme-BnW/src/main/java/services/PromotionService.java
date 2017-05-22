@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -6,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.Promotion;
 import repositories.PromotionRepository;
+import domain.Promotion;
 
 @Service
 @Transactional
@@ -16,13 +17,16 @@ public class PromotionService {
 	// Managed repository
 
 	@Autowired
-	private PromotionRepository promotionRepository;
+	private PromotionRepository	promotionRepository;
+
 
 	// Supported services
 
 	public PromotionService() {
 		super();
 	}
+
+	//Simple CRUD methods
 
 	public Promotion create() {
 		return new Promotion();
@@ -44,4 +48,6 @@ public class PromotionService {
 	public void delete(final Promotion promotion) {
 		this.promotionRepository.delete(promotion);
 	}
+
+	//Other business methods
 }

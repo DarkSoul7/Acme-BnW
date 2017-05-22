@@ -55,7 +55,8 @@ public class Team extends DomainEntity {
 
 	@Valid
 	@ManyToMany
-	@JoinTable(name = "team_customer", joinColumns = @JoinColumn(name = "team_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "customer_id", referencedColumnName = "id"))
+	@JoinTable(name = "favouriteTeams_customer", joinColumns = @JoinColumn(name = "team_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "customer_id",
+		referencedColumnName = "id"))
 	public Collection<Customer> getCustomers() {
 		return this.customers;
 	}

@@ -26,6 +26,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 
+import repositories.CustomerRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
 import domain.Actor;
 import domain.Administrator;
 import domain.Bet;
@@ -38,10 +42,6 @@ import domain.Ticket;
 import domain.Topic;
 import forms.BalanceForm;
 import forms.CustomerForm;
-import repositories.CustomerRepository;
-import security.Authority;
-import security.LoginService;
-import security.UserAccount;
 
 @Service
 @Transactional
@@ -59,9 +59,9 @@ public class CustomerService {
 
 	@Autowired
 	private AdministratorService	administratorService;
-	
+
 	@Autowired
-	private ActorService actorService;
+	private ActorService			actorService;
 
 
 	//Constructor
@@ -171,7 +171,7 @@ public class CustomerService {
 			final Collection<Punctuation> punctuations = new ArrayList<>();
 			result.setPunctuations(punctuations);
 			final Collection<Team> teams = new ArrayList<>();
-			result.setTeams(teams);
+			result.setFavouriteTeams(teams);
 			final Collection<Ticket> tickets = new ArrayList<>();
 			result.setTickets(tickets);
 			final Collection<Topic> topics = new ArrayList<>();
@@ -347,37 +347,35 @@ public class CustomerService {
 
 		return result;
 	}
-	
-	public void disable(int customerId){
-		Actor actor = actorService.findByPrincipal();
-		if(actor.getUserAccount().getAuthorities().contains(Authority.ADMIN) || actor.getUserAccount().getAuthorities().contains(Authority.CUSTOMER)){
-			Customer customer = this.findOne(customerId);
+
+	public void disable(final int customerId) {
+		final Actor actor = this.actorService.findByPrincipal();
+		if (actor.getUserAccount().getAuthorities().contains(Authority.ADMIN) || actor.getUserAccount().getAuthorities().contains(Authority.CUSTOMER)) {
+			final Customer customer = this.findOne(customerId);
 			this.save(customer);
-		}else{
+		} else
 			Assert.isTrue(false);
-		}
 	}
-	
-	public void activeCustomer(int customerId){
-		Administrator admin = administratorService.findByPrincipal();
+
+	public void activeCustomer(final int customerId) {
+		final Administrator admin = this.administratorService.findByPrincipal();
 		Assert.notNull(admin);
-		Customer customer = this.findOne(customerId);
+		final Customer customer = this.findOne(customerId);
 		customer.getUserAccount().setEnabled(true);
 		this.save(customer);
 	}
-	
-	public void activeOffer(Double charge, int customerId){
-		Customer customer = this.findByPrincipal();
+
+	public void activeOffer(final Double charge, final int customerId) {
+		final Customer customer = this.findByPrincipal();
 		Assert.isTrue(charge >= customer.getWelcomeOffer().getExtractionAmount());
-		customer.setBalance(customer.getBalance()+customer.getWelcomeOffer().getAmount());
+		customer.setBalance(customer.getBalance() + customer.getWelcomeOffer().getAmount());
 		customer.setFinishedOffer(true);
 		this.save(customer);
-	
-		
+
 	}
-	
-	public void cancelOffer(int customerId){
-		Customer customer = this.findByPrincipal();
+
+	public void cancelOffer(final int customerId) {
+		final Customer customer = this.findByPrincipal();
 		Assert.isTrue(!customer.getFinishedOffer());
 		customer.setWelcomeOffer(null);
 		this.save(customer);
