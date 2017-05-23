@@ -14,16 +14,25 @@ import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
 public class Fixture extends DomainEntity {
 
+	private String title;
 	private Date	startMoment;
 	private Date	endMoment;
 
-
+	@NotBlank
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
 	@NotNull
 	@Temporal(value = TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")

@@ -13,6 +13,7 @@ import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -26,7 +27,7 @@ public class WelcomeOffer extends DomainEntity {
 	private Double	extractionAmount;
 
 	
-	@NotNull
+	@NotBlank
 	public String getTitle() {
 		return title;
 	}

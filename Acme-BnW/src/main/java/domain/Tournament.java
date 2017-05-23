@@ -32,6 +32,7 @@ public class Tournament extends DomainEntity {
 	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getName() {
+		
 		return this.name;
 	}
 	public void setName(final String name) {

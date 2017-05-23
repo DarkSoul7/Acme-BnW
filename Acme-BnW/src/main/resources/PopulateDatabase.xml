@@ -526,6 +526,7 @@
 	<!-- FIXTURE -->
 	
 	<bean id="fixture1" class="domain.Fixture">
+		<property name="title" value="Fixture 1" />
 		<property name="startMoment" value="2017/05/20 12:45" />
 		<property name="endMoment" value="2017/05/21 23:15" />
 		<property name="category" ref="category1" />
@@ -537,6 +538,7 @@
 	</bean>	
 	
 	<bean id="fixture2" class="domain.Fixture">
+		<property name="title" value="Fixture 2" />
 		<property name="startMoment" value="2017/05/05 12:45" />
 		<property name="endMoment" value="2017/05/07 23:15" />
 		<property name="category" ref="category2" />
@@ -548,6 +550,7 @@
 	</bean>	
 	
 	<bean id="fixture3" class="domain.Fixture">
+		<property name="title" value="Fixture 3" />
 		<property name="startMoment" value="2017/05/12 12:45" />
 		<property name="endMoment" value="2017/05/14 23:15" />
 		<property name="category" ref="category3" />
