@@ -30,7 +30,7 @@
 	<display:column property="description" title="${description}" />
 
 	<display:column>
-		<acme:cancel url="category/listByTorunament.do?torunamentId=${row.id}"
-			code="tournament.category" />
+		<acme:cancel url="fixture/listByCategory.do?categoryId=${row.id}"
+			code="category.fixture" />
 	</display:column>
 </display:table>

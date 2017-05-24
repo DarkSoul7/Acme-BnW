@@ -19,33 +19,18 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<jstl:if test="${pageContext.response.locale.language=='en'}">
-	<jstl:set var="itemLabel" value="name"></jstl:set>
-</jstl:if>
-
-<jstl:if test="${pageContext.response.locale.language=='es'}">
-	<jstl:set var="itemLabel" value="spanishName"></jstl:set>
-</jstl:if>
-
 <jstl:if test="${successMessage != null}">
 	<div class="alert alert-success">
 		<spring:message code="${successMessage}" />
 	</div>
 </jstl:if>
 
-<form:form action="${requestURI}" modelAttribute="chorbiForm">
+<form:form action="${requestURI}" modelAttribute="customerForm">
 	<form:hidden path="id" />
-
-	<jstl:if test="${chorbiForm.id != 0}">
-		<form:hidden path="acceptCondition" />
-
-		<spring:message code="chorbi.picture" var="picture" />
-		<img src="${pictureUrl}" alt="picture" width="70" height="70">
-	</jstl:if>
 
 	<fieldset>
 		<legend>
-			<spring:message code="chorbi.personalDetails" />
+			<spring:message code="customer.personalDetails" />
 		</legend>
 
 		<acme:textbox code="customer.name" path="name" mandatory="true" />
