@@ -1,6 +1,6 @@
+
 package services;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -11,14 +11,12 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import domain.Customer;
-import domain.Message;
-import domain.Punctuation;
-import domain.Topic;
-import forms.MessageForm;
-import forms.TopicForm;
 import repositories.MessageRepository;
 import security.Authority;
+import domain.Customer;
+import domain.Message;
+import domain.Topic;
+import forms.MessageForm;
 
 @Service
 @Transactional
@@ -27,19 +25,20 @@ public class MessageService {
 	// Managed repository
 
 	@Autowired
-	private MessageRepository messageRepository;
-	
+	private MessageRepository	messageRepository;
+
 	@Autowired
-	private CustomerService customerService;
-	
+	private CustomerService		customerService;
+
 	@Autowired
-	private ActorService actorService;
-	
+	private ActorService		actorService;
+
 	@Autowired
-	private Validator validator;
-	
+	private Validator			validator;
+
 	@Autowired
-	private TopicService topicService;
+	private TopicService		topicService;
+
 
 	// Supported services
 
@@ -48,7 +47,7 @@ public class MessageService {
 	}
 
 	public MessageForm create() {
-		MessageForm result = new MessageForm();
+		final MessageForm result = new MessageForm();
 		return result;
 	}
 
@@ -66,25 +65,25 @@ public class MessageService {
 	}
 
 	public void delete(final Message message) {
-		Assert.notNull(actorService.findByPrincipal().getUserAccount().getAuthorities().contains(Authority.ADMIN));
+		Assert.notNull(this.actorService.findByPrincipal().getUserAccount().getAuthorities().contains(Authority.ADMIN));
 		this.messageRepository.delete(message);
 	}
-	
-	public Message reconstruct(MessageForm messageForm, BindingResult binding) {
+
+	public Message reconstruct(final MessageForm messageForm, final BindingResult binding) {
 		Assert.notNull(messageForm);
 
 		Message result = new Message();
-		if (messageForm.getId() != 0) {
+		if (messageForm.getId() != 0)
 			result = this.findOne(messageForm.getId());
-		} else {
-			Customer customer = customerService.findByPrincipal();
-			Topic topic = topicService.findOne(messageForm.getTopicId());
-			result.setCreationMoment(new Date(System.currentTimeMillis()-1000));
+		else {
+			final Customer customer = this.customerService.findByPrincipal();
+			final Topic topic = this.topicService.findOne(messageForm.getTopicId());
+			result.setCreationMoment(new Date(System.currentTimeMillis() - 1000));
 			result.setTopic(topic);
 			result.setCustomer(customer);
-			result.setOrder(topic.getMessages().size()+1);
+			result.setOrder(topic.getMessages().size() + 1);
 		}
-		
+
 		result.setTitle(messageForm.getTitle());
 		result.setDescription(messageForm.getDescription());
 
@@ -92,13 +91,16 @@ public class MessageService {
 
 		return result;
 	}
-
-	public MessageForm toFormObject(Message message) {
-		MessageForm result = this.create();
+	public MessageForm toFormObject(final Message message) {
+		final MessageForm result = this.create();
 		result.setDescription(message.getDescription());
 		result.setTitle(message.getTitle());
 		result.setId(message.getId());
 		result.setTopicId(message.getTopic().getId());
 		return result;
+	}
+
+	public Collection<Message> getMessagesByTopic(final Topic topic) {
+		return this.messageRepository.getMessagesByTopic(topic.getId());
 	}
 }

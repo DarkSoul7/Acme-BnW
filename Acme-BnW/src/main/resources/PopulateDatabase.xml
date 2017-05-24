@@ -846,7 +846,7 @@
 	<bean id="topic1" class="domain.Topic">
 		<property name="title" value="Problema con el cobro..." />
 		<property name="description" value="He tenido un problema con el cobro de..." />
-		<property name="creationMoment" value="2017/04/24" />
+		<property name="creationMoment" value="2017/04/24 15:30" />
 		<property name="customer" ref="customer2" />
 		<property name="punctuations">
 			<list>
@@ -863,7 +863,7 @@
 	<bean id="topic2" class="domain.Topic">
 		<property name="title" value="Comentemos la promoción activa +HD" />
 		<property name="description" value="Hilo creado para comentar la promoción activa" />
-		<property name="creationMoment" value="2017/03/24" />
+		<property name="creationMoment" value="2017/03/24 21:57" />
 		<property name="customer" ref="customer2" />
 		<property name="punctuations">
 			<list>
@@ -880,7 +880,7 @@
 	<bean id="topic3" class="domain.Topic">
 		<property name="title" value="Hoy el sevilla casca" />
 		<property name="description" value="Me juego la cuneta" />
-		<property name="creationMoment" value="2017/05/10" />
+		<property name="creationMoment" value="2017/05/10 02:40" />
 		<property name="customer" ref="customer1" />
 		<property name="punctuations">
 			<list>

@@ -15,6 +15,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <jstl:if test="${fullName == null}">
 	<jstl:set var="fullName"><spring:message code="welcome.anonymousUser" /></jstl:set>
@@ -26,11 +27,28 @@
 
 <br/>
 
-<div>
-	<spring:message code="welcome.advertisement" var="advertisement" />
-	<p style="font-weight:bold; font-style:italic;">
-		<jstl:out value="${advertisement}" />
-		<br/>
-		<img src="${banner.picture}" alt="${advertisement}" height="200" width="300" />
-	</p>
-</div>
+<jstl:if test="${activeOffer != null}">
+	<div style="border-style: solid; border-color: red; display: inline-block; height: auto;">
+		<spring:message code="welcome.welcomeOffer" var="welcomeOffer" />
+		<h3 style="font-weight:bold; font-style:italic;">
+			<jstl:out value="${welcomeOffer}" /></h3>
+		<div style="display: inline-block; height: auto; background-color: black; color:white">
+			<spring:message code="welcomeOffer.title" var="title2" />
+			<jstl:out value="${activeOffer.title}"/>
+			<br/>
+			<spring:message code="welcome.valid" var="valid" /> <!-- valid : valid from -->
+			<spring:message code="welcome.to" var="to" /> <!-- to: to-->
+			
+			<jstl:out value="${valid} "/>
+			<fmt:formatDate value="${activeOffer.openPeriod}" pattern="MM/dd/yyyy" />
+			<jstl:out value="${to} "/>
+			<fmt:formatDate value="${activeOffer.endPeriod}" pattern="MM/dd/yyyy" />
+			<br/>
+			<spring:message code="welcome.win" var="win" /> <!-- win: win -->
+			<spring:message code="welcome.virtualCredit" var="virtualCredit" /> <!-- win: win -->
+			<spring:message code="welcome.deposit" var="deposit" /> <!-- deposit: if you deposit -->
+			<jstl:out value="${win} ${activeOffer.amount} (${virtualCredit }) ${deposit} ${activeOffer.extractionAmount} (${virtualCredit })"/>
+		</div>
+		
+	</div>
+</jstl:if>

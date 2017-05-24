@@ -23,7 +23,7 @@
 		<value>/views/security/messages</value>		
 		<value>/views/welcome/messages</value>
 		
-		<value>/views/bet/messages</value>
+		<value>/views/welcomeOffer/messages</value>
 		<value>/views/category/messages</value>
 		<value>/views/customer/messages</value>
 		<value>/views/dashboard/messages</value>
@@ -32,6 +32,7 @@
 		<value>/views/message/messages</value>
 		<value>/views/promotion/messages</value>
 		<value>/views/team/messages</value>
+		<value>/views/topic/messages</value>
 		<value>/views/tournament/messages</value>
 		<value>/views/welcomeOffer/messages</value>
 	</util:list>

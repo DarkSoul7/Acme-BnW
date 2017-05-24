@@ -10,11 +10,8 @@
 
 package controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import services.AdministratorService;
 
 @Controller
 @RequestMapping("/administrator")
@@ -22,16 +19,13 @@ public class AdministratorController extends AbstractController {
 
 	// Related services
 
-
-	@Autowired
-	private AdministratorService administratorService;
-	
+	//	@Autowired
+	//	private AdministratorService administratorService;
 
 	// Constructors -----------------------------------------------------------
 
 	public AdministratorController() {
 		super();
 	}
-
 
 }

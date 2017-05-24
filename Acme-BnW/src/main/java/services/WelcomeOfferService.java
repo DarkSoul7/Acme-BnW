@@ -45,11 +45,14 @@ public class WelcomeOfferService {
 	}
 
 	public void save(final WelcomeOffer welcomeOffer) {
+		Assert.notNull(welcomeOffer);
+		final Collection<WelcomeOffer> welcomeOffersInDates = this.welcomeOfferRepository.getOffersInDates(welcomeOffer.getOpenPeriod(), welcomeOffer.getEndPeriod());
+		Assert.isTrue(welcomeOffersInDates.isEmpty());
 		this.welcomeOfferRepository.save(welcomeOffer);
 	}
 
 	public void delete(final WelcomeOffer welcomeOffer) {
-		Assert.isTrue(welcomeOffer.getCustomers().size()==0);
+		Assert.isTrue(welcomeOffer.getCustomers().size() == 0);
 		this.welcomeOfferRepository.delete(welcomeOffer);
 	}
 

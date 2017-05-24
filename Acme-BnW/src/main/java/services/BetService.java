@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.Bet;
 import repositories.BetRepository;
+import domain.Bet;
 
 @Service
 @Transactional
@@ -18,13 +18,10 @@ public class BetService {
 	//Managed repository
 
 	@Autowired
-	private BetRepository		betRepository;
+	private BetRepository	betRepository;
+
 
 	//Supported services
-
-	@Autowired
-	private PromotionService	promotionService;
-
 
 	//Constructor
 
@@ -62,15 +59,15 @@ public class BetService {
 	//C1
 
 	public Double maxQuantityForBet() {
-		return betRepository.maxQuantityForBet();
+		return this.betRepository.maxQuantityForBet();
 	}
 
 	public Double minQuantityForBet() {
-		return betRepository.minQuantityForBet();
+		return this.betRepository.minQuantityForBet();
 	}
 
 	public Double avgQuantityForBet() {
-		return betRepository.avgQuantityForBet();
+		return this.betRepository.avgQuantityForBet();
 	}
 
 	//C2

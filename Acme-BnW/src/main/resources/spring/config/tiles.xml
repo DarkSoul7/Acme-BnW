@@ -23,17 +23,18 @@
 		<value>/views/security/tiles.xml</value>
 		<value>/views/welcome/tiles.xml</value>
 		
-		<value>/views/bet/tiles.xml</value>
-		<value>/views/category/tiles.xml</value>
-		<value>/views/customer/tiles.xml</value>
-		<value>/views/dashboard/tiles.xml</value>
-		<value>/views/market/tiles.xml</value>
-		<value>/views/match/tiles.xml</value>
+<!-- 		<value>/views/bet/tiles.xml</value> -->
+<!-- 		<value>/views/category/tiles.xml</value> -->
+<!-- 		<value>/views/customer/tiles.xml</value> -->
+<!-- 		<value>/views/dashboard/tiles.xml</value> -->
+<!-- 		<value>/views/market/tiles.xml</value> -->
+<!-- 		<value>/views/match/tiles.xml</value> -->
 		<value>/views/message/tiles.xml</value>
-		<value>/views/promotion/tiles.xml</value>
-		<value>/views/team/tiles.xml</value>
-		<value>/views/tournament/tiles.xml</value>
-		<value>/views/welcomeOffer/tiles.xml</value>
+<!-- 		<value>/views/promotion/tiles.xml</value> -->
+<!-- 		<value>/views/team/tiles.xml</value> -->
+		<value>/views/topic/tiles.xml</value>
+<!-- 		<value>/views/tournament/tiles.xml</value> -->
+<!-- 		<value>/views/welcomeOffer/tiles.xml</value> -->
 	</util:list>
 
 </beans>

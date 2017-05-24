@@ -38,9 +38,6 @@ public class MarketService {
 	@Autowired
 	private PromotionService	promotionService;
 
-	@Autowired
-	private CustomerService		customerService;
-
 
 	//Constructor
 	public MarketService() {

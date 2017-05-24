@@ -1,6 +1,5 @@
-package forms;
 
-import domain.Topic;
+package forms;
 
 public class MessageForm {
 
@@ -8,33 +7,36 @@ public class MessageForm {
 	private String	title;
 	private String	description;
 	private int		topicId;
-	
-	public int getId() {
-		return id;
+
+
+	//Constructor
+	public MessageForm() {
+		super();
 	}
-	public void setId(int id) {
+
+	public int getId() {
+		return this.id;
+	}
+	public void setId(final int id) {
 		this.id = id;
 	}
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.title = title;
 	}
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 	public int getTopicId() {
-		return topicId;
+		return this.topicId;
 	}
-	public void setTopicId(int topicId) {
+	public void setTopicId(final int topicId) {
 		this.topicId = topicId;
 	}
 
-	
-	
-	
 }

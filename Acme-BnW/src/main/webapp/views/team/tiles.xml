@@ -16,9 +16,9 @@
        
 <tiles-definitions>
 
-	<definition name="master.page" template="/views/team/">
-		<put-attribute name="title" value="" />
-		<put-attribute name="body" value="/views/team/" />
+	<definition name="team/list" extends="master.page">
+		<put-attribute name="title" value="Team list" />
+		<put-attribute name="body" value="/views/team/list.jsp" />
 	</definition>
 	
 </tiles-definitions>
