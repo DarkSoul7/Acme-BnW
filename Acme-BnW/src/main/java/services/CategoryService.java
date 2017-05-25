@@ -101,4 +101,8 @@ public class CategoryService {
 		return result;
 	}
 
+	public Collection<Category> categoriesOfTournament(int id) {
+		return categoryRepository.categoriesOfTournament(id);
+	}
+
 }

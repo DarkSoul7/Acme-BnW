@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Category;
@@ -40,6 +41,20 @@ public class CategoryController extends AbstractController {
 		result = new ModelAndView("category/list");
 		result.addObject("categories", categories);
 		result.addObject("requestURI", "category/list.do");
+
+		return result;
+	}
+
+	@RequestMapping(value = "/listByTournament", method = RequestMethod.GET)
+	public ModelAndView listByTournament(@RequestParam int tournamentId) {
+		ModelAndView result;
+		Collection<Category> categories;
+
+		categories = categoryService.categoriesOfTournament(tournamentId);
+
+		result = new ModelAndView("category/list");
+		result.addObject("categories", categories);
+		result.addObject("requestURI", "category/listOfTournament.do");
 
 		return result;
 	}

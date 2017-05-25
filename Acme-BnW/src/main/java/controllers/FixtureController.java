@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Fixture;
@@ -40,6 +41,20 @@ public class FixtureController extends AbstractController {
 		result = new ModelAndView("fixture/list");
 		result.addObject("fixtures", fixtures);
 		result.addObject("requestURI", "fixture/list.do");
+
+		return result;
+	}
+
+	@RequestMapping(value = "/listByCategory", method = RequestMethod.GET)
+	public ModelAndView listByCategory(@RequestParam int categoryId) {
+		ModelAndView result;
+		Collection<Fixture> fixtures;
+
+		fixtures = fixtureService.fixturesOfCategory(categoryId);
+
+		result = new ModelAndView("fixture/list");
+		result.addObject("fixtures", fixtures);
+		result.addObject("requestURI", "fixture/listByCategory.do");
 
 		return result;
 	}

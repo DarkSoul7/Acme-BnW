@@ -93,4 +93,8 @@ public class FixtureService {
 		result.setId(fixture.getId());
 		return result;
 	}
+
+	public Collection<Fixture> fixturesOfCategory(int id) {
+		return fixtureRepository.fixturesOfCategory(id);
+	}
 }

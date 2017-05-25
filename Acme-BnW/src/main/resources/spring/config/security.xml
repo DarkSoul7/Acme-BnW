@@ -54,12 +54,15 @@
 		
 		<!-- Fixture -->
 		<security:intercept-url pattern="/fixture/list.do" access="permitAll" /> 
+		<security:intercept-url pattern="/fixture/listByCategory.do" access="permitAll" />
 		
 		<!-- Team -->
 		<security:intercept-url pattern="/team/list.do" access="permitAll" /> 
 		
 		<!-- Category -->
 		<security:intercept-url pattern="/category/list.do" access="permitAll" /> 
+		<security:intercept-url pattern="/category/listByTournament.do" access="permitAll" />
+
 		
 		<!-- Message -->
 		<security:intercept-url pattern="/message/list.do" access="hasRole('CUSTOMER')" /> 
