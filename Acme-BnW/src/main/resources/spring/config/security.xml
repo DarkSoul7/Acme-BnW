@@ -55,6 +55,9 @@
 		<!-- Fixture -->
 		<security:intercept-url pattern="/fixture/list.do" access="permitAll" /> 
 		
+		<!-- Team -->
+		<security:intercept-url pattern="/team/list.do" access="permitAll" /> 
+		
 		<!-- Category -->
 		<security:intercept-url pattern="/category/list.do" access="permitAll" /> 
 		
