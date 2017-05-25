@@ -22,7 +22,7 @@ public class CustomerForm {
 	private CreditCard	creditCard;
 	private Double		balance;
 	private Boolean		finishedOffer;
-	private String		userName;
+	private String		username;
 	private String		password;
 	private String		repeatPassword;
 	private boolean		acceptCondition;
@@ -50,7 +50,7 @@ public class CustomerForm {
 		this.creditCard = customer.getCreditCard();
 		this.balance = customer.getBalance();
 		this.finishedOffer = customer.getFinishedOffer();
-		this.userName = customer.getUserAccount().getUsername();
+		this.username = customer.getUserAccount().getUsername();
 		this.earnings = earnings;
 		this.losses = losses;
 	}
@@ -145,14 +145,6 @@ public class CustomerForm {
 		this.finishedOffer = finishedOffer;
 	}
 
-	public String getUserName() {
-		return this.userName;
-	}
-
-	public void setUserName(final String userName) {
-		this.userName = userName;
-	}
-
 	public String getPassword() {
 		return this.password;
 	}
@@ -199,6 +191,14 @@ public class CustomerForm {
 
 	public void setLosses(final Double losses) {
 		this.losses = losses;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 }

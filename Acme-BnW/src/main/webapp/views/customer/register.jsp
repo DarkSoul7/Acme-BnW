@@ -25,6 +25,14 @@
 	</div>
 </jstl:if>
 
+<jstl:if test="${pageContext.response.locale.language=='en'}">
+	<jstl:set var="itemLabel" value="name"></jstl:set>
+</jstl:if>
+
+<jstl:if test="${pageContext.response.locale.language=='es'}">
+	<jstl:set var="itemLabel" value="spanishName"></jstl:set>
+</jstl:if>
+
 <form:form action="${requestURI}" modelAttribute="customerForm">
 	<form:hidden path="id" />
 
@@ -113,10 +121,10 @@
 				<spring:message code="customer.userAccountDetails" />
 			</legend>
 			<br />
-			<acme:textbox code="customer.username" path="userAccount.username"
+			<acme:textbox code="customer.username" path="username"
 				mandatory="true" />
 			<br />
-			<acme:password code="customer.password" path="userAccount.password"
+			<acme:password code="customer.password" path="password"
 				mandatory="true" />
 			<br />
 			<acme:password code="customer.repeatPassword" path="repeatPassword"

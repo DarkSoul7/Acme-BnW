@@ -43,6 +43,9 @@
 		<security:intercept-url access="permitAll" pattern="/welcome/eraseMe.do"/>
 		<security:intercept-url pattern="/welcome/index.do" access="permitAll" /> 
 		
+		<!-- Customer -->
+		<security:intercept-url pattern="/customer/register.do" access="isAnonymous()" /> 
+		
 		<!-- Message -->
 		<security:intercept-url pattern="/message/list.do" access="hasRole('CUSTOMER')" /> 
 		<security:intercept-url pattern="/message/create.do" access="hasRole('CUSTOMER')" /> 

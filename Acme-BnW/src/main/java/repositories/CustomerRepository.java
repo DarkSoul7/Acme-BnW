@@ -21,4 +21,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
 	@Query("select t from Team t join t.customers c where c.id = ?1")
 	Collection<Team> getFavouriteTeams(int customerId);
+
 }
