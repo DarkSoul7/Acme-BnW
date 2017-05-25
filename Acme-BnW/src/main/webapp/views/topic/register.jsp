@@ -25,45 +25,35 @@
 	</div>
 </jstl:if>
 
-<form:form action="${requestURI}" modelAttribute="tournamentForm">
+<form:form action="${requestURI}" modelAttribute="topicForm">
 	<form:hidden path="id" />
 
 	<fieldset>
 		<legend>
-			<spring:message code="tournament.data" />
+			<spring:message code="topic.data" />
 		</legend>
 
-		<acme:textbox code="tournament.name" path="name" mandatory="true" />
+		<acme:textbox code="topic.title" path="title" mandatory="true" />
 		<br />
 
-		<acme:textbox code="tournament.description" path="description"
+		<acme:textbox code="topic.description" path="description"
 			mandatory="true" />
 		<br />
 
-		<acme:datepicker code="tournament.startMoment" path="startMoment"
+		<acme:datepicker code="topic.creationMoment" path="creationMoment"
 			mandatory="true" />
 		<br />
 		
-		<acme:datepicker code="tournament.endMoment" path="endMoment"
-			mandatory="true" />
-		<br />
-		
-		<acme:textbox code="tournament.description" path="description"
-			mandatory="true" />
-		<br />
-		
-		<acme:select2 items="${sports}" itemLabel="${itemLabel}" code="tournament.sport" path="sport" mandatory="true"/>
-	<br/>
 	</fieldset>
 	<br />
 
-	<jstl:if test="${tournamentForm.id != 0}">
-		<acme:submit code="tournament.save" name="save" />
-		<acme:cancel code="tournament.back" url="" />
+	<jstl:if test="${topicForm.id != 0}">
+		<acme:submit code="topic.save" name="save" />
+		<acme:cancel code="topic.back" url="" />
 	</jstl:if>
-	<jstl:if test="${tournamentForm.id == 0}">
-		<acme:submit code="tournament.create" name="save" />
-		<acme:cancel code="tournament.cancel" url="" />
+	<jstl:if test="${topicForm.id == 0}">
+		<acme:submit code="topic.create" name="save" />
+		<acme:cancel code="topic.cancel" url="" />
 	</jstl:if>
 
 </form:form>
