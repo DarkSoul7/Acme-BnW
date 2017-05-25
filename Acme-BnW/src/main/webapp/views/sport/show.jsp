@@ -23,14 +23,14 @@
 
 <jstl:choose>
 	<jstl:when test="${pageContext.response.locale.language=='en'}">
-		<acme:cancel url="torunament/listBySport.do?sport=${Sport.FOOTBALL.getName()}"
+		<acme:cancel url="tournament/listBySport.do?sport=${Sport.FOOTBALL.getName()}"
 			code="tournament.category" />
 		<br />
 		<acme:cancel url="category/listBySport.do?sport=${Sport.BASKETBALL.getName()}"
 			code="tournament.category" />
 	</jstl:when>
 	<jstl:otherwise>
-		<acme:cancel url="torunament/listBySport.do?sport=${Sport.FOOTBALL.getSpanishName()}"
+		<acme:cancel url="tournament/listBySport.do?sport=${Sport.FOOTBALL.getSpanishName()}"
 			code="tournament.category" />
 		<br />
 		<acme:cancel url="category/listBySport.do?sport=${Sport.BASKETBALL.getSpanishName()}"
