@@ -21,9 +21,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class Fixture extends DomainEntity {
 
-	private String title;
+	private String	title;
 	private Date	startMoment;
 	private Date	endMoment;
+
 
 	@NotBlank
 	public String getTitle() {
@@ -32,7 +33,7 @@ public class Fixture extends DomainEntity {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
+
 	@NotNull
 	@Temporal(value = TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")

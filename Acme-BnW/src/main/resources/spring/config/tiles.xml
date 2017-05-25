@@ -28,7 +28,7 @@
  		<value>/views/customer/tiles.xml</value>
 <!-- 		<value>/views/dashboard/tiles.xml</value> -->
 <!-- 		<value>/views/market/tiles.xml</value> -->
-<!-- 		<value>/views/match/tiles.xml</value> -->
+		<value>/views/match/tiles.xml</value>
 		<value>/views/message/tiles.xml</value>
 <!-- 		<value>/views/promotion/tiles.xml</value> -->
 <!-- 		<value>/views/team/tiles.xml</value> -->
