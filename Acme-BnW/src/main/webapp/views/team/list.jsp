@@ -27,6 +27,8 @@
 	<display:column property="name" title="${name}" />
 	
 	<spring:message code="team.shield" var="shield" />
-	<display:column property="shield" title="${shield}" />
+	<display:column title="${shield}">
+		<img src="${row.shield}" alt="shield" width="70" height="70">
+	</display:column>
 
 </display:table>
