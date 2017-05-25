@@ -44,7 +44,11 @@
 					</ul>
 				</li>
 			</security:authorize>
-			
+			<security:authorize access="permitAll">
+				<li><a href="tournament/list.do"><spring:message code="master.page.tournament.list" /></a></li>
+				<li><a href="category/list.do"><spring:message code="master.page.category.list" /></a></li>
+				<li><a href="fixture/list.do"><spring:message code="master.page.fixture.list" /></a></li>
+			</security:authorize>
 			<security:authorize access="hasRole('CUSTOMER')">
 				<li><a href="topic/listAll.do"><spring:message code="master.page.list.topic" /></a></li>
 			</security:authorize>

@@ -55,19 +55,16 @@
 
 	<spring:message code="tournament.sport" var="sport" />
 	<display:column title="${sport}">
-		<jstl:choose>
-			<jstl:when test="${pageContext.response.locale.language=='en'}">
-				<fmt:formatDate value="${row.sport.getName()}" pattern="MM/dd/yyyy" />
-			</jstl:when>
-			<jstl:otherwise>
-				<fmt:formatDate value="${row.sport.getSpanishName()}"
-					pattern="dd/MM/yyyy" />
-			</jstl:otherwise>
-		</jstl:choose>
+		<jstl:if test="${pageContext.response.locale.language=='en'}">
+			<jstl:out value="${row.sport.name}"></jstl:out>
+		</jstl:if>
+		<jstl:if test="${pageContext.response.locale.language=='es'}">
+			<jstl:out value="${row.sport.spanishName}"></jstl:out>
+		</jstl:if>
 	</display:column>
 
 	<display:column>
-		<acme:cancel url="category/listByTorunament.do?torunamentId=${row.id}"
+		<acme:cancel url="category/listByTournament.do?tournamentId=${row.id}"
 			code="tournament.category" />
 	</display:column>
 </display:table>

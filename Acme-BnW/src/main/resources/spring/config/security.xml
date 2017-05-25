@@ -44,7 +44,16 @@
 		<security:intercept-url pattern="/welcome/index.do" access="permitAll" /> 
 		
 		<!-- Customer -->
-		<security:intercept-url pattern="/customer/register.do" access="isAnonymous()" /> 
+		<security:intercept-url pattern="/customer/register.do" access="isAnonymous()" />
+		
+		<!-- Tournament -->
+		<security:intercept-url pattern="/tournament/list.do" access="permitAll" /> 
+		
+		<!-- Fixture -->
+		<security:intercept-url pattern="/fixture/list.do" access="permitAll" /> 
+		
+		<!-- Category -->
+		<security:intercept-url pattern="/category/list.do" access="permitAll" /> 
 		
 		<!-- Message -->
 		<security:intercept-url pattern="/message/list.do" access="hasRole('CUSTOMER')" /> 
