@@ -50,7 +50,11 @@
 		<security:intercept-url pattern="/tournament/list.do" access="permitAll" />
 		
 		<!-- Match -->
-		<security:intercept-url pattern="/match/list.do" access="permitAll" /> 
+		<security:intercept-url pattern="/match/list.do" access="permitAll" />
+		<security:intercept-url pattern="/match/listByFixture.do" access="permitAll" /> 
+		
+		<!-- Market-->
+		<security:intercept-url pattern="/market/listByMatch.do" access="permitAll" />
 		
 		<!-- Fixture -->
 		<security:intercept-url pattern="/fixture/list.do" access="permitAll" /> 

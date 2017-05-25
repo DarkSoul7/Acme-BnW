@@ -101,4 +101,8 @@ public class MatchService {
 		result.setId(match.getId());
 		return result;
 	}
+
+	public Collection<Match> matchesOfFixture(int id) {
+		return matchRepository.matchesOfFixture(id);
+	}
 }

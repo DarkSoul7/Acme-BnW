@@ -20,7 +20,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<display:table name="merkets" id="row" requestURI="${requestURI}"
+<display:table name="markets" id="row" requestURI="${requestURI}"
 	pagesize="5">
 
 	<spring:message code="market.title" var="title" />

@@ -14,12 +14,12 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import repositories.MarketRepository;
 import domain.Bet;
 import domain.Market;
 import domain.Match;
 import domain.Promotion;
 import forms.MarketForm;
+import repositories.MarketRepository;
 
 @Service
 @Transactional
@@ -73,7 +73,7 @@ public class MarketService {
 	//Other business services
 
 	@Autowired
-	private Validator	validator;
+	private Validator validator;
 
 
 	public Market reconstruct(final MarketForm marketForm, final BindingResult binding) {
@@ -122,5 +122,9 @@ public class MarketService {
 			result.add(promotion.getMarket());
 
 		return result;
+	}
+
+	public Collection<Market> marketsOfMatches(int id) {
+		return marketRepository.marketsOfMatches(id);
 	}
 }
