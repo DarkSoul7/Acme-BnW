@@ -25,17 +25,17 @@
 
 	<spring:message code="match.fixture" var="fixture" />
 	<display:column title="${fixture}">
-		<jstl:out value="${fixture.title}"></jstl:out>
+		<jstl:out value="${row.fixture.title}"></jstl:out>
 	</display:column>
 
 	<spring:message code="match.visitor" var="visitor" />
 	<display:column title="${visitor}">
-		<jstl:out value="${visitorTeam.name}"></jstl:out>
+		<jstl:out value="${row.visitorTeam.name}"></jstl:out>
 	</display:column>
 	
 	<spring:message code="match.local" var="local" />
 	<display:column title="${local}">
-		<jstl:out value="${localTeam.name}"></jstl:out>
+		<jstl:out value="${row.localTeam.name}"></jstl:out>
 	</display:column>
 
 	<spring:message code="match.startMoment" var="startMoment" />

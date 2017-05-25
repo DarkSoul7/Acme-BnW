@@ -24,17 +24,17 @@
 <jstl:choose>
 	<jstl:when test="${pageContext.response.locale.language=='en'}">
 		<acme:cancel url="tournament/listBySport.do?sport=${Sport.FOOTBALL.getName()}"
-			code="tournament.category" />
+			code="sport.football" />
 		<br />
 		<acme:cancel url="category/listBySport.do?sport=${Sport.BASKETBALL.getName()}"
-			code="tournament.category" />
+			code="sport.basketball" />
 	</jstl:when>
 	<jstl:otherwise>
 		<acme:cancel url="tournament/listBySport.do?sport=${Sport.FOOTBALL.getSpanishName()}"
-			code="tournament.category" />
+			code="sport.football" />
 		<br />
 		<acme:cancel url="category/listBySport.do?sport=${Sport.BASKETBALL.getSpanishName()}"
-			code="tournament.category" />
+			code="sport.basketball" />
 	</jstl:otherwise>
 </jstl:choose>
 
