@@ -67,4 +67,23 @@
 		<acme:cancel url="category/listByTournament.do?tournamentId=${row.id}"
 			code="tournament.category" />
 	</display:column>
+	<security:authorize access="hasRole('MANAGER')">
+	
+		<display:column>
+			<acme:cancel url="tournament/edit.do?tournamentId=${row.id}"
+				code="tournament.edit" />
+		</display:column>
+		
+		<display:column>
+			<acme:cancel url="tournament/delete.do?tournamentId=${row.id}"
+				code="tournament.delete" />
+		</display:column>
+	
+
+	</security:authorize>
 </display:table>
+
+<security:authorize access="hasRole('MANAGER')">
+	<acme:cancel url="tournament/register.do"
+				code="tournament.create" />
+</security:authorize>

@@ -52,6 +52,9 @@
 		<security:intercept-url pattern="/tournament/list.do" access="permitAll" />
 		<security:intercept-url pattern="/tournament/listOfFootball.do" access="permitAll" />
 		<security:intercept-url pattern="/tournament/listOfBasketball.do" access="permitAll" />
+		<security:intercept-url pattern="/tournament/register.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/tournament/edit.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/tournament/delete.do" access="hasRole('MANAGER')" />
 		
 		
 		<!-- Match -->

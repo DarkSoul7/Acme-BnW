@@ -25,6 +25,14 @@
 	</div>
 </jstl:if>
 
+<jstl:if test="${pageContext.response.locale.language=='en'}">
+	<jstl:set var="itemLabel" value="name"></jstl:set>
+</jstl:if>
+
+<jstl:if test="${pageContext.response.locale.language=='es'}">
+	<jstl:set var="itemLabel" value="spanishName"></jstl:set>
+</jstl:if>
+
 <form:form action="${requestURI}" modelAttribute="tournamentForm">
 	<form:hidden path="id" />
 
@@ -48,11 +56,7 @@
 			mandatory="true" />
 		<br />
 		
-		<acme:textbox code="tournament.description" path="description"
-			mandatory="true" />
-		<br />
-		
-		<acme:select2 items="${sports}" itemLabel="${itemLabel}" code="tournament.sport" path="sport" mandatory="true"/>
+			<acme:select2 items="${sports}" itemLabel="${itemLabel}" code="tournament.sport" path="sport" mandatory="true"/>
 	<br/>
 	</fieldset>
 	<br />
