@@ -11,6 +11,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+
 <display:table name="topics" id="row" requestURI="${RequestURI}"
 	pagesize="5">
 
@@ -25,14 +26,17 @@
 		<fmt:formatDate value="${row.creationMoment}" pattern="MM/dd/yyyy HH:mm" />
 	</display:column>
 	
-	<spring:message code="topic.customer" var="customer" />
-	<display:column property="customer.userAccount.username" title="${customer}" />
+	<spring:message code="topic.customer" var="customerUserName" />
+	<display:column property="customer.userAccount.username" title="${customerUserName}" />
 	
 	<spring:message code="topic.edit" var="edit" />
 	<display:column title="${edit}" >
-		<jstl:if test="${row.customer.id == customerId}">
+		<jstl:if test="${row.customer.id == customer.id}">
 			<acme:cancel code="topic.edit" url="topic/edit.do?topicId=${row.id}" />
 		</jstl:if>
+	</display:column>
+	<display:column >
+			<acme:cancel code="topic.punctuations" url="topic/punctuation/list.do?topicId=${row.id}" />
 	</display:column>
 
 </display:table>

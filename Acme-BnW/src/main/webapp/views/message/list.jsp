@@ -29,7 +29,7 @@
 			</div>
 			<br/>
 			<div >
-				<jstl:out value="${row.description}"/>
+				<pre><jstl:out value="${row.description}"/></pre>
 			</div>
 			<br/>
 		</div>
@@ -57,6 +57,10 @@
 	</display:column>
 
 </display:table>
-
+<br/>
+<jstl:if test="${givenPunctuation == false }">
+	<acme:cancel code="topic.punctuation" url="topic/punctuation/create.do?topicId=${topic.id}" />
+</jstl:if>
+<br/>
 <br/>
 <acme:cancel code="message.create" url="message/create.do?topicId=${topic.id}" />

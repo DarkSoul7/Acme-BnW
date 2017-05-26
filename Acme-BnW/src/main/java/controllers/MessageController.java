@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.CustomerService;
 import services.MessageService;
+import services.PunctuationService;
 import services.TopicService;
 import domain.Customer;
 import domain.Message;
@@ -29,13 +30,16 @@ public class MessageController extends AbstractController {
 	//Related services
 
 	@Autowired
-	private TopicService	topicService;
+	private TopicService		topicService;
 
 	@Autowired
-	private MessageService	messageService;
+	private MessageService		messageService;
 
 	@Autowired
-	private CustomerService	customerService;
+	private CustomerService		customerService;
+
+	@Autowired
+	private PunctuationService	punctuationService;
 
 
 	//Constructor
@@ -51,9 +55,16 @@ public class MessageController extends AbstractController {
 		ModelAndView result;
 
 		try {
+
+			Boolean givenPunctuation = true;
+
 			final Topic topic = this.topicService.findOne(topicId);
 			Assert.notNull(topic);
 			final Customer customer = this.customerService.findByPrincipal();
+
+			if (this.punctuationService.findByTopicAndCustomer(topic, customer) == null) {
+				givenPunctuation = false;
+			}
 
 			final Collection<Message> messages = this.messageService.getMessagesByTopic(topic);
 			result = new ModelAndView("message/list");
@@ -61,6 +72,7 @@ public class MessageController extends AbstractController {
 			result.addObject("topic", topic);
 			result.addObject("customerId", customer.getId());
 			result.addObject("RequestURI", "message/list.do");
+			result.addObject("givenPunctuation", givenPunctuation);
 
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect: /topic/listAll.do");
