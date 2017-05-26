@@ -25,25 +25,24 @@
 	</div>
 </jstl:if>
 
-<form:form action="${requestURI}" modelAttribute="topicForm">
+<form:form action="${RequestURI}" modelAttribute="topicForm">
 	<form:hidden path="id" />
-
+	<jstl:if test="${topicForm.id != 0}">
+		<form:hidden path="title" />
+	</jstl:if>
+	
 	<fieldset>
 		<legend>
 			<spring:message code="topic.data" />
 		</legend>
-
+	<jstl:if test="${topicForm.id == 0}">
 		<acme:textbox code="topic.title" path="title" mandatory="true" />
 		<br />
-
-		<acme:textbox code="topic.description" path="description"
+	</jstl:if>
+		<acme:textarea code="topic.description" path="description"
 			mandatory="true" />
 		<br />
 
-		<acme:datepicker code="topic.creationMoment" path="creationMoment"
-			mandatory="true" />
-		<br />
-		
 	</fieldset>
 	<br />
 

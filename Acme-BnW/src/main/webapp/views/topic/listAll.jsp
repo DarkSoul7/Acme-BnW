@@ -27,8 +27,20 @@
 	
 	<spring:message code="topic.customer" var="customer" />
 	<display:column property="customer.userAccount.username" title="${customer}" />
+	
+	<spring:message code="topic.edit" var="edit" />
+	<display:column title="${edit}" >
+		<jstl:if test="${row.customer.id == customerId}">
+			<acme:cancel code="topic.edit" url="topic/edit.do?topicId=${row.id}" />
+		</jstl:if>
+	</display:column>
 
 </display:table>
+
+<br/>
+<acme:cancel code="topic.create" url="topic/create.do" />
+
+<br/>
 
 <jstl:if test="${errorMessage != null }">
 	<spring:message code="${errorMessage}" var="error" />

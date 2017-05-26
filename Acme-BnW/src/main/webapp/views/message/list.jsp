@@ -20,7 +20,7 @@
 <br/>
 	
 <display:table name="messages" id="row" requestURI="${RequestURI}"
-	pagesize="5" sort="list" defaultorder="descending">
+	pagesize="5">
 	
 	<display:column>
 		<div>
@@ -31,16 +31,17 @@
 			<div >
 				<jstl:out value="${row.description}"/>
 			</div>
+			<br/>
 		</div>
 	</display:column>
-	<spring:message code="message.order" var="order" />
-	<display:column property="order" title="${order}" sortable="true" headerClass="sortable"/>
+<%-- 	<spring:message code="message.order" var="order" /> --%>
+<%-- 	<display:column property="order" title="${order}" sortable="true" headerClass="sortable"/> --%>
 	<spring:message code="message.creationMoment" var="creationMoment" />
 	<display:column title="${creationMoment}">
 		<fmt:formatDate value="${row.creationMoment}" pattern="MM/dd/yyyy HH:mm" />
 	</display:column>
-	
-	<display:column title="${creationMoment}">
+	<spring:message code="message.edit" var="edit" />
+	<display:column title="${edit}">
 		<jstl:if test="${row.customer.id == customerId}">
 			<acme:confirm code="message.edit" url="message/edit.do?messageId=${row.id}&topicId=${topic.id}" msg="message.editConfirm"/>
 		</jstl:if>

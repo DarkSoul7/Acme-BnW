@@ -46,6 +46,7 @@
 		<!-- Customer -->
 		<security:intercept-url pattern="/customer/register.do" access="isAnonymous()" />
 		
+		
 		<!-- Tournament -->
 		<security:intercept-url pattern="/tournament/list.do" access="permitAll" />
 		
@@ -76,6 +77,9 @@
 		
 		<!-- Topic -->
 		<security:intercept-url pattern="/topic/listAll.do" access="hasRole('CUSTOMER')" /> 
+		<security:intercept-url pattern="/topic/create.do" access="hasRole('CUSTOMER')" /> 
+		<security:intercept-url pattern="/topic/edit.do" access="hasRole('CUSTOMER')" /> 
+		<security:intercept-url pattern="/topic/save.do" access="hasRole('CUSTOMER')" /> 
 
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
