@@ -107,6 +107,50 @@ public class MessageController extends AbstractController {
 		return result;
 	}
 
+	//Quote
+	@RequestMapping(value = "/quote", method = RequestMethod.GET)
+	public ModelAndView quote(@RequestParam final int messageId, @RequestParam final int topicId) {
+		ModelAndView result;
+
+		try {
+			final Message message = this.messageService.findOne(messageId);
+
+			final MessageForm messageForm = this.messageService.create();
+			messageForm.setTitle("(Quote-Cita:" + message.getOrder() + ")");
+			messageForm.setTopicId(message.getTopic().getId());
+			messageForm.setDescription("''" + message.getDescription() + "''" + "\n");
+
+			result = this.createEditModelAndView(messageForm);
+		} catch (final Throwable e) {
+			result = new ModelAndView("redirect:/message/list.do?topicId=" + topicId);
+			result.addObject("messageError", "message.quote.error");
+		}
+
+		return result;
+	}
+
+	//Reply
+	@RequestMapping(value = "/reply", method = RequestMethod.GET)
+	public ModelAndView reply(@RequestParam final int messageId, @RequestParam final int topicId) {
+		ModelAndView result;
+
+		try {
+			final Message message = this.messageService.findOne(messageId);
+
+			final MessageForm messageForm = this.messageService.create();
+			messageForm.setTitle("(Reply-Respuesta:" + message.getOrder() + ")");
+			messageForm.setDescription("->" + message.getDescription() + "<-" + "\n");
+			messageForm.setTopicId(message.getTopic().getId());
+
+			result = this.createEditModelAndView(messageForm);
+		} catch (final Throwable e) {
+			result = new ModelAndView("redirect:/message/list.do?topicId=" + topicId);
+			result.addObject("messageError", "message.reply.error");
+		}
+
+		return result;
+	}
+
 	//Save
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public ModelAndView save(@Valid final MessageForm messageForm, final BindingResult binding) {

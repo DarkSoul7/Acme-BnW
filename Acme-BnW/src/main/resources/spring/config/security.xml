@@ -78,6 +78,8 @@
 		<security:intercept-url pattern="/message/create.do" access="hasRole('CUSTOMER')" /> 
 		<security:intercept-url pattern="/message/edit.do" access="hasRole('CUSTOMER')" /> 
 		<security:intercept-url pattern="/message/save.do" access="hasRole('CUSTOMER')" /> 
+		<security:intercept-url pattern="/message/quote.do" access="hasRole('CUSTOMER')" /> 
+		<security:intercept-url pattern="/message/reply.do" access="hasRole('CUSTOMER')" /> 
 		
 		<!-- Topic -->
 		<security:intercept-url pattern="/topic/listAll.do" access="hasRole('CUSTOMER')" /> 

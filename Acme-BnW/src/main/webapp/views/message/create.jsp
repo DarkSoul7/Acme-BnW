@@ -16,7 +16,7 @@
 
 	<br/>
 	
-	<acme:textarea code="message.description" path="description" mandatory="true" />
+	<acme:textarea rows="10" code="message.description" path="description" mandatory="true" />
 	
 
 	<acme:submit code="message.save" name="save"/>

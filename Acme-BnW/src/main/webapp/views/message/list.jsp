@@ -34,12 +34,21 @@
 			<br/>
 		</div>
 	</display:column>
-<%-- 	<spring:message code="message.order" var="order" /> --%>
-<%-- 	<display:column property="order" title="${order}" sortable="true" headerClass="sortable"/> --%>
+	<spring:message code="message.order" var="order" />
+	<display:column property="order" title="${order}"/> <!--sortable="true" headerClass="sortable"-->
 	<spring:message code="message.creationMoment" var="creationMoment" />
 	<display:column title="${creationMoment}">
 		<fmt:formatDate value="${row.creationMoment}" pattern="MM/dd/yyyy HH:mm" />
 	</display:column>
+	
+	<display:column>
+		<acme:cancel code="message.quote" url="message/quote.do?messageId=${row.id}&topicId=${topic.id}" />
+	</display:column>
+	
+	<display:column>
+		<acme:cancel code="message.reply" url="message/reply.do?messageId=${row.id}&topicId=${topic.id}"/>
+	</display:column>
+	
 	<spring:message code="message.edit" var="edit" />
 	<display:column title="${edit}">
 		<jstl:if test="${row.customer.id == customerId}">
