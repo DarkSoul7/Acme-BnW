@@ -44,4 +44,32 @@ public class TournamentController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/listOfBasketball", method = RequestMethod.GET)
+	public ModelAndView listOfBasketball() {
+		ModelAndView result;
+		Collection<Tournament> tournaments;
+
+		tournaments = tournamentService.listTournamentOfBasketball();
+
+		result = new ModelAndView("tournament/list");
+		result.addObject("tournaments", tournaments);
+		result.addObject("requestURI", "tournament/listOfBasketball.do");
+
+		return result;
+	}
+
+	@RequestMapping(value = "/listOfFootball", method = RequestMethod.GET)
+	public ModelAndView listOfFootball() {
+		ModelAndView result;
+		Collection<Tournament> tournaments;
+
+		tournaments = tournamentService.listTournamentOfFootball();
+
+		result = new ModelAndView("tournament/list");
+		result.addObject("tournaments", tournaments);
+		result.addObject("requestURI", "tournament/listOfFootball.do");
+
+		return result;
+	}
+
 }
