@@ -3,6 +3,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,8 @@ public class TournamentService {
 	}
 
 	public void save(final Tournament tournament) {
+		Assert.isTrue(tournament.getEndMoment().after(new Date()));
+		Assert.isTrue(tournament.getEndMoment().after(tournament.getStartMoment()));
 		this.tournamentRepository.save(tournament);
 	}
 

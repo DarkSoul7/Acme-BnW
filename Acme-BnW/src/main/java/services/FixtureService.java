@@ -52,7 +52,8 @@ public class FixtureService {
 	}
 
 	public void save(final Fixture fixture) {
-		Assert.isTrue(fixture.getEndMoment().before(new Date()));
+		Assert.isTrue(fixture.getEndMoment().after(new Date()));
+		Assert.isTrue(fixture.getEndMoment().after(fixture.getStartMoment()));
 		this.fixtureRepository.save(fixture);
 	}
 
