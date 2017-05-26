@@ -19,6 +19,13 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+
+
+<spring:message code="customer.balanceNow" /> : <jstl:out value="${balanceNow}"></jstl:out>
+<br>
+<br>
+<br>
+
 <form:form action="${requestURI}" modelAttribute="balanceForm">
 
 		<acme:textbox code="customer.balance" path="balance" mandatory="true" />

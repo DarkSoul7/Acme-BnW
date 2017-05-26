@@ -80,7 +80,18 @@ public class CustomerController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/addBalance", method = RequestMethod.POST, params = "save")
+	@RequestMapping(value = "extractBalance", method = RequestMethod.GET)
+	public ModelAndView extractBalance() {
+
+		ModelAndView result;
+
+		BalanceForm balanceForm = new BalanceForm();
+		result = this.extractBalanceModelAndView(balanceForm);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/extractBalance", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid BalanceForm balanceForm, BindingResult binding) {
 
 		ModelAndView result = new ModelAndView();
@@ -89,7 +100,7 @@ public class CustomerController extends AbstractController {
 			result = addBalanceModelAndView(balanceForm);
 		} else {
 			try {
-				customerService.addBalance(balanceForm);
+				customerService.extractBalance(balanceForm);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (Throwable oops) {
 				result = addBalanceModelAndView(balanceForm, "balance.commit.error");
@@ -125,6 +136,21 @@ public class CustomerController extends AbstractController {
 		ModelAndView result;
 
 		result = new ModelAndView("customer/addBalance");
+		result.addObject("balanceForm", balanceForm);
+		result.addObject("message", message);
+		result.addObject("balanceNow", customerService.findByPrincipal().getBalance());
+
+		return result;
+	}
+
+	protected ModelAndView extractBalanceModelAndView(final BalanceForm balanceForm) {
+		return this.extractBalanceModelAndView(balanceForm, null);
+	}
+
+	protected ModelAndView extractBalanceModelAndView(final BalanceForm balanceForm, final String message) {
+		ModelAndView result;
+
+		result = new ModelAndView("customer/extractBalance");
 		result.addObject("balanceForm", balanceForm);
 		result.addObject("message", message);
 		result.addObject("balanceNow", customerService.findByPrincipal().getBalance());
