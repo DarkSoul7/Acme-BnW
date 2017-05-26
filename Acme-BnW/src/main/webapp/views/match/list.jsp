@@ -42,10 +42,10 @@
 	<display:column title="${startMoment}">
 		<jstl:choose>
 			<jstl:when test="${pageContext.response.locale.language=='en'}">
-				<fmt:formatDate value="${row.startMoment}" pattern="MM/dd/yyyy" />
+				<fmt:formatDate value="${row.startMoment}" pattern="MM/dd/yyyy HH:mm" />
 			</jstl:when>
 			<jstl:otherwise>
-				<fmt:formatDate value="${row.startMoment}" pattern="dd/MM/yyyy" />
+				<fmt:formatDate value="${row.startMoment}" pattern="dd/MM/yyyy HH:mm" />
 			</jstl:otherwise>
 		</jstl:choose>
 	</display:column>
@@ -54,10 +54,10 @@
 	<display:column title="${endMoment}">
 		<jstl:choose>
 			<jstl:when test="${pageContext.response.locale.language=='en'}">
-				<fmt:formatDate value="${row.endMoment}" pattern="MM/dd/yyyy" />
+				<fmt:formatDate value="${row.endMoment}" pattern="MM/dd/yyyy HH:mm" />
 			</jstl:when>
 			<jstl:otherwise>
-				<fmt:formatDate value="${row.endMoment}" pattern="dd/MM/yyyy" />
+				<fmt:formatDate value="${row.endMoment}" pattern="dd/MM/yyyy HH:mm" />
 			</jstl:otherwise>
 		</jstl:choose>
 	</display:column>

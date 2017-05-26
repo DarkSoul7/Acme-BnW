@@ -27,6 +27,7 @@ public class Bet extends DomainEntity {
 	private Date	creationMoment;
 	private Type	type;
 	private Status	status;
+	private Boolean	completed;
 
 
 	@NotNull
@@ -77,6 +78,15 @@ public class Bet extends DomainEntity {
 
 	public void setStatus(final Status status) {
 		this.status = status;
+	}
+
+	@NotNull
+	public Boolean getCompleted() {
+		return this.completed;
+	}
+
+	public void setCompleted(Boolean completed) {
+		this.completed = completed;
 	}
 
 

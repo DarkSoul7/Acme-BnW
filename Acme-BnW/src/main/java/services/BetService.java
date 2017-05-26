@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -57,6 +58,25 @@ public class BetService {
 		result.setQuantity(quantity);
 		result.setStatus(Status.PENDING);
 		result.setType(type);
+
+		return result;
+	}
+
+	public Bet createDefault(Market market) {
+		Assert.notNull(market);
+		Bet result;
+		Customer principal;
+
+		principal = this.customerService.findByPrincipal();
+
+		result = new Bet();
+		result.setCreationMoment(new Date(System.currentTimeMillis() - 1000));
+		result.setCustomer(principal);
+		result.setFee(market.getFee());
+		result.setMarket(market);
+		result.setQuantity(0.01);
+		result.setStatus(Status.PENDING);
+		result.setType(Type.SIMPLE);
 
 		return result;
 	}

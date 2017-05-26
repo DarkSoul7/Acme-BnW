@@ -27,10 +27,6 @@
 		
 		relativeRedir(url);
 	}
-	
-	function addSelection(marketId) {
-		alert('TODO');
-	}
 </script>
 
 <display:table name="markets" id="row" requestURI="${requestURI}"
@@ -53,9 +49,8 @@
 			<button type="button" class="btn btn-success" onclick="javascript: submitBet('${row.id}', '${row.title}');" >${betSubmit}</button>
 		</display:column>
 		
-		<spring:message code="market.bet.addSelection" var="betAddSelection" />
 		<display:column>
-			<button type="button" class="btn btn-default" onclick="javascript: addSelection('${row.id}');" >${betAddSelection}</button>
+			<acme:cancel url="/bet/addSelection.do?marketId=${row.id}" code="market.bet.addSelection" class_="btn btn-default" />
 		</display:column>
 	</security:authorize>
 </display:table>
