@@ -24,7 +24,7 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
-<link rel="shortcut icon" type="image/png" href="images/logo-chorbies.jpg"/> 
+<link rel="shortcut icon" type="image/png" href="images/logo-bnw.jpg"/> 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
@@ -45,7 +45,7 @@
 		<tiles:insertAttribute name="header" />
 	</div>
 	<div style="text-align:center">
-		<a href="/Acme-BnW"><img src="images/logo-chorbies.jpg" alt="Acme-BnW Co., Inc." width="450px" height="250" /></a>
+		<a href="/Acme-BnW"><img src="images/logo-bnw.jpg" alt="Acme-BnW Co., Inc." width="450px" height="250" /></a>
 	</div>
 	<div style="width: 80%;">
 		<h1>

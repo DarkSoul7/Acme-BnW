@@ -18,7 +18,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+
+<script src="scripts/bootstrap-datepicker.js"></script>
+<script src="scripts/bootstrap-datepicker.es.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="styles/datepicker-standalone.css">
 
 <%-- Attributes --%> 
  
@@ -36,6 +42,8 @@
 	<jstl:set var="mandatory" value="false" />
 </jstl:if>
 
+<jstl:set var="id" value="${fn:replace(path, '.', '')}" />
+
 <%-- Definition --%>
 
 <spring:bind path="${path}">
@@ -46,7 +54,7 @@
 				<a class="error">(*)</a>
 			</jstl:if>
 		</form:label>
-		<div class="input-group date" data-provide="datepicker" id="${path}_datepicker">
+		<div class="input-group date" data-provide="datepicker" id="${id}_datepicker">
 			<form:input path="${path}" disabled="${disabled}" class="form-control" />	
 		    <div class="input-group-addon">
 		        <span class="glyphicon glyphicon-calendar"></span>
@@ -57,7 +65,7 @@
             $(function () {
             	$.fn.datepicker.defaults.language = '${pageContext.response.locale.language}';
             	$.fn.datepicker.defaults.format = 'dd/mm/yyyy';
-                $('#${path}_datepicker').datepicker({
+                $('#${id}_datepicker').datepicker({
                     autoclose: true,
                 });
             });
