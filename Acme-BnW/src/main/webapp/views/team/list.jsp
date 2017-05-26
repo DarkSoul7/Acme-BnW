@@ -35,12 +35,12 @@
 	
 		<display:column>
 			<acme:cancel url="team/edit.do?teamId=${row.id}"
-				code="tournament.edit" />
+				code="team.edit" />
 		</display:column>
 		
 		<display:column>
 			<acme:cancel url="team/delete.do?teamId=${row.id}"
-				code="tournament.delete" />
+				code="team.delete" />
 		</display:column>
 	
 
