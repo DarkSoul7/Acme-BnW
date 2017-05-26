@@ -49,6 +49,9 @@
 		
 		<!-- Tournament -->
 		<security:intercept-url pattern="/tournament/list.do" access="permitAll" />
+		<security:intercept-url pattern="/tournament/listOfFootball.do" access="permitAll" />
+		<security:intercept-url pattern="/tournament/listOfBasketball.do" access="permitAll" />
+		
 		
 		<!-- Match -->
 		<security:intercept-url pattern="/match/list.do" access="permitAll" />

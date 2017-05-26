@@ -57,6 +57,14 @@ public class TournamentService {
 		this.tournamentRepository.delete(tournament);
 	}
 
+	public Collection<Tournament> listTournamentOfFootball() {
+		return tournamentRepository.listTournamentOfFootball();
+	}
+
+	public Collection<Tournament> listTournamentOfBasketball() {
+		return tournamentRepository.listTournamentOfBasketball();
+	}
+
 
 	@Autowired
 	private Validator validator;
