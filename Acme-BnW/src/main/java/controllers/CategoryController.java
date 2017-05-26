@@ -163,7 +163,7 @@ public class CategoryController extends AbstractController {
 	}
 
 	protected ModelAndView createEditModelAndView(final CategoryForm categoryForm) {
-		return this.createModelAndView(categoryForm, null);
+		return this.createEditModelAndView(categoryForm, null);
 	}
 
 	protected ModelAndView createEditModelAndView(final CategoryForm categoryForm, final String message) {

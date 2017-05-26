@@ -9,6 +9,7 @@ public class FixtureForm {
 
 	private Date	startMoment;
 	private Date	endMoment;
+	private String	title;
 	private int		id;
 	private int		idCategory;
 
@@ -43,6 +44,14 @@ public class FixtureForm {
 
 	public void setIdCategory(int idCategory) {
 		this.idCategory = idCategory;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 }

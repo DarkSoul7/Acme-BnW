@@ -54,4 +54,23 @@
 		<acme:cancel url="match/listByFixture.do?fixtureId=${row.id}"
 			code="fixture.match" />
 	</display:column>
+	<security:authorize access="hasRole('MANAGER')">
+	
+		<display:column>
+			<acme:cancel url="fixture/edit.do?fixtureId=${row.id}"
+				code="fixture.edit" />
+		</display:column>
+		
+		<display:column>
+			<acme:cancel url="fixture/delete.do?fixtureId=${row.id}"
+				code="fixture.delete" />
+		</display:column>
+	
+
+	</security:authorize>
 </display:table>
+
+<security:authorize access="hasRole('MANAGER')">
+	<acme:cancel url="fixture/register.do"
+				code="fixture.create" />
+</security:authorize>

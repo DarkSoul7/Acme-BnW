@@ -80,6 +80,7 @@ public class FixtureService {
 
 		result.setStartMoment(fixtureForm.getStartMoment());
 		result.setEndMoment(fixtureForm.getEndMoment());
+		result.setTitle(fixtureForm.getTitle());
 
 		this.validator.validate(result, binding);
 
@@ -90,6 +91,7 @@ public class FixtureService {
 		FixtureForm result = this.create();
 		result.setStartMoment(fixture.getStartMoment());
 		result.setEndMoment(fixture.getEndMoment());
+		result.setTitle(fixture.getTitle());
 		result.setId(fixture.getId());
 		return result;
 	}

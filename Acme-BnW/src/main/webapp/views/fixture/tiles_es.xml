@@ -20,5 +20,15 @@
 		<put-attribute name="title" value="Lista de jornadas" />
 		<put-attribute name="body" value="/views/fixture/list.jsp" />
 	</definition>
+	
+	<definition name="fixture/register" extends="master.page">
+		<put-attribute name="title" value="Registrar una jornada" />
+		<put-attribute name="body" value="/views/fixture/register.jsp" />
+	</definition>
+	
+	<definition name="fixture/edit" extends="master.page">
+		<put-attribute name="title" value="Editar una jornada" />
+		<put-attribute name="body" value="/views/fixture/register.jsp" />
+	</definition>
 
 </tiles-definitions>

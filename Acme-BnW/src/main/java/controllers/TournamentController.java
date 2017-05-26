@@ -175,7 +175,7 @@ public class TournamentController extends AbstractController {
 	}
 
 	protected ModelAndView createEditModelAndView(final TournamentForm tournamentForm) {
-		return this.createModelAndView(tournamentForm, null);
+		return this.createEditModelAndView(tournamentForm, null);
 	}
 
 	protected ModelAndView createEditModelAndView(final TournamentForm tournamentForm, final String message) {

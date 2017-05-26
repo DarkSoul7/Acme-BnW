@@ -67,6 +67,9 @@
 		<!-- Fixture -->
 		<security:intercept-url pattern="/fixture/list.do" access="permitAll" /> 
 		<security:intercept-url pattern="/fixture/listByCategory.do" access="permitAll" />
+		<security:intercept-url pattern="/fixture/register.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/fixture/edit.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/fixture/delete.do" access="hasRole('MANAGER')" />
 		
 		<!-- Team -->
 		<security:intercept-url pattern="/team/list.do" access="permitAll" /> 

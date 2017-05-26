@@ -142,7 +142,7 @@ public class TeamController extends AbstractController {
 	}
 
 	protected ModelAndView createEditModelAndView(final TeamForm teamForm) {
-		return this.createModelAndView(teamForm, null);
+		return this.createEditModelAndView(teamForm, null);
 	}
 
 	protected ModelAndView createEditModelAndView(final TeamForm teamForm, final String message) {
