@@ -87,12 +87,21 @@
 		<security:intercept-url pattern="/message/create.do" access="hasRole('CUSTOMER')" /> 
 		<security:intercept-url pattern="/message/edit.do" access="hasRole('CUSTOMER')" /> 
 		<security:intercept-url pattern="/message/save.do" access="hasRole('CUSTOMER')" /> 
+		<security:intercept-url pattern="/message/quote.do" access="hasRole('CUSTOMER')" /> 
+		<security:intercept-url pattern="/message/reply.do" access="hasRole('CUSTOMER')" /> 
 		
 		<!-- Topic -->
 		<security:intercept-url pattern="/topic/listAll.do" access="hasRole('CUSTOMER')" /> 
 		<security:intercept-url pattern="/topic/create.do" access="hasRole('CUSTOMER')" /> 
 		<security:intercept-url pattern="/topic/edit.do" access="hasRole('CUSTOMER')" /> 
 		<security:intercept-url pattern="/topic/save.do" access="hasRole('CUSTOMER')" /> 
+		
+		<!-- Punctuation -->
+		<security:intercept-url pattern="/topic/punctuation/list.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/topic/punctuation/create.do" access="hasRole('CUSTOMER')" /> 
+		<security:intercept-url pattern="/topic/punctuation/delete.do" access="hasRole('CUSTOMER')" /> 
+		<security:intercept-url pattern="/topic/punctuation/save.do" access="hasRole('CUSTOMER')" /> 
+
 
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 

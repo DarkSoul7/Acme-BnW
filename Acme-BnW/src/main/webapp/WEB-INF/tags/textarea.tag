@@ -27,6 +27,7 @@
 
 <%@ attribute name="readonly" required="false" %>
 <%@ attribute name="mandatory" required="false" %>
+<%@ attribute name="rows" required="false" %>
 
 <jstl:if test="${readonly == null}">
 	<jstl:set var="readonly" value="false" />
@@ -34,6 +35,10 @@
 
 <jstl:if test="${mandatory == null}">
 	<jstl:set var="mandatory" value="false" />
+</jstl:if>
+
+<jstl:if test="${rows == null}">
+	<jstl:set var="readonly" value="false" />
 </jstl:if>
 
 <%-- Definition --%>
@@ -46,7 +51,13 @@
 				<a class="error">(*)</a>
 			</jstl:if>
 		</form:label>
-		<form:textarea path="${path}" readonly="${readonly}" class="form-control" />	
+		<jstl:if test="${row != false}">
+			<form:textarea rows="${rows}" path="${path}" readonly="${readonly}" class="form-control" />	
+		</jstl:if>
+		<jstl:if test="${row == false}">
+			<form:textarea path="${path}" readonly="${readonly}" class="form-control" />	
+		</jstl:if>
+		
 		<form:errors path="${path}" cssClass="error" />
 	</div>
 </spring:bind>

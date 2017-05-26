@@ -30,5 +30,15 @@
 		<put-attribute name="title" value="Creación de mensajes" />
 		<put-attribute name="body" value="/views/message/create.jsp" />
 	</definition>
+	
+	<definition name="message/reply" extends="master.page">
+		<put-attribute name="title" value="Responder mensaje" />
+		<put-attribute name="body" value="/views/message/create.jsp" />
+	</definition>
+	
+	<definition name="message/quote" extends="master.page">
+		<put-attribute name="title" value="Citar mensaje" />
+		<put-attribute name="body" value="/views/message/create.jsp" />
+	</definition>
 
 </tiles-definitions>

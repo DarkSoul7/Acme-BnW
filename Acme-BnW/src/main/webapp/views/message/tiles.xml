@@ -31,4 +31,14 @@
 		<put-attribute name="body" value="/views/message/create.jsp" />
 	</definition>
 	
+	<definition name="message/reply" extends="master.page">
+		<put-attribute name="title" value="Reply message" />
+		<put-attribute name="body" value="/views/message/create.jsp" />
+	</definition>
+	
+	<definition name="message/quote" extends="master.page">
+		<put-attribute name="title" value="Quote message" />
+		<put-attribute name="body" value="/views/message/create.jsp" />
+	</definition>
+	
 </tiles-definitions>

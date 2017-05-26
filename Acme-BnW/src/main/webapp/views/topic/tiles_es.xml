@@ -32,5 +32,15 @@
 		<put-attribute name="body" value="/views/topic/register.jsp" />
 	</definition>
 	
+	<definition name="topic/punctuation/list" extends="master.page">
+		<put-attribute name="title" value="Puntuaciones" />
+		<put-attribute name="body" value="/views/topic/listPunctuation.jsp" />
+	</definition>
+	
+	<definition name="topic/punctuation/create" extends="master.page">
+		<put-attribute name="title" value="Registrar puntuación" />
+		<put-attribute name="body" value="/views/topic/registerPunctuation.jsp" />
+	</definition>
+	
 
 </tiles-definitions>

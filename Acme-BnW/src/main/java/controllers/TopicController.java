@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.CustomerService;
+import services.PunctuationService;
 import services.TopicService;
 import domain.Customer;
+import domain.Punctuation;
 import domain.Topic;
 import forms.TopicForm;
 
@@ -26,10 +29,13 @@ public class TopicController extends AbstractController {
 	//Related services
 
 	@Autowired
-	private TopicService	topicService;
+	private TopicService		topicService;
 
 	@Autowired
-	private CustomerService	customerService;
+	private CustomerService		customerService;
+
+	@Autowired
+	private PunctuationService	punctuationService;
 
 
 	//Constructor
@@ -50,7 +56,8 @@ public class TopicController extends AbstractController {
 		result = new ModelAndView("topic/listAll");
 		result.addObject("topics", topics);
 		result.addObject("RequestURI", "topic/listAll.do");
-		result.addObject("customerId", customer.getId());
+		result.addObject("customer", customer);
+		result.addObject("errorMessage", errorMessage);
 
 		return result;
 	}
@@ -113,6 +120,90 @@ public class TopicController extends AbstractController {
 		return result;
 	}
 
+	//Topic's punctuation management
+
+	@RequestMapping(value = "/punctuation/list", method = RequestMethod.GET)
+	public ModelAndView punctuationList(@RequestParam final int topicId) {
+		ModelAndView result;
+
+		try {
+			Boolean givenPunctuation = true;
+
+			final Customer customer = this.customerService.findByPrincipal();
+			final Topic topic = this.topicService.findOne(topicId);
+
+			if (this.punctuationService.findByTopicAndCustomer(topic, customer) == null) {
+				givenPunctuation = false;
+			}
+			result = new ModelAndView("topic/punctuation/list");
+			result.addObject("punctuations", topic.getPunctuations());
+			result.addObject("RequestURI", "topic/punctuation/list.do");
+			result.addObject("customerId", customer.getId());
+			result.addObject("givenPunctuation", givenPunctuation);
+			result.addObject("topicId", topicId);
+
+		} catch (final Throwable e) {
+			result = new ModelAndView("redirect:/topic/listAll.do");
+			result.addObject("errorMessage", "topic.punctuation.list.error");
+		}
+
+		return result;
+	}
+
+	@RequestMapping(value = "/punctuation/create", method = RequestMethod.GET)
+	public ModelAndView punctuationCreate(@RequestParam final int topicId) {
+		ModelAndView result;
+
+		try {
+			final Topic topic = this.topicService.findOne(topicId);
+			final Punctuation punctuation = this.punctuationService.create(topic);
+
+			result = this.createEditPunctuationModelAndView(punctuation);
+
+		} catch (final Throwable e) {
+			result = new ModelAndView("redirect:/topic/listAll.do");
+			result.addObject("errorMessage", "topic.punctuation.create.error");
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/punctuation/delete", method = RequestMethod.GET)
+	public ModelAndView punctuationDelete(@RequestParam final int punctuationId) {
+		ModelAndView result;
+
+		try {
+			final Customer customer = this.customerService.findByPrincipal();
+			final Punctuation punctuation = this.punctuationService.findOne(punctuationId);
+			Assert.isTrue(customer.equals(punctuation.getCustomer()));
+
+			this.punctuationService.delete(punctuation);
+
+			result = new ModelAndView("redirect:/topic/listAll.do");
+
+		} catch (final Throwable e) {
+			result = new ModelAndView("redirect:/topic/listAll.do");
+			result.addObject("errorMessage", "topic.punctuation.delete.error");
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/punctuation/save", method = RequestMethod.POST)
+	public ModelAndView punctuationSave(@Valid final Punctuation punctuation, final BindingResult binding) {
+		ModelAndView result;
+
+		if (binding.hasErrors())
+			result = this.createEditPunctuationModelAndView(punctuation);
+		else
+			try {
+				this.punctuationService.save(punctuation);
+				result = new ModelAndView("redirect:/topic/listAll.do");
+
+			} catch (final Throwable oops) {
+				result = this.createEditPunctuationModelAndView(punctuation, "topic.punctuation.save.error");
+			}
+		return result;
+	}
+
 	//Ancillary methods
 
 	protected ModelAndView createEditModelAndView(final TopicForm topicForm) {
@@ -126,6 +217,21 @@ public class TopicController extends AbstractController {
 		result.addObject("topicForm", topicForm);
 		result.addObject("errorMessage", errorMessage);
 		result.addObject("RequestURI", "topic/save.do");
+
+		return result;
+	}
+
+	protected ModelAndView createEditPunctuationModelAndView(final Punctuation punctuation) {
+		return this.createEditPunctuationModelAndView(punctuation, null);
+	}
+
+	protected ModelAndView createEditPunctuationModelAndView(final Punctuation punctuation, final String message) {
+		ModelAndView result;
+
+		result = new ModelAndView("topic/punctuation/create");
+		result.addObject("punctuation", punctuation);
+		result.addObject("RequestURI", "topic/punctuation/save.do");
+		result.addObject("errorMessage", message);
 
 		return result;
 	}
