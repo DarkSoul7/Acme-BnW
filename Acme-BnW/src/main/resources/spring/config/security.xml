@@ -76,6 +76,12 @@
 		
 		<!-- Topic -->
 		<security:intercept-url pattern="/topic/listAll.do" access="hasRole('CUSTOMER')" /> 
+		
+		<!-- Bet -->
+		<security:intercept-url pattern="/bet/simpleBet.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/bet/multipleBet.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/bet/betHistory.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/bet/pendingBets.do" access="hasRole('CUSTOMER')" />  
 
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
