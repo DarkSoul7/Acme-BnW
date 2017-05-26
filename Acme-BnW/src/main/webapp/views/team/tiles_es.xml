@@ -20,5 +20,15 @@
 		<put-attribute name="title" value="Lista de equipos" />
 		<put-attribute name="body" value="/views/team/list.jsp" />
 	</definition>
+	
+	<definition name="team/register" extends="master.page">
+		<put-attribute name="title" value="Registrar un equipo" />
+		<put-attribute name="body" value="/views/team/register.jsp" />
+	</definition>
+	
+	<definition name="team/edit" extends="master.page">
+		<put-attribute name="title" value="Editar un equipo" />
+		<put-attribute name="body" value="/views/team/register.jsp" />
+	</definition>
 
 </tiles-definitions>

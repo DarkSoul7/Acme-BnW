@@ -31,4 +31,24 @@
 		<img src="${row.shield}" alt="shield" width="70" height="70">
 	</display:column>
 
+	<security:authorize access="hasRole('MANAGER')">
+	
+		<display:column>
+			<acme:cancel url="team/edit.do?teamId=${row.id}"
+				code="tournament.edit" />
+		</display:column>
+		
+		<display:column>
+			<acme:cancel url="team/delete.do?teamId=${row.id}"
+				code="tournament.delete" />
+		</display:column>
+	
+
+	</security:authorize>
 </display:table>
+
+<security:authorize access="hasRole('MANAGER')">
+	<acme:cancel url="team/register.do"
+				code="team.create" />
+</security:authorize>
+
