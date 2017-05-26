@@ -83,6 +83,9 @@
 					<ul class="nav navbar-nav">
 						<li class="dropdown"><a class="handCursor dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <spring:message code="master.page.profile" /> (<security:authentication property="principal.username" />)<span class="caret"></span></a>
 							<ul class="dropdown-menu inverse-dropdown">
+								<security:authorize access="hasRole('CUSTOMER')">
+									<li><a href="customer/addBalance.do"><span class="glyphicon glyphicon-user"></span> <spring:message code="master.page.customer.addBalance" /></a></li>
+								</security:authorize>
 								<li><a href="j_spring_security_logout"><span class="glyphicon glyphicon-log-out"></span> <spring:message code="master.page.logout" /> </a></li>
 							</ul>
 						</li>
