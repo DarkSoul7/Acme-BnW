@@ -56,12 +56,14 @@ public class MatchService {
 	}
 
 	public void save(final Match match) {
-		Assert.isTrue(match.getEndMoment().before(new Date()));
+		Assert.isTrue(match.getEndMoment().after(new Date()));
+		Assert.isTrue(match.getEndMoment().after(match.getStartMoment()));
+		Assert.isTrue(match.getLocalTeam().getId() != match.getVisitorTeam().getId());
 		this.matchRepository.save(match);
 	}
 
 	public void delete(final Match match) {
-		Assert.isTrue(match.getEndMoment().before(new Date()));
+		Assert.isTrue(match.getStartMoment().after(new Date()));
 		this.matchRepository.delete(match);
 	}
 

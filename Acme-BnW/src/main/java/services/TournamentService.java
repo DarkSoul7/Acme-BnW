@@ -50,7 +50,7 @@ public class TournamentService {
 	}
 
 	public void save(final Tournament tournament) {
-		Assert.isTrue(tournament.getEndMoment().after(new Date()));
+		Assert.isTrue(tournament.getStartMoment().after(new Date()));
 		Assert.isTrue(tournament.getEndMoment().after(tournament.getStartMoment()));
 		this.tournamentRepository.save(tournament);
 	}

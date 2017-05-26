@@ -33,13 +33,25 @@
 			<spring:message code="match.data" />
 		</legend>
 
-		<acme:datepicker code="match.startMoment" path="startMoment"
+		<acme:datetimepicker code="match.startMoment" path="startMoment"
 			mandatory="true" />
 		<br />
 		
-		<acme:datepicker code="match.endMoment" path="endMoment"
+		<acme:datetimepicker code="match.endMoment" path="endMoment"
 			mandatory="true" />
 		<br />
+		
+		<jstl:if test="${matchForm.id == 0}">
+			<acme:select items="${fixtures}" itemLabel="title" code="match.fixture" path="idFixture" mandatory="true"/>
+		</jstl:if>
+		
+		<jstl:if test="${matchForm.id == 0}">
+			<acme:select items="${teams}" itemLabel="name" code="match.visitor" path="idTeamVisitor" mandatory="true"/>
+		</jstl:if>
+		
+		<jstl:if test="${matchForm.id == 0}">
+			<acme:select items="${teams}" itemLabel="name" code="match.local" path="idTeamLocal" mandatory="true"/>
+		</jstl:if>
 
 	</fieldset>
 	<br />

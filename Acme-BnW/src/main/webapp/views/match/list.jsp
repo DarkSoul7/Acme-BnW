@@ -66,4 +66,24 @@
 		<acme:cancel url="market/listByMatch.do?matchId=${row.id}"
 			code="match.market" />
 	</display:column>
+	<security:authorize access="hasRole('MANAGER')">
+	
+		<display:column>
+			<acme:cancel url="match/edit.do?matchId=${row.id}"
+				code="match.edit" />
+		</display:column>
+		
+		<display:column>
+			<acme:cancel url="match/delete.do?matchId=${row.id}"
+				code="match.delete" />
+		</display:column>
+	
+
+	</security:authorize>
 </display:table>
+
+<security:authorize access="hasRole('MANAGER')">
+	<acme:cancel url="match/register.do"
+				code="match.create" />
+</security:authorize>
+

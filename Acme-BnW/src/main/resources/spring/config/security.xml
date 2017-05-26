@@ -60,6 +60,9 @@
 		<!-- Match -->
 		<security:intercept-url pattern="/match/list.do" access="permitAll" />
 		<security:intercept-url pattern="/match/listByFixture.do" access="permitAll" /> 
+		<security:intercept-url pattern="/match/register.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/match/edit.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/match/delete.do" access="hasRole('MANAGER')" />
 		
 		<!-- Market-->
 		<security:intercept-url pattern="/market/listByMatch.do" access="permitAll" />

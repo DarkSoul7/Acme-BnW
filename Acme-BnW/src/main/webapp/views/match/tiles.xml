@@ -21,4 +21,14 @@
 		<put-attribute name="body" value="/views/match/list.jsp" />
 	</definition>
 	
+	<definition name="match/register" extends="master.page">
+		<put-attribute name="title" value="Register a match" />
+		<put-attribute name="body" value="/views/match/register.jsp" />
+	</definition>
+	
+	<definition name="match/edit" extends="master.page">
+		<put-attribute name="title" value="Edit a match" />
+		<put-attribute name="body" value="/views/match/register.jsp" />
+	</definition>
+	
 </tiles-definitions>
