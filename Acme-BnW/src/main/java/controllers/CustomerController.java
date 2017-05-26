@@ -92,15 +92,34 @@ public class CustomerController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/extractBalance", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid BalanceForm balanceForm, BindingResult binding) {
+	public ModelAndView saveExt(@Valid BalanceForm balanceForm, BindingResult binding) {
 
 		ModelAndView result = new ModelAndView();
 
 		if (binding.hasErrors()) {
-			result = addBalanceModelAndView(balanceForm);
+			result = extractBalanceModelAndView(balanceForm);
 		} else {
 			try {
 				customerService.extractBalance(balanceForm);
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} catch (Throwable oops) {
+				result = extractBalanceModelAndView(balanceForm, "balance.commit.error");
+			}
+		}
+
+		return result;
+	}
+
+	@RequestMapping(value = "/addBalance", method = RequestMethod.POST, params = "save")
+	public ModelAndView saveAdd(@Valid BalanceForm balanceForm, BindingResult binding) {
+
+		ModelAndView result = new ModelAndView();
+
+		if (binding.hasErrors()) {
+			result = this.addBalanceModelAndView(balanceForm);
+		} else {
+			try {
+				customerService.addBalance(balanceForm);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (Throwable oops) {
 				result = addBalanceModelAndView(balanceForm, "balance.commit.error");
