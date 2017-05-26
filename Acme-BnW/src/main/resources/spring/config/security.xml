@@ -74,6 +74,9 @@
 		<!-- Category -->
 		<security:intercept-url pattern="/category/list.do" access="permitAll" /> 
 		<security:intercept-url pattern="/category/listByTournament.do" access="permitAll" />
+		<security:intercept-url pattern="/category/register.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/category/edit.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/category/delete.do" access="hasRole('MANAGER')" />
 
 		
 		<!-- Message -->

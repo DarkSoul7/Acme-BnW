@@ -33,4 +33,25 @@
 		<acme:cancel url="fixture/listByCategory.do?categoryId=${row.id}"
 			code="category.fixture" />
 	</display:column>
+	
+	<security:authorize access="hasRole('MANAGER')">
+	
+		<display:column>
+			<acme:cancel url="category/edit.do?categoryId=${row.id}"
+				code="category.edit" />
+		</display:column>
+		
+		<display:column>
+			<acme:cancel url="category/delete.do?categoryId=${row.id}"
+				code="category.delete" />
+		</display:column>
+	
+
+	</security:authorize>
 </display:table>
+
+
+<security:authorize access="hasRole('MANAGER')">
+	<acme:cancel url="category/register.do"
+				code="category.create" />
+</security:authorize>

@@ -39,6 +39,10 @@
 		<acme:textbox code="category.description" path="description"
 			mandatory="true" />
 		<br />
+		<jstl:if test="${categoryForm.id == 0}">
+			<acme:select items="${tournaments}" itemLabel="name" code="tournament.name" path="idTournament" mandatory="true"/>
+		</jstl:if>
+		
 
 	</fieldset>
 	<br />
