@@ -86,6 +86,8 @@ public class MatchService {
 			result.setLocalTeam(local);
 			result.setVisitorTeam(visitor);
 			result.setMarkets(new ArrayList<Market>());
+			result.setLocalGoal(0);
+			result.setVisitorGoal(0);
 		}
 
 		result.setStartMoment(matchForm.getStartMoment());

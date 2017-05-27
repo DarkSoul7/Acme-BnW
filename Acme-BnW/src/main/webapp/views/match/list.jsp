@@ -27,17 +27,23 @@
 	<display:column title="${fixture}">
 		<jstl:out value="${row.fixture.title}"></jstl:out>
 	</display:column>
-
-	<spring:message code="match.visitor" var="visitor" />
-	<display:column title="${visitor}">
-		<jstl:out value="${row.visitorTeam.name}"></jstl:out>
-	</display:column>
 	
 	<spring:message code="match.local" var="local" />
 	<display:column title="${local}">
 		<jstl:out value="${row.localTeam.name}"></jstl:out>
 	</display:column>
 
+	<spring:message code="match.visitor" var="visitor" />
+	<display:column title="${visitor}">
+		<jstl:out value="${row.visitorTeam.name}"></jstl:out>
+	</display:column>
+	
+	<spring:message code="match.localGoal" var="localGoal" />
+	<display:column property="localGoal" title="${localGoal}" />
+	
+	<spring:message code="match.visitorGoal" var="visitorGoal" />
+	<display:column property="visitorGoal" title="${visitorGoal}" />
+	
 	<spring:message code="match.startMoment" var="startMoment" />
 	<display:column title="${startMoment}">
 		<jstl:choose>
@@ -49,6 +55,7 @@
 			</jstl:otherwise>
 		</jstl:choose>
 	</display:column>
+	
 	
 	<spring:message code="match.endMoment" var="endMoment" />
 	<display:column title="${endMoment}">

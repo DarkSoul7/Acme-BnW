@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,6 +25,8 @@ public class Match extends DomainEntity {
 
 	private Date	startMoment;
 	private Date	endMoment;
+	private int		localGoal;
+	private int		visitorGoal;
 
 
 	@NotNull
@@ -44,6 +47,24 @@ public class Match extends DomainEntity {
 	}
 	public void setEndMoment(final Date endMoment) {
 		this.endMoment = endMoment;
+	}
+
+	@Min(0)
+	public int getLocalGoal() {
+		return localGoal;
+	}
+
+	public void setLocalGoal(int localGoal) {
+		this.localGoal = localGoal;
+	}
+
+	@Min(0)
+	public int getVisitorGoal() {
+		return visitorGoal;
+	}
+
+	public void setVisitorGoal(int visitorGoal) {
+		this.visitorGoal = visitorGoal;
 	}
 
 

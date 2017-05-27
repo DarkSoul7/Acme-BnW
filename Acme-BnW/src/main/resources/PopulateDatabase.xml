@@ -566,6 +566,8 @@
 	<bean id="match1" class="domain.Match">
 		<property name="startMoment" value="2017/05/20" />
 		<property name="endMoment" value="2017/05/20" />
+		<property name="localGoal" value="2" />
+		<property name="visitorGoal" value="2" />
 		<property name="fixture" ref="fixture1" />
 		<property name="markets">
 			<list>
@@ -579,6 +581,8 @@
 	<bean id="match2" class="domain.Match">
 		<property name="startMoment" value="2017/05/20" />
 		<property name="endMoment" value="2017/05/20" />
+		<property name="localGoal" value="4" />
+		<property name="visitorGoal" value="1" />
 		<property name="fixture" ref="fixture1" />
 		<property name="markets">
 			<list>
@@ -593,6 +597,8 @@
 		<property name="startMoment" value="2017/05/20" />
 		<property name="endMoment" value="2017/05/20" />
 		<property name="fixture" ref="fixture1" />
+		<property name="localGoal" value="0" />
+		<property name="visitorGoal" value="1"/>
 		<property name="markets">
 			<list>
 				<null/>
@@ -606,6 +612,8 @@
 		<property name="startMoment" value="2017/05/20" />
 		<property name="endMoment" value="2017/05/20" />
 		<property name="fixture" ref="fixture1" />
+		<property name="localGoal" value="2"/>
+		<property name="visitorGoal" value="1" />
 		<property name="markets">
 			<list>
 				<null/>
