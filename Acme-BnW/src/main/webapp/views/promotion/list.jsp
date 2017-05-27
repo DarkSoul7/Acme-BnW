@@ -68,8 +68,8 @@
 		</display:column>
 		
 		<display:column>
-			<acme:cancel url="promotion/delete.do?promotionId=${row.id}"
-				code="promotion.delete" />
+			<acme:cancel url="promotion/cancel.do?promotionId=${row.id}"
+				code="promotion.cancel" />
 		</display:column>
 	
 

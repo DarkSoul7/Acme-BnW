@@ -80,7 +80,7 @@
 		<!-- Promotion -->
 		<security:intercept-url pattern="/promotion/register.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/promotion/edit.do" access="hasRole('MANAGER')" />
-		<security:intercept-url pattern="/promotion/delete.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/promotion/cancel.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/promotion/list.do" access="hasRole('MANAGER')" />
 		
 		<!-- Fixture -->
