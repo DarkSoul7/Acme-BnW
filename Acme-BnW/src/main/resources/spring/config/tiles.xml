@@ -35,6 +35,7 @@
 		<value>/views/topic/tiles.xml</value>
  		<value>/views/tournament/tiles.xml</value>
  		<value>/views/fixture/tiles.xml</value>
+ 		<value>/views/manager/tiles.xml</value>
 <!-- 		<value>/views/welcomeOffer/tiles.xml</value> -->
 	</util:list>
 

@@ -31,6 +31,7 @@ import domain.Administrator;
 import domain.Bet;
 import domain.CreditCard;
 import domain.Customer;
+import domain.Manager;
 import domain.Message;
 import domain.Punctuation;
 import domain.Team;
@@ -38,6 +39,7 @@ import domain.Ticket;
 import domain.Topic;
 import forms.BalanceForm;
 import forms.CustomerForm;
+import forms.ManagerForm;
 import repositories.CustomerRepository;
 import security.Authority;
 import security.LoginService;
@@ -236,6 +238,24 @@ public class CustomerService {
 			}
 		} else
 			this.validator.validate(result, binding);
+
+		return result;
+	}
+	
+	public CustomerForm toFormObject(final Customer customer) {
+		Assert.notNull(customer);
+		final CustomerForm result = new CustomerForm();
+		
+		result.setId(customer.getId());
+		result.setName(customer.getName());
+		result.setSurname(customer.getSurname());
+		result.setEmail(customer.getEmail());
+		result.setPhone(customer.getPhone());
+		result.setNid(customer.getNid());
+		result.setCoordinates(customer.getCoordinates());
+		result.setBirthDate(customer.getBirthDate());
+		result.setCreditCard(customer.getCreditCard());
+		
 
 		return result;
 	}

@@ -27,6 +27,7 @@
 		<value>/views/category/messages</value>
 		<value>/views/fixture/messages</value>
 		<value>/views/customer/messages</value>
+		<value>/views/manager/messages</value>
 		<value>/views/dashboard/messages</value>
 		<value>/views/market/messages</value>
 		<value>/views/match/messages</value>

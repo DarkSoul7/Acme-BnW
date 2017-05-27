@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Brand;
@@ -68,7 +69,50 @@ public class CustomerController extends AbstractController {
 
 		return result;
 	}
+	
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam(required = false) final String successMessage) {
+		ModelAndView result;
+		Customer customer;
+		CustomerForm customerForm;
 
+		customer = this.customerService.findByPrincipal();
+		customerForm = this.customerService.toFormObject(customer);
+		customerForm.setAcceptCondition(true);
+
+		result = this.editModelAndView(customerForm);
+		result.addObject("successMessage", successMessage);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView editSave(@Valid final CustomerForm customerForm, final BindingResult binding) throws CheckDigitException {
+		ModelAndView result = new ModelAndView();
+		final Customer customer;
+
+		try {
+			customer = this.customerService.reconstruct(customerForm, binding);
+
+			if (binding.hasErrors()) {
+				result = this.editModelAndView(customerForm, "customer.creditCard.error");
+			} else {
+				try {
+					this.customerService.save(customer);
+					result = new ModelAndView("redirect:/customer/edit.do");
+					result.addObject("successMessage", "customer.edit.success");
+				} catch (final Throwable oops) {
+					result = this.editModelAndView(customerForm, "customer.commit.error");
+				}
+			}
+
+		} catch (final Throwable oops) {
+			result = this.editModelAndView(customerForm, "customer.commit.error");
+		}
+
+		return result;
+	}
+	
 	@RequestMapping(value = "/addBalance", method = RequestMethod.GET)
 	public ModelAndView addBalance() {
 
@@ -128,7 +172,7 @@ public class CustomerController extends AbstractController {
 
 		return result;
 	}
-
+	
 	//Ancillary methods
 
 	protected ModelAndView createModelAndView(final CustomerForm customerForm) {
@@ -143,6 +187,21 @@ public class CustomerController extends AbstractController {
 		result.addObject("customerForm", customerForm);
 		result.addObject("message", message);
 		result.addObject("brands", brands);
+
+		return result;
+	}
+	
+	protected ModelAndView editModelAndView(final CustomerForm customerForm) {
+		final ModelAndView result = this.editModelAndView(customerForm, null);
+		return result;
+	}
+
+	protected ModelAndView editModelAndView(final CustomerForm customerForm, final String message) {
+		ModelAndView result;
+		result = new ModelAndView("customer/edit");
+		result.addObject("customerForm", customerForm);
+		result.addObject("message", message);
+		result.addObject("requestURI", "customer/edit.do");
 
 		return result;
 	}
@@ -176,5 +235,4 @@ public class CustomerController extends AbstractController {
 
 		return result;
 	}
-
 }

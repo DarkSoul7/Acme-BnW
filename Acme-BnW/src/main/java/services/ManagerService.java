@@ -104,6 +104,22 @@ public class ManagerService {
 
 		return result;
 	}
+	
+	public ManagerForm toFormObject(final Manager manager) {
+		Assert.notNull(manager);
+		final ManagerForm result = new ManagerForm();
+		
+		result.setId(manager.getId());
+		result.setName(manager.getName());
+		result.setSurname(manager.getSurname());
+		result.setEmail(manager.getEmail());
+		result.setPhone(manager.getPhone());
+		result.setNid(manager.getNid());
+		result.setCoordinates(manager.getCoordinates());
+		
+
+		return result;
+	}
 
 	// Other business methods
 

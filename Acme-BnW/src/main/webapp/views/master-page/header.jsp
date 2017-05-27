@@ -32,7 +32,7 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="/Acme-BnW"><img style="max-height: 150%;" src="images/logo-chorbies.jpg" alt="Acme-BnW Co., Inc." /></a>
+			<a class="navbar-brand" href="/Acme-BnW"><img style="max-height: 150%;" src="images/logo-bnw.jpg" alt="Acme-BnW Co., Inc." /></a>
 		</div>
 		<ul class="nav navbar-nav" style="margin:0; padding:0">
 			<security:authorize access="hasRole('ADMINISTRATOR')">
@@ -100,6 +100,10 @@
 								<security:authorize access="hasRole('CUSTOMER')">
 									<li><a href="customer/addBalance.do"><span class="glyphicon glyphicon-euro"></span> <spring:message code="master.page.customer.addBalance" /></a></li>
 									<li><a href="customer/extractBalance.do"><span class="glyphicon glyphicon-euro"></span> <spring:message code="master.page.customer.extractBalance" /></a></li>
+									<li><a href="customer/edit.do"><span class="glyphicon glyphicon-edit"></span> <spring:message code="master.page.edit.user" /></a></li>
+								</security:authorize>
+								<security:authorize access="hasRole('MANAGER')">
+									<li><a href="manager/edit.do"><span class="glyphicon glyphicon-edit"></span> <spring:message code="master.page.edit.user" /></a></li>
 								</security:authorize>
 								<li><a href="j_spring_security_logout"><span class="glyphicon glyphicon-log-out"></span> <spring:message code="master.page.logout" /> </a></li>
 							</ul>
