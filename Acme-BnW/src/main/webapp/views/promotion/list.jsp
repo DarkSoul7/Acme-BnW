@@ -55,7 +55,22 @@
 			</jstl:otherwise>
 		</jstl:choose>
 	</display:column>
-
+	
+	<security:authorize access="hasRole('MANAGER')">
+	
+	<spring:message code="promotion.cancelled" var="cancel" />
+	<display:column title="${cancel}">
+			<jstl:if test="${row.cancel}">
+				<spring:message code="promotion.cancel.true" var="cancelTrue" />
+				<jstl:out value="${cancelTrue}"></jstl:out>
+			</jstl:if>
+			<jstl:if test="${!row.cancel}">
+				<spring:message code="promotion.cancel.false" var="cancelFalse" />
+				<jstl:out value="${cancelFalse}"></jstl:out>
+			</jstl:if>
+		</display:column>
+	</security:authorize>
+	
 	<display:column>
 		<acme:cancel url="promotion/join.do?promotionId=${row.id}"
 			code="promotion.join" />
@@ -68,8 +83,8 @@
 		</display:column>
 		
 		<display:column>
-			<acme:cancel url="promotion/delete.do?promotionId=${row.id}"
-				code="promotion.delete" />
+			<acme:cancel url="promotion/cancel.do?promotionId=${row.id}"
+				code="promotion.cancel" />
 		</display:column>
 	
 

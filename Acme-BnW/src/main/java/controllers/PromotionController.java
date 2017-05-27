@@ -113,17 +113,17 @@ public class PromotionController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	@RequestMapping(value = "/cancel", method = RequestMethod.GET)
 	public ModelAndView delete(@RequestParam int promotionId) {
 		ModelAndView result = new ModelAndView();
 
 		Promotion promotion = promotionService.findOne(promotionId);
 		try {
-			promotionService.delete(promotion);
+			promotionService.cancel(promotion);
 			result = new ModelAndView("redirect:/promotion/list.do");
 		} catch (Throwable oops) {
 			result = new ModelAndView("redirect:/promotion/list.do");
-			result.addObject("errorMessage", "promotion.delete.error");
+			result.addObject("errorMessage", "promotion.cancel.error");
 		}
 
 		return result;

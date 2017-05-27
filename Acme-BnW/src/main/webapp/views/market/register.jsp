@@ -40,7 +40,7 @@
 		<br />
 		
 		<jstl:if test="${marketForm.id == 0}">
-			<acme:select items="${matches}" itemLabel="name" code="match.name" path="idMatch" mandatory="true"/>
+			<acme:select3 items="${matches}" code="market.match" mandatory="true" path="idMatch"/>
 		</jstl:if>
 
 	</fieldset>
