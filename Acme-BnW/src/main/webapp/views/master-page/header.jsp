@@ -63,20 +63,27 @@
 			</security:authorize>
 			<security:authorize access="hasRole('CUSTOMER')">
 				<li><a href="topic/listAll.do"><spring:message code="master.page.list.topic" /></a></li>
+				<li class="dropdown"><a class="handCursor dropdown-toggle" data-toggle="dropdown"><spring:message	code="master.page.offers" /><span class="caret"></span></a>
+					<ul class="dropdown-menu inverse-dropdown">
+						<li><a href="welcomeOffer/showWelcomeOfferOption.do"><spring:message code="master.page.welcomeOffer" /></a></li>
+						<li><a href="promotion/list.do"><spring:message code="master.page.promotion.list" /></a></li>
+						
+					</ul>
+				</li>
 			</security:authorize>
 			
 			<security:authorize access="hasRole('MANAGER')">
 				<li class="dropdown"><a class="handCursor dropdown-toggle" data-toggle="dropdown"><spring:message	code="master.page.managers" /><span class="caret"></span></a>
-				<ul class="dropdown-menu inverse-dropdown">
-					<li><a href="market/list.do"><spring:message code="master.page.market.list" /></a></li>
-					<li><a href="match/list.do"><spring:message code="master.page.match.list" /></a></li>
-					<li><a href="team/list.do"><spring:message code="master.page.team.list" /></a></li>
-					<li><a href="tournament/list.do"><spring:message code="master.page.tournament.list" /></a></li>
-					<li><a href="category/list.do"><spring:message code="master.page.category.list" /></a></li>
-					<li><a href="fixture/list.do"><spring:message code="master.page.fixture.list" /></a></li>
-					
-				</ul>
-			</li>
+					<ul class="dropdown-menu inverse-dropdown">
+						<li><a href="market/list.do"><spring:message code="master.page.market.list" /></a></li>
+						<li><a href="match/list.do"><spring:message code="master.page.match.list" /></a></li>
+						<li><a href="team/list.do"><spring:message code="master.page.team.list" /></a></li>
+						<li><a href="tournament/list.do"><spring:message code="master.page.tournament.list" /></a></li>
+						<li><a href="category/list.do"><spring:message code="master.page.category.list" /></a></li>
+						<li><a href="fixture/list.do"><spring:message code="master.page.fixture.list" /></a></li>
+						
+					</ul>
+				</li>
 			</security:authorize>
 		</ul>
 		

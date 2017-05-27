@@ -30,6 +30,7 @@ public class Customer extends Actor {
 	private Double		balance;
 	private Boolean		finishedOffer;
 	private Boolean		overAge;
+	private Boolean		activeWO;
 
 
 	@Past
@@ -79,6 +80,14 @@ public class Customer extends Actor {
 
 	public void setOverAge(final Boolean overAge) {
 		this.overAge = overAge;
+	}
+
+	public Boolean getActiveWO() {
+		return this.activeWO;
+	}
+
+	public void setActiveWO(final Boolean activeWO) {
+		this.activeWO = activeWO;
 	}
 
 

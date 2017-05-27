@@ -111,8 +111,11 @@
 		<security:intercept-url pattern="/topic/punctuation/create.do" access="hasRole('CUSTOMER')" /> 
 		<security:intercept-url pattern="/topic/punctuation/delete.do" access="hasRole('CUSTOMER')" /> 
 		<security:intercept-url pattern="/topic/punctuation/save.do" access="hasRole('CUSTOMER')" /> 
-
-
+		
+		<!-- Welcome offer -->
+		<security:intercept-url pattern="/welcomeOffer/showWelcomeOfferOption.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/welcomeOffer/welcomeOfferOption.do" access="hasRole('CUSTOMER')" />
+	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
 		<security:form-login 
