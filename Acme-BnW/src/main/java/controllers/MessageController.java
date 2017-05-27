@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.CustomerService;
 import services.MessageService;
 import services.PunctuationService;
 import services.TopicService;
+import domain.Actor;
 import domain.Customer;
 import domain.Message;
 import domain.Topic;
@@ -41,6 +43,9 @@ public class MessageController extends AbstractController {
 	@Autowired
 	private PunctuationService	punctuationService;
 
+	@Autowired
+	private ActorService		actorService;
+
 
 	//Constructor
 
@@ -57,25 +62,35 @@ public class MessageController extends AbstractController {
 		try {
 
 			Boolean givenPunctuation = true;
+			Boolean admin = false;
+			Customer customer = null;
 
 			final Topic topic = this.topicService.findOne(topicId);
 			Assert.notNull(topic);
-			final Customer customer = this.customerService.findByPrincipal();
+			final Actor actor = this.actorService.findByPrincipal();
 
-			if (this.punctuationService.findByTopicAndCustomer(topic, customer) == null) {
-				givenPunctuation = false;
+			if (actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("ADMINISTRATOR")) {
+				admin = true;
+			} else {
+				customer = this.customerService.findByPrincipal();
+				if (this.punctuationService.findByTopicAndCustomer(topic, customer) == null) {
+					givenPunctuation = false;
+				}
 			}
 
 			final Collection<Message> messages = this.messageService.getMessagesByTopic(topic);
 			result = new ModelAndView("message/list");
 			result.addObject("messages", messages);
 			result.addObject("topic", topic);
-			result.addObject("customerId", customer.getId());
+
+			if (!admin) {
+				result.addObject("customerId", customer.getId());
+			}
 			result.addObject("RequestURI", "message/list.do");
 			result.addObject("givenPunctuation", givenPunctuation);
 
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect: /topic/listAll.do");
+			result = new ModelAndView("redirect:/topic/listAll.do");
 			result.addObject("errorMessage", "message.list.error");
 		}
 
@@ -187,6 +202,22 @@ public class MessageController extends AbstractController {
 			}
 		return result;
 
+	}
+
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public ModelAndView delete(@RequestParam final int messageId, @RequestParam final int topicId) {
+		ModelAndView result;
+		try {
+			final Message message = this.messageService.findOne(messageId);
+			this.messageService.delete(message);
+
+			result = new ModelAndView("redirect:/message/list.do?topicId=" + topicId);
+		} catch (final Throwable e) {
+			result = new ModelAndView("redirect:/message/list.do?topicId=" + topicId);
+			result.addObject("errorMessage", "message.delete.error");
+		}
+
+		return result;
 	}
 
 	//Ancillary methods

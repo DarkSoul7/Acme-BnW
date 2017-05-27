@@ -13,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.TopicRepository;
-import security.Authority;
 import domain.Customer;
 import domain.Message;
 import domain.Punctuation;
@@ -27,20 +26,27 @@ public class TopicService {
 	// Managed repository
 
 	@Autowired
-	private TopicRepository	topicRepository;
-
-	@Autowired
-	private Validator		validator;
-
-	@Autowired
-	private CustomerService	customerService;
-
-	@Autowired
-	private ActorService	actorService;
-
+	private TopicRepository			topicRepository;
 
 	// Supported services
 
+	@Autowired
+	private Validator				validator;
+
+	@Autowired
+	private CustomerService			customerService;
+
+	@Autowired
+	private AdministratorService	administratorService;
+
+	@Autowired
+	private PunctuationService		punctuationService;
+
+	@Autowired
+	private MessageService			messageService;
+
+
+	//Constructor
 	public TopicService() {
 		super();
 	}
@@ -64,7 +70,9 @@ public class TopicService {
 	}
 
 	public void delete(final Topic topic) {
-		Assert.notNull(this.actorService.findByPrincipal().getUserAccount().getAuthorities().contains(Authority.ADMIN));
+		this.administratorService.findByPrincipal();
+		this.messageService.deleteAll(topic.getMessages());
+		this.punctuationService.deleteAll(topic.getPunctuations());
 		this.topicRepository.delete(topic);
 	}
 

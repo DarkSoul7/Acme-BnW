@@ -41,26 +41,40 @@
 		<fmt:formatDate value="${row.creationMoment}" pattern="MM/dd/yyyy HH:mm" />
 	</display:column>
 	
-	<display:column>
-		<acme:cancel code="message.quote" url="message/quote.do?messageId=${row.id}&topicId=${topic.id}" />
-	</display:column>
+	<security:authorize access="hasRole('CUSTOMER')">
 	
-	<display:column>
-		<acme:cancel code="message.reply" url="message/reply.do?messageId=${row.id}&topicId=${topic.id}"/>
-	</display:column>
+		<display:column>
+			<acme:cancel code="message.quote" url="message/quote.do?messageId=${row.id}&topicId=${topic.id}" />
+		</display:column>
+		
+		<display:column>
+			<acme:cancel code="message.reply" url="message/reply.do?messageId=${row.id}&topicId=${topic.id}"/>
+		</display:column>
 	
-	<spring:message code="message.edit" var="edit" />
-	<display:column title="${edit}">
-		<jstl:if test="${row.customer.id == customerId}">
-			<acme:confirm code="message.edit" url="message/edit.do?messageId=${row.id}&topicId=${topic.id}" msg="message.editConfirm"/>
-		</jstl:if>
-	</display:column>
+	
+		<spring:message code="message.edit" var="edit" />
+		<display:column title="${edit}">
+			<jstl:if test="${row.customer.id == customerId}">
+				<acme:confirm code="message.edit" url="message/edit.do?messageId=${row.id}&topicId=${topic.id}" msg="message.editConfirm"/>
+			</jstl:if>
+		</display:column>
+	</security:authorize>
+	
+	<security:authorize access="hasRole('ADMINISTRATOR')">
+		<display:column>
+				<acme:confirm code="message.delete" url="message/delete.do?messageId=${row.id}&topicId=${topic.id}" msg="message.deleteConfirm"/>
+		</display:column>
+	</security:authorize>
 
 </display:table>
 <br/>
-<jstl:if test="${givenPunctuation == false }">
-	<acme:cancel code="topic.punctuation" url="topic/punctuation/create.do?topicId=${topic.id}" />
-</jstl:if>
+<security:authorize access="hasRole('CUSTOMER')">
+	<jstl:if test="${givenPunctuation == false }">
+		<acme:cancel code="topic.punctuation" url="topic/punctuation/create.do?topicId=${topic.id}" />
+	</jstl:if>
+</security:authorize>)
 <br/>
 <br/>
-<acme:cancel code="message.create" url="message/create.do?topicId=${topic.id}" />
+<security:authorize access="hasRole('CUSTOMER')">
+	<acme:cancel code="message.create" url="message/create.do?topicId=${topic.id}" />
+</security:authorize>

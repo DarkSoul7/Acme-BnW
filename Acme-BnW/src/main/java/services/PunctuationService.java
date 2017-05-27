@@ -60,6 +60,10 @@ public class PunctuationService {
 		this.punctuationRepository.delete(punctuation);
 	}
 
+	public void deleteAll(final Collection<Punctuation> punctuations) {
+		this.punctuationRepository.delete(punctuations);
+	}
+
 	//Other business services
 
 	public void givePunctuation(final Punctuation punctuation, final int topicId) {

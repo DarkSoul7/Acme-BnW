@@ -29,21 +29,30 @@
 	<spring:message code="topic.customer" var="customerUserName" />
 	<display:column property="customer.userAccount.username" title="${customerUserName}" />
 	
-	<spring:message code="topic.edit" var="edit" />
-	<display:column title="${edit}" >
-		<jstl:if test="${row.customer.id == customer.id}">
-			<acme:cancel code="topic.edit" url="topic/edit.do?topicId=${row.id}" />
-		</jstl:if>
-	</display:column>
-	<display:column >
-			<acme:cancel code="topic.punctuations" url="topic/punctuation/list.do?topicId=${row.id}" />
-	</display:column>
+	<security:authorize access="hasRole('CUSTOMER')">
+		<spring:message code="topic.edit" var="edit" />
+		<display:column title="${edit}" >
+			<jstl:if test="${row.customer.id == customer.id}">
+				<acme:cancel code="topic.edit" url="topic/edit.do?topicId=${row.id}" />
+			</jstl:if>
+		</display:column>
+		<display:column >
+				<acme:cancel code="topic.punctuations" url="topic/punctuation/list.do?topicId=${row.id}" />
+		</display:column>
+	</security:authorize>
+	
+	<security:authorize access="hasRole('ADMINISTRATOR')">
+		<display:column >
+				<acme:confirm msg="topic.deleteConfirm" code="topic.delete" url="topic/delete.do?topicId=${row.id}" />
+		</display:column>
+	</security:authorize>
 
 </display:table>
 
-<br/>
-<acme:cancel code="topic.create" url="topic/create.do" />
-
+<security:authorize access="hasRole('CUSTOMER')">
+	<br/>
+	<acme:cancel code="topic.create" url="topic/create.do" />
+</security:authorize>
 <br/>
 
 <jstl:if test="${errorMessage != null }">

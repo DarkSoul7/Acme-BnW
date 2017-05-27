@@ -69,6 +69,10 @@ public class MessageService {
 		this.messageRepository.delete(message);
 	}
 
+	public void deleteAll(final Collection<Message> messages) {
+		this.messageRepository.delete(messages);
+	}
+
 	public Message reconstruct(final MessageForm messageForm, final BindingResult binding) {
 		Assert.notNull(messageForm);
 

@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.CustomerService;
 import services.PunctuationService;
 import services.TopicService;
+import domain.Actor;
 import domain.Customer;
 import domain.Punctuation;
 import domain.Topic;
@@ -37,6 +39,9 @@ public class TopicController extends AbstractController {
 	@Autowired
 	private PunctuationService	punctuationService;
 
+	@Autowired
+	private ActorService		actorService;
+
 
 	//Constructor
 
@@ -48,15 +53,26 @@ public class TopicController extends AbstractController {
 	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
 	public ModelAndView listAll(@RequestParam(required = false) final String errorMessage) {
 		ModelAndView result;
-
+		Boolean admin = false;
+		Customer customer = null;
 		final Collection<Topic> topics = this.topicService.findAll();
 
-		final Customer customer = this.customerService.findByPrincipal();
+		final Actor actor = this.actorService.findByPrincipal();
+
+		if (actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("ADMINISTRATOR")) {
+			admin = true;
+
+		} else {
+			customer = this.customerService.findByPrincipal();
+		}
 
 		result = new ModelAndView("topic/listAll");
 		result.addObject("topics", topics);
 		result.addObject("RequestURI", "topic/listAll.do");
-		result.addObject("customer", customer);
+		if (!admin) {
+			result.addObject("customer", customer);
+		}
+
 		result.addObject("errorMessage", errorMessage);
 
 		return result;
@@ -117,6 +133,25 @@ public class TopicController extends AbstractController {
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(topicForm, "topic.save.error");
 			}
+		return result;
+	}
+
+	//Delete
+
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public ModelAndView delete(@RequestParam final int topicId) {
+		ModelAndView result;
+
+		try {
+			final Topic topic = this.topicService.findOne(topicId);
+
+			this.topicService.delete(topic);
+			result = new ModelAndView("redirect:/topic/listAll.do");
+		} catch (final Throwable e) {
+			result = new ModelAndView("redirect:/topic/listAll.do");
+			result.addObject("errorMessage", "topic.delete.error");
+		}
+
 		return result;
 	}
 
