@@ -15,11 +15,11 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import repositories.TeamRepository;
 import domain.Customer;
 import domain.Match;
 import domain.Team;
 import forms.TeamForm;
+import repositories.TeamRepository;
 
 @Service
 @Transactional
@@ -29,6 +29,9 @@ public class TeamService {
 
 	@Autowired
 	private TeamRepository	teamRepository;
+
+	@Autowired
+	private ManagerService	managerService;
 
 
 	// Supported services
@@ -52,16 +55,18 @@ public class TeamService {
 	}
 
 	public void save(final Team team) {
+		managerService.findByPrincipal();
 		this.teamRepository.save(team);
 	}
 
 	public void delete(final Team team) {
+		managerService.findByPrincipal();
 		this.teamRepository.delete(team);
 	}
 
 
 	@Autowired
-	private Validator	validator;
+	private Validator validator;
 
 
 	public Team reconstruct(final TeamForm teamForm, final BindingResult binding) {
@@ -141,5 +146,9 @@ public class TeamService {
 		result.add(lessBetTeams);
 
 		return result;
+	}
+
+	public void flush() {
+		teamRepository.flush();
 	}
 }
