@@ -13,9 +13,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 
+import domain.Customer;
 import domain.Manager;
+import forms.CustomerForm;
 import forms.ManagerForm;
 import repositories.ManagerRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 
@@ -35,8 +38,26 @@ public class ManagerService {
 		super();
 	}
 
+	public ManagerForm createForm() {
+		return new ManagerForm();
+	}
+	
 	public Manager create() {
-		return new Manager();
+		Manager result;
+		UserAccount userAccount;
+		Authority authority;
+
+		authority = new Authority();
+		authority.setAuthority(Authority.MANAGER);
+
+		userAccount = new UserAccount();
+		userAccount.addAuthority(authority);
+		userAccount.setEnabled(true);
+
+		result = new Manager();
+		result.setUserAccount(userAccount);
+		
+		return result;
 	}
 
 	public Collection<Manager> findAll() {

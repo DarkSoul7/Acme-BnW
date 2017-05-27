@@ -43,6 +43,7 @@
 						<li><a href="administrator/dashboardA.do"><spring:message code="master.page.administrator.dashboradA" /></a></li>
 					</ul>
 				</li>
+				<li><a href="manager/register.do"><spring:message code="master.page.manager.register" /></a></li>
 			</security:authorize>
 			<security:authorize access="permitAll">
 			<li class="dropdown"><a class="handCursor dropdown-toggle" data-toggle="dropdown"><spring:message	code="master.page.lists" /><span class="caret"></span></a>

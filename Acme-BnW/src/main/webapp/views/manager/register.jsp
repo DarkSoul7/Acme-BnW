@@ -73,17 +73,17 @@
 
 	<br />
 
-	<security:authorize access="isAnonymous()">
+	<security:authorize access="hasRole('ADMINISTRATOR')">
 		<br />
 		<fieldset>
 			<legend>
 				<spring:message code="manager.userAccountDetails" />
 			</legend>
 			<br />
-			<acme:textbox code="manager.username" path="userAccount.username"
+			<acme:textbox code="manager.username" path="userName"
 				mandatory="true" />
 			<br />
-			<acme:password code="manager.password" path="userAccount.password"
+			<acme:password code="manager.password" path="password"
 				mandatory="true" />
 			<br />
 			<acme:password code="manager.repeatPassword" path="repeatPassword"
