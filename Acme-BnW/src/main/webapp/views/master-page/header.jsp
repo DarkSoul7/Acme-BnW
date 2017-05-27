@@ -44,6 +44,7 @@
 					</ul>
 				</li>
 				<li><a href="topic/listAll.do"><spring:message code="master.page.list.topic" /></a></li>
+				<li><a href="customer/list.do"><spring:message code="master.page.list.customer" /></a></li>
 				<li><a href="manager/register.do"><spring:message code="master.page.manager.register" /></a></li>
 			</security:authorize>
 			<security:authorize access="permitAll">
