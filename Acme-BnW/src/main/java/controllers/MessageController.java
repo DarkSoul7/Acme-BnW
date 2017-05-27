@@ -164,7 +164,7 @@ public class MessageController extends AbstractController {
 	}
 
 	//Save
-	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	@RequestMapping(value = "/save", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final MessageForm messageForm, final BindingResult binding) {
 		ModelAndView result;
 		Message message;

@@ -21,4 +21,19 @@
 		<put-attribute name="body" value="/views/welcomeOffer/showOptions.jsp" />
 	</definition>
 	
+	<definition name="welcomeOffer/list" extends="master.page">
+		<put-attribute name="title" value="Welcome offers list" />
+		<put-attribute name="body" value="/views/welcomeOffer/list.jsp" />
+	</definition>
+	
+	<definition name="welcomeOffer/edit" extends="master.page">
+		<put-attribute name="title" value="Edit welcome offer" />
+		<put-attribute name="body" value="/views/welcomeOffer/register.jsp" />
+	</definition>
+	
+	<definition name="welcomeOffer/create" extends="master.page">
+		<put-attribute name="title" value="Create welcome offer" />
+		<put-attribute name="body" value="/views/welcomeOffer/register.jsp" />
+	</definition>
+	
 </tiles-definitions>

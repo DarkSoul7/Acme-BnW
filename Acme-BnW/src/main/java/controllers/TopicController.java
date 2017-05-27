@@ -93,7 +93,7 @@ public class TopicController extends AbstractController {
 	}
 
 	//Save
-	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	@RequestMapping(value = "/save", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final TopicForm topicForm, final BindingResult binding) {
 		ModelAndView result;
 		Topic topic;
@@ -187,7 +187,7 @@ public class TopicController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/punctuation/save", method = RequestMethod.POST)
+	@RequestMapping(value = "/punctuation/save", method = RequestMethod.POST, params = "save")
 	public ModelAndView punctuationSave(@Valid final Punctuation punctuation, final BindingResult binding) {
 		ModelAndView result;
 

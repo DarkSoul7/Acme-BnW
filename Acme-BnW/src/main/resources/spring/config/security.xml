@@ -127,6 +127,11 @@
 		<!-- Welcome offer -->
 		<security:intercept-url pattern="/welcomeOffer/showWelcomeOfferOption.do" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/welcomeOffer/welcomeOfferOption.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/welcomeOffer/list.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/welcomeOffer/create.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/welcomeOffer/edit.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/welcomeOffer/delete.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/welcomeOffer/save.do" access="hasRole('MANAGER')" />
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
