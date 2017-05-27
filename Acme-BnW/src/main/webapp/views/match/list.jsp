@@ -76,6 +76,11 @@
 	<security:authorize access="hasRole('MANAGER')">
 	
 		<display:column>
+			<acme:cancel url="match/editResult.do?matchId=${row.id}"
+				code="match.editResult" />
+		</display:column>
+	
+		<display:column>
 			<acme:cancel url="match/edit.do?matchId=${row.id}"
 				code="match.edit" />
 		</display:column>

@@ -17,6 +17,7 @@ import domain.Fixture;
 import domain.Match;
 import domain.Team;
 import forms.MatchForm;
+import forms.ResultForm;
 import services.FixtureService;
 import services.MatchService;
 import services.TeamService;
@@ -147,6 +148,35 @@ public class MatchController extends AbstractController {
 
 		return result;
 	}
+	@RequestMapping(value = "/editResult", method = RequestMethod.GET)
+	public ModelAndView editResult(@RequestParam int matchId) {
+
+		ModelAndView result;
+
+		ResultForm resultForm = matchService.toFormResult(matchId);
+		result = this.editResultModelAndView(resultForm);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/editResult", method = RequestMethod.POST, params = "save")
+	public ModelAndView saveRes(@Valid ResultForm resultForm, BindingResult binding) {
+
+		ModelAndView result = new ModelAndView();
+
+		if (binding.hasErrors()) {
+			result = this.editResultModelAndView(resultForm);
+		} else {
+			try {
+				matchService.editResult(resultForm);
+				result = new ModelAndView("redirect:/match/list.do");
+			} catch (Throwable oops) {
+				result = editResultModelAndView(resultForm, "result.commit.error");
+			}
+		}
+
+		return result;
+	}
 
 	//Ancillary methods
 
@@ -180,6 +210,21 @@ public class MatchController extends AbstractController {
 		result.addObject("matchForm", matchForm);
 		result.addObject("message", message);
 		result.addObject("RequestURI", "match/edit.do");
+
+		return result;
+	}
+
+	protected ModelAndView editResultModelAndView(final ResultForm resultForm) {
+		return this.editResultModelAndView(resultForm, null);
+	}
+
+	protected ModelAndView editResultModelAndView(final ResultForm resultForm, final String message) {
+		ModelAndView result;
+
+		result = new ModelAndView("match/editResult");
+		result.addObject("resultForm", resultForm);
+		result.addObject("message", message);
+		result.addObject("RequestURI", "match/editResult.do");
 
 		return result;
 	}

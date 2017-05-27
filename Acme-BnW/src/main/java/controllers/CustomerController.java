@@ -69,7 +69,7 @@ public class CustomerController extends AbstractController {
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam(required = false) final String successMessage) {
 		ModelAndView result;
@@ -112,7 +112,7 @@ public class CustomerController extends AbstractController {
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/addBalance", method = RequestMethod.GET)
 	public ModelAndView addBalance() {
 
@@ -172,7 +172,7 @@ public class CustomerController extends AbstractController {
 
 		return result;
 	}
-	
+
 	//Ancillary methods
 
 	protected ModelAndView createModelAndView(final CustomerForm customerForm) {
@@ -190,7 +190,7 @@ public class CustomerController extends AbstractController {
 
 		return result;
 	}
-	
+
 	protected ModelAndView editModelAndView(final CustomerForm customerForm) {
 		final ModelAndView result = this.editModelAndView(customerForm, null);
 		return result;

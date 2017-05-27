@@ -17,6 +17,7 @@ import domain.Market;
 import domain.Match;
 import domain.Team;
 import forms.MatchForm;
+import forms.ResultForm;
 import repositories.MatchRepository;
 
 @Service
@@ -106,7 +107,26 @@ public class MatchService {
 		return result;
 	}
 
+	public ResultForm toFormResult(int idMatch) {
+		ResultForm result = new ResultForm();
+		Match match = findOne(idMatch);
+
+		result.setIdMatch(idMatch);
+		result.setLocalGoal(match.getLocalGoal());
+		result.setVisitorGoal(match.getVisitorGoal());
+
+		return result;
+	}
+
 	public Collection<Match> matchesOfFixture(int id) {
 		return matchRepository.matchesOfFixture(id);
+	}
+
+	public void editResult(ResultForm resultForm) {
+		Assert.notNull(resultForm);
+		Match match = this.findOne(resultForm.getIdMatch());
+		match.setLocalGoal(resultForm.getLocalGoal());
+		match.setVisitorGoal(resultForm.getVisitorGoal());
+		matchRepository.save(match);
 	}
 }
