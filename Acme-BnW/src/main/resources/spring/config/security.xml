@@ -49,7 +49,8 @@
 		<security:intercept-url pattern="/customer/extractBalance.do" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/customer/edit.do" access="hasRole('CUSTOMER')" />
 		
-		<!-- Customer -->
+		<!-- Manager -->
+		<security:intercept-url pattern="/manager/register.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/manager/edit.do" access="hasRole('MANAGER')" />
 		
 		<!-- Tournament -->

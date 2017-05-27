@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Brand;
+import domain.Customer;
 import domain.Manager;
+import forms.CustomerForm;
 import forms.ManagerForm;
 import services.ManagerService;
 
@@ -31,6 +33,39 @@ public class ManagerController extends AbstractController {
 
 	public ManagerController() {
 		super();
+	}
+	
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	public ModelAndView register() {
+
+		ModelAndView result;
+
+		ManagerForm managerForm = managerService.createForm();
+		result = this.createModelAndView(managerForm);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@Valid ManagerForm managerForm, BindingResult binding) throws CheckDigitException {
+
+		ModelAndView result = new ModelAndView();
+
+		Manager manager;
+
+		manager = managerService.reconstruct(managerForm, binding);
+		if (binding.hasErrors()) {
+			result = createModelAndView(managerForm);
+		} else {
+			try {
+				managerService.save(manager);
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} catch (Throwable oops) {
+				result = createModelAndView(managerForm, "manager.commit.error");
+			}
+		}
+
+		return result;
 	}
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
@@ -73,6 +108,19 @@ public class ManagerController extends AbstractController {
 			result = this.editModelAndView(managerForm, "manager.commit.error");
 		}
 
+		return result;
+	}
+	
+	protected ModelAndView createModelAndView(final ManagerForm managerForm) {
+		return this.createModelAndView(managerForm, null);
+	}
+
+	protected ModelAndView createModelAndView(final ManagerForm managerForm, final String message) {
+		ModelAndView result;
+
+		result = new ModelAndView("manager/register");
+		result.addObject("managerForm", managerForm);
+		result.addObject("message", message);
 		return result;
 	}
 	
