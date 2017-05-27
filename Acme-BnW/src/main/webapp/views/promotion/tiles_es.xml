@@ -16,9 +16,19 @@
        
 <tiles-definitions>
 
-	<definition name="master.page" template="/views/promotion/">
-		<put-attribute name="title" value="" />
-		<put-attribute name="body" value="/views/promotion/" />
+	<definition name="promotion/list" extends="master.page">
+		<put-attribute name="title" value="Lista de promociones" />
+		<put-attribute name="body" value="/views/promotion/list.jsp" />
+	</definition>
+	
+	<definition name="promotion/register" extends="master.page">
+		<put-attribute name="title" value="Registrar una promocion" />
+		<put-attribute name="body" value="/views/promotion/register.jsp" />
+	</definition>
+	
+	<definition name="promotion/edit" extends="master.page">
+		<put-attribute name="title" value="Editar una promocion" />
+		<put-attribute name="body" value="/views/promotion/register.jsp" />
 	</definition>
 
 </tiles-definitions>

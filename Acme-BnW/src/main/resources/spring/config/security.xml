@@ -72,6 +72,16 @@
 		
 		<!-- Market-->
 		<security:intercept-url pattern="/market/listByMatch.do" access="permitAll" />
+		<security:intercept-url pattern="/market/register.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/market/edit.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/market/delete.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/market/list.do" access="hasRole('MANAGER')" />
+		
+		<!-- Promotion -->
+		<security:intercept-url pattern="/promotion/register.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/promotion/edit.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/promotion/delete.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/promotion/list.do" access="hasRole('MANAGER')" />
 		
 		<!-- Fixture -->
 		<security:intercept-url pattern="/fixture/list.do" access="permitAll" /> 

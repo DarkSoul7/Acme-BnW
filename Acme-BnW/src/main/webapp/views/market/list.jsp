@@ -29,4 +29,23 @@
 	<spring:message code="market.fee" var="fee" />
 	<display:column property="fee" title="${fee}" />
 
+	<security:authorize access="hasRole('MANAGER')">
+	
+		<display:column>
+			<acme:cancel url="market/edit.do?marketId=${row.id}"
+				code="market.edit" />
+		</display:column>
+		
+		<display:column>
+			<acme:cancel url="market/delete.do?marketId=${row.id}"
+				code="market.delete" />
+		</display:column>
+	
+
+	</security:authorize>
 </display:table>
+
+<security:authorize access="hasRole('MANAGER')">
+	<acme:cancel url="market/register.do"
+				code="market.create" />
+</security:authorize>

@@ -20,5 +20,15 @@
 		<put-attribute name="title" value="Lista de mercados" />
 		<put-attribute name="body" value="/views/market/list.jsp" />
 	</definition>
+	
+	<definition name="market/register" extends="master.page">
+		<put-attribute name="title" value="Registrar un mercado" />
+		<put-attribute name="body" value="/views/market/register.jsp" />
+	</definition>
+	
+	<definition name="market/edit" extends="master.page">
+		<put-attribute name="title" value="Editar un mercado" />
+		<put-attribute name="body" value="/views/market/register.jsp" />
+	</definition>
 
 </tiles-definitions>

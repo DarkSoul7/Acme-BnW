@@ -60,4 +60,24 @@
 		<acme:cancel url="promotion/join.do?promotionId=${row.id}"
 			code="promotion.join" />
 	</display:column>
+	<security:authorize access="hasRole('MANAGER')">
+	
+		<display:column>
+			<acme:cancel url="promotion/edit.do?promotionId=${row.id}"
+				code="promotion.edit" />
+		</display:column>
+		
+		<display:column>
+			<acme:cancel url="promotion/delete.do?promotionId=${row.id}"
+				code="promotion.delete" />
+		</display:column>
+	
+
+	</security:authorize>
 </display:table>
+
+<security:authorize access="hasRole('MANAGER')">
+	<acme:cancel url="promotion/register.do"
+				code="promotion.create" />
+</security:authorize>
+

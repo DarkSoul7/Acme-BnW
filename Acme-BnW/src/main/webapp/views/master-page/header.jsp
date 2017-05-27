@@ -82,7 +82,7 @@
 						<li><a href="tournament/list.do"><spring:message code="master.page.tournament.list" /></a></li>
 						<li><a href="category/list.do"><spring:message code="master.page.category.list" /></a></li>
 						<li><a href="fixture/list.do"><spring:message code="master.page.fixture.list" /></a></li>
-						
+						<li><a href="promotion/list.do"><spring:message code="master.page.promotion.list" /></a></li>
 					</ul>
 				</li>
 			</security:authorize>

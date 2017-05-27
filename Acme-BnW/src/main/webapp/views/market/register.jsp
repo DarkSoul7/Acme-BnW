@@ -38,6 +38,10 @@
 
 		<acme:textbox code="market.fee" path="fee" mandatory="true" />
 		<br />
+		
+		<jstl:if test="${marketForm.id == 0}">
+			<acme:select items="${matches}" itemLabel="name" code="match.name" path="idMatch" mandatory="true"/>
+		</jstl:if>
 
 	</fieldset>
 	<br />
