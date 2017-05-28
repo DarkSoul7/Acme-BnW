@@ -1,6 +1,8 @@
 
 package repositories;
 
+import java.util.Collection;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -9,6 +11,9 @@ import domain.Topic;
 
 @Repository
 public interface TopicRepository extends JpaRepository<Topic, Integer> {
+
+	@Query("select t from Topic t join t.punctuations p group by t order by sum(p.stars) desc")
+	public Collection<Topic> getTopicsOrderByStars();
 
 	//DashBoard
 	//B.3

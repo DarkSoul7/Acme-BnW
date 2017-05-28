@@ -37,8 +37,12 @@
 		</jstl:if>
 	</display:column>
 	<display:column >
-		<jstl:if test="${row.userAccount.enabled == false}">
+		<jstl:if test="${row.userAccount.enabled == false && row.isDisabled == false}">
 			<acme:confirm code="customer.unban" url="customer/banManagement.do?customerId=${row.id}" msg="customer.unban.confirm" />
+		</jstl:if>
+		<jstl:if test="${row.isDisabled == true}">
+			<spring:message code="customer.autoExclusion" var="autoExclusion" />
+			<jstl:out value="${autoExclusion }"/>
 		</jstl:if>
 	</display:column>
 

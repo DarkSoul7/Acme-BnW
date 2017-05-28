@@ -33,6 +33,10 @@
 	<jstl:set var="itemLabel" value="spanishName"></jstl:set>
 </jstl:if>
 
+<acme:confirm code="customer.disableProfile" url="customer/autoExclusion.do" msg="customer.disableProfile.confirm" />
+
+<br/>
+
 <form:form action="${requestURI}" modelAttribute="customerForm">
 	<form:hidden path="id" />
 

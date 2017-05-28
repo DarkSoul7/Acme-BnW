@@ -108,6 +108,16 @@ public class TopicService {
 		return result;
 	}
 
+	public Collection<Topic> findAllOrderByStars() {
+		final Collection<Topic> all = this.findAll();
+		final Collection<Topic> result = this.topicRepository.getTopicsOrderByStars();
+
+		all.removeAll(result);
+		result.addAll(all);
+
+		return result;
+	}
+
 	//DashBoard
 
 	//B.3

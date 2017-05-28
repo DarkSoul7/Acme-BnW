@@ -181,11 +181,15 @@ public class CustomerService {
 			result.setFinishedOffer(false);
 			result.setWelcomeOffer(this.welcomeOfferService.getActive());
 			result.setBalance(0.);
+			result.setIsDisabled(false);
+			result.setActiveWO(null);
+			result.setBanNum(0);
 
 			//Editing customer
 		} else {
 			result = this.findOne(customerForm.getId());
 			final Customer customer = this.findByPrincipal();
+
 			Assert.isTrue(customer.equals(result));
 
 		}
@@ -258,7 +262,8 @@ public class CustomerService {
 		boolean result = false;
 
 		if (creditCard != null)
-			if (creditCard.getBrandName() != null || !creditCard.getHolderName().isEmpty() || creditCard.getCvv() != null || creditCard.getExpirationMonth() != null || creditCard.getExpirationYear() != null || !creditCard.getNumber().isEmpty())
+			if (creditCard.getBrandName() != null || !creditCard.getHolderName().isEmpty() || creditCard.getCvv() != null || creditCard.getExpirationMonth() != null
+					|| creditCard.getExpirationYear() != null || !creditCard.getNumber().isEmpty())
 				result = true;
 		return result;
 	}
@@ -418,5 +423,19 @@ public class CustomerService {
 
 		this.save(customer);
 		this.ticketService.save(ticket);
+	}
+
+	//Dashboard
+
+	//B.1
+
+	public Integer getAutoExclusionNumber() {
+		return this.customerRepository.getAutoExclusionNumber();
+	}
+
+	//B.2
+
+	public Integer getBanNumber() {
+		return this.customerRepository.getBanNumber();
 	}
 }

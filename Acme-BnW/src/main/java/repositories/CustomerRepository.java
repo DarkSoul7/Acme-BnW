@@ -22,4 +22,13 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 	@Query("select t from Team t join t.customers c where c.id = ?1")
 	Collection<Team> getFavouriteTeams(int customerId);
 
+	//Dashboard B
+
+	//B.1
+	@Query("select count(c) from Customer c where c.isDisabled = true")
+	public Integer getAutoExclusionNumber();
+
+	//B.2
+	@Query("select sum(c.banNum) from Customer c")
+	public Integer getBanNumber();
 }

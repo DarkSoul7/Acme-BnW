@@ -55,7 +55,7 @@ public class TopicController extends AbstractController {
 		ModelAndView result;
 		Boolean admin = false;
 		Customer customer = null;
-		final Collection<Topic> topics = this.topicService.findAll();
+		final Collection<Topic> topics = this.topicService.findAllOrderByStars();
 
 		final Actor actor = this.actorService.findByPrincipal();
 
