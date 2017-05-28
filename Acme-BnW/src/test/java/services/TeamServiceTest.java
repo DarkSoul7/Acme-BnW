@@ -129,7 +129,7 @@ public class TeamServiceTest extends AbstractTest {
 	@Test
 	public void deleteTeamDriver() {
 		final Object[][] testingData = {
-			//actor, teamId ,name, shield, expected exception
+			//actor, teamId , expected exception
 			{
 				"manager1", 95, null
 			}, {

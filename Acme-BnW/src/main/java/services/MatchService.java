@@ -36,6 +36,9 @@ public class MatchService {
 	@Autowired
 	private FixtureService	fixtureService;
 
+	@Autowired
+	private ManagerService	managerService;
+
 
 	public MatchService() {
 		super();
@@ -65,6 +68,7 @@ public class MatchService {
 
 	public void delete(final Match match) {
 		Assert.isTrue(match.getStartMoment().after(new Date()));
+		managerService.findByPrincipal();
 		this.matchRepository.delete(match);
 	}
 
@@ -128,5 +132,9 @@ public class MatchService {
 		match.setLocalGoal(resultForm.getLocalGoal());
 		match.setVisitorGoal(resultForm.getVisitorGoal());
 		matchRepository.save(match);
+	}
+
+	public void flush() {
+		matchRepository.flush();
 	}
 }
