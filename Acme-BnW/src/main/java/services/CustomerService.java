@@ -26,12 +26,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 
+import repositories.CustomerRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
 import domain.Actor;
 import domain.Administrator;
 import domain.Bet;
 import domain.CreditCard;
 import domain.Customer;
-import domain.Manager;
 import domain.Message;
 import domain.Punctuation;
 import domain.Team;
@@ -39,11 +42,6 @@ import domain.Ticket;
 import domain.Topic;
 import forms.BalanceForm;
 import forms.CustomerForm;
-import forms.ManagerForm;
-import repositories.CustomerRepository;
-import security.Authority;
-import security.LoginService;
-import security.UserAccount;
 
 @Service
 @Transactional
@@ -153,7 +151,7 @@ public class CustomerService {
 
 
 	@Autowired
-	private Validator validator;
+	private Validator	validator;
 
 
 	public Customer reconstruct(final CustomerForm customerForm, final BindingResult binding) throws CheckDigitException {
@@ -186,11 +184,15 @@ public class CustomerService {
 			result.setFinishedOffer(false);
 			result.setWelcomeOffer(this.welcomeOfferService.getActive());
 			result.setBalance(0.);
+			result.setIsDisabled(false);
+			result.setActiveWO(null);
+			result.setBanNum(0);
 
 			//Editing customer
 		} else {
 			result = this.findOne(customerForm.getId());
 			final Customer customer = this.findByPrincipal();
+
 			Assert.isTrue(customer.equals(result));
 
 		}
@@ -241,11 +243,11 @@ public class CustomerService {
 
 		return result;
 	}
-	
+
 	public CustomerForm toFormObject(final Customer customer) {
 		Assert.notNull(customer);
 		final CustomerForm result = new CustomerForm();
-		
+
 		result.setId(customer.getId());
 		result.setName(customer.getName());
 		result.setSurname(customer.getSurname());
@@ -255,7 +257,6 @@ public class CustomerService {
 		result.setCoordinates(customer.getCoordinates());
 		result.setBirthDate(customer.getBirthDate());
 		result.setCreditCard(customer.getCreditCard());
-		
 
 		return result;
 	}
@@ -264,7 +265,8 @@ public class CustomerService {
 		boolean result = false;
 
 		if (creditCard != null)
-			if (creditCard.getBrandName() != null || !creditCard.getHolderName().isEmpty() || creditCard.getCvv() != null || creditCard.getExpirationMonth() != null || creditCard.getExpirationYear() != null || !creditCard.getNumber().isEmpty())
+			if (creditCard.getBrandName() != null || !creditCard.getHolderName().isEmpty() || creditCard.getCvv() != null || creditCard.getExpirationMonth() != null
+				|| creditCard.getExpirationYear() != null || !creditCard.getNumber().isEmpty())
 				result = true;
 		return result;
 	}

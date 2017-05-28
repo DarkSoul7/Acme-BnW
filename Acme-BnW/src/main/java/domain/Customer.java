@@ -92,24 +92,23 @@ public class Customer extends Actor {
 		this.activeWO = activeWO;
 	}
 
+	@NotNull
 	public Boolean getIsDisabled() {
-		return isDisabled;
+		return this.isDisabled;
 	}
 
-	public void setIsDisabled(Boolean isDisabled) {
+	public void setIsDisabled(final Boolean isDisabled) {
 		this.isDisabled = isDisabled;
 	}
 
+	@Min(0)
 	public int getBanNum() {
-		return banNum;
+		return this.banNum;
 	}
 
-	public void setBanNum(int banNum) {
+	public void setBanNum(final int banNum) {
 		this.banNum = banNum;
 	}
-
-
-
 
 
 	//RelationShips
