@@ -1,16 +1,23 @@
-
 package repositories;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import domain.Bet;
+import domain.Status;
 
 @Repository
 public interface BetRepository extends JpaRepository<Bet, Integer> {
+
+	@Query("select b from Bet b where b.customer.id = ?1")
+	public Collection<Bet> findAllByCustomer(int customerId);
+
+	@Query("select b from Bet b where b.customer.id = ?1 and b.status = ?2")
+	public Collection<Bet> findAllPendingByCustomer(int customerId, Status pendingStatus);
 
 	//C1
 	@Query("select max(b.quantity) from Bet b")

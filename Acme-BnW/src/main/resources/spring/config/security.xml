@@ -136,6 +136,12 @@
 		<security:intercept-url pattern="/welcomeOffer/edit.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/welcomeOffer/delete.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/welcomeOffer/save.do" access="hasRole('MANAGER')" />
+		
+		<!-- Bet -->
+		<security:intercept-url pattern="/bet/simpleBet.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/bet/multipleBet.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/bet/betHistory.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/bet/pendingBets.do" access="hasRole('CUSTOMER')" />  
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
