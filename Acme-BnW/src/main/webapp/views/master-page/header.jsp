@@ -109,10 +109,13 @@
 						<li class="dropdown"><a class="handCursor dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <spring:message code="master.page.profile" /> (<security:authentication property="principal.username" />)<span class="caret"></span></a>
 							<ul class="dropdown-menu inverse-dropdown">
 								<security:authorize access="hasRole('CUSTOMER')">
-									<li><a href="bet/betHistory.do"><span class="glyphicon glyphicon-euro"></span> <spring:message code="master.page.betHistory" /> </a></li>
- +									<li><a href="bet/pendingBets.do"><span class="glyphicon glyphicon-time"></span> <spring:message code="master.page.pendingBets" /> </a></li>
+									<li><a href="bet/history.do"><span class="glyphicon glyphicon-calendar"></span> <spring:message code="master.page.betHistory" /> </a></li>
+									<li><a href="bet/pendingBets.do"><span class="glyphicon glyphicon-time"></span> <spring:message code="master.page.pendingBets" /> </a></li>
+									<li><a href="bet/showSelection.do"><span class="glyphicon glyphicon-list-alt"></span> <spring:message code="master.page.showSelection" /> </a></li>
+									<li role="presentation" class="divider"></li>
 									<li><a href="customer/addBalance.do"><span class="glyphicon glyphicon-euro"></span> <spring:message code="master.page.customer.addBalance" /></a></li>
 									<li><a href="customer/extractBalance.do"><span class="glyphicon glyphicon-euro"></span> <spring:message code="master.page.customer.extractBalance" /></a></li>
+									<li role="presentation" class="divider"></li>
 									<li><a href="customer/edit.do"><span class="glyphicon glyphicon-edit"></span> <spring:message code="master.page.edit.user" /></a></li>
 								</security:authorize>
 								<security:authorize access="hasRole('MANAGER')">

@@ -51,7 +51,7 @@
 		<form:label path="${path}">
 			<spring:message code="${code}" />:
 			<jstl:if test="${mandatory == true}">
-				<a class="mandatory">(*)</a>
+				<a class="error">(*)</a>
 			</jstl:if>
 		</form:label>
 		<div class="container">

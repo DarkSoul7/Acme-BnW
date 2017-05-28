@@ -13,11 +13,17 @@ import domain.Status;
 @Repository
 public interface BetRepository extends JpaRepository<Bet, Integer> {
 
-	@Query("select b from Bet b where b.customer.id = ?1")
+	@Query("select b from Bet b where b.customer.id = ?1 and b.completed = true")
 	public Collection<Bet> findAllByCustomer(int customerId);
 
-	@Query("select b from Bet b where b.customer.id = ?1 and b.status = ?2")
+	@Query("select b from Bet b where b.customer.id = ?1 and b.status = ?2 and b.completed = true")
 	public Collection<Bet> findAllPendingByCustomer(int customerId, Status pendingStatus);
+
+	@Query("select b from Bet b where b.customer.id = ?1 and b.completed = false")
+	public Collection<Bet> findAllSelectedByCustomer(int customerId);
+
+	@Query("select b from Bet b where b.customer.id = ?2 and cast(b.id as string) in ?1")
+	public Collection<Bet> findAllById(Collection<String> ids, int customerId);
 
 	//C1
 	@Query("select max(b.quantity) from Bet b")

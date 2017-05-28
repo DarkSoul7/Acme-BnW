@@ -2,7 +2,7 @@ package domain;
 
 public enum Type {
 
-	SIMPLE("SIMPLE","SIMPLE"), MULTIPLE("MULTIPLE","MULTIPLE"), CHILD("CHILD","NIÑO");
+	SIMPLE("SIMPLE", "SIMPLE"), MULTIPLE("MULTIPLE", "MULTIPLE"), CHILD("CHILD", "HIJA");
 
 	private final String	name;
 	private final String	spanishName;

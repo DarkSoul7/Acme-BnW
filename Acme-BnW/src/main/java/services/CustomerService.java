@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.ArrayList;
@@ -26,12 +25,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 
+import repositories.CustomerRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
 import domain.Actor;
 import domain.Administrator;
 import domain.Bet;
 import domain.CreditCard;
 import domain.Customer;
-import domain.Manager;
 import domain.Message;
 import domain.Punctuation;
 import domain.Team;
@@ -39,11 +41,6 @@ import domain.Ticket;
 import domain.Topic;
 import forms.BalanceForm;
 import forms.CustomerForm;
-import forms.ManagerForm;
-import repositories.CustomerRepository;
-import security.Authority;
-import security.LoginService;
-import security.UserAccount;
 
 @Service
 @Transactional
@@ -67,6 +64,9 @@ public class CustomerService {
 
 	@Autowired
 	private TicketService			ticketService;
+
+	@Autowired
+	private Validator				validator;
 
 
 	//Constructor
@@ -151,11 +151,6 @@ public class CustomerService {
 		return result;
 	}
 
-
-	@Autowired
-	private Validator validator;
-
-
 	public Customer reconstruct(final CustomerForm customerForm, final BindingResult binding) throws CheckDigitException {
 		Assert.notNull(customerForm);
 		Customer result = this.create();
@@ -216,7 +211,7 @@ public class CustomerService {
 			if (!this.checkCreditCard(result.getCreditCard())) {
 				FieldError fieldError;
 				final String[] codes = {
-					"customer.creditCard.error"
+						"customer.creditCard.error"
 				};
 				fieldError = new FieldError("customerForm", "creditCard", result.getCreditCard(), false, codes, null, "");
 				binding.addError(fieldError);
@@ -231,7 +226,7 @@ public class CustomerService {
 			if (result.getUserAccount().getPassword() == "" || result.getUserAccount().getPassword() == null) {
 				FieldError fieldError;
 				final String[] codes = {
-					"customer.passwords.error"
+						"customer.passwords.error"
 				};
 				fieldError = new FieldError("customerForm", "userAccount.password", result.getUserAccount().getPassword(), false, codes, null, "");
 				binding.addError(fieldError);
@@ -241,11 +236,11 @@ public class CustomerService {
 
 		return result;
 	}
-	
+
 	public CustomerForm toFormObject(final Customer customer) {
 		Assert.notNull(customer);
 		final CustomerForm result = new CustomerForm();
-		
+
 		result.setId(customer.getId());
 		result.setName(customer.getName());
 		result.setSurname(customer.getSurname());
@@ -255,7 +250,6 @@ public class CustomerService {
 		result.setCoordinates(customer.getCoordinates());
 		result.setBirthDate(customer.getBirthDate());
 		result.setCreditCard(customer.getCreditCard());
-		
 
 		return result;
 	}

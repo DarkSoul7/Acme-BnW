@@ -140,8 +140,11 @@
 		<!-- Bet -->
 		<security:intercept-url pattern="/bet/simpleBet.do" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/bet/multipleBet.do" access="hasRole('CUSTOMER')" />
-		<security:intercept-url pattern="/bet/betHistory.do" access="hasRole('CUSTOMER')" />
-		<security:intercept-url pattern="/bet/pendingBets.do" access="hasRole('CUSTOMER')" />  
+		<security:intercept-url pattern="/bet/addSelection.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/bet/history.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/bet/pendingBets.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/bet/showSelection.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/bet/removeSelection.do" access="hasRole('CUSTOMER')" />
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 

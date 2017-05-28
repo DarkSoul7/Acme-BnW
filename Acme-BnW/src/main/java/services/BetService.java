@@ -57,6 +57,7 @@ public class BetService {
 		result.setQuantity(quantity);
 		result.setStatus(Status.PENDING);
 		result.setType(type);
+		result.setCompleted(true);
 
 		return result;
 	}
@@ -76,6 +77,7 @@ public class BetService {
 		result.setQuantity(0.01);
 		result.setStatus(Status.PENDING);
 		result.setType(Type.SIMPLE);
+		result.setCompleted(false);
 
 		return result;
 	}
@@ -84,17 +86,43 @@ public class BetService {
 		return this.betRepository.findAll();
 	}
 
-	public Bet findOne(final int betId) {
+	public Bet findOne(int betId) {
 		return this.betRepository.findOne(betId);
 
 	}
 
-	public void save(final Bet bet) {
+	public void save(Bet bet) throws IllegalStateException {
+		Customer principal;
+		Double balance;
+
+		principal = this.customerService.findByPrincipal();
+		balance = principal.getBalance();
+
+		if (bet.getCompleted()) {
+			if (balance.compareTo(bet.getQuantity()) < 0) {
+				throw new IllegalStateException("BetService - save: El saldo del cliente es insuficiente");
+			} else {
+				balance -= bet.getQuantity();
+				principal.setBalance(balance);
+
+				this.customerService.save(principal);
+			}
+		}
+
 		this.betRepository.save(bet);
 	}
 
-	public void delete(final Bet bet) {
+	public void delete(Bet bet) {
+		Assert.isTrue(!bet.getCompleted());
 		this.betRepository.delete(bet);
+	}
+
+	public void delete(int betId) {
+		Bet bet;
+
+		bet = this.findOne(betId);
+
+		this.delete(bet);
 	}
 
 	//Other business service
@@ -119,6 +147,40 @@ public class BetService {
 		return result;
 	}
 
+	public Collection<Bet> findAllSelectedByCustomer() {
+		Collection<Bet> result;
+		Customer principal;
+
+		principal = this.customerService.findByPrincipal();
+		result = this.betRepository.findAllSelectedByCustomer(principal.getId());
+
+		return result;
+	}
+
+	public Collection<Bet> findAllById(Collection<String> ids) {
+		Collection<Bet> result;
+		Customer principal;
+
+		principal = this.customerService.findByPrincipal();
+		result = this.betRepository.findAllById(ids, principal.getId());
+
+		Assert.isTrue(result.size() == ids.size());
+
+		return result;
+	}
+
+	public Bet completeSelectedBet(int betId, Double quantity, Market market) {
+		Bet result;
+
+		result = this.findOne(betId);
+		result.setCreationMoment(new Date(System.currentTimeMillis() - 1000));
+		result.setCompleted(true);
+		result.setFee(market.getFee());
+		result.setQuantity(quantity);
+
+		return result;
+	}
+
 	//DashBoard
 
 	//C1
@@ -139,20 +201,22 @@ public class BetService {
 
 	//a)
 	public Long maxBetsWonPerClients() {
-		final ArrayList<Long> result = this.betRepository.maxBetsWonPerClients();
-		if (!result.isEmpty())
+		ArrayList<Long> result = this.betRepository.maxBetsWonPerClients();
+		if (!result.isEmpty()) {
 			return result.get(0);
-		else
+		} else {
 			return 0L;
+		}
 	}
 
 	//b)
 	public Long minBetsWonPerClients() {
-		final ArrayList<Long> result = this.betRepository.minBetsWonPerClients();
-		if (!result.isEmpty())
+		ArrayList<Long> result = this.betRepository.minBetsWonPerClients();
+		if (!result.isEmpty()) {
 			return result.get(0);
-		else
+		} else {
 			return 0L;
+		}
 	}
 
 	//c)
@@ -164,20 +228,22 @@ public class BetService {
 
 	//a)
 	public Long maxBetsLostPerClients() {
-		final ArrayList<Long> result = this.betRepository.maxBetsLostPerClients();
-		if (!result.isEmpty())
+		ArrayList<Long> result = this.betRepository.maxBetsLostPerClients();
+		if (!result.isEmpty()) {
 			return result.get(0);
-		else
+		} else {
 			return 0L;
+		}
 	}
 
 	//b)
 	public Long minBetsLostPerClients() {
-		final ArrayList<Long> result = this.betRepository.minBetsLostPerClients();
-		if (!result.isEmpty())
+		ArrayList<Long> result = this.betRepository.minBetsLostPerClients();
+		if (!result.isEmpty()) {
 			return result.get(0);
-		else
+		} else {
 			return 0L;
+		}
 	}
 
 	//c)

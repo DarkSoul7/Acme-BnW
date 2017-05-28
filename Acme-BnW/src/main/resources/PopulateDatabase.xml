@@ -738,7 +738,8 @@
 		<property name="fee" value="1.15" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
-		<property name="status" value="PENDING" />
+		<property name="status" value="FAILED" />
+		<property name="completed" value="true" />
 		<property name="customer" ref="customer1" />
 		<property name="parentBet"><null/></property>
 		<property name="childrenBets">
@@ -755,6 +756,7 @@
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="PENDING" />
+		<property name="completed" value="true" />
 		<property name="customer" ref="customer2" />
 		<property name="parentBet"><null/></property>
 		<property name="childrenBets">
@@ -771,6 +773,7 @@
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="PENDING" />
+		<property name="completed" value="true" />
 		<property name="customer" ref="customer1" />
 		<property name="parentBet"><null/></property>
 		<property name="childrenBets">
@@ -787,6 +790,7 @@
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="SUCCESSFUL" />
+		<property name="completed" value="true" />
 		<property name="customer" ref="customer1" />
 		<property name="parentBet"><null/></property>
 		<property name="childrenBets">
@@ -803,6 +807,7 @@
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="FAILED" />
+		<property name="completed" value="true" />
 		<property name="customer" ref="customer2" />
 		<property name="parentBet"><null/></property>
 		<property name="childrenBets">
@@ -819,6 +824,7 @@
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="FAILED" />
+		<property name="completed" value="true" />
 		<property name="customer" ref="customer3" />
 		<property name="parentBet"><null/></property>
 		<property name="childrenBets">

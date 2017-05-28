@@ -1,4 +1,3 @@
-
 package controllers;
 
 import java.util.Collection;
@@ -13,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.MarketService;
+import services.MatchService;
 import domain.Market;
 import domain.Match;
 import forms.MarketForm;
-import services.MarketService;
-import services.MatchService;
 
 @RequestMapping(value = "/market")
 @Controller
@@ -41,14 +40,18 @@ public class MarketController extends AbstractController {
 	//Listing 
 
 	@RequestMapping(value = "/listByMatch", method = RequestMethod.GET)
-	public ModelAndView listByMatch(@RequestParam int matchId) {
+	public ModelAndView listByMatch(@RequestParam int matchId, @RequestParam(required = false) String errorMessage) {
 		ModelAndView result;
+		Match match;
 		Collection<Market> markets;
 
-		markets = marketService.marketsOfMatches(matchId);
+		match = this.matchService.findOne(matchId);
+		markets = this.marketService.marketsOfMatches(matchId);
 
 		result = new ModelAndView("market/list");
 		result.addObject("markets", markets);
+		result.addObject("match", match);
+		result.addObject("errorMessage", errorMessage);
 		result.addObject("requestURI", "markets/listByMatch.do");
 
 		return result;

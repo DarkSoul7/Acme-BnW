@@ -1,22 +1,23 @@
 package controllers;
 
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
-import javax.validation.Valid;
-
-import org.apache.commons.validator.routines.checkdigit.CheckDigitException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.CustomerService;
-import domain.Brand;
-import domain.Customer;
-import forms.CustomerForm;
+import services.BetService;
+import services.MarketService;
+
+import com.google.common.base.Splitter;
+
+import domain.Bet;
+import domain.Market;
+import domain.Type;
 
 @RequestMapping(value = "/bet")
 @Controller
@@ -25,7 +26,10 @@ public class BetController extends AbstractController {
 	//Related services
 
 	@Autowired
-	private CustomerService	customerService;
+	private BetService		betService;
+
+	@Autowired
+	private MarketService	marketService;
 
 
 	//Constructor
@@ -34,53 +38,171 @@ public class BetController extends AbstractController {
 		super();
 	}
 
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public ModelAndView register() {
-
+	@RequestMapping(value = "/history", method = RequestMethod.GET)
+	public ModelAndView history() {
 		ModelAndView result;
+		Collection<Bet> bets;
 
-		CustomerForm customerForm = this.customerService.createForm();
-		result = this.createModelAndView(customerForm);
+		bets = this.betService.findAllByCustomer();
+
+		result = new ModelAndView("bet/history");
+		result.addObject("bets", bets);
 
 		return result;
 	}
 
-	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid CustomerForm customerForm, BindingResult binding) throws CheckDigitException {
+	@RequestMapping(value = "/pendingBets", method = RequestMethod.GET)
+	public ModelAndView pendingBets(@RequestParam(required = false) String successMessage) {
+		ModelAndView result;
+		Collection<Bet> bets;
 
-		ModelAndView result = new ModelAndView();
+		bets = this.betService.findAllPendingByCustomer();
 
-		Customer customer;
+		result = new ModelAndView("bet/pendingBets");
+		result.addObject("bets", bets);
+		result.addObject("successMessage", successMessage);
 
-		customer = this.customerService.reconstruct(customerForm, binding);
-		if (binding.hasErrors()) {
-			result = this.createModelAndView(customerForm);
+		return result;
+	}
+
+	@RequestMapping(value = "/showSelection", method = RequestMethod.GET)
+	public ModelAndView showSelection(@RequestParam(required = false) String errorMessage, @RequestParam(required = false) String successMessage) {
+		ModelAndView result;
+		Collection<Bet> bets;
+
+		bets = this.betService.findAllSelectedByCustomer();
+
+		result = new ModelAndView("bet/showSelection");
+		result.addObject("bets", bets);
+		result.addObject("errorMessage", errorMessage);
+		result.addObject("successMessage", successMessage);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/simpleBet", method = RequestMethod.GET)
+	public ModelAndView simpleBet(Integer matchId, Integer marketId, Double quantity, Integer betId) {
+		ModelAndView result;
+		Bet bet;
+		Market market;
+
+		try {
+			market = this.marketService.findOne(marketId);
+			if (betId != null) {
+				bet = this.betService.completeSelectedBet(betId, quantity, market);
+			} else {
+				bet = this.betService.create(quantity, Type.SIMPLE, market);
+			}
+
+			this.betService.save(bet);
+
+			result = new ModelAndView("redirect:/bet/pendingBets.do");
+			result.addObject("successMessage", "bet.simple.success");
+		} catch (IllegalStateException e) {
+			result = new ModelAndView("redirect:/market/listByMatch.do?matchId=" + matchId);
+			result.addObject("errorMessage", "bet.balance.error");
+		} catch (Throwable oops) {
+			result = new ModelAndView("redirect:/market/listByMatch.do?matchId=" + matchId);
+			result.addObject("errorMessage", "bet.simple.error");
+		}
+
+		return result;
+	}
+
+	@RequestMapping(value = "/multipleBet", method = RequestMethod.GET)
+	public ModelAndView multipleBet(String betsIdsStr, Double quantity) {
+		ModelAndView result;
+		List<String> betsIds = Splitter.on(',').trimResults().omitEmptyStrings().splitToList(betsIdsStr);
+		Collection<Bet> childBets;
+
+		if (betsIds.size() == 0) {
+			result = new ModelAndView("redirect:/bet/showSelection.do");
+			result.addObject("errorMessage", "bet.multiple.size.error");
 		} else {
 			try {
-				this.customerService.save(customer);
-				result = new ModelAndView("redirect:/security/login.do");
+				childBets = this.betService.findAllById(betsIds);
+
+				result = new ModelAndView("redirect:/bet/pendingBets.do");
+				result.addObject("successMessage", "bet.multiple.success");
+			} catch (IllegalStateException e) {
+				result = new ModelAndView("redirect:/bet/showSelection.do");
+				result.addObject("errorMessage", "bet.balance.error");
 			} catch (Throwable oops) {
-				result = this.createModelAndView(customerForm, "customer.commit.error");
+				result = new ModelAndView("redirect:/bet/showSelection.do");
+				result.addObject("errorMessage", "bet.multiple.error");
 			}
 		}
 
 		return result;
 	}
 
-	//Ancillary methods
+	@RequestMapping(value = "/addSelection", method = RequestMethod.GET)
+	public ModelAndView addSelection(Integer matchId, Integer marketId) {
+		ModelAndView result;
+		Bet bet;
+		Market market;
 
-	protected ModelAndView createModelAndView(final CustomerForm customerForm) {
-		return this.createModelAndView(customerForm, null);
+		try {
+			market = this.marketService.findOne(marketId);
+			bet = this.betService.createDefault(market);
+			this.betService.save(bet);
+
+			result = new ModelAndView("redirect:/bet/showSelection.do");
+			result.addObject("successMessage", "bet.addSelection.success");
+		} catch (Throwable oops) {
+			result = new ModelAndView("redirect:/market/listByMatch.do?matchId=" + matchId);
+			result.addObject("errorMessage", "bet.addSelection.error");
+		}
+
+		return result;
 	}
 
-	protected ModelAndView createModelAndView(final CustomerForm customerForm, final String message) {
+	@RequestMapping(value = "/removeSelection", method = RequestMethod.GET)
+	public ModelAndView removeSelection(Integer matchId, Integer betId) {
 		ModelAndView result;
+		String errorMessage;
+		String successMessage;
 
-		List<Brand> brands = Arrays.asList(Brand.values());
-		result = new ModelAndView("customer/register");
-		result.addObject("customerForm", customerForm);
-		result.addObject("message", message);
-		result.addObject("brands", brands);
+		try {
+			this.betService.delete(betId);
+
+			errorMessage = null;
+			successMessage = "bet.removeSelection.success";
+		} catch (Throwable oops) {
+			errorMessage = "bet.addSelection.error";
+			successMessage = null;
+		}
+
+		result = new ModelAndView("redirect:/bet/showSelection.do");
+		result.addObject("errorMessage", errorMessage);
+		result.addObject("successMessage", successMessage);
+
+		return result;
+	}
+
+	//Ancillary methods
+
+	protected ModelAndView listModelAndView(boolean isHistory) {
+		return this.listModelAndView(isHistory, null, null);
+	}
+
+	protected ModelAndView listModelAndView(boolean isHistory, String errorMessage, String successMessage) {
+		ModelAndView result;
+		String viewName;
+		Collection<Bet> bets;
+
+		if (isHistory) {
+			viewName = "history";
+			bets = this.betService.findAllByCustomer();
+		} else {
+			viewName = "pendingBets";
+			bets = this.betService.findAllPendingByCustomer();
+		}
+
+		result = new ModelAndView("bet/" + viewName);
+		result.addObject("bets", bets);
+		result.addObject("errorMessage", errorMessage);
+		result.addObject("successMessage", successMessage);
 
 		return result;
 	}

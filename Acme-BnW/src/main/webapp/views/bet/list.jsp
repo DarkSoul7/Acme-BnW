@@ -14,21 +14,30 @@
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="security"
-	uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<display:table name="bets" id="row" requestURI="${requestURI}"
-	pagesize="5">
-
+<display:table name="bets" id="row" requestURI="${requestURI}" pagesize="5">
+	
 	<spring:message code="bet.quantity" var="quantity" />
-	<display:column property="quantity" title="${quantity}" />
+	<display:column title="${quantity}">
+		<jstl:out value="${row.quantity}" />&euro;
+	</display:column>
 	
 	<spring:message code="bet.fee" var="fee" />
 	<display:column property="fee" title="${fee}" />
 	
+	<spring:message code="bet.match" var="match" />
+	<display:column title="${match}">
+		<jstl:out value="${row.market.match.localTeam.name} - ${row.market.match.visitorTeam.name}"></jstl:out>
+	</display:column>
+	
+	<spring:message code="bet.market" var="market" />
+	<display:column title="${market}">
+		<jstl:out value="${row.market.title}"></jstl:out>
+	</display:column>
 
 	<spring:message code="bet.creationMoment" var="creationMoment" />
 	<display:column title="${creationMoment}">
@@ -46,10 +55,10 @@
 	<display:column title="${type}">
 		<jstl:choose>
 			<jstl:when test="${pageContext.response.locale.language=='en'}">
-				<jstl:out value="${row.type.getName()}"></jstl:out>
+				<jstl:out value="${row.type.getName()}" />
 			</jstl:when>
 			<jstl:otherwise>
-				<jstl:out value="${row.type.getSpanishName()}"></jstl:out>
+				<jstl:out value="${row.type.getSpanishName()}" />
 			</jstl:otherwise>
 		</jstl:choose>
 	</display:column>
@@ -58,16 +67,34 @@
 	<display:column title="${status}">
 		<jstl:choose>
 			<jstl:when test="${pageContext.response.locale.language=='en'}">
-				<jstl:out value="${row.status.getName()}"></jstl:out>
+				<jstl:out value="${row.status.getName()}" />
 			</jstl:when>
 			<jstl:otherwise>
-				<jstl:out value="${row.status.getSpanishName()}"></jstl:out>
+				<jstl:out value="${row.status.getSpanishName()}" />
 			</jstl:otherwise>
 		</jstl:choose>
 	</display:column>
 	
-	<display:column>
-		<acme:cancel url="bet/join.do?betId=${row.id}"
-			code="bet.join" />
+	<spring:message code="bet.balance" var="balance" />
+	<display:column title="${balance}">
+		<jstl:choose>
+			<jstl:when test="${row.status.getName() == 'PENDING'}">
+				<b><jstl:out value="-"></jstl:out></b>
+			</jstl:when>
+			<jstl:otherwise>
+				<jstl:choose>
+					<jstl:when test="${row.status.getName() == 'SUCCESSFUL'}">
+						<span class="positiveBalance">+<fmt:formatNumber maxFractionDigits="2" value="${row.quantity * row.fee}" />&euro;</span>
+					</jstl:when>
+					<jstl:otherwise>
+						<span class="negativeBalance"><jstl:out value="0" />&euro;</span>
+					</jstl:otherwise>
+				</jstl:choose>
+			</jstl:otherwise>
+		</jstl:choose>
 	</display:column>
 </display:table>
+
+<div>
+	<acme:cancel url="/" code="bet.back"/>
+</div>

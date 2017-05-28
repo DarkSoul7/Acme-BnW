@@ -50,10 +50,3 @@
 
 <br/>
 <acme:cancel code="welcomeOffer.create" url="welcomeOffer/create.do" />
-
-<br/>
-
-<jstl:if test="${errorMessage != null }">
-	<spring:message code="${errorMessage}" var="error" />
-	<font size="4" color="red"><jstl:out value="${error}"></jstl:out></font>
-</jstl:if>

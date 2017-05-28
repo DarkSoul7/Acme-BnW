@@ -51,7 +51,7 @@
 		<form:label path="${path}">
 			<spring:message code="${code}" />:
 			<jstl:if test="${mandatory == true}">
-				<a class="mandatory">(*)</a>
+				<a class="error">(*)</a>
 			</jstl:if>
 		</form:label>
 		<div class="input-group date" data-provide="datepicker" id="${id}_datepicker">
@@ -63,10 +63,10 @@
 		<form:errors path="${path}" cssClass="error" />
 		<script type="text/javascript">
             $(function () {
-            	$.fn.datepicker.defaults.language = '${pageContext.response.locale.language}';
-            	$.fn.datepicker.defaults.format = 'dd/mm/yyyy';
                 $('#${id}_datepicker').datepicker({
                     autoclose: true,
+                    format: 'dd/mm/yyyy',
+                    language: '${pageContext.response.locale.language}'
                 });
             });
         </script>

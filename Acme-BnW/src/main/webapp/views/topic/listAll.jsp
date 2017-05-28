@@ -53,9 +53,3 @@
 	<br/>
 	<acme:cancel code="topic.create" url="topic/create.do" />
 </security:authorize>
-<br/>
-
-<jstl:if test="${errorMessage != null }">
-	<spring:message code="${errorMessage}" var="error" />
-	<font size="4" color="red"><jstl:out value="${error}"></jstl:out></font>
-</jstl:if>

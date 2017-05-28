@@ -1,7 +1,11 @@
-
 package forms;
 
 import java.util.Date;
+
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import domain.Coordinates;
 import domain.CreditCard;
@@ -113,6 +117,8 @@ public class CustomerForm {
 		this.coordinates = coordinates;
 	}
 
+	@Temporal(value = TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getBirthDate() {
 		return this.birthDate;
 	}

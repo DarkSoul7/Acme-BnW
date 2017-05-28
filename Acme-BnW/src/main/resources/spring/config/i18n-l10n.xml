@@ -23,6 +23,7 @@
 		<value>/views/security/messages</value>		
 		<value>/views/welcome/messages</value>
 		
+		<value>/views/bet/messages</value>
 		<value>/views/welcomeOffer/messages</value>
 		<value>/views/category/messages</value>
 		<value>/views/fixture/messages</value>

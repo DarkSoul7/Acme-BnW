@@ -1,0 +1,15 @@
+th, td {
+	text-align:center !important;
+	vertical-align:middle !important;
+}
+
+.positiveBalance {
+	font-weight: bold;
+	color: green;
+}
+
+.negativeBalance{
+	font-weight: bold;
+	color: red;
+}
+

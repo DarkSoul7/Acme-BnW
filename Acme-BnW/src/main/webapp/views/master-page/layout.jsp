@@ -31,6 +31,7 @@
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+<link rel="stylesheet" href="styles/acme.css" type="text/css">
 <link rel="stylesheet" href="styles/displaytag.css" type="text/css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
@@ -47,11 +48,22 @@
 		<h1>
 			<tiles:insertAttribute name="title" />
 		</h1>
-		<tiles:insertAttribute name="body" />	
-		<jstl:if test="${message != null}">
+		
+		<jstl:if test="${errorMessage != null}">
 			<br />
-			<span class="message"><spring:message code="${message}" /></span>
-		</jstl:if>	
+			<div class="alert alert-danger">
+				<spring:message code="${errorMessage}" />
+			</div>
+		</jstl:if>
+	
+		<jstl:if test="${successMessage != null}">
+			<br />
+			<div class="alert alert-success">
+				<spring:message code="${successMessage}" />
+			</div>
+		</jstl:if>
+		
+		<tiles:insertAttribute name="body" />	
 	</div>
 	<div>
 		<tiles:insertAttribute name="footer" />
