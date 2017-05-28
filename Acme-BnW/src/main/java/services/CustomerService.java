@@ -427,4 +427,18 @@ public class CustomerService {
 		this.save(customer);
 		this.ticketService.save(ticket);
 	}
+
+	//Dashboard
+
+	//B.1
+
+	public Integer getAutoExclusionNumber() {
+		return this.customerRepository.getAutoExclusionNumber();
+	}
+
+	//B.2
+
+	public Integer getBanNumber() {
+		return this.customerRepository.getBanNumber();
+	}
 }

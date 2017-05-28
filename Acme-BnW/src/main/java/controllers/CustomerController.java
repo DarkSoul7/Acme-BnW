@@ -198,6 +198,7 @@ public class CustomerController extends AbstractController {
 				customer.getUserAccount().setEnabled(false);
 			} else {
 				customer.getUserAccount().setEnabled(true);
+				customer.setBanNum(customer.getBanNum() + 1);
 			}
 
 			this.customerService.save(customer);
@@ -207,6 +208,21 @@ public class CustomerController extends AbstractController {
 			result = new ModelAndView("redirect:/customer/list.do");
 			result.addObject("errorMessage", "customer.ban.error");
 		}
+
+		return result;
+	}
+
+	@RequestMapping(value = "/autoExclusion", method = RequestMethod.GET)
+	public ModelAndView autoExclusion() {
+		ModelAndView result;
+
+		final Customer customer = this.customerService.findByPrincipal();
+
+		customer.setIsDisabled(true);
+		customer.getUserAccount().setEnabled(false);
+		this.customerService.save(customer);
+
+		result = new ModelAndView("redirect:/j_spring_security_logout");
 
 		return result;
 	}
