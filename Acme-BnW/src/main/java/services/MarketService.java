@@ -37,6 +37,9 @@ public class MarketService {
 
 	@Autowired
 	private PromotionService	promotionService;
+	
+	@Autowired
+	private ManagerService managerService;
 
 
 	//Constructor
@@ -59,13 +62,14 @@ public class MarketService {
 
 	}
 
-	public void save(final Market market) {
-		this.marketRepository.save(market);
+	public Market save(final Market market) {
+		return this.marketRepository.save(market);
 	}
 
 	public void delete(final Market market) {
 		Assert.isTrue(market.getMatch().getEndMoment().before(new Date()));
 		Assert.isTrue(this.marketRepository.findExistsCustomerOnMarket(market.getId()) == 0);
+		managerService.findByPrincipal();
 		this.marketRepository.delete(market);
 	}
 
@@ -126,5 +130,9 @@ public class MarketService {
 
 	public Collection<Market> marketsOfMatches(int id) {
 		return marketRepository.marketsOfMatches(id);
+	}
+	
+	public void flush() {
+		marketRepository.flush();
 	}
 }

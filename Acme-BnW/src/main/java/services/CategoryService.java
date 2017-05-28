@@ -29,6 +29,9 @@ public class CategoryService {
 	//Supported services
 	@Autowired
 	private TournamentService	tournamentService;
+	
+	@Autowired
+	private ManagerService managerService;
 
 
 	public CategoryService() {
@@ -50,11 +53,12 @@ public class CategoryService {
 
 	}
 
-	public void save(final Category category) {
-		this.categoryRepository.save(category);
+	public Category save(final Category category) {
+		return this.categoryRepository.save(category);
 	}
 
 	public void delete(final Category category) {
+		managerService.findByPrincipal();
 		this.categoryRepository.delete(category);
 	}
 
@@ -103,6 +107,10 @@ public class CategoryService {
 
 	public Collection<Category> categoriesOfTournament(int id) {
 		return categoryRepository.categoriesOfTournament(id);
+	}
+	
+	public void flush() {
+		categoryRepository.flush();
 	}
 
 }
