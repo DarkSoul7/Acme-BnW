@@ -127,7 +127,7 @@ public class Bet extends DomainEntity {
 	}
 
 	@Valid
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
 	public Market getMarket() {
 		return this.market;
 	}

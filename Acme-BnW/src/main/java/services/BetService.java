@@ -3,6 +3,7 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,9 @@ public class BetService {
 	@Autowired
 	private CustomerService	customerService;
 
+	@Autowired
+	private MarketService	marketService;
+
 
 	//Constructor
 
@@ -39,10 +43,9 @@ public class BetService {
 
 	//Simple CRUD methods
 
-	public Bet create(Double quantity, Type type, Market market) {
+	public Bet createSimple(Double quantity, Market market) {
 		Assert.notNull(quantity);
 		Assert.isTrue(quantity > 0.0);
-		Assert.notNull(type);
 		Assert.notNull(market);
 		Bet result;
 		Customer principal;
@@ -56,7 +59,7 @@ public class BetService {
 		result.setMarket(market);
 		result.setQuantity(quantity);
 		result.setStatus(Status.PENDING);
-		result.setType(type);
+		result.setType(Type.SIMPLE);
 		result.setCompleted(true);
 
 		return result;
@@ -82,6 +85,29 @@ public class BetService {
 		return result;
 	}
 
+	public Bet createMultiple(Double quantity) {
+		Assert.notNull(quantity);
+		Assert.isTrue(quantity > 0.0);
+		Bet result;
+		Customer principal;
+		Double fee;
+
+		fee = 1.01;
+		principal = this.customerService.findByPrincipal();
+
+		result = new Bet();
+		result.setCreationMoment(new Date(System.currentTimeMillis() - 1000));
+		result.setCustomer(principal);
+		result.setFee(fee);
+		result.setMarket(null);
+		result.setQuantity(quantity);
+		result.setStatus(Status.PENDING);
+		result.setType(Type.MULTIPLE);
+		result.setCompleted(true);
+
+		return result;
+	}
+
 	public Collection<Bet> findAll() {
 		return this.betRepository.findAll();
 	}
@@ -91,14 +117,19 @@ public class BetService {
 
 	}
 
-	public void save(Bet bet) throws IllegalStateException {
+	public Bet save(Bet bet, Boolean payment) throws IllegalStateException {
 		Customer principal;
 		Double balance;
+		Bet result;
 
 		principal = this.customerService.findByPrincipal();
 		balance = principal.getBalance();
 
-		if (bet.getCompleted()) {
+		if (!Type.MULTIPLE.equals(bet.getType())) {
+			Assert.notNull(bet.getMarket());
+		}
+
+		if (bet.getCompleted() && !Type.CHILD.equals(bet.getType()) && payment) {
 			if (balance.compareTo(bet.getQuantity()) < 0) {
 				throw new IllegalStateException("BetService - save: El saldo del cliente es insuficiente");
 			} else {
@@ -109,7 +140,13 @@ public class BetService {
 			}
 		}
 
-		this.betRepository.save(bet);
+		result = this.betRepository.save(bet);
+
+		return result;
+	}
+
+	public Collection<Bet> save(Collection<Bet> bets) {
+		return this.betRepository.save(bets);
 	}
 
 	public void delete(Bet bet) {
@@ -132,7 +169,7 @@ public class BetService {
 		Customer principal;
 
 		principal = this.customerService.findByPrincipal();
-		result = this.betRepository.findAllByCustomer(principal.getId());
+		result = this.betRepository.findAllByCustomer(principal.getId(), Type.CHILD);
 
 		return result;
 	}
@@ -142,7 +179,7 @@ public class BetService {
 		Customer principal;
 
 		principal = this.customerService.findByPrincipal();
-		result = this.betRepository.findAllPendingByCustomer(principal.getId(), Status.PENDING);
+		result = this.betRepository.findAllPendingByCustomer(principal.getId(), Status.PENDING, Type.CHILD);
 
 		return result;
 	}
@@ -167,6 +204,59 @@ public class BetService {
 		Assert.isTrue(result.size() == ids.size());
 
 		return result;
+	}
+
+	public Collection<Bet> prepareChildrenBets(List<String> betsIds, Bet parentBet, Double quantity) {
+		Collection<Bet> childrenBets;
+		Market market;
+
+		childrenBets = this.findAllById(betsIds);
+
+		for (Bet bet : childrenBets) {
+			market = this.marketService.findOne(bet.getMarket().getId());
+			bet.setCompleted(true);
+			bet.setCreationMoment(new Date(System.currentTimeMillis() - 1000));
+			bet.setFee(market.getFee());
+			bet.setParentBet(parentBet);
+			bet.setQuantity(quantity);
+			bet.setStatus(Status.PENDING);
+			bet.setType(Type.CHILD);
+		}
+
+		return childrenBets;
+	}
+
+	public void saveMultipleBet(List<String> betsIds, Double quantity) throws IllegalStateException {
+		Bet parentBet;
+		Collection<Bet> childrenBets;
+		Market market;
+		Double totalFee = 1.0;
+
+		parentBet = this.createMultiple(quantity);
+		parentBet = this.save(parentBet, false);
+
+		childrenBets = this.findAllById(betsIds);
+
+		for (Bet bet : childrenBets) {
+			market = this.marketService.findOne(bet.getMarket().getId());
+			Assert.notNull(market);
+			totalFee *= market.getFee();
+
+			bet.setCompleted(true);
+			bet.setCreationMoment(new Date(System.currentTimeMillis() - 1000));
+			bet.setFee(market.getFee());
+			bet.setParentBet(parentBet);
+			bet.setQuantity(quantity);
+			bet.setStatus(Status.PENDING);
+			bet.setType(Type.CHILD);
+		}
+
+		totalFee = Double.valueOf(String.format("%.2f", totalFee));
+		parentBet.setFee(totalFee);
+
+		childrenBets = this.save(childrenBets);
+		parentBet.setChildrenBets(childrenBets);
+		this.save(parentBet, true);
 	}
 
 	public Bet completeSelectedBet(int betId, Double quantity, Market market) {

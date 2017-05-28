@@ -19,12 +19,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<display:table name="bets" id="row" requestURI="${requestURI}" pagesize="5">
-	
-	<spring:message code="bet.quantity" var="quantity" />
-	<display:column title="${quantity}">
-		<jstl:out value="${row.quantity}" />&euro;
-	</display:column>
+<display:table name="multipleBet.childrenBets" id="row" requestURI="${requestURI}" pagesize="5">
 	
 	<spring:message code="bet.fee" var="fee" />
 	<display:column property="fee" title="${fee}" />
@@ -53,18 +48,6 @@
 		</jstl:choose>
 	</display:column>
 	
-	<spring:message code="bet.type" var="type" />
-	<display:column title="${type}">
-		<jstl:choose>
-			<jstl:when test="${pageContext.response.locale.language=='en'}">
-				<jstl:out value="${row.type.getName()}" />
-			</jstl:when>
-			<jstl:otherwise>
-				<jstl:out value="${row.type.getSpanishName()}" />
-			</jstl:otherwise>
-		</jstl:choose>
-	</display:column>
-	
 	<spring:message code="bet.status" var="status" />
 	<display:column title="${status}">
 		<jstl:choose>
@@ -76,33 +59,42 @@
 			</jstl:otherwise>
 		</jstl:choose>
 	</display:column>
-	
-	<spring:message code="bet.balance" var="balance" />
-	<display:column title="${balance}">
-		<jstl:choose>
-			<jstl:when test="${row.status.getName() == 'PENDING'}">
-				<b><jstl:out value="-"></jstl:out></b>
-			</jstl:when>
-			<jstl:otherwise>
-				<jstl:choose>
-					<jstl:when test="${row.status.getName() == 'SUCCESSFUL'}">
-						<span class="positiveBalance">+<fmt:formatNumber maxFractionDigits="2" value="${row.quantity * row.fee}" />&euro;</span>
-					</jstl:when>
-					<jstl:otherwise>
-						<span class="negativeBalance"><jstl:out value="0" />&euro;</span>
-					</jstl:otherwise>
-				</jstl:choose>
-			</jstl:otherwise>
-		</jstl:choose>
-	</display:column>
-	
-	<display:column>
-		<jstl:if test="${row.type == 'MULTIPLE'}">
-			<acme:cancel url="bet/multipleBetDetails.do?betId=${row.id}" code="bet.multipleBetDetails"/>
-		</jstl:if>
-	</display:column>
 </display:table>
 
 <div>
-	<acme:cancel url="/" code="bet.back"/>
+	<b><spring:message code="bet.quantity" />: </b><jstl:out value="${multipleBet.quantity}" />&euro;
+	<br/>
+	<b><spring:message code="bet.totalFee" />: </b><jstl:out value="${multipleBet.fee}" />
+	<br/>
+	<jstl:choose>
+		<jstl:when test="${pageContext.response.locale.language=='en'}">
+			<b><spring:message code="bet.status" />: </b><jstl:out value="${multipleBet.status.getName()}" />
+		</jstl:when>
+		<jstl:otherwise>
+			<b><spring:message code="bet.status" />: </b><jstl:out value="${multipleBet.status.getSpanishName()}" />
+		</jstl:otherwise>
+		</jstl:choose>
+	<br/>
+	<b><spring:message code="bet.status" />: </b>
+	<jstl:choose>
+		<jstl:when test="${multipleBet.status.getName() == 'PENDING'}">
+			<b><jstl:out value="-"></jstl:out></b>
+		</jstl:when>
+		<jstl:otherwise>
+			<jstl:choose>
+				<jstl:when test="${multipleBet.status.getName() == 'SUCCESSFUL'}">
+					<span class="positiveBalance">+<fmt:formatNumber maxFractionDigits="2" value="${multipleBet.quantity * multipleBet.fee}" />&euro;</span>
+				</jstl:when>
+				<jstl:otherwise>
+					<span class="negativeBalance"><jstl:out value="0" />&euro;</span>
+				</jstl:otherwise>
+			</jstl:choose>
+		</jstl:otherwise>
+	</jstl:choose>
+</div>
+
+<br/>
+
+<div>
+	<acme:cancel url="/bet/history.do" code="bet.back"/>
 </div>

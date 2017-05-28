@@ -9,15 +9,16 @@ import org.springframework.stereotype.Repository;
 
 import domain.Bet;
 import domain.Status;
+import domain.Type;
 
 @Repository
 public interface BetRepository extends JpaRepository<Bet, Integer> {
 
-	@Query("select b from Bet b where b.customer.id = ?1 and b.completed = true")
-	public Collection<Bet> findAllByCustomer(int customerId);
+	@Query("select b from Bet b where b.customer.id = ?1 and b.completed = true and b.type <> ?2")
+	public Collection<Bet> findAllByCustomer(int customerId, Type childType);
 
-	@Query("select b from Bet b where b.customer.id = ?1 and b.status = ?2 and b.completed = true")
-	public Collection<Bet> findAllPendingByCustomer(int customerId, Status pendingStatus);
+	@Query("select b from Bet b where b.customer.id = ?1 and b.status = ?2 and b.completed = true and b.type <> ?3")
+	public Collection<Bet> findAllPendingByCustomer(int customerId, Status pendingStatus, Type childType);
 
 	@Query("select b from Bet b where b.customer.id = ?1 and b.completed = false")
 	public Collection<Bet> findAllSelectedByCustomer(int customerId);

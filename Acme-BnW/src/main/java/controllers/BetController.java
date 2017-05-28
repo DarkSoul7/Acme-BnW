@@ -17,7 +17,6 @@ import com.google.common.base.Splitter;
 
 import domain.Bet;
 import domain.Market;
-import domain.Type;
 
 @RequestMapping(value = "/bet")
 @Controller
@@ -47,6 +46,7 @@ public class BetController extends AbstractController {
 
 		result = new ModelAndView("bet/history");
 		result.addObject("bets", bets);
+		result.addObject("requestURI", "bet/history.do");
 
 		return result;
 	}
@@ -61,6 +61,7 @@ public class BetController extends AbstractController {
 		result = new ModelAndView("bet/pendingBets");
 		result.addObject("bets", bets);
 		result.addObject("successMessage", successMessage);
+		result.addObject("requestURI", "bet/pendingBets.do");
 
 		return result;
 	}
@@ -76,6 +77,7 @@ public class BetController extends AbstractController {
 		result.addObject("bets", bets);
 		result.addObject("errorMessage", errorMessage);
 		result.addObject("successMessage", successMessage);
+		result.addObject("requestURI", "bet/showSelection.do");
 
 		return result;
 	}
@@ -91,10 +93,10 @@ public class BetController extends AbstractController {
 			if (betId != null) {
 				bet = this.betService.completeSelectedBet(betId, quantity, market);
 			} else {
-				bet = this.betService.create(quantity, Type.SIMPLE, market);
+				bet = this.betService.createSimple(quantity, market);
 			}
 
-			this.betService.save(bet);
+			this.betService.save(bet, true);
 
 			result = new ModelAndView("redirect:/bet/pendingBets.do");
 			result.addObject("successMessage", "bet.simple.success");
@@ -113,14 +115,13 @@ public class BetController extends AbstractController {
 	public ModelAndView multipleBet(String betsIdsStr, Double quantity) {
 		ModelAndView result;
 		List<String> betsIds = Splitter.on(',').trimResults().omitEmptyStrings().splitToList(betsIdsStr);
-		Collection<Bet> childBets;
 
 		if (betsIds.size() == 0) {
 			result = new ModelAndView("redirect:/bet/showSelection.do");
 			result.addObject("errorMessage", "bet.multiple.size.error");
 		} else {
 			try {
-				childBets = this.betService.findAllById(betsIds);
+				this.betService.saveMultipleBet(betsIds, quantity);
 
 				result = new ModelAndView("redirect:/bet/pendingBets.do");
 				result.addObject("successMessage", "bet.multiple.success");
@@ -136,6 +137,20 @@ public class BetController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/multipleBetDetails", method = RequestMethod.GET)
+	public ModelAndView multipleBetDetails(Integer betId) {
+		ModelAndView result;
+		Bet multipleBet;
+
+		multipleBet = this.betService.findOne(betId);
+
+		result = new ModelAndView("bet/multipleBetDetails");
+		result.addObject("multipleBet", multipleBet);
+		result.addObject("requestURI", "bet/multipleBetDetails.do");
+
+		return result;
+	}
+
 	@RequestMapping(value = "/addSelection", method = RequestMethod.GET)
 	public ModelAndView addSelection(Integer matchId, Integer marketId) {
 		ModelAndView result;
@@ -145,7 +160,7 @@ public class BetController extends AbstractController {
 		try {
 			market = this.marketService.findOne(marketId);
 			bet = this.betService.createDefault(market);
-			this.betService.save(bet);
+			this.betService.save(bet, true);
 
 			result = new ModelAndView("redirect:/bet/showSelection.do");
 			result.addObject("successMessage", "bet.addSelection.success");

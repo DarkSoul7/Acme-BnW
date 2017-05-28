@@ -62,7 +62,7 @@ public class PopulateDatabase {
 			System.out.println("Trying to save the best order found.");
 			PopulateDatabase.persist(databaseUtil, sortedEntities);
 
-			System.out.println("Trying to save an event.");
+			//			System.out.println("Trying to save an event.");
 			//			PopulateDatabase.createEvent(databaseUtil);
 		} catch (final Throwable oops) {
 			ThrowablePrinter.print(oops);
