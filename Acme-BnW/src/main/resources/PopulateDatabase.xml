@@ -146,6 +146,8 @@
 		<property name="balance" value="20.00" />
 		<property name="finishedOffer" value="false" />
 		<property name="activeWO"><null/></property>
+		<property name="isDisabled"><null/></property>
+		<property name="banNum" value="0" />
 		<property name="coordinates" ref="coordinates4"/>
 		<property name="userAccount" ref="userAccount2"/>
 		<property name="welcomeOffer" ref="welcomeOffer1"/>
@@ -160,6 +162,8 @@
 		<property name="birthDate" value="1990/09/07" />
 		<property name="creditCard" ref="creditCard2"/>
 		<property name="activeWO"><null/></property>
+		<property name="isDisabled"><null/></property>
+		<property name="banNum" value="0" />
 		<property name="balance" value="52.00" />
 		<property name="finishedOffer" value="false" />
 		<property name="coordinates" ref="coordinates5"/>
@@ -176,6 +180,8 @@
 		<property name="birthDate" value="1989/11/06" />
 		<property name="creditCard" ref="creditCard3"/>
 		<property name="activeWO"><null/></property>
+		<property name="isDisabled"><null/></property>
+		<property name="banNum" value="0" />
 		<property name="balance" value="100.00" />
 		<property name="finishedOffer" value="false" />
 		<property name="coordinates" ref="coordinates6"/>

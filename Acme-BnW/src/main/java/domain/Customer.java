@@ -31,6 +31,8 @@ public class Customer extends Actor {
 	private Boolean		finishedOffer;
 	private Boolean		overAge;
 	private Boolean		activeWO;
+	private Boolean		isDisabled;
+	private int			banNum;
 
 
 	@Past
@@ -89,6 +91,25 @@ public class Customer extends Actor {
 	public void setActiveWO(final Boolean activeWO) {
 		this.activeWO = activeWO;
 	}
+
+	public Boolean getIsDisabled() {
+		return isDisabled;
+	}
+
+	public void setIsDisabled(Boolean isDisabled) {
+		this.isDisabled = isDisabled;
+	}
+
+	public int getBanNum() {
+		return banNum;
+	}
+
+	public void setBanNum(int banNum) {
+		this.banNum = banNum;
+	}
+
+
+
 
 
 	//RelationShips
