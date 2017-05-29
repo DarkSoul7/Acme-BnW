@@ -536,8 +536,8 @@
 	
 	<bean id="fixture1" class="domain.Fixture">
 		<property name="title" value="Fixture 1" />
-		<property name="startMoment" value="2017/05/20 12:45" />
-		<property name="endMoment" value="2017/05/21 23:15" />
+		<property name="startMoment" value="2018/05/20 12:45" />
+		<property name="endMoment" value="2018/05/21 23:15" />
 		<property name="category" ref="category1" />
 		<property name="matches">
 			<list>

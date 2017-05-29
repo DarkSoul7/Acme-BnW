@@ -142,7 +142,7 @@ public class TournamentServiceTest extends AbstractTest {
 			}, {
 				"manager1", 83, IllegalArgumentException.class
 			}, {
-				"admin", 0, IllegalArgumentException.class
+				"admin", 83, IllegalArgumentException.class
 			}
 		};
 
@@ -166,6 +166,7 @@ public class TournamentServiceTest extends AbstractTest {
 				tournament.setSport(Sport.FOOTBALL);
 				tournament.setEndMoment(new DateTime().plusDays(10).toDate());
 				tournament.setCategories(new ArrayList<Category>());
+				tournamentService.save(tournament);
 			}
 			this.authenticate(principal);
 			tournamentService.delete(tournament);
