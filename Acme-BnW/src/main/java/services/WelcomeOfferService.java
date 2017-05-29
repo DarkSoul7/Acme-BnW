@@ -15,10 +15,10 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import repositories.WelcomeOfferRepository;
 import domain.Customer;
 import domain.WelcomeOffer;
 import forms.WelcomeOfferForm;
+import repositories.WelcomeOfferRepository;
 
 @Service
 @Transactional
@@ -27,10 +27,10 @@ public class WelcomeOfferService {
 	// Managed repository
 
 	@Autowired
-	private WelcomeOfferRepository	welcomeOfferRepository;
-
+	private WelcomeOfferRepository welcomeOfferRepository;
 
 	// Supported services
+
 
 	//Constructor
 
@@ -82,7 +82,7 @@ public class WelcomeOfferService {
 
 
 	@Autowired
-	private Validator	validator;
+	private Validator validator;
 
 
 	public WelcomeOffer reconstruct(final WelcomeOfferForm welcomeOfferForm, final BindingResult binding) throws ParseException {
@@ -126,5 +126,10 @@ public class WelcomeOfferService {
 		result.setEndPeriod(endPeriod);
 
 		return result;
+	}
+
+	public void flush() {
+		welcomeOfferRepository.flush();
+
 	}
 }
