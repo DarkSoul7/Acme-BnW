@@ -117,17 +117,20 @@ public class BetService {
 
 	}
 
-	public Bet save(Bet bet, Boolean payment) throws IllegalStateException {
+	public Bet save(Bet bet, Boolean payment) throws IllegalStateException, IllegalArgumentException {
 		Customer principal;
 		Double balance;
 		Bet result;
 
-		principal = this.customerService.findByPrincipal();
-		balance = principal.getBalance();
-
 		if (!Type.MULTIPLE.equals(bet.getType())) {
 			Assert.notNull(bet.getMarket());
+			if (new Date().compareTo(bet.getMarket().getMatch().getEndMoment()) >= 0) {
+				throw new IllegalArgumentException("BetService - save: El partido ya ha terminado");
+			}
 		}
+
+		principal = this.customerService.findByPrincipal();
+		balance = principal.getBalance();
 
 		if (bet.getCompleted() && !Type.CHILD.equals(bet.getType()) && payment) {
 			if (balance.compareTo(bet.getQuantity()) < 0) {
@@ -226,9 +229,10 @@ public class BetService {
 		return childrenBets;
 	}
 
-	public void saveMultipleBet(List<String> betsIds, Double quantity) throws IllegalStateException {
+	public void saveMultipleBet(List<String> betsIds, Double quantity) throws IllegalStateException, IllegalArgumentException {
 		Bet parentBet;
 		Collection<Bet> childrenBets;
+		List<Integer> matchesIds;
 		Market market;
 		Double totalFee = 1.0;
 
@@ -236,8 +240,14 @@ public class BetService {
 		parentBet = this.save(parentBet, false);
 
 		childrenBets = this.findAllById(betsIds);
+		matchesIds = new ArrayList<Integer>();
 
 		for (Bet bet : childrenBets) {
+			//En una apuesta múltiple no puede haber más de una apuesta sobre el mismo partido
+			Assert.isTrue(!matchesIds.contains(bet.getMarket().getMatch().getId()));
+			matchesIds.add(bet.getMarket().getMatch().getId());
+
+			//Se comprueba accediendo a base de datos para estar seguro de que se trabaja con el último valor establecido
 			market = this.marketService.findOne(bet.getMarket().getId());
 			Assert.notNull(market);
 			totalFee *= market.getFee();

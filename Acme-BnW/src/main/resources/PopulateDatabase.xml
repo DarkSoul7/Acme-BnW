@@ -560,23 +560,23 @@
 	
 	<bean id="fixture3" class="domain.Fixture">
 		<property name="title" value="Fixture 3" />
-		<property name="startMoment" value="2017/05/12 12:45" />
-		<property name="endMoment" value="2017/05/14 23:15" />
+		<property name="startMoment" value="2017/05/16 12:45" />
+		<property name="endMoment" value="2017/05/19 23:15" />
 		<property name="category" ref="category3" />
 		<property name="matches">
 			<list>
 				<null/>
 			</list>
 		</property>
-	</bean>	
+	</bean>
 	
 	<!-- MATCH -->
 	
 	<bean id="match1" class="domain.Match">
-		<property name="startMoment" value="2017/05/20" />
-		<property name="endMoment" value="2017/05/20" />
-		<property name="localGoal" value="2" />
-		<property name="visitorGoal" value="2" />
+		<property name="startMoment" value="2017/06/20 16:15" />
+		<property name="endMoment" value="2017/06/20 18:00" />
+		<property name="localResult"><null/></property>
+		<property name="visitorResult"><null/></property>
 		<property name="fixture" ref="fixture1" />
 		<property name="markets">
 			<list>
@@ -588,10 +588,10 @@
 	</bean>	
 	
 	<bean id="match2" class="domain.Match">
-		<property name="startMoment" value="2017/05/20" />
-		<property name="endMoment" value="2017/05/20" />
-		<property name="localGoal" value="4" />
-		<property name="visitorGoal" value="1" />
+		<property name="startMoment" value="2017/06/20 18:15" />
+		<property name="endMoment" value="2017/06/20 20:00" />
+		<property name="localResult"><null/></property>
+		<property name="visitorResult"><null/></property>
 		<property name="fixture" ref="fixture1" />
 		<property name="markets">
 			<list>
@@ -603,11 +603,11 @@
 	</bean>	
 	
 	<bean id="match3" class="domain.Match">
-		<property name="startMoment" value="2017/05/20" />
-		<property name="endMoment" value="2017/05/20" />
+		<property name="startMoment" value="2017/06/20 20:15" />
+		<property name="endMoment" value="2017/06/20 22:00" />
 		<property name="fixture" ref="fixture1" />
-		<property name="localGoal" value="0" />
-		<property name="visitorGoal" value="1"/>
+		<property name="localResult"><null/></property>
+		<property name="visitorResult"><null/></property>
 		<property name="markets">
 			<list>
 				<null/>
@@ -618,11 +618,11 @@
 	</bean>	
 	
 	<bean id="match4" class="domain.Match">
-		<property name="startMoment" value="2017/05/20" />
-		<property name="endMoment" value="2017/05/20" />
+		<property name="startMoment" value="2017/06/20 22:15" />
+		<property name="endMoment" value="2017/06/21 00:00" />
 		<property name="fixture" ref="fixture1" />
-		<property name="localGoal" value="2"/>
-		<property name="visitorGoal" value="1" />
+		<property name="localResult"><null/></property>
+		<property name="visitorResult"><null/></property>
 		<property name="markets">
 			<list>
 				<null/>
@@ -630,7 +630,7 @@
 		</property>
 		<property name="visitorTeam" ref="team7" />
 		<property name="localTeam" ref="team8" />
-	</bean>	
+	</bean>
 	
 	
 	<!-- MARKET -->

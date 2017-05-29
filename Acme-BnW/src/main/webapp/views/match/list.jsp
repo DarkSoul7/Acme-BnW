@@ -38,11 +38,11 @@
 		<jstl:out value="${row.visitorTeam.name}"></jstl:out>
 	</display:column>
 	
-	<spring:message code="match.localGoal" var="localGoal" />
-	<display:column property="localGoal" title="${localGoal}" />
+	<spring:message code="match.localResult" var="localResult" />
+	<display:column property="localResult" title="${localResult}" />
 	
-	<spring:message code="match.visitorGoal" var="visitorGoal" />
-	<display:column property="visitorGoal" title="${visitorGoal}" />
+	<spring:message code="match.visitorResult" var="visitorResult" />
+	<display:column property="visitorResult" title="${visitorResult}" />
 	
 	<spring:message code="match.startMoment" var="startMoment" />
 	<display:column title="${startMoment}">

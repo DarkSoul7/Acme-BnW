@@ -1,4 +1,3 @@
-
 package repositories;
 
 import java.util.Collection;
@@ -12,6 +11,9 @@ import domain.Match;
 @Repository
 public interface MatchRepository extends JpaRepository<Match, Integer> {
 
-	@Query("select m from Match m where m.fixture.id=?1")
-	Collection<Match> matchesOfFixture(int id);
+	@Query("select m from Match m where m.fixture.id=?1 and m.endMoment >= NOW()")
+	Collection<Match> matchesOfFixtureNonEnded(int id);
+
+	@Query("select m from Match m where m.endMoment >= NOW()")
+	Collection<Match> findAllNonEnded();
 }

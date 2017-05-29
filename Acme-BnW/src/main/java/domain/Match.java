@@ -1,4 +1,3 @@
-
 package domain;
 
 import java.util.Collection;
@@ -25,8 +24,8 @@ public class Match extends DomainEntity {
 
 	private Date	startMoment;
 	private Date	endMoment;
-	private int		localGoal;
-	private int		visitorGoal;
+	private Integer	localResult;
+	private Integer	visitorResult;
 
 
 	@NotNull
@@ -35,6 +34,7 @@ public class Match extends DomainEntity {
 	public Date getStartMoment() {
 		return this.startMoment;
 	}
+
 	public void setStartMoment(final Date startMoment) {
 		this.startMoment = startMoment;
 	}
@@ -45,26 +45,27 @@ public class Match extends DomainEntity {
 	public Date getEndMoment() {
 		return this.endMoment;
 	}
+
 	public void setEndMoment(final Date endMoment) {
 		this.endMoment = endMoment;
 	}
 
 	@Min(0)
-	public int getLocalGoal() {
-		return localGoal;
+	public Integer getLocalResult() {
+		return localResult;
 	}
 
-	public void setLocalGoal(int localGoal) {
-		this.localGoal = localGoal;
+	public void setLocalResult(Integer localResult) {
+		this.localResult = localResult;
 	}
 
 	@Min(0)
-	public int getVisitorGoal() {
-		return visitorGoal;
+	public Integer getVisitorResult() {
+		return visitorResult;
 	}
 
-	public void setVisitorGoal(int visitorGoal) {
-		this.visitorGoal = visitorGoal;
+	public void setVisitorResult(Integer visitorResult) {
+		this.visitorResult = visitorResult;
 	}
 
 
@@ -80,30 +81,37 @@ public class Match extends DomainEntity {
 	public Fixture getFixture() {
 		return this.fixture;
 	}
+
 	public void setFixture(final Fixture fixture) {
 		this.fixture = fixture;
 	}
+
 	@Valid
 	@OneToMany(mappedBy = "match")
 	public Collection<Market> getMarkets() {
 		return this.markets;
 	}
+
 	public void setMarkets(final Collection<Market> markets) {
 		this.markets = markets;
 	}
+
 	@Valid
 	@ManyToOne(optional = false)
 	public Team getVisitorTeam() {
 		return this.visitorTeam;
 	}
+
 	public void setVisitorTeam(final Team visitorTeam) {
 		this.visitorTeam = visitorTeam;
 	}
+
 	@Valid
 	@ManyToOne(optional = false)
 	public Team getLocalTeam() {
 		return this.localTeam;
 	}
+
 	public void setLocalTeam(final Team localTeam) {
 		this.localTeam = localTeam;
 	}

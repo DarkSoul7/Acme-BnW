@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.ArrayList;
@@ -12,13 +11,13 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.MatchRepository;
 import domain.Fixture;
 import domain.Market;
 import domain.Match;
 import domain.Team;
 import forms.MatchForm;
 import forms.ResultForm;
-import repositories.MatchRepository;
 
 @Service
 @Transactional
@@ -38,6 +37,9 @@ public class MatchService {
 
 	@Autowired
 	private ManagerService	managerService;
+
+	@Autowired
+	private Validator		validator;
 
 
 	public MatchService() {
@@ -72,11 +74,6 @@ public class MatchService {
 		this.matchRepository.delete(match);
 	}
 
-
-	@Autowired
-	private Validator validator;
-
-
 	public Match reconstruct(MatchForm matchForm, BindingResult binding) {
 		Assert.notNull(matchForm);
 
@@ -91,8 +88,8 @@ public class MatchService {
 			result.setLocalTeam(local);
 			result.setVisitorTeam(visitor);
 			result.setMarkets(new ArrayList<Market>());
-			result.setLocalGoal(0);
-			result.setVisitorGoal(0);
+			result.setLocalResult(null);
+			result.setVisitorResult(null);
 		}
 
 		result.setStartMoment(matchForm.getStartMoment());
@@ -116,21 +113,25 @@ public class MatchService {
 		Match match = findOne(idMatch);
 
 		result.setIdMatch(idMatch);
-		result.setLocalGoal(match.getLocalGoal());
-		result.setVisitorGoal(match.getVisitorGoal());
+		result.setLocalGoal(match.getLocalResult());
+		result.setVisitorGoal(match.getVisitorResult());
 
 		return result;
 	}
 
-	public Collection<Match> matchesOfFixture(int id) {
-		return matchRepository.matchesOfFixture(id);
+	public Collection<Match> matchesOfFixtureNonEnded(int id) {
+		return matchRepository.matchesOfFixtureNonEnded(id);
+	}
+
+	public Collection<Match> findAllNonEnded() {
+		return matchRepository.findAllNonEnded();
 	}
 
 	public void editResult(ResultForm resultForm) {
 		Assert.notNull(resultForm);
 		Match match = this.findOne(resultForm.getIdMatch());
-		match.setLocalGoal(resultForm.getLocalGoal());
-		match.setVisitorGoal(resultForm.getVisitorGoal());
+		match.setLocalResult(resultForm.getLocalGoal());
+		match.setVisitorResult(resultForm.getVisitorGoal());
 		matchRepository.save(match);
 	}
 

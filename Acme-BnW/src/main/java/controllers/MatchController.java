@@ -1,4 +1,3 @@
-
 package controllers;
 
 import java.util.Collection;
@@ -13,14 +12,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.FixtureService;
+import services.MatchService;
+import services.TeamService;
 import domain.Fixture;
 import domain.Match;
 import domain.Team;
 import forms.MatchForm;
 import forms.ResultForm;
-import services.FixtureService;
-import services.MatchService;
-import services.TeamService;
 
 @RequestMapping(value = "/match")
 @Controller
@@ -51,7 +50,7 @@ public class MatchController extends AbstractController {
 		ModelAndView result;
 		Collection<Match> matches;
 
-		matches = matchService.findAll();
+		matches = matchService.findAllNonEnded();
 
 		result = new ModelAndView("match/list");
 		result.addObject("matches", matches);
@@ -65,7 +64,7 @@ public class MatchController extends AbstractController {
 		ModelAndView result;
 		Collection<Match> matches;
 
-		matches = matchService.matchesOfFixture(fixtureId);
+		matches = matchService.matchesOfFixtureNonEnded(fixtureId);
 
 		result = new ModelAndView("match/list");
 		result.addObject("matches", matches);
@@ -148,6 +147,7 @@ public class MatchController extends AbstractController {
 
 		return result;
 	}
+
 	@RequestMapping(value = "/editResult", method = RequestMethod.GET)
 	public ModelAndView editResult(@RequestParam int matchId) {
 

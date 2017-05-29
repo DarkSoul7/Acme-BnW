@@ -125,6 +125,9 @@ public class BetController extends AbstractController {
 
 				result = new ModelAndView("redirect:/bet/pendingBets.do");
 				result.addObject("successMessage", "bet.multiple.success");
+			} catch (IllegalArgumentException e) {
+				result = new ModelAndView("redirect:/bet/showSelection.do");
+				result.addObject("errorMessage", "bet.sameMatch.error");
 			} catch (IllegalStateException e) {
 				result = new ModelAndView("redirect:/bet/showSelection.do");
 				result.addObject("errorMessage", "bet.balance.error");
