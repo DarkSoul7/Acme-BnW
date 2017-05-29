@@ -16,6 +16,7 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <jstl:if test="${fullName == null}">
 	<jstl:set var="fullName"><spring:message code="welcome.anonymousUser" /></jstl:set>
@@ -57,8 +58,8 @@
 	<br/>
 	<br/>
 	<spring:message code="welcome.notedMarkets" var="markedMarkets" />
-	<h3><jstl:out value="markedMarkets"/></h3>
-	<br/>
+	<h3><jstl:out value="${markedMarkets }"/></h3>
+	
 	<display:table name="notedMarkets" id="row" requestURI="${RequestURI}"
 	pagesize="5">
 
@@ -79,11 +80,63 @@
 		</display:column>
 		
 		<spring:message code="match.localTeam" var="localTeam" />
-		<display:column property="match.localTeam" title="${localTeam}"/>
+		<display:column property="match.localTeam.name" title="${localTeam}"/>
 		
 		<spring:message code="match.visitorTeam" var="visitorTeam" />
-		<display:column property="match.visitorTeam" title="${visitorTeam}"/>
+		<display:column property="match.visitorTeam.name" title="${visitorTeam}"/>
+		
+		<display:column>
+			<acme:cancel code="welcome.goToMarket" url="market/listByMatch.do?matchId=${row.match.id}" />
+		</display:column>
 	
 	</display:table>
+	
+	<br/>
+	
+	<spring:message code="welcome.favouriteTeamPromotions" var="favouriteTeamPromotions" />
+	<h3><jstl:out value="${favouriteTeamPromotions }"/></h3>
+	
+	<display:table name="favouritePromotions" id="row" requestURI="${RequestURI}"
+	pagesize="5">
+
+		<spring:message code="promotion.title" var="title" />
+	<display:column property="title" title="${title}" />
+	
+	<spring:message code="promotion.description" var="description" />
+	<display:column property="description" title="${description}" />
+	
+	<spring:message code="promotion.fee" var="fee" />
+	<display:column property="fee" title="${fee}" />
+
+	<spring:message code="promotion.startMoment" var="startMoment" />
+	<display:column title="${startMoment}">
+		<jstl:choose>
+			<jstl:when test="${pageContext.response.locale.language=='en'}">
+				<fmt:formatDate value="${row.startMoment}" pattern="MM/dd/yyyy" />
+			</jstl:when>
+			<jstl:otherwise>
+				<fmt:formatDate value="${row.startMoment}" pattern="dd/MM/yyyy" />
+			</jstl:otherwise>
+		</jstl:choose>
+	</display:column>
+	
+	<spring:message code="promotion.endMoment" var="endMoment" />
+	<display:column title="${endMoment}">
+		<jstl:choose>
+			<jstl:when test="${pageContext.response.locale.language=='en'}">
+				<fmt:formatDate value="${row.endMoment}" pattern="MM/dd/yyyy" />
+			</jstl:when>
+			<jstl:otherwise>
+				<fmt:formatDate value="${row.endMoment}" pattern="dd/MM/yyyy" />
+			</jstl:otherwise>
+		</jstl:choose>
+	</display:column>
+		
+		<display:column>
+			<acme:cancel code="welcome.goToMarket" url="market/listByMatch.do?matchId=${row.market.match.id}" />
+		</display:column>
+	
+	</display:table>
+	
 	
 </security:authorize>
