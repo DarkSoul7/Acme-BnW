@@ -26,6 +26,7 @@ import domain.Punctuation;
 import domain.Team;
 import domain.Ticket;
 import domain.Topic;
+import forms.BalanceForm;
 import forms.CustomerForm;
 import security.Authority;
 import security.UserAccount;
@@ -178,6 +179,92 @@ public class CustomerServiceTest extends AbstractTest {
 			customer.setTickets(new ArrayList<Ticket>());
 
 			customerService.save(customer);
+			this.customerService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expectedException, caught);
+	}
+
+	/***
+	 * Add balance
+	 * 1º Good test -> expected: add balance
+	 * 2º Bad test -> cannot add balance manager
+	 * 3º Bad test -> cannot add balance admin
+	 */
+
+	@Test
+	public void addBalanceDriver() {
+		final Object[][] testingData = {
+			//actor, balance, expected exception
+			{
+				"customer1", 20.0, null
+			}, {
+				"manager", 20.0, IllegalArgumentException.class
+			}, {
+				"admin", 20.0, IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.addBalanceTemplated((String) testingData[i][0], (Double) testingData[i][1], (Class<?>) testingData[i][2]);
+		}
+	}
+
+	protected void addBalanceTemplated(String principal, Double balance, Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+			BalanceForm balanceForm = new BalanceForm();
+			balanceForm.setBalance(balance);
+
+			customerService.addBalance(balanceForm);
+
+			this.unauthenticate();
+			this.customerService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expectedException, caught);
+	}
+
+	/***
+	 * Extract balance
+	 * 1º Good test -> expected: extract balance
+	 * 2º Bad test -> cannot extract balance manager
+	 * 3º Bad test -> cannot extract more balance he have
+	 */
+
+	@Test
+	public void extractBalanceDriver() {
+		final Object[][] testingData = {
+			//actor, balance, expected exception
+			{
+				"customer1", 20.0, null
+			}, {
+				"manager1", 20.0, IllegalArgumentException.class
+			}, {
+				"customer1", 2000.0, IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.extractBalanceTemplated((String) testingData[i][0], (Double) testingData[i][1], (Class<?>) testingData[i][2]);
+		}
+	}
+
+	protected void extractBalanceTemplated(String principal, Double balance, Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+			BalanceForm balanceForm = new BalanceForm();
+			balanceForm.setBalance(balance);
+
+			customerService.extractBalance(balanceForm);
+
+			this.unauthenticate();
 			this.customerService.flush();
 		} catch (Throwable oops) {
 			caught = oops.getClass();
