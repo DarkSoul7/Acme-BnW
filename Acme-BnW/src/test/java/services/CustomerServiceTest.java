@@ -1,10 +1,14 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolationException;
 
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +16,20 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
-import utilities.AbstractTest;
+import domain.Bet;
+import domain.Brand;
+import domain.Coordinates;
+import domain.CreditCard;
+import domain.Customer;
+import domain.Message;
+import domain.Punctuation;
+import domain.Team;
+import domain.Ticket;
+import domain.Topic;
 import forms.CustomerForm;
+import security.Authority;
+import security.UserAccount;
+import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
@@ -25,7 +41,10 @@ public class CustomerServiceTest extends AbstractTest {
 	// System under test ------------------------------------------------------
 
 	@Autowired
-	private CustomerService	customerService;
+	private CustomerService		customerService;
+
+	@Autowired
+	private WelcomeOfferService	welcomeOfferService;
 
 
 	/***
@@ -76,6 +95,93 @@ public class CustomerServiceTest extends AbstractTest {
 			caught = oops.getClass();
 		}
 
+		this.checkExceptions(expectedException, caught);
+	}
+
+	/***
+	 * Register a customer
+	 * 1º Good test -> expected customer registered:
+	 * 2º Bad test -> cannot register customer with email not pattern
+	 * 3º Bad test -> cannot register customer with birthdate future
+	 */
+
+	@Test
+	public void registerCustomerDriver() {
+
+		final Object testingData[][] = {
+			// name surname email phone nid birthDate username password exception
+			{
+				"Jesus", "Perez Domingo", "+34 672828282", "jes@gmail.com", "nid1", new DateTime(1989, 10, 10, 00, 00).toDate(), "customer30", "customer30", null
+			}, {
+				"Lucia", "Perez Domingo", "+34 672833123", "blabacar", "nid1", new DateTime(2017, 12, 12, 00, 00).toDate(), "customer100", "customer100", ConstraintViolationException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.registerCustomerTemplate((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Date) testingData[i][5], (String) testingData[i][6],
+				(String) testingData[i][7], (Class<?>) testingData[i][8]);
+	}
+
+	protected void registerCustomerTemplate(String name, String surname, String phone, String email, String nid, Date birthDate, String username, String password, Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			Customer customer = new Customer();
+
+			CreditCard creditCard = new CreditCard();
+			creditCard.setBrandName(Brand.VISA);
+			creditCard.setCvv(123);
+			creditCard.setExpirationMonth(10);
+			creditCard.setExpirationYear(2018);
+			creditCard.setHolderName("holder");
+			creditCard.setNumber("4800553115069231");
+
+			Coordinates coordinates = new Coordinates();
+			coordinates.setCity("city");
+			coordinates.setCountry("country");
+			coordinates.setProvince("province");
+			coordinates.setState("state");
+
+			Authority authority;
+
+			authority = new Authority();
+			authority.setAuthority(Authority.CUSTOMER);
+
+			UserAccount userAccount = new UserAccount();
+
+			userAccount.setEnabled(true);
+			userAccount.setPassword(password);
+			userAccount.setUsername(username);
+			userAccount.addAuthority(authority);
+
+			customer.setName(name);
+			customer.setSurname(surname);
+			customer.setPhone(phone);
+			customer.setBirthDate(birthDate);
+			customer.setEmail(email);
+			customer.setNid(nid);
+			customer.setCoordinates(coordinates);
+			customer.setBanNum(0);
+			customer.setFinishedOffer(false);
+			customer.setActiveWO(null);
+			customer.setIsDisabled(false);
+			customer.setBalance(0.);
+			customer.setOverAge(true);
+			customer.setWelcomeOffer(this.welcomeOfferService.getActive());
+			customer.setCreditCard(creditCard);
+			customer.setUserAccount(userAccount);
+			customer.setBets(new ArrayList<Bet>());
+			customer.setFavouriteTeams(new ArrayList<Team>());
+			customer.setMessages(new ArrayList<Message>());
+			customer.setPunctuations(new ArrayList<Punctuation>());
+			customer.setTopics(new ArrayList<Topic>());
+			customer.setTickets(new ArrayList<Ticket>());
+
+			customerService.save(customer);
+			this.customerService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
 		this.checkExceptions(expectedException, caught);
 	}
 }

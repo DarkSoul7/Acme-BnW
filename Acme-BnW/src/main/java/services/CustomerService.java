@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -25,10 +26,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 
-import repositories.CustomerRepository;
-import security.Authority;
-import security.LoginService;
-import security.UserAccount;
 import domain.Actor;
 import domain.Administrator;
 import domain.Bet;
@@ -41,6 +38,10 @@ import domain.Ticket;
 import domain.Topic;
 import forms.BalanceForm;
 import forms.CustomerForm;
+import repositories.CustomerRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
 
 @Service
 @Transactional
@@ -215,7 +216,7 @@ public class CustomerService {
 			if (!this.checkCreditCard(result.getCreditCard())) {
 				FieldError fieldError;
 				final String[] codes = {
-						"customer.creditCard.error"
+					"customer.creditCard.error"
 				};
 				fieldError = new FieldError("customerForm", "creditCard", result.getCreditCard(), false, codes, null, "");
 				binding.addError(fieldError);
@@ -230,7 +231,7 @@ public class CustomerService {
 			if (result.getUserAccount().getPassword() == "" || result.getUserAccount().getPassword() == null) {
 				FieldError fieldError;
 				final String[] codes = {
-						"customer.passwords.error"
+					"customer.passwords.error"
 				};
 				fieldError = new FieldError("customerForm", "userAccount.password", result.getUserAccount().getPassword(), false, codes, null, "");
 				binding.addError(fieldError);
@@ -262,8 +263,7 @@ public class CustomerService {
 		boolean result = false;
 
 		if (creditCard != null)
-			if (creditCard.getBrandName() != null || !creditCard.getHolderName().isEmpty() || creditCard.getCvv() != null || creditCard.getExpirationMonth() != null
-					|| creditCard.getExpirationYear() != null || !creditCard.getNumber().isEmpty())
+			if (creditCard.getBrandName() != null || !creditCard.getHolderName().isEmpty() || creditCard.getCvv() != null || creditCard.getExpirationMonth() != null || creditCard.getExpirationYear() != null || !creditCard.getNumber().isEmpty())
 				result = true;
 		return result;
 	}
@@ -423,6 +423,10 @@ public class CustomerService {
 
 		this.save(customer);
 		this.ticketService.save(ticket);
+	}
+
+	public void flush() {
+		customerRepository.flush();
 	}
 
 	//Dashboard
