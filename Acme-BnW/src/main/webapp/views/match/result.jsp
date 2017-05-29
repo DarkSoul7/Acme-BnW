@@ -23,10 +23,10 @@
 
 		<form:hidden path="idMatch" />
 
-		<acme:textbox code="match.localGoal" path="localGoal" mandatory="true" />
+		<acme:textbox code="match.localResult" path="localResult" mandatory="true" />
 		<br />
 		
-		<acme:textbox code="match.visitorGoal" path="visitorGoal" mandatory="true" />
+		<acme:textbox code="match.visitorResult" path="visitorResult" mandatory="true" />
 		<br />
 			
 		<acme:submit code="match.save" name="save" />

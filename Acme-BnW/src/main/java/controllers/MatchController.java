@@ -178,6 +178,15 @@ public class MatchController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/resolveBets", method = RequestMethod.GET)
+	public ModelAndView resolveBets(@RequestParam int matchId) {
+		ModelAndView result;
+
+		result = new ModelAndView("redirect:/match/list.do");
+
+		return result;
+	}
+
 	//Ancillary methods
 
 	protected ModelAndView createModelAndView(final MatchForm matchForm) {

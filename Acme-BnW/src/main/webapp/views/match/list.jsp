@@ -86,10 +86,12 @@
 		</display:column>
 		
 		<display:column>
-			<acme:cancel url="match/delete.do?matchId=${row.id}"
-				code="match.delete" />
+			<acme:confirm url="match/delete.do?matchId=${row.id}" code="match.delete" msg="match.delete.confirm"/>
 		</display:column>
 	
+		<display:column>
+			<acme:confirm url="match/resolveBets.do?matchId=${row.id}" code="match.resolveBets" msg="match.resolveBets.confirm"/>
+		</display:column>
 
 	</security:authorize>
 </display:table>

@@ -1,13 +1,12 @@
-
 package forms;
 
 public class ResultForm {
 
 	//Attributes
 
-	private int	idMatch;
-	private int	localGoal;
-	private int	visitorGoal;
+	private int		idMatch;
+	private Integer	localResult;
+	private Integer	visitorResult;
 
 
 	//Constructor
@@ -24,20 +23,20 @@ public class ResultForm {
 		this.idMatch = idMatch;
 	}
 
-	public int getLocalGoal() {
-		return localGoal;
+	public Integer getLocalResult() {
+		return localResult;
 	}
 
-	public void setLocalGoal(int localGoal) {
-		this.localGoal = localGoal;
+	public void setLocalResult(Integer localResult) {
+		this.localResult = localResult;
 	}
 
-	public int getVisitorGoal() {
-		return visitorGoal;
+	public Integer getVisitorResult() {
+		return visitorResult;
 	}
 
-	public void setVisitorGoal(int visitorGoal) {
-		this.visitorGoal = visitorGoal;
+	public void setVisitorResult(Integer visitorResult) {
+		this.visitorResult = visitorResult;
 	}
 
 }

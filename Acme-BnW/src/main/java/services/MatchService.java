@@ -113,8 +113,8 @@ public class MatchService {
 		Match match = findOne(idMatch);
 
 		result.setIdMatch(idMatch);
-		result.setLocalGoal(match.getLocalResult());
-		result.setVisitorGoal(match.getVisitorResult());
+		result.setLocalResult(match.getLocalResult());
+		result.setVisitorResult(match.getVisitorResult());
 
 		return result;
 	}
@@ -130,8 +130,11 @@ public class MatchService {
 	public void editResult(ResultForm resultForm) {
 		Assert.notNull(resultForm);
 		Match match = this.findOne(resultForm.getIdMatch());
-		match.setLocalResult(resultForm.getLocalGoal());
-		match.setVisitorResult(resultForm.getVisitorGoal());
+		//No se debe poder editar el resultado de un partido que no ha comenzado aún
+		Assert.isTrue(new Date().compareTo(match.getStartMoment()) > 0);
+
+		match.setLocalResult(resultForm.getLocalResult());
+		match.setVisitorResult(resultForm.getVisitorResult());
 		matchRepository.save(match);
 	}
 

@@ -69,9 +69,9 @@
 				</div>
 				<script type="text/javascript">
             $(function () {
-            	$.fn.datepicker.defaults.language = '${pageContext.response.locale.language}';
-                $('.${path}_datetimepicker').datetimepicker({
-                    locale: '${cookie.language.value}'
+            	$('#${path}_datetimepicker').datetimepicker({
+            		 locale: '${pageContext.response.locale.language}',
+            		 format: 'dd/mm/yyyy hh:ii',
                 });
             });
         </script>
