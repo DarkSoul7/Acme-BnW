@@ -11,12 +11,12 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import repositories.MessageRepository;
-import security.Authority;
 import domain.Customer;
 import domain.Message;
 import domain.Topic;
 import forms.MessageForm;
+import repositories.MessageRepository;
+import security.Authority;
 
 @Service
 @Transactional
@@ -61,6 +61,7 @@ public class MessageService {
 	}
 
 	public void save(final Message message) {
+		Assert.isTrue(message.getCustomer().getId() == customerService.findByPrincipal().getId());
 		this.messageRepository.save(message);
 	}
 
@@ -106,5 +107,10 @@ public class MessageService {
 
 	public Collection<Message> getMessagesByTopic(final Topic topic) {
 		return this.messageRepository.getMessagesByTopic(topic.getId());
+	}
+
+	public void flush() {
+		messageRepository.flush();
+
 	}
 }
