@@ -33,9 +33,6 @@ public class MarketService {
 	private MatchService		matchService;
 
 	@Autowired
-	private PromotionService	promotionService;
-
-	@Autowired
 	private ManagerService		managerService;
 
 
@@ -119,5 +116,55 @@ public class MarketService {
 
 	public void flush() {
 		this.marketRepository.flush();
+	}
+
+	public Integer betsInMatchDone(final Match match) {
+		return this.marketRepository.betsInMatchDone(match.getId());
+	}
+
+	/***
+	 * Recálculo de cuotas de los mercados. El algoritmo se pondrá en marcha atendiendo al umbral.
+	 * (populationThreshold: cantidad de apuestas para poner en marcha el algoritmo)
+	 * 
+	 * Se obtiene una proporción de cuantos usuarios de la aplicación (teniendo en cuenta aquellos que no apuesten
+	 * en el partido) van a participar en cada mercado: estimatedPopulation (en tantos de 1)
+	 * 
+	 * Si el número de participantes en el mercado en cuestión es superior al estimado la cuota desciende dependiendo de
+	 * su valor actual y del porcentaje estimado de usuarios que debia participar: newFee
+	 * 
+	 * @param match
+	 *            : partido a actualizar cuotas de mercados)
+	 * 
+	 * @param populationThreshold
+	 *            : umbral para la activación del algoritmo
+	 */
+	public void updateMarketQuotes(final Match match, final int populationThreshold) {
+		Assert.notNull(match);
+		final Double marketProportion = 100.0 / match.getMarkets().size();
+		final Integer population = this.betsInMatchDone(match);
+
+		if (population > populationThreshold) {
+			for (final Market market : match.getMarkets()) {
+
+				if (market.getFee() > 1.01) {
+					final Double estimatedPopulation = (marketProportion / market.getFee()) * 0.01; //Pertentage over 1
+					final Integer marketPopulation = market.getBets().size();
+
+					if (population * estimatedPopulation < marketPopulation) {
+						final Double newFee = market.getFee() - (market.getFee() * (estimatedPopulation * 0.001));
+
+						if (newFee > 1.01) {
+							market.setFee(newFee);
+
+						} else {
+							market.setFee(1.01);
+						}
+						this.save(market);
+					}
+				}
+
+			}
+		}
+
 	}
 }
