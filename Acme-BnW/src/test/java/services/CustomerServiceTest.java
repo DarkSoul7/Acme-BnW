@@ -271,4 +271,48 @@ public class CustomerServiceTest extends AbstractTest {
 		}
 		this.checkExceptions(expectedException, caught);
 	}
+
+	/***
+	 * Edit profile
+	 * 1º Good test -> expected: profile customer edit
+	 * 2º Bad test -> cannot edit phone blank
+	 * 3º Bad test -> cannot edit profile admin
+	 */
+
+	@Test
+	public void editProfileDriver() {
+		final Object[][] testingData = {
+			//actor, phone, expected exception
+			{
+				"customer1", "+34 654234543", null
+			}, {
+				"customer1", "", ConstraintViolationException.class
+			}, {
+				"admin", "+34 654234543", ConstraintViolationException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.editProfile((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+		}
+	}
+
+	protected void editProfile(String principal, String phone, Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+
+			Customer customer = customerService.findByPrincipal();
+			customer.setPhone(phone);
+			customerService.save(customer);
+
+			this.unauthenticate();
+			this.customerService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expectedException, caught);
+	}
+
 }

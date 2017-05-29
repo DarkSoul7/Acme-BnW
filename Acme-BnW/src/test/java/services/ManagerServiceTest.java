@@ -99,4 +99,47 @@ public class ManagerServiceTest extends AbstractTest {
 		this.checkExceptions(expectedException, caught);
 	}
 
+	/***
+	 * Edit profile
+	 * 1º Good test -> expected: profile manager edit
+	 * 2º Bad test -> cannot edit phone blank
+	 * 3º Bad test -> cannot edit profile admin
+	 */
+
+	@Test
+	public void editProfileDriver() {
+		final Object[][] testingData = {
+			//actor, phone, expected exception
+			{
+				"manager1", "+34 654234543", null
+			}, {
+				"manager1", "", ConstraintViolationException.class
+			}, {
+				"admin", "+34 654234543", ConstraintViolationException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.editProfile((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+		}
+	}
+
+	protected void editProfile(String principal, String phone, Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+
+			Manager manager = managerService.findByPrincipal();
+			manager.setPhone(phone);
+			managerService.editProfile(manager);
+
+			this.unauthenticate();
+			this.managerService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expectedException, caught);
+	}
+
 }

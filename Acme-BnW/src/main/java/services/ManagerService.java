@@ -79,6 +79,10 @@ public class ManagerService {
 		this.managerRepository.delete(manager);
 	}
 
+	public void editProfile(Manager manager) {
+		managerRepository.save(manager);
+	}
+
 
 	@Autowired
 	private Validator validator;
