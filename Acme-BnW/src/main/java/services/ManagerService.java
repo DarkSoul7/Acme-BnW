@@ -13,9 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 
-import domain.Customer;
 import domain.Manager;
-import forms.CustomerForm;
 import forms.ManagerForm;
 import repositories.ManagerRepository;
 import security.Authority;
@@ -29,7 +27,10 @@ public class ManagerService {
 	// Managed repository
 
 	@Autowired
-	private ManagerRepository managerRepository;
+	private ManagerRepository		managerRepository;
+
+	@Autowired
+	private AdministratorService	administratorService;
 
 
 	// Supported services
@@ -41,7 +42,7 @@ public class ManagerService {
 	public ManagerForm createForm() {
 		return new ManagerForm();
 	}
-	
+
 	public Manager create() {
 		Manager result;
 		UserAccount userAccount;
@@ -56,7 +57,7 @@ public class ManagerService {
 
 		result = new Manager();
 		result.setUserAccount(userAccount);
-		
+
 		return result;
 	}
 
@@ -70,6 +71,7 @@ public class ManagerService {
 	}
 
 	public void save(final Manager manager) {
+		administratorService.findByPrincipal();
 		this.managerRepository.save(manager);
 	}
 
@@ -125,11 +127,11 @@ public class ManagerService {
 
 		return result;
 	}
-	
+
 	public ManagerForm toFormObject(final Manager manager) {
 		Assert.notNull(manager);
 		final ManagerForm result = new ManagerForm();
-		
+
 		result.setId(manager.getId());
 		result.setName(manager.getName());
 		result.setSurname(manager.getSurname());
@@ -137,7 +139,6 @@ public class ManagerService {
 		result.setPhone(manager.getPhone());
 		result.setNid(manager.getNid());
 		result.setCoordinates(manager.getCoordinates());
-		
 
 		return result;
 	}
@@ -183,5 +184,9 @@ public class ManagerService {
 		result = encoder.encodePassword(password, null);
 
 		return result;
+	}
+
+	public void flush() {
+		managerRepository.flush();
 	}
 }
