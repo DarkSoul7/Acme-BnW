@@ -315,4 +315,86 @@ public class CustomerServiceTest extends AbstractTest {
 		this.checkExceptions(expectedException, caught);
 	}
 
+	/***
+	 * Active Welcome Offer
+	 * 1º Good test -> expected: add amount of welcome offer on balance customer
+	 * 2º Bad test -> charge is more little that extract amount
+	 * 3º Bad test -> customer have welcome offer join before
+	 */
+
+	@Test
+	public void activeOfferDriver() {
+		final Object[][] testingData = {
+			//actor, charge, expected exception
+			{
+				"customer1", 10.0, null
+			}, {
+				"customer1", 8.0, IllegalArgumentException.class
+			}, {
+				"customer1", 10.0, IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.activeOfferTemplated((String) testingData[i][0], (Double) testingData[i][1], (Class<?>) testingData[i][2]);
+		}
+	}
+
+	protected void activeOfferTemplated(String principal, Double charge, Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+
+			customerService.activeOffer(charge, customerService.findByPrincipal().getId());
+
+			this.unauthenticate();
+			this.customerService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expectedException, caught);
+	}
+
+	/***
+	 * Cancel Welcome Offer
+	 * 1º Good test -> expected: Cancel welcome offer customer
+	 * 2º Bad test -> Cannot cancel welcome offer if before it was cancel
+	 * 3º Bad test -> admin cannot cancel welcome offer of customer
+	 */
+
+	@Test
+	public void cancelOfferDriver() {
+		final Object[][] testingData = {
+			//actor, charge, expected exception
+			{
+				"customer1", null
+			}, {
+				"customer2", IllegalArgumentException.class
+			}, {
+				"admin", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.cancelOfferTemplated((String) testingData[i][0], (Class<?>) testingData[i][1]);
+		}
+	}
+
+	protected void cancelOfferTemplated(String principal, Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+
+			customerService.cancelOffer(customerService.findByPrincipal().getId());
+
+			this.unauthenticate();
+			this.customerService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expectedException, caught);
+	}
+
 }
