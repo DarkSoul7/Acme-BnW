@@ -12,12 +12,12 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import repositories.TopicRepository;
 import domain.Customer;
 import domain.Message;
 import domain.Punctuation;
 import domain.Topic;
 import forms.TopicForm;
+import repositories.TopicRepository;
 
 @Service
 @Transactional
@@ -66,6 +66,7 @@ public class TopicService {
 	}
 
 	public void save(final Topic topic) {
+		Assert.isTrue(topic.getCustomer().getId() == customerService.findByPrincipal().getId());
 		this.topicRepository.save(topic);
 	}
 
@@ -153,5 +154,9 @@ public class TopicService {
 	//c)
 	public Double getMessageAvgByCustomers() {
 		return this.topicRepository.getMessageAvgByCustomers();
+	}
+
+	public void flush() {
+		topicRepository.flush();
 	}
 }
