@@ -1,3 +1,4 @@
+
 package repositories;
 
 import java.util.Collection;
@@ -17,4 +18,7 @@ public interface MarketRepository extends JpaRepository<Market, Integer> {
 	@Query("select m from Market m where m.match.id=?1")
 	Collection<Market> marketsOfMatches(int id);
 
+	//Marked market
+	@Query("select distinct m from Market m where m.bets.size >= all(select m2.bets.size from Market m2)")
+	Collection<Market> getMarkedMarket();
 }

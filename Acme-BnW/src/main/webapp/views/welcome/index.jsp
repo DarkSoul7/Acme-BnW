@@ -52,3 +52,38 @@
 		
 	</div>
 </jstl:if>
+	
+<security:authorize access="hasRole('CUSTOMER')"> 
+	<br/>
+	<br/>
+	<spring:message code="welcome.notedMarkets" var="markedMarkets" />
+	<h3><jstl:out value="markedMarkets"/></h3>
+	<br/>
+	<display:table name="notedMarkets" id="row" requestURI="${RequestURI}"
+	pagesize="5">
+
+		<spring:message code="market.title" var="title" />
+		<display:column property="title" title="${title}"/>
+		
+		<spring:message code="market.fee" var="fee" />
+		<display:column property="fee" title="${fee}"/>
+		
+		<spring:message code="match.startMoment" var="startMoment" />
+		<display:column title="${startMoment}">
+			<fmt:formatDate value="${row.match.startMoment}" pattern="MM/dd/yyyy HH:mm" />
+		</display:column>
+		
+		<spring:message code="match.endMoment" var="endMoment" />
+		<display:column title="${endMoment}">
+			<fmt:formatDate value="${row.match.endMoment}" pattern="MM/dd/yyyy HH:mm" />
+		</display:column>
+		
+		<spring:message code="match.localTeam" var="localTeam" />
+		<display:column property="match.localTeam" title="${localTeam}"/>
+		
+		<spring:message code="match.visitorTeam" var="visitorTeam" />
+		<display:column property="match.visitorTeam" title="${visitorTeam}"/>
+	
+	</display:table>
+	
+</security:authorize>
