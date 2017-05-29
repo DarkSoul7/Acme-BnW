@@ -25,7 +25,10 @@ public class TournamentService {
 	// Managed repository
 
 	@Autowired
-	private TournamentRepository tournamentRepository;
+	private TournamentRepository	tournamentRepository;
+
+	@Autowired
+	private ManagerService			managerService;
 
 
 	// Supported services
@@ -57,6 +60,7 @@ public class TournamentService {
 
 	public void delete(final Tournament tournament) {
 		Assert.isTrue(tournament.getCategories().size() == 0);
+		managerService.findByPrincipal();
 		this.tournamentRepository.delete(tournament);
 	}
 
@@ -103,6 +107,10 @@ public class TournamentService {
 		result.setSport(tournament.getSport());
 		result.setId(tournament.getId());
 		return result;
+	}
+
+	public void flush() {
+		tournamentRepository.flush();
 	}
 
 	//C6
