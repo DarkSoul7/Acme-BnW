@@ -639,11 +639,7 @@
 		<property name="title" value="Local wins" />
 		<property name="fee" value="1.15" />
 		<property name="match" ref="match1" />
-		<property name="promotions">
-			<list>
-				<null/>
-			</list>
-		</property>
+		<property name="promotion"><null/></property>
 		<property name="bets">
 			<list>
 				<null/>
@@ -655,11 +651,7 @@
 		<property name="title" value="Visitor wins" />
 		<property name="fee" value="2.35" />
 		<property name="match" ref="match1" />
-		<property name="promotions">
-			<list>
-				<null/>
-			</list>
-		</property>
+		<property name="promotion"><null/></property>
 		<property name="bets">
 			<list>
 				<null/>
@@ -671,11 +663,7 @@
 		<property name="title" value="Tie" />
 		<property name="fee" value="2.02" />
 		<property name="match" ref="match1" />
-		<property name="promotions">
-			<list>
-				<null/>
-			</list>
-		</property>
+		<property name="promotion"><null/></property>
 		<property name="bets">
 			<list>
 				<null/>
@@ -687,11 +675,7 @@
 		<property name="title" value="Local wins" />
 		<property name="fee" value="1.15" />
 		<property name="match" ref="match2" />
-		<property name="promotions">
-			<list>
-				<null/>
-			</list>
-		</property>
+		<property name="promotion"><null/></property>
 		<property name="bets">
 			<list>
 				<null/>
@@ -703,11 +687,7 @@
 		<property name="title" value="Visitor wins" />
 		<property name="fee" value="2.35" />
 		<property name="match" ref="match2" />
-		<property name="promotions">
-			<list>
-				<null/>
-			</list>
-		</property>
+		<property name="promotion"><null/></property>
 		<property name="bets">
 			<list>
 				<null/>
@@ -719,11 +699,7 @@
 		<property name="title" value="Tie" />
 		<property name="fee" value="2.30" />
 		<property name="match" ref="match2" />
-		<property name="promotions">
-			<list>
-				<null/>
-			</list>
-		</property>
+		<property name="promotion"><null/></property>
 		<property name="bets">
 			<list>
 				<null/>
@@ -1025,7 +1001,7 @@
 		<property name="fee" value="50.0" />
 		<property name="startMoment" value="2017/05/15 " />
 		<property name="endMoment" value="2017/08/15" />
-		<property name="market" ref="market3" />
+		<property name="market" ref="market4" />
 	</bean>
 	
 </beans>

@@ -14,12 +14,12 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.MarketRepository;
 import domain.Bet;
 import domain.Market;
 import domain.Match;
 import domain.Promotion;
 import forms.MarketForm;
-import repositories.MarketRepository;
 
 @Service
 @Transactional
@@ -37,9 +37,9 @@ public class MarketService {
 
 	@Autowired
 	private PromotionService	promotionService;
-	
+
 	@Autowired
-	private ManagerService managerService;
+	private ManagerService		managerService;
 
 
 	//Constructor
@@ -69,7 +69,7 @@ public class MarketService {
 	public void delete(final Market market) {
 		Assert.isTrue(market.getMatch().getEndMoment().before(new Date()));
 		Assert.isTrue(this.marketRepository.findExistsCustomerOnMarket(market.getId()) == 0);
-		managerService.findByPrincipal();
+		this.managerService.findByPrincipal();
 		this.marketRepository.delete(market);
 	}
 
@@ -77,7 +77,7 @@ public class MarketService {
 	//Other business services
 
 	@Autowired
-	private Validator validator;
+	private Validator	validator;
 
 
 	public Market reconstruct(final MarketForm marketForm, final BindingResult binding) {
@@ -89,7 +89,6 @@ public class MarketService {
 		else {
 			final Match match = this.matchService.findOne(marketForm.getIdMatch());
 			result.setBets(new ArrayList<Bet>());
-			result.setPromotions(new ArrayList<Promotion>());
 			result.setMatch(match);
 		}
 
@@ -128,11 +127,11 @@ public class MarketService {
 		return result;
 	}
 
-	public Collection<Market> marketsOfMatches(int id) {
-		return marketRepository.marketsOfMatches(id);
+	public Collection<Market> marketsOfMatches(final int id) {
+		return this.marketRepository.marketsOfMatches(id);
 	}
-	
+
 	public void flush() {
-		marketRepository.flush();
+		this.marketRepository.flush();
 	}
 }
