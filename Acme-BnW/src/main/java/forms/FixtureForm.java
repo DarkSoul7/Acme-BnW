@@ -3,6 +3,11 @@ package forms;
 
 import java.util.Date;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class FixtureForm {
 
 	//Attributes
@@ -22,6 +27,8 @@ public class FixtureForm {
 		this.id = id;
 	}
 
+	@Temporal(value = TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getStartMoment() {
 		return startMoment;
 	}
@@ -30,6 +37,8 @@ public class FixtureForm {
 		this.startMoment = startMoment;
 	}
 
+	@Temporal(value = TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getEndMoment() {
 		return endMoment;
 	}

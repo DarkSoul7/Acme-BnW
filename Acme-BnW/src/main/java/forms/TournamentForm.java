@@ -3,6 +3,11 @@ package forms;
 
 import java.util.Date;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import domain.Sport;
 
 public class TournamentForm {
@@ -41,6 +46,8 @@ public class TournamentForm {
 		this.description = description;
 	}
 
+	@Temporal(value = TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getStartMoment() {
 		return startMoment;
 	}
@@ -49,6 +56,8 @@ public class TournamentForm {
 		this.startMoment = startMoment;
 	}
 
+	@Temporal(value = TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getEndMoment() {
 		return endMoment;
 	}

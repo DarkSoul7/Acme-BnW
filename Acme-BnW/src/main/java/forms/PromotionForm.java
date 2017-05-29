@@ -3,6 +3,11 @@ package forms;
 
 import java.util.Date;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class PromotionForm {
 
 	//Attributes
@@ -48,6 +53,8 @@ public class PromotionForm {
 		this.fee = fee;
 	}
 
+	@Temporal(value = TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getStartMoment() {
 		return startMoment;
 	}
@@ -56,6 +63,8 @@ public class PromotionForm {
 		this.startMoment = startMoment;
 	}
 
+	@Temporal(value = TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getEndMoment() {
 		return endMoment;
 	}
