@@ -4,8 +4,6 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +16,6 @@ import repositories.MarketRepository;
 import domain.Bet;
 import domain.Market;
 import domain.Match;
-import domain.Promotion;
 import forms.MarketForm;
 
 @Service
@@ -112,19 +109,8 @@ public class MarketService {
 	 * Devuelve las apuestas destacadas (según la lista de equipos favoritos del cliente registrado)
 	 * 
 	 */
-	public Collection<Market> getNotedMarket() {
-		final Set<Promotion> promotions = new HashSet<>();
-		final Set<Market> result = new HashSet<>();
-		final Collection<Promotion> localPromotions = this.promotionService.getLocalFavouriteTeamPromotions();
-		final Collection<Promotion> visitorPromotions = this.promotionService.getVisitorFavouriteTeamPromotions();
-
-		promotions.addAll(localPromotions);
-		promotions.addAll(visitorPromotions);
-
-		for (final Promotion promotion : promotions)
-			result.add(promotion.getMarket());
-
-		return result;
+	public Collection<Market> getMarkedMarket() {
+		return this.marketRepository.getMarkedMarket();
 	}
 
 	public Collection<Market> marketsOfMatches(final int id) {
