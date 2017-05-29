@@ -6,11 +6,12 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
-import repositories.PunctuationRepository;
 import domain.Customer;
 import domain.Punctuation;
 import domain.Topic;
+import repositories.PunctuationRepository;
 
 @Service
 @Transactional
@@ -57,6 +58,7 @@ public class PunctuationService {
 	}
 
 	public void delete(final Punctuation punctuation) {
+		Assert.isTrue(punctuation.getCustomer().getId() == customerService.findByPrincipal().getId());
 		this.punctuationRepository.delete(punctuation);
 	}
 
@@ -77,5 +79,9 @@ public class PunctuationService {
 
 	public Punctuation findByTopicAndCustomer(final Topic topic, final Customer customer) {
 		return this.punctuationRepository.findByTopicAndCustomer(topic.getId(), customer.getId());
+	}
+
+	public void flush() {
+		punctuationRepository.flush();
 	}
 }

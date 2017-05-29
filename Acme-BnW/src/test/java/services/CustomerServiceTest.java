@@ -366,7 +366,7 @@ public class CustomerServiceTest extends AbstractTest {
 	@Test
 	public void cancelOfferDriver() {
 		final Object[][] testingData = {
-			//actor, charge, expected exception
+			//actor, expected exception
 			{
 				"customer1", null
 			}, {
