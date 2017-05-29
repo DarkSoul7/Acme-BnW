@@ -389,6 +389,7 @@ public class CustomerService {
 	public void activeOffer(final Double charge, final int customerId) {
 		final Customer customer = this.findByPrincipal();
 		Assert.isTrue(charge >= customer.getWelcomeOffer().getExtractionAmount());
+		Assert.isTrue(customer.getFinishedOffer() == false);
 		customer.setBalance(customer.getBalance() + customer.getWelcomeOffer().getAmount());
 		customer.setFinishedOffer(true);
 		this.save(customer);

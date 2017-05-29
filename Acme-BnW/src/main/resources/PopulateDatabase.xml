@@ -165,7 +165,7 @@
 		<property name="isDisabled" value="false"/>
 		<property name="banNum" value="0" />
 		<property name="balance" value="52.00" />
-		<property name="finishedOffer" value="false" />
+		<property name="finishedOffer" value="true" />
 		<property name="coordinates" ref="coordinates5"/>
 		<property name="userAccount" ref="userAccount3"/>
 		<property name="welcomeOffer" ref="welcomeOffer1"/>
