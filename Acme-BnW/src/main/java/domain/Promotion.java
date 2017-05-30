@@ -10,6 +10,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -48,6 +49,7 @@ public class Promotion extends DomainEntity {
 	}
 
 	@NotNull
+	@DecimalMin("0.01")
 	public Double getFee() {
 		return this.fee;
 	}
@@ -85,7 +87,7 @@ public class Promotion extends DomainEntity {
 
 
 	//RelationShip
-	private Market	market;
+	private Market market;
 
 
 	@Valid

@@ -269,6 +269,14 @@
 		<property name="endPeriod" value="2019/02/22" />
 		<property name="amount" value="30.00" />
 		<property name="extractionAmount" value="10.00" />
+	</bean>
+
+	<bean id="welcomeOffer2" class="domain.WelcomeOffer">
+		<property name="title" value="Si aceptas la oferta al canjear 25 monedas obentras 50 mas!!" />
+		<property name="openPeriod" value="2025/02/22" />
+		<property name="endPeriod" value="2025/03/22" />
+		<property name="amount" value="50.00" />
+		<property name="extractionAmount" value="25.00" />
 	</bean>	
 	
 	<!-- TOURNAMENT -->

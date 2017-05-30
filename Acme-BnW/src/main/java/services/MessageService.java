@@ -16,7 +16,6 @@ import domain.Message;
 import domain.Topic;
 import forms.MessageForm;
 import repositories.MessageRepository;
-import security.Authority;
 
 @Service
 @Transactional
@@ -25,19 +24,22 @@ public class MessageService {
 	// Managed repository
 
 	@Autowired
-	private MessageRepository	messageRepository;
+	private MessageRepository		messageRepository;
 
 	@Autowired
-	private CustomerService		customerService;
+	private CustomerService			customerService;
 
 	@Autowired
-	private ActorService		actorService;
+	private ActorService			actorService;
 
 	@Autowired
-	private Validator			validator;
+	private Validator				validator;
 
 	@Autowired
-	private TopicService		topicService;
+	private TopicService			topicService;
+
+	@Autowired
+	private AdministratorService	administratorService;
 
 
 	// Supported services
@@ -66,7 +68,7 @@ public class MessageService {
 	}
 
 	public void delete(final Message message) {
-		Assert.notNull(this.actorService.findByPrincipal().getUserAccount().getAuthorities().contains(Authority.ADMIN));
+		administratorService.findByPrincipal();
 		this.messageRepository.delete(message);
 	}
 

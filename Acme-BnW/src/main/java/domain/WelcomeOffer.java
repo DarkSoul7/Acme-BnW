@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -20,13 +21,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class WelcomeOffer extends DomainEntity {
 
-	private String title;
+	private String	title;
 	private Date	openPeriod;
 	private Date	endPeriod;
 	private Double	amount;
 	private Double	extractionAmount;
 
-	
+
 	@NotBlank
 	public String getTitle() {
 		return title;
@@ -59,6 +60,7 @@ public class WelcomeOffer extends DomainEntity {
 	}
 
 	@NotNull
+	@Min(0)
 	public Double getAmount() {
 		return amount;
 	}
@@ -68,6 +70,7 @@ public class WelcomeOffer extends DomainEntity {
 	}
 
 	@NotNull
+	@Min(0)
 	public Double getExtractionAmount() {
 		return extractionAmount;
 	}

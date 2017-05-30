@@ -1,3 +1,4 @@
+
 package domain;
 
 import java.util.Collection;
@@ -9,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -29,6 +31,7 @@ public class Market extends DomainEntity {
 	}
 
 	@NotNull
+	@DecimalMin("1.01")
 	public Double getFee() {
 		return this.fee;
 	}

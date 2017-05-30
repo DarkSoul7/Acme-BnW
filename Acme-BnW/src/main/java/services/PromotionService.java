@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,11 +13,11 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import repositories.PromotionRepository;
 import domain.Customer;
 import domain.Market;
 import domain.Promotion;
 import forms.PromotionForm;
+import repositories.PromotionRepository;
 
 @Service
 @Transactional
@@ -34,6 +35,9 @@ public class PromotionService {
 
 	@Autowired
 	private MarketService		marketService;
+
+	@Autowired
+	private ManagerService		managerService;
 
 
 	//Constructor
@@ -61,6 +65,8 @@ public class PromotionService {
 
 	public void save(final Promotion promotion) {
 		Assert.notNull(promotion);
+		Assert.isTrue(promotion.getStartMoment().after(new Date()));
+		Assert.isTrue(promotion.getEndMoment().after(promotion.getStartMoment()));
 		this.promotionRepository.save(promotion);
 	}
 
@@ -71,13 +77,14 @@ public class PromotionService {
 
 	public void cancel(final Promotion promotion) {
 		Assert.notNull(promotion);
+		Assert.isTrue(!promotion.isCancel());
 		promotion.setCancel(true);
-		this.save(promotion);
+		promotionRepository.save(promotion);
 	}
 
 
 	@Autowired
-	private Validator	validator;
+	private Validator validator;
 
 
 	public Promotion reconstruct(final PromotionForm promotionForm, final BindingResult binding) {
@@ -133,5 +140,10 @@ public class PromotionService {
 		result.addAll(this.getVisitorFavouriteTeamPromotions());
 
 		return result;
+	}
+
+	public void flush() {
+		promotionRepository.flush();
+
 	}
 }

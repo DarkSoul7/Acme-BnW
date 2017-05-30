@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -11,13 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import utilities.AbstractTest;
 import domain.Customer;
 import domain.Match;
 import domain.Team;
+import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
-		"classpath:spring/junit.xml"
+	"classpath:spring/junit.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -26,7 +27,7 @@ public class TeamServiceTest extends AbstractTest {
 	// System under test ------------------------------------------------------
 
 	@Autowired
-	private TeamService	teamService;
+	private TeamService teamService;
 
 
 	/***
@@ -39,14 +40,14 @@ public class TeamServiceTest extends AbstractTest {
 	@Test
 	public void registerTeamDriver() {
 		final Object[][] testingData = {
-				//actor, name, shield, expected exception
-				{
-						"manager1", "name", "https://c1.staticflickr.com/9/8108/8531201674_60519d433a.jpg", null
-		}, {
+			//actor, name, shield, expected exception
+			{
+				"manager1", "name", "https://c1.staticflickr.com/9/8108/8531201674_60519d433a.jpg", null
+			}, {
 				"manager1", "", "https://c1.staticflickr.com/9/8108/8531201674_60519d433a.jpg", ConstraintViolationException.class
-		}, {
+			}, {
 				"manager1", "name", "", ConstraintViolationException.class
-		}
+			}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
@@ -85,14 +86,14 @@ public class TeamServiceTest extends AbstractTest {
 	@Test
 	public void editTeamDriver() {
 		final Object[][] testingData = {
-				//actor, teamId ,name, shield, expected exception
-				{
-						"manager1", 95, "name", "https://c1.staticflickr.com/9/8108/8531201674_60519d433a.jpg", null
-		}, {
-				"manager1", 95, "", "https://c1.staticflickr.com/9/8108/8531201674_60519d433a.jpg", ConstraintViolationException.class
-		}, {
-				"manager1", 95, "name", "", ConstraintViolationException.class
-		}
+			//actor, teamId ,name, shield, expected exception
+			{
+				"manager1", 97, "name", "https://c1.staticflickr.com/9/8108/8531201674_60519d433a.jpg", null
+			}, {
+				"manager1", 97, "", "https://c1.staticflickr.com/9/8108/8531201674_60519d433a.jpg", ConstraintViolationException.class
+			}, {
+				"manager1", 97, "name", "", ConstraintViolationException.class
+			}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
@@ -128,14 +129,14 @@ public class TeamServiceTest extends AbstractTest {
 	@Test
 	public void deleteTeamDriver() {
 		final Object[][] testingData = {
-				//actor, teamId , expected exception
-				{
-						"manager1", 103, null
-		}, {
-				"customer1", 103, IllegalArgumentException.class
-		}, {
-				"admin", 103, IllegalArgumentException.class
-		}
+			//actor, teamId , expected exception
+			{
+				"manager1", 105, null
+			}, {
+				"customer1", 105, IllegalArgumentException.class
+			}, {
+				"admin", 105, IllegalArgumentException.class
+			}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {

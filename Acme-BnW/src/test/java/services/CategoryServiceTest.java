@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -11,12 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import utilities.AbstractTest;
 import domain.Category;
 import domain.Fixture;
 import domain.Tournament;
+import utilities.AbstractTest;
 
-@ContextConfiguration(locations = {"classpath:spring/junit.xml"})
+@ContextConfiguration(locations = {
+	"classpath:spring/junit.xml"
+})
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class CategoryServiceTest extends AbstractTest {
@@ -38,24 +41,27 @@ public class CategoryServiceTest extends AbstractTest {
 	@Test
 	public void registerCategoryDriver() {
 		final Object[][] testingData = {
-				// actor, name, description, expected exception
-				{"manager1", "Name1", "Description1", 89, null},
-				{"manager1", "", "Description2", 89, ConstraintViolationException.class},
-				{"manager1", "Name2", "", 89, ConstraintViolationException.class}};
+			// actor, name, description, tournamentId,expected exception
+			{
+				"manager1", "Name1", "Description1", 91, null
+			}, {
+				"manager1", "", "Description2", 91, ConstraintViolationException.class
+			}, {
+				"manager1", "Name2", "", 91, ConstraintViolationException.class
+			}
+		};
 
 		for (int i = 0; i < testingData.length; i++) {
-			this.registerCategoryTemplated((String) testingData[i][0], (String) testingData[i][1],
-					(String) testingData[i][2], (Integer) testingData[i][3], (Class<?>) testingData[i][4]);
+			this.registerCategoryTemplated((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Integer) testingData[i][3], (Class<?>) testingData[i][4]);
 		}
 	}
 
-	protected void registerCategoryTemplated(String principal, String name, String description, Integer torunamentId,
-			Class<?> expectedException) {
+	protected void registerCategoryTemplated(String principal, String name, String description, Integer tournamentId, Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			Tournament tournament = tournamentService.findOne(torunamentId);
+			Tournament tournament = tournamentService.findOne(tournamentId);
 			Category category = new Category();
 			category.setName(name);
 			category.setDescription(description);
@@ -81,19 +87,22 @@ public class CategoryServiceTest extends AbstractTest {
 	@Test
 	public void editCategoryDriver() {
 		final Object[][] testingData = {
-				// actor, categoryId ,name, description, expected exception
-				{"manager1", 92, "name", "description 1", null},
-				{"manager1", 92, "", "description 2", ConstraintViolationException.class},
-				{"manager1", 92, "name 1", null, ConstraintViolationException.class}};
+			// actor, categoryId ,name, description, expected exception
+			{
+				"manager1", 94, "name", "description 1", null
+			}, {
+				"manager1", 94, "", "description 2", ConstraintViolationException.class
+			}, {
+				"manager1", 94, "name 1", null, ConstraintViolationException.class
+			}
+		};
 
 		for (int i = 0; i < testingData.length; i++) {
-			this.editCategoryTemplated((String) testingData[i][0], (int) testingData[i][1], (String) testingData[i][2],
-					(String) testingData[i][3], (Class<?>) testingData[i][4]);
+			this.editCategoryTemplated((String) testingData[i][0], (int) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Class<?>) testingData[i][4]);
 		}
 	}
 
-	protected void editCategoryTemplated(String principal, int categoryId, String name, String description,
-			Class<?> expectedException) {
+	protected void editCategoryTemplated(String principal, int categoryId, String name, String description, Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
@@ -121,14 +130,14 @@ public class CategoryServiceTest extends AbstractTest {
 	@Test
 	public void deletecategoryDriver() {
 		final Object[][] testingData = {
-				//actor, categoryId, expected exception
-				{
-						"manager1", 92, null
-		}, {
-				"customer1", 92, IllegalArgumentException.class
-		}, {
-				"admin", 92, IllegalArgumentException.class
-		}
+			//actor, categoryId, expected exception
+			{
+				"manager1", 94, null
+			}, {
+				"customer1", 94, IllegalArgumentException.class
+			}, {
+				"admin", 94, IllegalArgumentException.class
+			}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
@@ -141,7 +150,7 @@ public class CategoryServiceTest extends AbstractTest {
 
 		try {
 			this.authenticate(principal);
-			Tournament tournament = tournamentService.findOne(89);
+			Tournament tournament = tournamentService.findOne(91);
 			Category category = new Category();
 			category.setName("Name 1");
 			category.setDescription("Description 1");

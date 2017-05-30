@@ -26,8 +26,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 
-import domain.Actor;
-import domain.Administrator;
 import domain.Bet;
 import domain.CreditCard;
 import domain.Customer;
@@ -369,21 +367,28 @@ public class CustomerService {
 		return result;
 	}
 
-	public void disable(final int customerId) {
-		final Actor actor = this.actorService.findByPrincipal();
-		if (actor.getUserAccount().getAuthorities().contains(Authority.ADMIN) || actor.getUserAccount().getAuthorities().contains(Authority.CUSTOMER)) {
-			final Customer customer = this.findOne(customerId);
-			this.save(customer);
-		} else
-			Assert.isTrue(false);
+	public void managementBan(int customerId) {
+		Customer customer = customerRepository.findOne(customerId);
+		Assert.notNull(customer);
+		administratorService.findByPrincipal();
+
+		if (customer.getUserAccount().isEnabled()) {
+			customer.getUserAccount().setEnabled(false);
+		} else {
+			customer.getUserAccount().setEnabled(true);
+			customer.setBanNum(customer.getBanNum() + 1);
+		}
+		this.customerRepository.save(customer);
+
 	}
 
-	public void activeCustomer(final int customerId) {
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
-		final Customer customer = this.findOne(customerId);
-		customer.getUserAccount().setEnabled(true);
-		this.save(customer);
+	public void autoExclusion() {
+		final Customer customer = this.findByPrincipal();
+		Assert.isTrue(!customer.getIsDisabled());
+
+		customer.setIsDisabled(true);
+		customer.getUserAccount().setEnabled(false);
+		this.customerRepository.save(customer);
 	}
 
 	public void activeOffer(final Double charge, final int customerId) {
