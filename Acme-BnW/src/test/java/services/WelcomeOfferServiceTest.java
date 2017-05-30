@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 
 import domain.Customer;
 import domain.WelcomeOffer;
@@ -163,6 +164,45 @@ public class WelcomeOfferServiceTest extends AbstractTest {
 		} catch (Throwable oops) {
 			caught = oops.getClass();
 		}
+		this.checkExceptions(expectedException, caught);
+	}
+
+	/***
+	 * Visualizar oferta de bienvenida
+	 * Testing cases:
+	 * 1º Good test -> expected: results shown
+	 */
+
+	@Test
+	public void seeWelcomeOfferDriver() {
+
+		final Object testingData[][] = {
+			//principal expected exception
+			{
+				"customer1", null
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.seeWelcomeOfferTemplate((String) testingData[i][0], (Class<?>) testingData[i][1]);
+	}
+
+	protected void seeWelcomeOfferTemplate(final String principal, final Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+
+			WelcomeOffer welcomeOffer = welcomeOfferService.getActive();
+
+			Assert.notNull(welcomeOffer);
+
+			this.unauthenticate();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
 		this.checkExceptions(expectedException, caught);
 	}
 
