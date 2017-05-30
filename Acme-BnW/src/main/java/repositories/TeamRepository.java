@@ -25,4 +25,10 @@ public interface TeamRepository extends JpaRepository<Team, Integer> {
 	//8 y 9 b)
 	@Query("select t, sum(m.bets.size) from Team t join t.localMatches match join match.markets m group by t")
 	Collection<Object[]> betsByLocalTeam();
+	
+	//Dashboard A
+	
+	//A1
+	@Query("select sum(c.favouriteTeams.size)*1.0/count(c) from Customer c")
+	public Double avgFavouritTeamPerCustomer();
 }

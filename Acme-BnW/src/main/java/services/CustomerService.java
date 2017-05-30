@@ -470,4 +470,9 @@ public class CustomerService {
 	public Integer getBanNumber() {
 		return this.customerRepository.getBanNumber();
 	}
+	
+	//A2
+	public Collection<Customer> customerWithMoreMessages(){
+		return customerRepository.customerWithMoreMessages();
+	}
 }

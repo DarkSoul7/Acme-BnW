@@ -115,4 +115,11 @@ public class MessageService {
 		messageRepository.flush();
 
 	}
+	
+	//Dashboard
+	
+	//A3
+	public Double avgMessagesPerTopic(){
+		return messageRepository.avgMessagesPerTopic();
+	}
 }

@@ -163,4 +163,9 @@ public class TeamService {
 	public Collection<ListTeamForm> findTeamFavourite() {
 		return teamRepository.findTeamFavourite(customerService.findByPrincipal().getId());
 	}
+	
+	//Dashboard
+	public Double avgFavouritTeamPerCustomer(){
+		return teamRepository.avgFavouritTeamPerCustomer();
+	}
 }

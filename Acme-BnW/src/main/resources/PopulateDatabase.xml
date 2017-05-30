@@ -1078,6 +1078,15 @@
 		<property name="topic" ref="topic1" />
 	</bean>
 	
+	<bean id="message4" class="domain.Message">
+		<property name="title" value="Promocion activa" />
+		<property name="description" value="Promocion" />
+		<property name="order" value="4" />
+		<property name="creationMoment" value="2017/04/15 15:40" />
+		<property name="customer" ref="customer2" />
+		<property name="topic" ref="topic2" />
+	</bean>
+	
 	<!-- PROMOTION -->
 	
 	<bean id="promotion1" class="domain.Promotion">

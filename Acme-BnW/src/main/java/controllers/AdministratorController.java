@@ -20,11 +20,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Category;
+import domain.Customer;
 import domain.Sport;
 import domain.Team;
 import services.BetService;
 import services.CategoryService;
 import services.CustomerService;
+import services.MessageService;
 import services.TeamService;
 import services.TopicService;
 import services.TournamentService;
@@ -55,6 +57,10 @@ public class AdministratorController extends AbstractController {
 
 	@Autowired
 	private TopicService topicService;
+	
+	@Autowired
+	private MessageService messageService;
+	
 
 	// Constructors -----------------------------------------------------------
 
@@ -140,7 +146,14 @@ public class AdministratorController extends AbstractController {
 	public ModelAndView dashboardA() {
 		final ModelAndView result;
 		
+		Double avgFavouritTeamPerCustomer = teamService.avgFavouritTeamPerCustomer();
+		Double avgMessagesPerTopic = messageService.avgMessagesPerTopic();
+		Collection<Customer> customerWithMoreMessages = customerService.customerWithMoreMessages();
+		
 		result = new ModelAndView("administrator/dashboardA");
+		result.addObject("avgFavouritTeamPerCustomer", avgFavouritTeamPerCustomer);
+		result.addObject("avgMessagesPerTopic", avgMessagesPerTopic);
+		result.addObject("customerWithMoreMessages", customerWithMoreMessages);
 		
 		return result;
 
