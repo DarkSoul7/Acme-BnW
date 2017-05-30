@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 
 import domain.Bet;
 import domain.Market;
@@ -166,6 +167,50 @@ public class MarketServiceTest extends AbstractTest {
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
+		this.checkExceptions(expectedException, caught);
+	}
+
+	/***
+	 * Participar promocion
+	 * 1º Good test -> expected: results show
+	 * 2º Bad test -> Cannot join promotion cancelled
+	 * 3º Bad test -> Cannot join promotion don't start
+	 */
+
+	@Test
+	public void enjoyPromotionDriver() {
+
+		final Object testingData[][] = {
+			//principal, idPromotion,expected exception
+			{
+				"customer1", 149, null
+			}, {
+				"customer1", 152, IllegalArgumentException.class
+			}, {
+				"customer1", 151, IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.enjoyPromotionTemplate((String) testingData[i][0], (int) testingData[i][1], (Class<?>) testingData[i][2]);
+	}
+
+	protected void enjoyPromotionTemplate(final String principal, int idPromotion, final Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+
+			Market market = marketService.enjoyPromotion(idPromotion);
+
+			Assert.notNull(market);
+
+			this.unauthenticate();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
 		this.checkExceptions(expectedException, caught);
 	}
 }

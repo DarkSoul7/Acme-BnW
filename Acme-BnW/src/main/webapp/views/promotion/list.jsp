@@ -72,7 +72,7 @@
 	</security:authorize>
 	<security:authorize access="hasRole('CUSTOMER')"> 
 		<display:column>
-			<acme:cancel url="promotion/join.do?promotionId=${row.id}"
+			<acme:cancel url="market/join.do?promotionId=${row.id}"
 				code="promotion.join" />
 		</display:column>
 	</security:authorize>

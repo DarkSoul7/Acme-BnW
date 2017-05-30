@@ -1087,6 +1087,7 @@
 		<property name="startMoment" value="2017/05/15 " />
 		<property name="endMoment" value="2017/08/15" />
 		<property name="market" ref="market1" />
+		<property name="cancel" value="false" />
 	</bean>
 	
 	<bean id="promotion2" class="domain.Promotion">
@@ -1095,6 +1096,7 @@
 		<property name="fee" value="50.0" />
 		<property name="startMoment" value="2017/05/15 " />
 		<property name="endMoment" value="2017/08/15" />
+		<property name="cancel" value="false" />
 		<property name="market" ref="market2" />
 	</bean>
 	
@@ -1102,8 +1104,9 @@
 		<property name="title" value="Duplicando ganancias" />
 		<property name="description" value="Las ganancias que obtengas con las cuotas actuales serán duplicadas" />
 		<property name="fee" value="5.0" />
-		<property name="startMoment" value="2017/05/15 " />
-		<property name="endMoment" value="2017/08/15" />
+		<property name="startMoment" value="2018/05/15 " />
+		<property name="endMoment" value="2018/08/15" />
+		<property name="cancel" value="false" />
 		<property name="market" ref="market3" />
 	</bean>
 	
@@ -1113,6 +1116,7 @@
 		<property name="fee" value="50.0" />
 		<property name="startMoment" value="2017/05/15 " />
 		<property name="endMoment" value="2017/08/15" />
+		<property name="cancel" value="true" />
 		<property name="market" ref="market4" />
 	</bean>
 	
