@@ -1,3 +1,4 @@
+
 package services;
 
 import javax.transaction.Transactional;
@@ -9,11 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import utilities.AbstractTest;
 import domain.Punctuation;
+import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
-		"classpath:spring/junit.xml"
+	"classpath:spring/junit.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -22,7 +23,7 @@ public class PunctuationServiceTest extends AbstractTest {
 	// System under test ------------------------------------------------------
 
 	@Autowired
-	private PunctuationService	punctuationService;
+	private PunctuationService punctuationService;
 
 
 	/***
@@ -35,14 +36,14 @@ public class PunctuationServiceTest extends AbstractTest {
 	@Test
 	public void registerPunctuationDriver() {
 		final Object[][] testingData = {
-				//actor, starts, topicId ,expected exception
-				{
-						"customer2", 3, 135, null
-		}, {
-				"customer2", -2, 135, ConstraintViolationException.class
-		}, {
-				"admin", 2, 135, IllegalArgumentException.class
-		}
+			//actor, starts, topicId ,expected exception
+			{
+				"customer2", 3, 137, null
+			}, {
+				"customer2", -2, 137, ConstraintViolationException.class
+			}, {
+				"admin", 2, 137, IllegalArgumentException.class
+			}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
@@ -77,14 +78,14 @@ public class PunctuationServiceTest extends AbstractTest {
 	@Test
 	public void deletePunctuationDriver() {
 		final Object[][] testingData = {
-				//actor, punctuationId ,expected exception
-				{
-						"customer1", 137, null
-		}, {
-				"customer2", 139, IllegalArgumentException.class
-		}, {
-				"admin", 139, IllegalArgumentException.class
-		}
+			//actor, punctuationId ,expected exception
+			{
+				"customer1", 139, null
+			}, {
+				"customer2", 141, IllegalArgumentException.class
+			}, {
+				"admin", 141, IllegalArgumentException.class
+			}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {

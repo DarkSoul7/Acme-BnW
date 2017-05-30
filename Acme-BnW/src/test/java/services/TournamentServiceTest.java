@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -13,13 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import utilities.AbstractTest;
 import domain.Category;
 import domain.Sport;
 import domain.Tournament;
+import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
-		"classpath:spring/junit.xml"
+	"classpath:spring/junit.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -28,7 +29,7 @@ public class TournamentServiceTest extends AbstractTest {
 	// System under test ------------------------------------------------------
 
 	@Autowired
-	private TournamentService	tournamentService;
+	private TournamentService tournamentService;
 
 
 	/***
@@ -41,14 +42,14 @@ public class TournamentServiceTest extends AbstractTest {
 	@Test
 	public void registerTournamentDriver() {
 		final Object[][] testingData = {
-				//actor, name, description,starMoment,endMoment,sport, expected exception
-				{
-						"manager1", "name", "description 1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(10).toDate(), Sport.FOOTBALL, null
-		}, {
+			//actor, name, description,starMoment,endMoment,sport, expected exception
+			{
+				"manager1", "name", "description 1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(10).toDate(), Sport.FOOTBALL, null
+			}, {
 				"manager1", "", "description 1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(10).toDate(), Sport.FOOTBALL, ConstraintViolationException.class
-		}, {
+			}, {
 				"manager1", "name", "", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(10).toDate(), Sport.FOOTBALL, ConstraintViolationException.class
-		}
+			}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
@@ -88,19 +89,19 @@ public class TournamentServiceTest extends AbstractTest {
 	@Test
 	public void editTournamentDriver() {
 		final Object[][] testingData = {
-				//actor, name, description,starMoment,endMoment,sport, idTournament, expected exception
-				{
-						"manager1", "name", "description 1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(10).toDate(), Sport.FOOTBALL, 89, null
-		}, {
-				"manager1", "", "description 1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(10).toDate(), Sport.FOOTBALL, 89, ConstraintViolationException.class
-		}, {
-				"manager1", "name", "", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(10).toDate(), Sport.FOOTBALL, 89, ConstraintViolationException.class
-		}
+			//actor, name, description,starMoment,endMoment,sport, idTournament, expected exception
+			{
+				"manager1", "name", "description 1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(10).toDate(), Sport.FOOTBALL, 91, null
+			}, {
+				"manager1", "", "description 1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(10).toDate(), Sport.FOOTBALL, 91, ConstraintViolationException.class
+			}, {
+				"manager1", "name", "", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(10).toDate(), Sport.FOOTBALL, 91, ConstraintViolationException.class
+			}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
 			this.editTournamentTemplated((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Date) testingData[i][3], (Date) testingData[i][4], (Sport) testingData[i][5], (int) testingData[i][6],
-					(Class<?>) testingData[i][7]);
+				(Class<?>) testingData[i][7]);
 		}
 	}
 
@@ -135,14 +136,14 @@ public class TournamentServiceTest extends AbstractTest {
 	@Test
 	public void deleteTeamDriver() {
 		final Object[][] testingData = {
-				//actor, matchId , expected exception
-				{
-						"manager1", 0, null
-		}, {
-				"manager1", 89, IllegalArgumentException.class
-		}, {
-				"admin", 89, IllegalArgumentException.class
-		}
+			//actor, matchId , expected exception
+			{
+				"manager1", 0, null
+			}, {
+				"manager1", 91, IllegalArgumentException.class
+			}, {
+				"admin", 91, IllegalArgumentException.class
+			}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {

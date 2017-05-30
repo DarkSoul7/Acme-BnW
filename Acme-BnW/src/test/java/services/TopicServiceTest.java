@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -12,13 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import utilities.AbstractTest;
 import domain.Message;
 import domain.Punctuation;
 import domain.Topic;
+import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
-		"classpath:spring/junit.xml"
+	"classpath:spring/junit.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -43,14 +44,14 @@ public class TopicServiceTest extends AbstractTest {
 	@Test
 	public void registerTopicDriver() {
 		final Object[][] testingData = {
-				//actor, title, description, expected exception
-				{
-						"customer1", "title", "description", null
-		}, {
+			//actor, title, description, expected exception
+			{
+				"customer1", "title", "description", null
+			}, {
 				"customer1", "", "description", ConstraintViolationException.class
-		}, {
+			}, {
 				"admin", "title", "description", IllegalArgumentException.class
-		}
+			}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
@@ -92,14 +93,14 @@ public class TopicServiceTest extends AbstractTest {
 	@Test
 	public void editTopicDriver() {
 		final Object[][] testingData = {
-				//actor, title, description, expected exception
-				{
-						"customer1", "description", 136, null
-		}, {
-				"customer1", "", 136, ConstraintViolationException.class
-		}, {
-				"customer2", "description", 136, IllegalArgumentException.class
-		}
+			//actor, description, topicId expected exception
+			{
+				"customer1", "description", 138, null
+			}, {
+				"customer1", "", 138, ConstraintViolationException.class
+			}, {
+				"customer2", "description", 138, IllegalArgumentException.class
+			}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {

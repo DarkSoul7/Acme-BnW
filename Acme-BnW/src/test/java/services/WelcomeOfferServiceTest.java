@@ -34,8 +34,8 @@ public class WelcomeOfferServiceTest extends AbstractTest {
 	/***
 	 * Register welcomeOffer
 	 * 1º Good test -> expected: welcomeOffer registered
-	 * 2º Bad test -> cannot register welcomeOffer without title
-	 * 3º Bad test -> cannot register welcomeOffer when exists one welcomeOffer
+	 * 2º Bad test -> cannot register welcomeOffer when exists one welcomeOffer
+	 * 3º Bad test -> cannot register welcomeOffer without title
 	 */
 
 	@Test
@@ -45,11 +45,10 @@ public class WelcomeOfferServiceTest extends AbstractTest {
 			{
 				"manager1", "title", new DateTime(2020, 10, 10, 0, 0).toDate(), new DateTime(2022, 10, 10, 0, 0).toDate(), 20.0, 7.0, null
 			}, {
-				"manager1", "", new DateTime(2023, 10, 10, 0, 0).toDate(), new DateTime(2024, 10, 10, 0, 0).toDate(), 20.0, 7.0, ConstraintViolationException.class
-			//			}, {
-			//			//				"manager1", "title 24", new DateTime(2018, 10, 10, 0, 0).toDate(), new DateTime(2019, 10, 10, 0, 0).toDate(), 20.0, 7.0, IllegalArgumentException.class
-			//			}
-			}
+				"manager1", "title 24", new DateTime(2018, 10, 10, 0, 0).toDate(), new DateTime(2019, 10, 10, 0, 0).toDate(), 22.0, 9.0, IllegalArgumentException.class
+			}, {
+				"manager2", "", new DateTime(2023, 10, 10, 0, 0).toDate(), new DateTime(2024, 10, 10, 0, 0).toDate(), 20.0, 7.0, ConstraintViolationException.class
+			},
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
@@ -73,6 +72,92 @@ public class WelcomeOfferServiceTest extends AbstractTest {
 
 			welcomeOfferService.save(welcomeOffer);
 
+			this.unauthenticate();
+			this.welcomeOfferService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expectedException, caught);
+	}
+
+	/***
+	 * Edit welcomeOffer
+	 * 1º Good test -> expected: welcomeOffer edit
+	 * 2º Bad test -> cannot edit welcomeOffer when exists one welcomeOffer
+	 * 3º Bad test -> cannot edit welcomeOffer with amount negative
+	 */
+
+	@Test
+	public void editWelcomeOfferDriver() {
+		final Object[][] testingData = {
+			//actor,openPeriod, endPeriod, amount,expected exception
+			{
+				"manager1", new DateTime(2020, 10, 10, 0, 0).toDate(), new DateTime(2022, 10, 10, 0, 0).toDate(), 20.0, 90, null
+			}, {
+				"manager1", new DateTime(2018, 10, 10, 0, 0).toDate(), new DateTime(2019, 10, 10, 0, 0).toDate(), 22.0, 90, IllegalArgumentException.class
+			}, {
+				"manager2", new DateTime(2023, 10, 10, 0, 0).toDate(), new DateTime(2024, 10, 10, 0, 0).toDate(), -1.0, 90, ConstraintViolationException.class
+			},
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.editWelcomeOfferTemplated((String) testingData[i][0], (Date) testingData[i][1], (Date) testingData[i][2], (Double) testingData[i][3], (int) testingData[i][4], (Class<?>) testingData[i][5]);
+		}
+	}
+
+	protected void editWelcomeOfferTemplated(String principal, Date openPeriod, Date endPeriod, Double amount, int welcomeOfferId, Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+
+			WelcomeOffer welcomeOffer = welcomeOfferService.findOne(welcomeOfferId);
+			welcomeOffer.setOpenPeriod(openPeriod);
+			welcomeOffer.setEndPeriod(endPeriod);
+			welcomeOffer.setAmount(amount);
+
+			welcomeOfferService.save(welcomeOffer);
+
+			this.unauthenticate();
+			this.welcomeOfferService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expectedException, caught);
+	}
+
+	/***
+	 * Delete welcome offer
+	 * 1º Good test -> expected: welcomeOffer deleted
+	 * 2º Bad test -> cannot delete welcomeOffer with customers
+	 * 3º Bad test -> an admin cannot delete welcomeOffer
+	 */
+
+	@Test
+	public void deleteWelcomeOfferDriver() {
+		final Object[][] testingData = {
+			//actor, welcomeOfferId , expected exception
+			{
+				"manager1", 90, null
+			}, {
+				"manager1", 89, IllegalArgumentException.class
+			}, {
+				"admin", 89, IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.deleteWelcomeOfferTemplated((String) testingData[i][0], (int) testingData[i][1], (Class<?>) testingData[i][2]);
+		}
+	}
+
+	protected void deleteWelcomeOfferTemplated(String principal, int welcomeOfferId, Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+			WelcomeOffer welcomeOffer = welcomeOfferService.findOne(welcomeOfferId);
+			welcomeOfferService.delete(welcomeOffer);
 			this.unauthenticate();
 			this.welcomeOfferService.flush();
 		} catch (Throwable oops) {

@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -13,12 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import utilities.AbstractTest;
 import domain.Market;
 import domain.Match;
+import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
-		"classpath:spring/junit.xml"
+	"classpath:spring/junit.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -46,14 +47,14 @@ public class MatchServiceTest extends AbstractTest {
 	@Test
 	public void registerMatchDriver() {
 		final Object[][] testingData = {
-				//actor, startMoment, endMoment, idTeamLocal , idTeamVisitor, idFixture ,expected exception
-				{
-						"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), 95, 98, 107, null
-		}, {
-				"manager1", new DateTime().plusHours(3).toDate(), new DateTime().plusHours(1).toDate(), 95, 98, 107, IllegalArgumentException.class
-		}, {
-				"manager1", new DateTime().plusHours(-1).toDate(), new DateTime().plusHours(-2).toDate(), 95, 98, 107, IllegalArgumentException.class
-		}
+			//actor, startMoment, endMoment, idTeamLocal , idTeamVisitor, idFixture ,expected exception
+			{
+				"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), 97, 100, 107, null
+			}, {
+				"manager1", new DateTime().plusHours(3).toDate(), new DateTime().plusHours(1).toDate(), 97, 100, 109, IllegalArgumentException.class
+			}, {
+				"manager1", new DateTime().plusHours(-1).toDate(), new DateTime().plusHours(-2).toDate(), 97, 100, 109, IllegalArgumentException.class
+			}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
@@ -99,18 +100,18 @@ public class MatchServiceTest extends AbstractTest {
 	@Test
 	public void editMatchDriver() {
 		final Object[][] testingData = {
-				//actor,idMatch,expected exception
-				{
-						"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), 2, 1, 112, null
-		}, {
-				"manager1", new DateTime().plusHours(3).toDate(), new DateTime().plusHours(1).toDate(), 2, 1, 112, IllegalArgumentException.class
-		}, {
-				"manager1", new DateTime().plusHours(-1).toDate(), new DateTime().plusHours(-2).toDate(), 2, 1, 112, IllegalArgumentException.class
-		}, {
+			//actor,idMatch,expected exception
+			{
+				"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), 2, 1, 114, null
+			}, {
+				"manager1", new DateTime().plusHours(3).toDate(), new DateTime().plusHours(1).toDate(), 2, 1, 114, IllegalArgumentException.class
+			}, {
+				"manager1", new DateTime().plusHours(-1).toDate(), new DateTime().plusHours(-2).toDate(), 2, 1, 114, IllegalArgumentException.class
+			}, {
 				"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), -1, 1, 112, ConstraintViolationException.class
-		}, {
+			}, {
 				"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), 2, -2, 112, ConstraintViolationException.class
-		}
+			}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
@@ -148,14 +149,14 @@ public class MatchServiceTest extends AbstractTest {
 	@Test
 	public void deleteTeamDriver() {
 		final Object[][] testingData = {
-				//actor, matchId , expected exception
-				{
-						"manager1", 112, null
-		}, {
-				"customer1", 112, NullPointerException.class
-		}, {
-				"admin", 112, NullPointerException.class
-		}
+			//actor, matchId , expected exception
+			{
+				"manager1", 114, null
+			}, {
+				"customer1", 114, NullPointerException.class
+			}, {
+				"admin", 114, NullPointerException.class
+			}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
