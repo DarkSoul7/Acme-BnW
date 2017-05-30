@@ -59,7 +59,7 @@ public class CustomerService {
 	private AdministratorService	administratorService;
 
 	@Autowired
-	private ActorService			actorService;
+	private TeamService				teamService;
 
 	@Autowired
 	private TicketService			ticketService;
@@ -406,6 +406,28 @@ public class CustomerService {
 		Assert.isTrue(!customer.getFinishedOffer());
 		customer.setWelcomeOffer(null);
 		this.save(customer);
+	}
+
+	public void addTeamFavourite(int teamId) {
+		Team team = teamService.findOne(teamId);
+		Customer customer = findByPrincipal();
+		Assert.notNull(team);
+		Assert.isTrue(!team.getCustomers().contains(customer));
+
+		team.getCustomers().add(customer);
+
+		teamService.addTeamFavourite(team);
+	}
+
+	public void deleteTeamFavourite(int teamId) {
+		Team team = teamService.findOne(teamId);
+		Customer customer = findByPrincipal();
+		Assert.notNull(team);
+		Assert.isTrue(team.getCustomers().contains(customer));
+
+		team.getCustomers().remove(customer);
+
+		teamService.addTeamFavourite(team);
 	}
 
 	public Collection<Team> getFavouriteTeams() {

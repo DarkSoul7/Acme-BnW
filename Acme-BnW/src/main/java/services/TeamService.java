@@ -59,6 +59,10 @@ public class TeamService {
 		this.teamRepository.save(team);
 	}
 
+	public void addTeamFavourite(Team team) {
+		teamRepository.save(team);
+	}
+
 	public void delete(final Team team) {
 		managerService.findByPrincipal();
 		this.teamRepository.delete(team);

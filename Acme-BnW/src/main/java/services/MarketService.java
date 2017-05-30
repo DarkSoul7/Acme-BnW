@@ -91,6 +91,7 @@ public class MarketService {
 
 	public Market enjoyPromotion(int idPromotion) {
 		Promotion promotion = promotionService.findOne(idPromotion);
+		Assert.notNull(promotion);
 		Assert.isTrue(!promotion.isCancel());
 		Assert.isTrue(promotion.getStartMoment().before(new Date()));
 		Assert.isTrue(promotion.getEndMoment().after(new Date()));
