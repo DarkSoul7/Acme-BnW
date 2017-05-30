@@ -27,6 +27,7 @@
 
 <%@ attribute name="readonly" required="false" %>
 <%@ attribute name="mandatory" required="false" %>
+<%@ attribute name="placeholder" required="false" %>
 
 <jstl:if test="${readonly == null}">
 	<jstl:set var="readonly" value="false" />
@@ -46,7 +47,7 @@
 				<a class="error">(*)</a>
 			</jstl:if>
 		</form:label>
-		<form:input path="${path}" readonly="${readonly}" class="form-control" />	
+		<form:input path="${path}" readonly="${readonly}" class="form-control" placeholder="${placeholder}" />	
 		<form:errors path="${path}" cssClass="error" />
 	</div>
 </spring:bind>

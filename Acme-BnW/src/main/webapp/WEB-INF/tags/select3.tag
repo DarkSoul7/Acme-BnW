@@ -50,23 +50,25 @@
 </jstl:if>
 
 <%-- Definition --%>
-<div class="form-group  ${selectError? 'has-error':''}" style="padding-left:1cm">
-	<label for="${path}">
-		<spring:message code="${code}" />:
-		<jstl:if test="${mandatory == true}">
-			<a class="error">(*)</a>
-		</jstl:if>
-	</label>	
-	<form:select path="${path}" id="${id}" onchange="${onchange}" class="form-control" >
-		<option value="0" label="----" />
-		<jstl:forEach var="item" items="${items}">
-			<jstl:if test="${item.id != selectedItem}">
-				<option value="${item.id}" label="${item.localTeam.name} - ${item.visitorTeam.name}"/>
+<spring:bind path="${path}">
+	<div class="form-group ${status.error? 'has-error':''}" style="padding-left:1cm">
+		<label for="${path}">
+			<spring:message code="${code}" />:
+			<jstl:if test="${mandatory == true}">
+				<a class="error">(*)</a>
 			</jstl:if>
-			<jstl:if test="${item.id == selectedItem}">
-				<option value="${item.id}" label="${item.localTeam.name} - ${item.visitorTeam.name}" selected="selected" />
-			</jstl:if>
-		</jstl:forEach>
-	</form:select>
-	<form:errors path="${path}" cssClass="error" />
-</div>
+		</label>	
+		<form:select path="${path}" id="${id}" onchange="${onchange}" class="form-control" >
+			<option value="0" label="----" />
+			<jstl:forEach var="item" items="${items}">
+				<jstl:if test="${item.id != selectedItem}">
+					<option value="${item.id}" label="${item.localTeam.name} - ${item.visitorTeam.name}"/>
+				</jstl:if>
+				<jstl:if test="${item.id == selectedItem}">
+					<option value="${item.id}" label="${item.localTeam.name} - ${item.visitorTeam.name}" selected="selected" />
+				</jstl:if>
+			</jstl:forEach>
+		</form:select>
+		<form:errors path="${path}" cssClass="error" />
+	</div>
+</spring:bind>

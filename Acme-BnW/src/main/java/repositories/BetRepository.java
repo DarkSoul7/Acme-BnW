@@ -8,17 +8,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import domain.Bet;
+import domain.BetType;
 import domain.Status;
-import domain.Type;
 
 @Repository
 public interface BetRepository extends JpaRepository<Bet, Integer> {
 
 	@Query("select b from Bet b where b.customer.id = ?1 and b.completed = true and b.type <> ?2")
-	public Collection<Bet> findAllByCustomer(int customerId, Type childType);
+	public Collection<Bet> findAllByCustomer(int customerId, BetType childType);
 
 	@Query("select b from Bet b where b.customer.id = ?1 and b.status = ?2 and b.completed = true and b.type <> ?3")
-	public Collection<Bet> findAllPendingByCustomer(int customerId, Status pendingStatus, Type childType);
+	public Collection<Bet> findAllPendingByCustomer(int customerId, Status pendingStatus, BetType childType);
 
 	@Query("select b from Bet b where b.customer.id = ?1 and b.completed = false")
 	public Collection<Bet> findAllSelectedByCustomer(int customerId);
@@ -26,34 +26,39 @@ public interface BetRepository extends JpaRepository<Bet, Integer> {
 	@Query("select b from Bet b where b.customer.id = ?2 and cast(b.id as string) in ?1")
 	public Collection<Bet> findAllById(Collection<String> ids, int customerId);
 
+	@Query("select b from Bet b where b.market.match.id = ?1 and b.type <> ?2")
+	public Collection<Bet> findAllNotMultipleFromMatch(int matchId, BetType multipleType);
+
+	//Dashboard
+
 	//C1
 	@Query("select max(b.quantity) from Bet b")
-	Double maxQuantityForBet();
+	public Double maxQuantityForBet();
 
 	@Query("select min(b.quantity) from Bet b")
-	Double minQuantityForBet();
+	public Double minQuantityForBet();
 
 	@Query("select avg(b.quantity) from Bet b")
-	Double avgQuantityForBet();
+	public Double avgQuantityForBet();
 
 	//C2
 
 	@Query("select count(b) from Bet b join b.customer c where b.status=1 group by c order by count(b) desc")
-	ArrayList<Long> maxBetsWonPerClients();
+	public ArrayList<Long> maxBetsWonPerClients();
 
 	@Query("select count(b) from Bet b join b.customer c where b.status=1 group by c order by count(b) asc")
-	ArrayList<Long> minBetsWonPerClients();
+	public ArrayList<Long> minBetsWonPerClients();
 
 	@Query("select count(b)*1.0/(select count(b2) from Bet b2) from Bet b join b.customer c where b.status = 2")
-	Double avgWonBetsPerClients();
+	public Double avgWonBetsPerClients();
 
 	//C3
 	@Query("select count(b) from Bet b join b.customer c where b.status=2 group by c order by count(b) desc")
-	ArrayList<Long> maxBetsLostPerClients();
+	public ArrayList<Long> maxBetsLostPerClients();
 
 	@Query("select count(b) from Bet b join b.customer c where b.status=2 group by c order by count(b) asc")
-	ArrayList<Long> minBetsLostPerClients();
+	public ArrayList<Long> minBetsLostPerClients();
 
 	@Query("select count(b)*1.0/(select count(b2) from Bet b2) from Bet b join b.customer c where b.status = 2")
-	Double avgLostBetsPerClients();
+	public Double avgLostBetsPerClients();
 }

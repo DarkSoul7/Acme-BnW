@@ -32,7 +32,16 @@
 	</display:column>
 	
 	<spring:message code="bet.market" var="market" />
-	<display:column property="market.title" title="${market}" />
+	<display:column title="${market}">
+		<jstl:choose>
+			<jstl:when test="${pageContext.response.locale.language=='en'}">
+				<jstl:out value="${row.market.type.getName()}"></jstl:out>
+			</jstl:when>
+			<jstl:otherwise>
+				<jstl:out value="${row.market.type.getSpanishName()}"></jstl:out>
+			</jstl:otherwise>
+		</jstl:choose>
+	</display:column>
 	
 	<spring:message code="bet.market.fee" var="fee" />
 	<display:column property="market.fee" title="${fee}" />

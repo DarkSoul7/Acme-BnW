@@ -70,33 +70,38 @@
 	</display:column>
 
 	<display:column>
-		<acme:cancel url="market/listByMatch.do?matchId=${row.id}"
-			code="match.market" />
+		<jstl:if test="${row.endMoment > currentMoment}">
+			<acme:cancel url="market/listByMatch.do?matchId=${row.id}" code="match.market" />
+		</jstl:if>
 	</display:column>
-	<security:authorize access="hasRole('MANAGER')">
 	
+	<security:authorize access="hasRole('MANAGER')">
 		<display:column>
-			<acme:cancel url="match/editResult.do?matchId=${row.id}"
-				code="match.editResult" />
+			<jstl:if test="${row.endMoment > currentMoment}">
+				<acme:cancel url="match/editResult.do?matchId=${row.id}" code="match.editResult" />
+			</jstl:if>
 		</display:column>
 	
 		<display:column>
-			<acme:cancel url="match/edit.do?matchId=${row.id}"
-				code="match.edit" />
+			<jstl:if test="${row.endMoment > currentMoment}">
+				<acme:cancel url="match/edit.do?matchId=${row.id}" code="match.edit" />
+			</jstl:if>
 		</display:column>
 		
 		<display:column>
-			<acme:confirm url="match/delete.do?matchId=${row.id}" code="match.delete" msg="match.delete.confirm"/>
+			<jstl:if test="${row.endMoment > currentMoment}">
+				<acme:confirm url="match/delete.do?matchId=${row.id}" code="match.delete" msg="match.delete.confirm"/>
+			</jstl:if>
 		</display:column>
 	
 		<display:column>
-			<acme:confirm url="match/resolveBets.do?matchId=${row.id}" code="match.resolveBets" msg="match.resolveBets.confirm"/>
+			<jstl:if test="${row.endMoment < currentMoment && row.solvedBets == false}">
+				<acme:confirm url="match/solveBets.do?matchId=${row.id}" code="match.solveBets" msg="match.solveBets.confirm"/>
+			</jstl:if>
 		</display:column>
-
 	</security:authorize>
 </display:table>
 
 <security:authorize access="hasRole('MANAGER')">
-	<acme:cancel url="match/register.do"
-				code="match.create" />
+	<acme:cancel url="match/register.do" code="match.create" class_="btn btn-primary" />
 </security:authorize>

@@ -68,8 +68,8 @@ public class MatchServiceTest extends AbstractTest {
 			this.authenticate(principal);
 
 			Match match = new Match();
-			match.setLocalResult(null);
-			match.setVisitorResult(null);
+			match.setLocalResult(0);
+			match.setVisitorResult(0);
 			match.setMarkets(new ArrayList<Market>());
 			match.setStartMoment(startMoment);
 			match.setEndMoment(endMoment);

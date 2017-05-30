@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.validation.Valid;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.BetService;
 import services.FixtureService;
 import services.MatchService;
 import services.TeamService;
@@ -36,6 +38,9 @@ public class MatchController extends AbstractController {
 	@Autowired
 	private FixtureService	fixtureService;
 
+	@Autowired
+	private BetService		betService;
+
 
 	//Constructor
 
@@ -46,28 +51,38 @@ public class MatchController extends AbstractController {
 	//Listing 
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam(required = false) String errorMessage, @RequestParam(required = false) String successMessage) {
 		ModelAndView result;
 		Collection<Match> matches;
+		Date currentMoment;
 
-		matches = matchService.findAllNonEnded();
+		matches = matchService.findAll();
+		currentMoment = new Date();
 
 		result = new ModelAndView("match/list");
 		result.addObject("matches", matches);
+		result.addObject("currentMoment", currentMoment);
+		result.addObject("errorMessage", errorMessage);
+		result.addObject("successMessage", successMessage);
 		result.addObject("requestURI", "match/list.do");
 
 		return result;
 	}
 
 	@RequestMapping(value = "/listByFixture", method = RequestMethod.GET)
-	public ModelAndView listByFixture(@RequestParam int fixtureId) {
+	public ModelAndView listByFixture(@RequestParam int fixtureId, @RequestParam(required = false) String errorMessage, @RequestParam(required = false) String successMessage) {
 		ModelAndView result;
 		Collection<Match> matches;
+		Date currentMoment;
 
-		matches = matchService.matchesOfFixtureNonEnded(fixtureId);
+		matches = matchService.matchesOfFixture(fixtureId);
+		currentMoment = new Date();
 
 		result = new ModelAndView("match/list");
 		result.addObject("matches", matches);
+		result.addObject("currentMoment", currentMoment);
+		result.addObject("errorMessage", errorMessage);
+		result.addObject("successMessage", successMessage);
 		result.addObject("requestURI", "match/listByFixture.do");
 
 		return result;
@@ -88,7 +103,7 @@ public class MatchController extends AbstractController {
 
 		Match match = matchService.findOne(matchId);
 		MatchForm matchForm = matchService.toFormObject(match);
-		result = this.createEditModelAndView(matchForm);
+		result = this.editModelAndView(matchForm);
 		return result;
 	}
 
@@ -119,13 +134,13 @@ public class MatchController extends AbstractController {
 
 		match = matchService.reconstruct(matchForm, binding);
 		if (binding.hasErrors()) {
-			result = this.createEditModelAndView(matchForm);
+			result = this.editModelAndView(matchForm);
 		} else {
 			try {
 				matchService.save(match);
 				result = new ModelAndView("redirect:/match/list.do");
 			} catch (Throwable oops) {
-				result = this.createEditModelAndView(matchForm, "match.commit.error");
+				result = this.editModelAndView(matchForm, "match.commit.error");
 			}
 		}
 
@@ -178,29 +193,40 @@ public class MatchController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/resolveBets", method = RequestMethod.GET)
-	public ModelAndView resolveBets(@RequestParam int matchId) {
+	@RequestMapping(value = "/solveBets", method = RequestMethod.GET)
+	public ModelAndView solveBets(@RequestParam int matchId) {
 		ModelAndView result;
+		String errorMessage = null;
+		String successMessage = null;
 
+		try {
+			this.betService.solveBets(matchId);
+
+			successMessage = "match.solveBets.success";
+		} catch (Exception e) {
+			errorMessage = "match.solveBets.error";
+		}
 		result = new ModelAndView("redirect:/match/list.do");
+		result.addObject("errorMessage", errorMessage);
+		result.addObject("successMessage", successMessage);
 
 		return result;
 	}
 
 	//Ancillary methods
 
-	protected ModelAndView createModelAndView(final MatchForm matchForm) {
+	protected ModelAndView createModelAndView(MatchForm matchForm) {
 		return this.createModelAndView(matchForm, null);
 	}
 
-	protected ModelAndView createModelAndView(final MatchForm matchForm, final String message) {
+	protected ModelAndView createModelAndView(MatchForm matchForm, String errorMessage) {
 		ModelAndView result;
 
 		Collection<Team> teams = teamService.findAll();
 		Collection<Fixture> fixtures = fixtureService.findAll();
 		result = new ModelAndView("match/register");
 		result.addObject("matchForm", matchForm);
-		result.addObject("message", message);
+		result.addObject("errorMessage", errorMessage);
 		result.addObject("teams", teams);
 		result.addObject("fixtures", fixtures);
 		result.addObject("RequestURI", "match/register.do");
@@ -208,31 +234,31 @@ public class MatchController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final MatchForm matchForm) {
-		return this.createEditModelAndView(matchForm, null);
+	protected ModelAndView editModelAndView(MatchForm matchForm) {
+		return this.editModelAndView(matchForm, null);
 	}
 
-	protected ModelAndView createEditModelAndView(final MatchForm matchForm, final String message) {
+	protected ModelAndView editModelAndView(MatchForm matchForm, String errorMessage) {
 		ModelAndView result;
 
 		result = new ModelAndView("match/edit");
 		result.addObject("matchForm", matchForm);
-		result.addObject("message", message);
+		result.addObject("errorMessage", errorMessage);
 		result.addObject("RequestURI", "match/edit.do");
 
 		return result;
 	}
 
-	protected ModelAndView editResultModelAndView(final ResultForm resultForm) {
+	protected ModelAndView editResultModelAndView(ResultForm resultForm) {
 		return this.editResultModelAndView(resultForm, null);
 	}
 
-	protected ModelAndView editResultModelAndView(final ResultForm resultForm, final String message) {
+	protected ModelAndView editResultModelAndView(ResultForm resultForm, String errorMessage) {
 		ModelAndView result;
 
 		result = new ModelAndView("match/editResult");
 		result.addObject("resultForm", resultForm);
-		result.addObject("message", message);
+		result.addObject("errorMessage", errorMessage);
 		result.addObject("RequestURI", "match/editResult.do");
 
 		return result;

@@ -33,7 +33,14 @@
 	
 	<spring:message code="bet.market" var="market" />
 	<display:column title="${market}">
-		<jstl:out value="${row.market.title}"></jstl:out>
+		<jstl:choose>
+			<jstl:when test="${pageContext.response.locale.language=='en'}">
+				<jstl:out value="${row.market.type.getName()}"></jstl:out>
+			</jstl:when>
+			<jstl:otherwise>
+				<jstl:out value="${row.market.type.getSpanishName()}"></jstl:out>
+			</jstl:otherwise>
+		</jstl:choose>
 	</display:column>
 
 	<spring:message code="bet.creationMoment" var="creationMoment" />
@@ -75,14 +82,14 @@
 		</jstl:otherwise>
 		</jstl:choose>
 	<br/>
-	<b><spring:message code="bet.status" />: </b>
+	<b><spring:message code="bet.balance" />: </b>
 	<jstl:choose>
-		<jstl:when test="${multipleBet.status.getName() == 'PENDING'}">
+		<jstl:when test="${multipleBet.status.getConstant() == 'PENDING'}">
 			<b><jstl:out value="-"></jstl:out></b>
 		</jstl:when>
 		<jstl:otherwise>
 			<jstl:choose>
-				<jstl:when test="${multipleBet.status.getName() == 'SUCCESSFUL'}">
+				<jstl:when test="${multipleBet.status.getConstant() == 'SUCCESSFUL'}">
 					<span class="positiveBalance">+<fmt:formatNumber maxFractionDigits="2" value="${multipleBet.quantity * multipleBet.fee}" />&euro;</span>
 				</jstl:when>
 				<jstl:otherwise>

@@ -60,7 +60,7 @@
 		</form:label>	
 		<form:select id="${id}" path="${path}" onchange="${onchange}" class="form-control" disabled="${disabled}">
 			<form:option value="" label="----" />		
-			<form:options items="${items}" itemValue="name" itemLabel="${itemLabel}" />
+			<form:options items="${items}" itemValue="constant" itemLabel="${itemLabel}" />
 		</form:select>
 		<form:errors path="${path}" cssClass="error" />
 	</div>

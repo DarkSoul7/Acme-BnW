@@ -26,6 +26,7 @@ public class Match extends DomainEntity {
 	private Date	endMoment;
 	private Integer	localResult;
 	private Integer	visitorResult;
+	private Boolean	solvedBets;
 
 
 	@NotNull
@@ -51,6 +52,7 @@ public class Match extends DomainEntity {
 	}
 
 	@Min(0)
+	@NotNull
 	public Integer getLocalResult() {
 		return localResult;
 	}
@@ -60,12 +62,22 @@ public class Match extends DomainEntity {
 	}
 
 	@Min(0)
+	@NotNull
 	public Integer getVisitorResult() {
 		return visitorResult;
 	}
 
 	public void setVisitorResult(Integer visitorResult) {
 		this.visitorResult = visitorResult;
+	}
+
+	@NotNull
+	public Boolean getSolvedBets() {
+		return solvedBets;
+	}
+
+	public void setSolvedBets(Boolean solvedBets) {
+		this.solvedBets = solvedBets;
 	}
 
 

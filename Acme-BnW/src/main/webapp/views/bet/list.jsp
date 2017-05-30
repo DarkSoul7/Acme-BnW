@@ -38,7 +38,14 @@
 	
 	<spring:message code="bet.market" var="market" />
 	<display:column title="${market}">
-		<jstl:out value="${row.market.title}"></jstl:out>
+		<jstl:choose>
+			<jstl:when test="${pageContext.response.locale.language=='en'}">
+				<jstl:out value="${row.market.type.getName()}"></jstl:out>
+			</jstl:when>
+			<jstl:otherwise>
+				<jstl:out value="${row.market.type.getSpanishName()}"></jstl:out>
+			</jstl:otherwise>
+		</jstl:choose>
 	</display:column>
 
 	<spring:message code="bet.creationMoment" var="creationMoment" />
@@ -80,12 +87,12 @@
 	<spring:message code="bet.balance" var="balance" />
 	<display:column title="${balance}">
 		<jstl:choose>
-			<jstl:when test="${row.status.getName() == 'PENDING'}">
+			<jstl:when test="${row.status.getConstant() == 'PENDING'}">
 				<b><jstl:out value="-"></jstl:out></b>
 			</jstl:when>
 			<jstl:otherwise>
 				<jstl:choose>
-					<jstl:when test="${row.status.getName() == 'SUCCESSFUL'}">
+					<jstl:when test="${row.status.getConstant() == 'SUCCESSFUL'}">
 						<span class="positiveBalance">+<fmt:formatNumber maxFractionDigits="2" value="${row.quantity * row.fee}" />&euro;</span>
 					</jstl:when>
 					<jstl:otherwise>

@@ -12,10 +12,12 @@ import org.springframework.util.Assert;
 
 import repositories.BetRepository;
 import domain.Bet;
+import domain.BetType;
 import domain.Customer;
 import domain.Market;
+import domain.MarketType;
+import domain.Match;
 import domain.Status;
-import domain.Type;
 
 @Service
 @Transactional
@@ -33,6 +35,9 @@ public class BetService {
 
 	@Autowired
 	private MarketService	marketService;
+
+	@Autowired
+	private MatchService	matchService;
 
 
 	//Constructor
@@ -59,7 +64,7 @@ public class BetService {
 		result.setMarket(market);
 		result.setQuantity(quantity);
 		result.setStatus(Status.PENDING);
-		result.setType(Type.SIMPLE);
+		result.setType(BetType.SIMPLE);
 		result.setCompleted(true);
 
 		return result;
@@ -79,7 +84,7 @@ public class BetService {
 		result.setMarket(market);
 		result.setQuantity(0.01);
 		result.setStatus(Status.PENDING);
-		result.setType(Type.SIMPLE);
+		result.setType(BetType.SIMPLE);
 		result.setCompleted(false);
 
 		return result;
@@ -102,7 +107,7 @@ public class BetService {
 		result.setMarket(null);
 		result.setQuantity(quantity);
 		result.setStatus(Status.PENDING);
-		result.setType(Type.MULTIPLE);
+		result.setType(BetType.MULTIPLE);
 		result.setCompleted(true);
 
 		return result;
@@ -118,29 +123,38 @@ public class BetService {
 	}
 
 	public Bet save(Bet bet, Boolean payment) throws IllegalStateException, IllegalArgumentException {
-		Customer principal;
+		Customer customer;
 		Double balance;
 		Bet result;
 
-		if (!Type.MULTIPLE.equals(bet.getType())) {
+		if (!BetType.MULTIPLE.equals(bet.getType())) {
 			Assert.notNull(bet.getMarket());
-			if (new Date().compareTo(bet.getMarket().getMatch().getEndMoment()) >= 0) {
+			if (!bet.getMarket().getMatch().getSolvedBets() && new Date().compareTo(bet.getMarket().getMatch().getEndMoment()) >= 0) {
 				throw new IllegalArgumentException("BetService - save: El partido ya ha terminado");
 			}
 		}
 
-		principal = this.customerService.findByPrincipal();
-		balance = principal.getBalance();
+		if (bet.getMarket().getMatch().getSolvedBets()) {
+			customer = this.customerService.findOne(bet.getCustomer().getId());
+		} else {
+			customer = this.customerService.findByPrincipal();
+		}
+		balance = customer.getBalance();
 
-		if (bet.getCompleted() && !Type.CHILD.equals(bet.getType()) && payment) {
-			if (balance.compareTo(bet.getQuantity()) < 0) {
-				throw new IllegalStateException("BetService - save: El saldo del cliente es insuficiente");
-			} else {
-				balance -= bet.getQuantity();
-				principal.setBalance(balance);
-
-				this.customerService.save(principal);
+		if (bet.getCompleted() && !BetType.CHILD.equals(bet.getType()) && payment) {
+			if (Status.PENDING.equals(bet.getStatus())) {
+				if (balance.compareTo(bet.getQuantity()) < 0) {
+					throw new IllegalStateException("BetService - save: El saldo del cliente es insuficiente");
+				} else {
+					balance -= bet.getQuantity();
+				}
+			} else if (Status.SUCCESSFUL.equals(bet.getStatus())) {
+				String pay = String.format("%.2f", bet.getFee() * bet.getQuantity());
+				balance += Double.valueOf(pay);
 			}
+
+			customer.setBalance(balance);
+			this.customerService.save(customer);
 		}
 
 		result = this.betRepository.save(bet);
@@ -172,7 +186,7 @@ public class BetService {
 		Customer principal;
 
 		principal = this.customerService.findByPrincipal();
-		result = this.betRepository.findAllByCustomer(principal.getId(), Type.CHILD);
+		result = this.betRepository.findAllByCustomer(principal.getId(), BetType.CHILD);
 
 		return result;
 	}
@@ -182,7 +196,7 @@ public class BetService {
 		Customer principal;
 
 		principal = this.customerService.findByPrincipal();
-		result = this.betRepository.findAllPendingByCustomer(principal.getId(), Status.PENDING, Type.CHILD);
+		result = this.betRepository.findAllPendingByCustomer(principal.getId(), Status.PENDING, BetType.CHILD);
 
 		return result;
 	}
@@ -193,6 +207,14 @@ public class BetService {
 
 		principal = this.customerService.findByPrincipal();
 		result = this.betRepository.findAllSelectedByCustomer(principal.getId());
+
+		return result;
+	}
+
+	public Collection<Bet> findAllNotMultipleFromMatch(int matchId) {
+		Collection<Bet> result;
+
+		result = this.betRepository.findAllNotMultipleFromMatch(matchId, BetType.MULTIPLE);
 
 		return result;
 	}
@@ -223,7 +245,7 @@ public class BetService {
 			bet.setParentBet(parentBet);
 			bet.setQuantity(quantity);
 			bet.setStatus(Status.PENDING);
-			bet.setType(Type.CHILD);
+			bet.setType(BetType.CHILD);
 		}
 
 		return childrenBets;
@@ -258,7 +280,7 @@ public class BetService {
 			bet.setParentBet(parentBet);
 			bet.setQuantity(quantity);
 			bet.setStatus(Status.PENDING);
-			bet.setType(Type.CHILD);
+			bet.setType(BetType.CHILD);
 		}
 
 		totalFee = Double.valueOf(String.format("%.2f", totalFee));
@@ -279,6 +301,52 @@ public class BetService {
 		result.setQuantity(quantity);
 
 		return result;
+	}
+
+	public void solveBets(int matchId) {
+		Match match;
+		Collection<Bet> pendingBets;
+
+		match = this.matchService.findOne(matchId);
+		match.setSolvedBets(true);
+		this.matchService.save(match);
+		this.matchService.flush();
+
+		pendingBets = this.findAllNotMultipleFromMatch(matchId);
+
+		for (Bet bet : pendingBets) {
+			if (MarketType.LOCALVICTORY.equals(bet.getMarket().getType())) {
+				if (match.getLocalResult().compareTo(match.getVisitorResult()) > 0) {
+					bet.setStatus(Status.SUCCESSFUL);
+				} else {
+					bet.setStatus(Status.FAILED);
+				}
+			} else if (MarketType.VISITORVICTORY.equals(bet.getMarket().getType())) {
+				if (match.getLocalResult().compareTo(match.getVisitorResult()) < 0) {
+					bet.setStatus(Status.SUCCESSFUL);
+				} else {
+					bet.setStatus(Status.FAILED);
+				}
+			} else {
+				if (match.getLocalResult().compareTo(match.getVisitorResult()) == 0) {
+					bet.setStatus(Status.SUCCESSFUL);
+				} else {
+					bet.setStatus(Status.FAILED);
+				}
+			}
+
+			this.save(bet, true);
+
+			//Si la apuesta combinada ya ha sido resuelta por otra hija no hace falta hacer nada
+			if (BetType.CHILD.equals(bet.getType()) && Status.PENDING.equals(bet.getParentBet().getStatus())) {
+				if (Status.FAILED.equals(bet.getStatus())) {
+					Bet parentBet = bet.getParentBet();
+					parentBet.setStatus(Status.FAILED);
+
+					this.save(bet, false);
+				}
+			}
+		}
 	}
 
 	//DashBoard

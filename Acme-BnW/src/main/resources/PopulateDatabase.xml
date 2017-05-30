@@ -165,7 +165,7 @@
 		<property name="isDisabled" value="false"/>
 		<property name="banNum" value="0" />
 		<property name="balance" value="52.00" />
-		<property name="finishedOffer" value="false" />
+		<property name="finishedOffer" value="true" />
 		<property name="coordinates" ref="coordinates5"/>
 		<property name="userAccount" ref="userAccount3"/>
 		<property name="welcomeOffer" ref="welcomeOffer1"/>
@@ -560,8 +560,8 @@
 	
 	<bean id="fixture3" class="domain.Fixture">
 		<property name="title" value="Fixture 3" />
-		<property name="startMoment" value="2017/05/16 12:45" />
-		<property name="endMoment" value="2017/05/19 23:15" />
+		<property name="startMoment" value="2018/05/16 12:45" />
+		<property name="endMoment" value="2018/05/19 23:15" />
 		<property name="category" ref="category3" />
 		<property name="matches">
 			<list>
@@ -573,11 +573,12 @@
 	<!-- MATCH -->
 	
 	<bean id="match1" class="domain.Match">
-		<property name="startMoment" value="2017/06/20 16:15" />
-		<property name="endMoment" value="2017/06/20 18:00" />
-		<property name="localResult"><null/></property>
-		<property name="visitorResult"><null/></property>
-		<property name="fixture" ref="fixture1" />
+		<property name="startMoment" value="2017/05/20 16:15" />
+		<property name="endMoment" value="2017/05/20 18:00" />
+		<property name="localResult" value="3" />
+		<property name="visitorResult" value="1" />
+		<property name="solvedBets" value="true" />
+		<property name="fixture" ref="fixture2" />
 		<property name="markets">
 			<list>
 				<null/>
@@ -588,11 +589,12 @@
 	</bean>	
 	
 	<bean id="match2" class="domain.Match">
-		<property name="startMoment" value="2017/06/20 18:15" />
-		<property name="endMoment" value="2017/06/20 20:00" />
-		<property name="localResult"><null/></property>
-		<property name="visitorResult"><null/></property>
-		<property name="fixture" ref="fixture1" />
+		<property name="startMoment" value="2017/05/20 18:15" />
+		<property name="endMoment" value="2017/05/20 20:00" />
+		<property name="localResult" value="1" />
+		<property name="visitorResult" value="2" />
+		<property name="solvedBets" value="false" />
+		<property name="fixture" ref="fixture2" />
 		<property name="markets">
 			<list>
 				<null/>
@@ -606,8 +608,9 @@
 		<property name="startMoment" value="2017/06/20 20:15" />
 		<property name="endMoment" value="2017/06/20 22:00" />
 		<property name="fixture" ref="fixture1" />
-		<property name="localResult"><null/></property>
-		<property name="visitorResult"><null/></property>
+		<property name="localResult" value="0" />
+		<property name="visitorResult" value="0" />
+		<property name="solvedBets" value="false" />
 		<property name="markets">
 			<list>
 				<null/>
@@ -621,8 +624,9 @@
 		<property name="startMoment" value="2017/06/20 22:15" />
 		<property name="endMoment" value="2017/06/21 00:00" />
 		<property name="fixture" ref="fixture1" />
-		<property name="localResult"><null/></property>
-		<property name="visitorResult"><null/></property>
+		<property name="localResult" value="0" />
+		<property name="visitorResult" value="0" />
+		<property name="solvedBets" value="false" />
 		<property name="markets">
 			<list>
 				<null/>
@@ -636,14 +640,10 @@
 	<!-- MARKET -->
 
 	<bean id="market1" class="domain.Market">
-		<property name="title" value="Local wins" />
+		<property name="type" value="LOCALVICTORY" />
 		<property name="fee" value="1.15" />
 		<property name="match" ref="match1" />
-		<property name="promotions">
-			<list>
-				<null/>
-			</list>
-		</property>
+		<property name="promotion"><null/></property>
 		<property name="bets">
 			<list>
 				<null/>
@@ -652,14 +652,10 @@
 	</bean>	
 	
 	<bean id="market2" class="domain.Market">
-		<property name="title" value="Visitor wins" />
+		<property name="type" value="VISITORVICTORY" />
 		<property name="fee" value="2.35" />
 		<property name="match" ref="match1" />
-		<property name="promotions">
-			<list>
-				<null/>
-			</list>
-		</property>
+		<property name="promotion"><null/></property>
 		<property name="bets">
 			<list>
 				<null/>
@@ -668,14 +664,10 @@
 	</bean>
 	
 	<bean id="market3" class="domain.Market">
-		<property name="title" value="Tie" />
+		<property name="type" value="TIE" />
 		<property name="fee" value="2.02" />
 		<property name="match" ref="match1" />
-		<property name="promotions">
-			<list>
-				<null/>
-			</list>
-		</property>
+		<property name="promotion"><null/></property>
 		<property name="bets">
 			<list>
 				<null/>
@@ -684,14 +676,10 @@
 	</bean>
 	
 	<bean id="market4" class="domain.Market">
-		<property name="title" value="Local wins" />
+		<property name="type" value="LOCALVICTORY" />
 		<property name="fee" value="1.15" />
 		<property name="match" ref="match2" />
-		<property name="promotions">
-			<list>
-				<null/>
-			</list>
-		</property>
+		<property name="promotion"><null/></property>
 		<property name="bets">
 			<list>
 				<null/>
@@ -700,14 +688,10 @@
 	</bean>	
 	
 	<bean id="market5" class="domain.Market">
-		<property name="title" value="Visitor wins" />
+		<property name="type" value="VISITORVICTORY" />
 		<property name="fee" value="2.35" />
 		<property name="match" ref="match2" />
-		<property name="promotions">
-			<list>
-				<null/>
-			</list>
-		</property>
+		<property name="promotion"><null/></property>
 		<property name="bets">
 			<list>
 				<null/>
@@ -716,14 +700,10 @@
 	</bean>
 	
 	<bean id="market6" class="domain.Market">
-		<property name="title" value="Tie" />
+		<property name="type" value="TIE" />
 		<property name="fee" value="2.30" />
 		<property name="match" ref="match2" />
-		<property name="promotions">
-			<list>
-				<null/>
-			</list>
-		</property>
+		<property name="promotion"><null/></property>
 		<property name="bets">
 			<list>
 				<null/>
@@ -738,7 +718,7 @@
 		<property name="fee" value="1.15" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
-		<property name="status" value="FAILED" />
+		<property name="status" value="SUCCESSFUL" />
 		<property name="completed" value="true" />
 		<property name="customer" ref="customer1" />
 		<property name="parentBet"><null/></property>
@@ -755,7 +735,7 @@
 		<property name="fee" value="1.23" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
-		<property name="status" value="PENDING" />
+		<property name="status" value="FAILED" />
 		<property name="completed" value="true" />
 		<property name="customer" ref="customer2" />
 		<property name="parentBet"><null/></property>
@@ -772,7 +752,7 @@
 		<property name="fee" value="1.45" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
-		<property name="status" value="PENDING" />
+		<property name="status" value="FAILED" />
 		<property name="completed" value="true" />
 		<property name="customer" ref="customer1" />
 		<property name="parentBet"><null/></property>
@@ -789,7 +769,7 @@
 		<property name="fee" value="1.15" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
-		<property name="status" value="SUCCESSFUL" />
+		<property name="status" value="PENDING" />
 		<property name="completed" value="true" />
 		<property name="customer" ref="customer1" />
 		<property name="parentBet"><null/></property>
@@ -806,7 +786,7 @@
 		<property name="fee" value="1.15" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
-		<property name="status" value="FAILED" />
+		<property name="status" value="PENDING" />
 		<property name="completed" value="true" />
 		<property name="customer" ref="customer2" />
 		<property name="parentBet"><null/></property>
@@ -823,7 +803,7 @@
 		<property name="fee" value="1.15" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
-		<property name="status" value="FAILED" />
+		<property name="status" value="PENDING" />
 		<property name="completed" value="true" />
 		<property name="customer" ref="customer3" />
 		<property name="parentBet"><null/></property>
@@ -1025,7 +1005,7 @@
 		<property name="fee" value="50.0" />
 		<property name="startMoment" value="2017/05/15 " />
 		<property name="endMoment" value="2017/08/15" />
-		<property name="market" ref="market3" />
+		<property name="market" ref="market4" />
 	</bean>
 	
 </beans>

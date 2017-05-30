@@ -62,7 +62,9 @@ public class MatchService {
 	}
 
 	public void save(final Match match) {
-		Assert.isTrue(match.getEndMoment().after(new Date()));
+		if (!match.getSolvedBets()) {
+			Assert.isTrue(match.getEndMoment().after(new Date()));
+		}
 		Assert.isTrue(match.getEndMoment().after(match.getStartMoment()));
 		Assert.isTrue(match.getLocalTeam().getId() != match.getVisitorTeam().getId());
 		this.matchRepository.save(match);
@@ -88,8 +90,9 @@ public class MatchService {
 			result.setLocalTeam(local);
 			result.setVisitorTeam(visitor);
 			result.setMarkets(new ArrayList<Market>());
-			result.setLocalResult(null);
-			result.setVisitorResult(null);
+			result.setLocalResult(0);
+			result.setVisitorResult(0);
+			result.setSolvedBets(false);
 		}
 
 		result.setStartMoment(matchForm.getStartMoment());
@@ -119,12 +122,8 @@ public class MatchService {
 		return result;
 	}
 
-	public Collection<Match> matchesOfFixtureNonEnded(int id) {
-		return matchRepository.matchesOfFixtureNonEnded(id);
-	}
-
-	public Collection<Match> findAllNonEnded() {
-		return matchRepository.findAllNonEnded();
+	public Collection<Match> matchesOfFixture(int id) {
+		return matchRepository.matchesOfFixture(id);
 	}
 
 	public void editResult(ResultForm resultForm) {

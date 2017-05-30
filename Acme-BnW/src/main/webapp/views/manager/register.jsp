@@ -19,12 +19,6 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<jstl:if test="${successMessage != null}">
-	<div class="alert alert-success">
-		<spring:message code="${successMessage}" />
-	</div>
-</jstl:if>
-
 <form:form action="${requestURI}" modelAttribute="managerForm">
 	<form:hidden path="id" />
 

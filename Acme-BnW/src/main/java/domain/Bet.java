@@ -24,7 +24,7 @@ public class Bet extends DomainEntity {
 	private Double	quantity;
 	private Double	fee;
 	private Date	creationMoment;
-	private Type	type;
+	private BetType	type;
 	private Status	status;
 	private Boolean	completed;
 
@@ -62,11 +62,11 @@ public class Bet extends DomainEntity {
 	}
 
 	@NotNull
-	public Type getType() {
+	public BetType getType() {
 		return this.type;
 	}
 
-	public void setType(final Type type) {
+	public void setType(final BetType type) {
 		this.type = type;
 	}
 

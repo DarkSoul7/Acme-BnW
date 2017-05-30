@@ -1,22 +1,23 @@
-
 package forms;
+
+import domain.MarketType;
 
 public class MarketForm {
 
 	//Attributes
 
-	private String	title;
-	private Double	fee;
-	private int		id;
-	private int		idMatch;
+	private MarketType	type;
+	private Double		fee;
+	private int			id;
+	private int			idMatch;
 
 
-	public String getTitle() {
-		return title;
+	public MarketType getType() {
+		return type;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setType(MarketType type) {
+		this.type = type;
 	}
 
 	public Double getFee() {

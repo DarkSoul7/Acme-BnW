@@ -2,15 +2,22 @@ package domain;
 
 public enum Sport {
 
-	FOOTBALL("FOOTBALL","FÚTBOL"), BASKETBALL("BASKETBALL","BALONCESTO");
+	FOOTBALL("FOOTBALL", "Football", "Fútbol"),
+	BASKETBALL("BASKETBALL", "Basketball", "Baloncesto");
 
+	private final String	constant;
 	private final String	name;
 	private final String	spanishName;
 
 
-	private Sport(String name, String spanishName) {
+	private Sport(String constant, String name, String spanishName) {
+		this.constant = constant;
 		this.name = name;
 		this.spanishName = spanishName;
+	}
+
+	public String getConstant() {
+		return constant;
 	}
 
 	public String getName() {
@@ -20,6 +27,5 @@ public enum Sport {
 	public String getSpanishName() {
 		return spanishName;
 	}
-	
-	
+
 }

@@ -19,12 +19,6 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<jstl:if test="${successMessage != null}">
-	<div class="alert alert-success">
-		<spring:message code="${successMessage}" />
-	</div>
-</jstl:if>
-
 <jstl:if test="${pageContext.response.locale.language=='en'}">
 	<jstl:set var="itemLabel" value="name"></jstl:set>
 </jstl:if>

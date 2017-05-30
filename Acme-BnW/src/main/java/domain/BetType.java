@@ -1,17 +1,17 @@
 package domain;
 
-public enum Status {
+public enum BetType {
 
-	PENDING("PENDING", "Pending", "Pendiente"),
-	SUCCESSFUL("SUCCESSFUL", "Successful", "Ganada"),
-	FAILED("FAILED", "Failed", "Perdida");
+	SIMPLE("SIMPLE", "Simple", "Simple"),
+	MULTIPLE("MULTIPLE", "Multiple", "Combinada"),
+	CHILD("CHILD", "Child", "Hija");
 
 	private final String	constant;
 	private final String	name;
 	private final String	spanishName;
 
 
-	private Status(String constant, String name, String spanishName) {
+	private BetType(String constant, String name, String spanishName) {
 		this.constant = constant;
 		this.name = name;
 		this.spanishName = spanishName;
