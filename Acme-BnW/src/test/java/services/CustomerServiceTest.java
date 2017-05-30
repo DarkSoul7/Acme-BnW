@@ -397,4 +397,86 @@ public class CustomerServiceTest extends AbstractTest {
 		this.checkExceptions(expectedException, caught);
 	}
 
+	/***
+	 * AutoExclusion Customer
+	 * 1º Good test -> expected: Customer is disabled
+	 * 2º Bad test -> manager cannot disable account customer
+	 * 3º Bad test -> customer cannot disabled if he is disabled
+	 */
+
+	@Test
+	public void autoExclusionDriver() {
+		final Object[][] testingData = {
+			//actor, charge, expected exception
+			{
+				"customer1", null
+			}, {
+				"manager1", IllegalArgumentException.class
+			}, {
+				"customer1", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.autoExclusionTemplated((String) testingData[i][0], (Class<?>) testingData[i][1]);
+		}
+	}
+
+	protected void autoExclusionTemplated(String principal, Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+
+			customerService.autoExclusion();
+
+			this.unauthenticate();
+			this.customerService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expectedException, caught);
+	}
+
+	/***
+	 * Manage ban Customer
+	 * 1º Good test -> expected: Ban/Not ban account customer
+	 * 2º Bad test -> manager cannot ban/not ban account customer
+	 * 3º Bad test -> customer cannot ban/not ban account customer
+	 */
+
+	@Test
+	public void managementBanDriver() {
+		final Object[][] testingData = {
+			//actor, charge, expected exception
+			{
+				"admin", 86, null
+			}, {
+				"manager1", 86, IllegalArgumentException.class
+			}, {
+				"customer1", 86, IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.managementBanTemplated((String) testingData[i][0], (int) testingData[i][1], (Class<?>) testingData[i][2]);
+		}
+	}
+
+	protected void managementBanTemplated(String principal, int customerId, Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+
+			customerService.managementBan(customerId);
+
+			this.unauthenticate();
+			this.customerService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expectedException, caught);
+	}
+
 }

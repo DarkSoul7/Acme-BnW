@@ -127,4 +127,44 @@ public class TopicServiceTest extends AbstractTest {
 		this.checkExceptions(expectedException, caught);
 	}
 
+	/***
+	 * Delete topics
+	 * 1º Good test -> expected: topic deleted
+	 * 2º Bad test -> an customer cannot delete topic
+	 * 3º Bad test -> an manager cannot delete topic
+	 */
+
+	@Test
+	public void deleteTopicDriver() {
+		final Object[][] testingData = {
+			//actor, topicId , expected exception
+			{
+				"admin", 136, null
+			}, {
+				"customer1", 137, IllegalArgumentException.class
+			}, {
+				"manager", 137, IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.deleteTopicTemplated((String) testingData[i][0], (int) testingData[i][1], (Class<?>) testingData[i][2]);
+		}
+	}
+
+	protected void deleteTopicTemplated(String principal, int topicId, Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+			Topic topic = topicService.findOne(topicId);
+			topicService.delete(topic);
+			this.unauthenticate();
+			this.topicService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expectedException, caught);
+	}
+
 }

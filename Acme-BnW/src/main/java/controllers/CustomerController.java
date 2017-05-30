@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.CustomerService;
 import domain.Brand;
 import domain.Customer;
 import forms.BalanceForm;
 import forms.CustomerForm;
+import services.CustomerService;
 
 @RequestMapping(value = "/customer")
 @Controller
@@ -29,7 +29,7 @@ public class CustomerController extends AbstractController {
 	//Related services
 
 	@Autowired
-	private CustomerService	customerService;
+	private CustomerService customerService;
 
 
 	//Constructor
@@ -193,15 +193,8 @@ public class CustomerController extends AbstractController {
 		ModelAndView result;
 
 		try {
-			final Customer customer = this.customerService.findOne(customerId);
-			if (customer.getUserAccount().isEnabled()) {
-				customer.getUserAccount().setEnabled(false);
-			} else {
-				customer.getUserAccount().setEnabled(true);
-				customer.setBanNum(customer.getBanNum() + 1);
-			}
 
-			this.customerService.save(customer);
+			customerService.managementBan(customerId);
 
 			result = new ModelAndView("redirect:/customer/list.do");
 		} catch (final Throwable e) {
@@ -216,13 +209,13 @@ public class CustomerController extends AbstractController {
 	public ModelAndView autoExclusion() {
 		ModelAndView result;
 
-		final Customer customer = this.customerService.findByPrincipal();
-
-		customer.setIsDisabled(true);
-		customer.getUserAccount().setEnabled(false);
-		this.customerService.save(customer);
-
-		result = new ModelAndView("redirect:/j_spring_security_logout");
+		try {
+			customerService.autoExclusion();
+			result = new ModelAndView("redirect:/j_spring_security_logout");
+		} catch (final Throwable e) {
+			result = new ModelAndView("redirect:/welcome/index.do");
+			result.addObject("errorMessage", "customer.ban.error");
+		}
 
 		return result;
 	}
