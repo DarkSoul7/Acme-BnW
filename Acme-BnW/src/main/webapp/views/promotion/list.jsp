@@ -70,11 +70,12 @@
 			</jstl:if>
 		</display:column>
 	</security:authorize>
-	
-	<display:column>
-		<acme:cancel url="promotion/join.do?promotionId=${row.id}"
-			code="promotion.join" />
-	</display:column>
+	<security:authorize access="hasRole('CUSTOMER')"> 
+		<display:column>
+			<acme:cancel url="promotion/join.do?promotionId=${row.id}"
+				code="promotion.join" />
+		</display:column>
+	</security:authorize>
 	<security:authorize access="hasRole('MANAGER')">
 	
 		<display:column>

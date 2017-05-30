@@ -1,12 +1,9 @@
-package controllers;
 
-import java.util.Arrays;
-import java.util.List;
+package controllers;
 
 import javax.validation.Valid;
 
 import org.apache.commons.validator.routines.checkdigit.CheckDigitException;
-import org.aspectj.asm.internal.Relationship;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -15,10 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Brand;
-import domain.Customer;
 import domain.Manager;
-import forms.CustomerForm;
 import forms.ManagerForm;
 import services.ManagerService;
 
@@ -28,13 +22,14 @@ public class ManagerController extends AbstractController {
 
 	@Autowired
 	private ManagerService managerService;
-	
+
+
 	// Constructors -----------------------------------------------------------
 
 	public ManagerController() {
 		super();
 	}
-	
+
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public ModelAndView register() {
 
@@ -67,7 +62,7 @@ public class ManagerController extends AbstractController {
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam(required = false) final String successMessage) {
 		ModelAndView result;
@@ -96,7 +91,7 @@ public class ManagerController extends AbstractController {
 				result = this.editModelAndView(managerForm, "chorbi.creditCard.error");
 			} else {
 				try {
-					this.managerService.save(manager);
+					this.managerService.editProfile(manager);
 					result = new ModelAndView("redirect:/manager/edit.do");
 					result.addObject("successMessage", "manager.edit.success");
 				} catch (final Throwable oops) {
@@ -110,7 +105,7 @@ public class ManagerController extends AbstractController {
 
 		return result;
 	}
-	
+
 	protected ModelAndView createModelAndView(final ManagerForm managerForm) {
 		return this.createModelAndView(managerForm, null);
 	}
@@ -123,7 +118,7 @@ public class ManagerController extends AbstractController {
 		result.addObject("message", message);
 		return result;
 	}
-	
+
 	protected ModelAndView editModelAndView(final ManagerForm managerForm) {
 		final ModelAndView result = this.editModelAndView(managerForm, null);
 		return result;

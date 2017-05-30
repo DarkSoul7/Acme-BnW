@@ -6,7 +6,7 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -32,26 +32,26 @@ public class Promotion extends DomainEntity {
 	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.title = title;
 	}
 
 	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
 	@NotNull
 	public Double getFee() {
-		return fee;
+		return this.fee;
 	}
-	public void setFee(Double fee) {
+	public void setFee(final Double fee) {
 		this.fee = fee;
 	}
 
@@ -59,9 +59,9 @@ public class Promotion extends DomainEntity {
 	@Temporal(value = TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getStartMoment() {
-		return startMoment;
+		return this.startMoment;
 	}
-	public void setStartMoment(Date startMoment) {
+	public void setStartMoment(final Date startMoment) {
 		this.startMoment = startMoment;
 	}
 
@@ -69,31 +69,31 @@ public class Promotion extends DomainEntity {
 	@Temporal(value = TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getEndMoment() {
-		return endMoment;
+		return this.endMoment;
 	}
-	public void setEndMoment(Date endMoment) {
+	public void setEndMoment(final Date endMoment) {
 		this.endMoment = endMoment;
 	}
 
 	public boolean isCancel() {
-		return cancel;
+		return this.cancel;
 	}
 
-	public void setCancel(boolean cancel) {
+	public void setCancel(final boolean cancel) {
 		this.cancel = cancel;
 	}
 
 
 	//RelationShip
-	private Market market;
+	private Market	market;
 
 
 	@Valid
-	@ManyToOne(optional = false)
+	@OneToOne(optional = false)
 	public Market getMarket() {
-		return market;
+		return this.market;
 	}
-	public void setMarket(Market market) {
+	public void setMarket(final Market market) {
 		this.market = market;
 	}
 

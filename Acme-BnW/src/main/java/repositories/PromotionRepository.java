@@ -12,9 +12,9 @@ import domain.Promotion;
 @Repository
 public interface PromotionRepository extends JpaRepository<Promotion, Integer> {
 
-	@Query("select p from Team t join t.customers c join t.localMatches vm join vm.markets m join m.promotions p where c.id = ?1")
+	@Query("select m.promotion from Team t join t.customers c join t.localMatches vm join vm.markets m where c.id = ?1")
 	Collection<Promotion> getLocalFavouriteTeamPromotions(int customerId);
 
-	@Query("select p from Team t join t.customers c join t.visitorMatches vm join vm.markets m join m.promotions p where c.id = ?1")
+	@Query("select m.promotion from Team t join t.customers c join t.visitorMatches vm join vm.markets m where c.id = ?1")
 	Collection<Promotion> getVisitorFavouriteTeamPromotions(int customerId);
 }

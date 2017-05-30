@@ -60,14 +60,14 @@ public class MarketServiceTest extends AbstractTest {
 			Market market = new Market();
 			market.setType(type);
 			market.setFee(fee);
-//			market.setPromotions(new ArrayList<Promotion>());
+			//			market.setPromotions(new ArrayList<Promotion>());
 			market.setMatch(match);
 			market.setBets(new ArrayList<Bet>());
 
 			this.marketService.save(market);
 			this.unauthenticate();
 			this.marketService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -94,8 +94,7 @@ public class MarketServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void editMarketTemplated(String principal, int marketId, MarketType type, Double fee,
-			Class<?> expectedException) {
+	protected void editMarketTemplated(String principal, int marketId, MarketType type, Double fee, Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
@@ -107,7 +106,7 @@ public class MarketServiceTest extends AbstractTest {
 			this.marketService.save(market);
 			this.unauthenticate();
 			this.marketService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -133,24 +132,24 @@ public class MarketServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void deleteMarketTemplated(String principal, Class<?> expectedException) {
+	protected void deleteMarketTemplated(final String principal, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			Match match = matchService.findOne(99);
+			final Match match = this.matchService.findOne(99);
 			Market market = new Market();
 			market.setType(MarketType.LOCALVICTORY);
 			market.setFee(20.);
-//			market.setPromotions(new ArrayList<Promotion>());
+			//			market.setPromotions(new ArrayList<Promotion>());
 			market.setMatch(match);
 			market.setBets(new ArrayList<Bet>());
-			market = marketService.save(market);
+			market = this.marketService.save(market);
 
 			this.marketService.delete(market);
 			this.unauthenticate();
 			this.marketService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);

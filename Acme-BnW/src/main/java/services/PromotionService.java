@@ -12,11 +12,11 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.PromotionRepository;
 import domain.Customer;
 import domain.Market;
 import domain.Promotion;
 import forms.PromotionForm;
-import repositories.PromotionRepository;
 
 @Service
 @Transactional
@@ -45,7 +45,7 @@ public class PromotionService {
 	//Simple CRUD methods
 
 	public PromotionForm create() {
-		PromotionForm result = new PromotionForm();
+		final PromotionForm result = new PromotionForm();
 
 		return result;
 	}
@@ -69,7 +69,7 @@ public class PromotionService {
 		this.promotionRepository.delete(promotion);
 	}
 
-	public void cancel(Promotion promotion) {
+	public void cancel(final Promotion promotion) {
 		Assert.notNull(promotion);
 		promotion.setCancel(true);
 		this.save(promotion);
@@ -77,7 +77,7 @@ public class PromotionService {
 
 
 	@Autowired
-	private Validator validator;
+	private Validator	validator;
 
 
 	public Promotion reconstruct(final PromotionForm promotionForm, final BindingResult binding) {
@@ -87,7 +87,7 @@ public class PromotionService {
 		if (promotionForm.getId() != 0)
 			result = this.findOne(promotionForm.getId());
 		else {
-			Market market = marketService.findOne(promotionForm.getIdMarket());
+			final Market market = this.marketService.findOne(promotionForm.getIdMarket());
 			result.setMarket(market);
 		}
 
@@ -117,17 +117,17 @@ public class PromotionService {
 
 	//Other business methods
 
-	Collection<Promotion> getLocalFavouriteTeamPromotions() {
+	public Collection<Promotion> getLocalFavouriteTeamPromotions() {
 		final Customer customer = this.customerService.findByPrincipal();
 		return this.promotionRepository.getLocalFavouriteTeamPromotions(customer.getId());
 	}
 
-	Collection<Promotion> getVisitorFavouriteTeamPromotions() {
+	public Collection<Promotion> getVisitorFavouriteTeamPromotions() {
 		final Customer customer = this.customerService.findByPrincipal();
 		return this.promotionRepository.getVisitorFavouriteTeamPromotions(customer.getId());
 	}
 
-	Collection<Promotion> getAllPromotionsCustomizedByCustomer() {
+	public Collection<Promotion> getAllPromotionsCustomizedByCustomer() {
 		final Set<Promotion> result = new HashSet<>();
 		result.addAll(this.getLocalFavouriteTeamPromotions());
 		result.addAll(this.getVisitorFavouriteTeamPromotions());

@@ -10,6 +10,8 @@
 
 package controllers;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,8 +19,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
 import services.ActorService;
+import services.MarketService;
+import services.PromotionService;
 import services.WelcomeOfferService;
 import domain.Actor;
+import domain.Market;
+import domain.Promotion;
 import domain.WelcomeOffer;
 
 @Controller
@@ -32,6 +38,12 @@ public class WelcomeController extends AbstractController {
 
 	@Autowired
 	private WelcomeOfferService	welcomeOfferService;
+
+	@Autowired
+	private MarketService		marketService;
+
+	@Autowired
+	private PromotionService	promotionService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -48,10 +60,19 @@ public class WelcomeController extends AbstractController {
 		String fullName;
 		Actor principal;
 		WelcomeOffer active;
+		Collection<Market> notedMarkets = null;
+		Collection<Promotion> favouritePromotions = null;
 
 		if (LoginService.isAuthenticated()) {
 			principal = this.actorService.findByPrincipal();
 			fullName = principal.getName() + " " + principal.getSurname();
+
+			final Actor actor = this.actorService.findByPrincipal();
+			if (actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("CUSTOMER")) {
+				notedMarkets = this.marketService.getMarkedMarket();
+				favouritePromotions = this.promotionService.getAllPromotionsCustomizedByCustomer();
+			}
+
 		} else
 			fullName = null;
 
@@ -60,6 +81,9 @@ public class WelcomeController extends AbstractController {
 		result = new ModelAndView("welcome/index");
 		result.addObject("fullName", fullName);
 		result.addObject("activeOffer", active);
+		result.addObject("notedMarkets", notedMarkets);
+		result.addObject("favouritePromotions", favouritePromotions);
+		result.addObject("RequestURI", "welcome/index.do");
 
 		return result;
 	}

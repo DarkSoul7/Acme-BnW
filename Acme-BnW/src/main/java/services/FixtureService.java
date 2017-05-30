@@ -31,6 +31,9 @@ public class FixtureService {
 	@Autowired
 	private CategoryService		categoryService;
 
+	@Autowired
+	private ManagerService		managerService;
+
 
 	public FixtureService() {
 		super();
@@ -59,6 +62,7 @@ public class FixtureService {
 
 	public void delete(final Fixture fixture) {
 		Assert.isTrue(fixture.getStartMoment().after(new Date()));
+		managerService.findByPrincipal();
 		this.fixtureRepository.delete(fixture);
 	}
 
@@ -99,5 +103,9 @@ public class FixtureService {
 
 	public Collection<Fixture> fixturesOfCategory(int id) {
 		return fixtureRepository.fixturesOfCategory(id);
+	}
+
+	public void flush() {
+		fixtureRepository.flush();
 	}
 }

@@ -3,8 +3,6 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +17,6 @@ import domain.Bet;
 import domain.Market;
 import domain.MarketType;
 import domain.Match;
-import domain.Promotion;
 import forms.MarketForm;
 
 @Service
@@ -83,7 +80,7 @@ public class MarketService {
 	public void delete(Market market) {
 		Assert.isTrue(market.getMatch().getStartMoment().after(new Date()));
 		Assert.isTrue(this.marketRepository.findExistsCustomerOnMarket(market.getId()) == 0);
-		managerService.findByPrincipal();
+		this.managerService.findByPrincipal();
 		this.marketRepository.delete(market);
 	}
 
@@ -98,7 +95,6 @@ public class MarketService {
 		else {
 			Match match = this.matchService.findOne(marketForm.getIdMatch());
 			result.setBets(new ArrayList<Bet>());
-			result.setPromotions(new ArrayList<Promotion>());
 			result.setMatch(match);
 			result.setType(marketForm.getType());
 		}
@@ -135,18 +131,18 @@ public class MarketService {
 	 * Devuelve las apuestas destacadas (según la lista de equipos favoritos del cliente registrado)
 	 * 
 	 */
-	public Collection<Market> getNotedMarket() {
+	public Collection<Market> getMarkedMarket() {
 		return this.marketRepository.getMarkedMarket();
 	}
 
-	public Collection<Market> marketsOfMatches(int id) {
-		return marketRepository.marketsOfMatches(id);
+	public Collection<Market> marketsOfMatches(final int id) {
+		return this.marketRepository.marketsOfMatches(id);
 	}
 
 	public void flush() {
-		marketRepository.flush();
+		this.marketRepository.flush();
 	}
-	
+
 	public Integer betsInMatchDone(final Match match) {
 		return this.marketRepository.betsInMatchDone(match.getId());
 	}
@@ -194,6 +190,7 @@ public class MarketService {
 
 			}
 		}
+
 	}
 
 	public Collection<MarketType> getAllMarketTypesUsedByMatch(int matchId) {

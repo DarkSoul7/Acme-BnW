@@ -1,10 +1,14 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolationException;
 
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +16,21 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
-import utilities.AbstractTest;
+import domain.Bet;
+import domain.Brand;
+import domain.Coordinates;
+import domain.CreditCard;
+import domain.Customer;
+import domain.Message;
+import domain.Punctuation;
+import domain.Team;
+import domain.Ticket;
+import domain.Topic;
+import forms.BalanceForm;
 import forms.CustomerForm;
+import security.Authority;
+import security.UserAccount;
+import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
@@ -25,7 +42,10 @@ public class CustomerServiceTest extends AbstractTest {
 	// System under test ------------------------------------------------------
 
 	@Autowired
-	private CustomerService	customerService;
+	private CustomerService		customerService;
+
+	@Autowired
+	private WelcomeOfferService	welcomeOfferService;
 
 
 	/***
@@ -78,4 +98,303 @@ public class CustomerServiceTest extends AbstractTest {
 
 		this.checkExceptions(expectedException, caught);
 	}
+
+	/***
+	 * Register a customer
+	 * 1º Good test -> expected customer registered:
+	 * 2º Bad test -> cannot register customer with email not pattern
+	 * 3º Bad test -> cannot register customer with birthdate future
+	 */
+
+	@Test
+	public void registerCustomerDriver() {
+
+		final Object testingData[][] = {
+			// name surname email phone nid birthDate username password exception
+			{
+				"Jesus", "Perez Domingo", "+34 672828282", "jes@gmail.com", "nid1", new DateTime(1989, 10, 10, 00, 00).toDate(), "customer30", "customer30", null
+			}, {
+				"Lucia", "Perez Domingo", "+34 672833123", "blabacar", "nid1", new DateTime(2017, 12, 12, 00, 00).toDate(), "customer100", "customer100", ConstraintViolationException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.registerCustomerTemplate((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Date) testingData[i][5], (String) testingData[i][6],
+				(String) testingData[i][7], (Class<?>) testingData[i][8]);
+	}
+
+	protected void registerCustomerTemplate(String name, String surname, String phone, String email, String nid, Date birthDate, String username, String password, Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			Customer customer = new Customer();
+
+			CreditCard creditCard = new CreditCard();
+			creditCard.setBrandName(Brand.VISA);
+			creditCard.setCvv(123);
+			creditCard.setExpirationMonth(10);
+			creditCard.setExpirationYear(2018);
+			creditCard.setHolderName("holder");
+			creditCard.setNumber("4800553115069231");
+
+			Coordinates coordinates = new Coordinates();
+			coordinates.setCity("city");
+			coordinates.setCountry("country");
+			coordinates.setProvince("province");
+			coordinates.setState("state");
+
+			Authority authority;
+
+			authority = new Authority();
+			authority.setAuthority(Authority.CUSTOMER);
+
+			UserAccount userAccount = new UserAccount();
+
+			userAccount.setEnabled(true);
+			userAccount.setPassword(password);
+			userAccount.setUsername(username);
+			userAccount.addAuthority(authority);
+
+			customer.setName(name);
+			customer.setSurname(surname);
+			customer.setPhone(phone);
+			customer.setBirthDate(birthDate);
+			customer.setEmail(email);
+			customer.setNid(nid);
+			customer.setCoordinates(coordinates);
+			customer.setBanNum(0);
+			customer.setFinishedOffer(false);
+			customer.setActiveWO(null);
+			customer.setIsDisabled(false);
+			customer.setBalance(0.);
+			customer.setOverAge(true);
+			customer.setWelcomeOffer(this.welcomeOfferService.getActive());
+			customer.setCreditCard(creditCard);
+			customer.setUserAccount(userAccount);
+			customer.setBets(new ArrayList<Bet>());
+			customer.setFavouriteTeams(new ArrayList<Team>());
+			customer.setMessages(new ArrayList<Message>());
+			customer.setPunctuations(new ArrayList<Punctuation>());
+			customer.setTopics(new ArrayList<Topic>());
+			customer.setTickets(new ArrayList<Ticket>());
+
+			customerService.save(customer);
+			this.customerService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expectedException, caught);
+	}
+
+	/***
+	 * Add balance
+	 * 1º Good test -> expected: add balance
+	 * 2º Bad test -> cannot add balance manager
+	 * 3º Bad test -> cannot add balance admin
+	 */
+
+	@Test
+	public void addBalanceDriver() {
+		final Object[][] testingData = {
+			//actor, balance, expected exception
+			{
+				"customer1", 20.0, null
+			}, {
+				"manager", 20.0, IllegalArgumentException.class
+			}, {
+				"admin", 20.0, IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.addBalanceTemplated((String) testingData[i][0], (Double) testingData[i][1], (Class<?>) testingData[i][2]);
+		}
+	}
+
+	protected void addBalanceTemplated(String principal, Double balance, Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+			BalanceForm balanceForm = new BalanceForm();
+			balanceForm.setBalance(balance);
+
+			customerService.addBalance(balanceForm);
+
+			this.unauthenticate();
+			this.customerService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expectedException, caught);
+	}
+
+	/***
+	 * Extract balance
+	 * 1º Good test -> expected: extract balance
+	 * 2º Bad test -> cannot extract balance manager
+	 * 3º Bad test -> cannot extract more balance he have
+	 */
+
+	@Test
+	public void extractBalanceDriver() {
+		final Object[][] testingData = {
+			//actor, balance, expected exception
+			{
+				"customer1", 20.0, null
+			}, {
+				"manager1", 20.0, IllegalArgumentException.class
+			}, {
+				"customer1", 2000.0, IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.extractBalanceTemplated((String) testingData[i][0], (Double) testingData[i][1], (Class<?>) testingData[i][2]);
+		}
+	}
+
+	protected void extractBalanceTemplated(String principal, Double balance, Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+			BalanceForm balanceForm = new BalanceForm();
+			balanceForm.setBalance(balance);
+
+			customerService.extractBalance(balanceForm);
+
+			this.unauthenticate();
+			this.customerService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expectedException, caught);
+	}
+
+	/***
+	 * Edit profile
+	 * 1º Good test -> expected: profile customer edit
+	 * 2º Bad test -> cannot edit phone blank
+	 * 3º Bad test -> cannot edit profile admin
+	 */
+
+	@Test
+	public void editProfileDriver() {
+		final Object[][] testingData = {
+			//actor, phone, expected exception
+			{
+				"customer1", "+34 654234543", null
+			}, {
+				"customer1", "", ConstraintViolationException.class
+			}, {
+				"admin", "+34 654234543", ConstraintViolationException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.editProfile((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+		}
+	}
+
+	protected void editProfile(String principal, String phone, Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+
+			Customer customer = customerService.findByPrincipal();
+			customer.setPhone(phone);
+			customerService.save(customer);
+
+			this.unauthenticate();
+			this.customerService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expectedException, caught);
+	}
+
+	/***
+	 * Active Welcome Offer
+	 * 1º Good test -> expected: add amount of welcome offer on balance customer
+	 * 2º Bad test -> charge is more little that extract amount
+	 * 3º Bad test -> customer have welcome offer join before
+	 */
+
+	@Test
+	public void activeOfferDriver() {
+		final Object[][] testingData = {
+			//actor, charge, expected exception
+			{
+				"customer1", 10.0, null
+			}, {
+				"customer1", 8.0, IllegalArgumentException.class
+			}, {
+				"customer1", 10.0, IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.activeOfferTemplated((String) testingData[i][0], (Double) testingData[i][1], (Class<?>) testingData[i][2]);
+		}
+	}
+
+	protected void activeOfferTemplated(String principal, Double charge, Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+
+			customerService.activeOffer(charge, customerService.findByPrincipal().getId());
+
+			this.unauthenticate();
+			this.customerService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expectedException, caught);
+	}
+
+	/***
+	 * Cancel Welcome Offer
+	 * 1º Good test -> expected: Cancel welcome offer customer
+	 * 2º Bad test -> Cannot cancel welcome offer if before it was cancel
+	 * 3º Bad test -> admin cannot cancel welcome offer of customer
+	 */
+
+	@Test
+	public void cancelOfferDriver() {
+		final Object[][] testingData = {
+			//actor, expected exception
+			{
+				"customer1", null
+			}, {
+				"customer2", IllegalArgumentException.class
+			}, {
+				"admin", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.cancelOfferTemplated((String) testingData[i][0], (Class<?>) testingData[i][1]);
+		}
+	}
+
+	protected void cancelOfferTemplated(String principal, Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+
+			customerService.cancelOffer(customerService.findByPrincipal().getId());
+
+			this.unauthenticate();
+			this.customerService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expectedException, caught);
+	}
+
 }
