@@ -8,9 +8,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import domain.Team;
+import forms.ListTeamForm;
 
 @Repository
 public interface TeamRepository extends JpaRepository<Team, Integer> {
+
+	@Query("select new forms.ListTeamForm(t,case when (exists(select 1 from Customer c where t in (c.favouriteTeams))) then true else false end) from Team t")
+	public Collection<ListTeamForm> findTeamFavourite(int customerId);
 
 	//Dashboard C
 
