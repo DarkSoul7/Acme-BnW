@@ -63,12 +63,12 @@ public class CategoryService {
 	}
 
 	//C3
-	public Category categoryMoreBets() {
+	public Collection<Category> categoryMoreBets() {
 		return categoryRepository.categoryMoreBets();
 	}
 
 	//C4
-	public Category categoryLessBets() {
+	public Collection<Category> categoryLessBets() {
 		return categoryRepository.categoryLessBets();
 	}
 
