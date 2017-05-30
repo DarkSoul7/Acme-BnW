@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.ArrayList;
@@ -11,15 +10,16 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import utilities.AbstractTest;
 import domain.Fixture;
 import domain.Match;
-import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
-	"classpath:spring/junit.xml"
+		"classpath:spring/junit.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -44,14 +44,14 @@ public class FixtureServiceTest extends AbstractTest {
 	@Test
 	public void registerFixtureDriver() {
 		final Object[][] testingData = {
-			//actor, title, startMoment, endMoment, idCategory ,expected exception
-			{
-				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 84, null
-			}, {
-				"manager1", "", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 84, ConstraintViolationException.class
-			}, {
-				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(1).toDate(), 84, IllegalArgumentException.class
-			}
+				//actor, title, startMoment, endMoment, idCategory ,expected exception
+				{
+						"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 92, null
+		}, {
+				"manager1", "", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 92, ConstraintViolationException.class
+		}, {
+				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(1).toDate(), 92, IllegalArgumentException.class
+		}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
@@ -90,14 +90,14 @@ public class FixtureServiceTest extends AbstractTest {
 	@Test
 	public void editFixtureDriver() {
 		final Object[][] testingData = {
-			//actor, title, startMoment, endMoment, idCategory ,expected exception
-			{
-				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 96, null
-			}, {
-				"manager1", "", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 96, ConstraintViolationException.class
-			}, {
-				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(1).toDate(), 96, IllegalArgumentException.class
-			}
+				//actor, title, startMoment, endMoment, idFixture ,expected exception
+				{
+						"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 107, null
+		}, {
+				"manager1", "", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 107, ConstraintViolationException.class
+		}, {
+				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(1).toDate(), 107, IllegalArgumentException.class
+		}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
@@ -127,21 +127,21 @@ public class FixtureServiceTest extends AbstractTest {
 	/***
 	 * Delete tournament
 	 * 1º Good test -> expected: fixture deleted
-	 * 2º Bad test -> cannot delete fixture finished
+	 * 2º Bad test -> cannot delete a fixture that is referenced by any match
 	 * 3º Bad test -> an admin cannot delete a fixture
 	 */
 
 	@Test
 	public void deleteTeamDriver() {
 		final Object[][] testingData = {
-			//actor, fixtureId , expected exception
-			{
-				"manager1", 0, null
-			}, {
-				"manager1", 97, IllegalArgumentException.class
-			}, {
-				"admin", 97, IllegalArgumentException.class
-			}
+				//actor, fixtureId , expected exception
+				{
+						"manager1", 0, null
+		}, {
+				"manager1", 104, DataIntegrityViolationException.class
+		}, {
+				"admin", 107, IllegalArgumentException.class
+		}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {

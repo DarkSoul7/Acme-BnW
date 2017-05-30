@@ -11,28 +11,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import utilities.AbstractTest;
 import domain.Category;
 import domain.Fixture;
-import domain.Market;
 import domain.Tournament;
-import utilities.AbstractTest;
 
-@ContextConfiguration(locations = { "classpath:spring/junit.xml" })
+@ContextConfiguration(locations = {"classpath:spring/junit.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-public class CategoryServiceTest  extends AbstractTest{
+public class CategoryServiceTest extends AbstractTest {
 
 	@Autowired
-	private CategoryService categoryService;
-	
-	
+	private CategoryService		categoryService;
+
 	@Autowired
-	private TournamentService tournamentService;
-	
+	private TournamentService	tournamentService;
+
+
 	/***
-	 * Register categories 
-	 * 1º Good test -> expected: category registered 
-	 * 2º Bad test -> cannot register category without title 
+	 * Register categories
+	 * 1º Good test -> expected: category registered
+	 * 2º Bad test -> cannot register category without title
 	 * 3º Bad test -> cannot register category without fee
 	 */
 
@@ -40,9 +39,9 @@ public class CategoryServiceTest  extends AbstractTest{
 	public void registerCategoryDriver() {
 		final Object[][] testingData = {
 				// actor, name, description, expected exception
-				{ "manager1", "Name1", "Description1", 81, null },
-				{ "manager1", "", "Description2", 81, ConstraintViolationException.class },
-				{ "manager1", "Name2", "", 81, ConstraintViolationException.class } };
+				{"manager1", "Name1", "Description1", 89, null},
+				{"manager1", "", "Description2", 89, ConstraintViolationException.class},
+				{"manager1", "Name2", "", 89, ConstraintViolationException.class}};
 
 		for (int i = 0; i < testingData.length; i++) {
 			this.registerCategoryTemplated((String) testingData[i][0], (String) testingData[i][1],
@@ -71,11 +70,11 @@ public class CategoryServiceTest  extends AbstractTest{
 		}
 		this.checkExceptions(expectedException, caught);
 	}
-	
+
 	/***
 	 * Edit categories
-	 * 1º Good test -> expected: category edited 
-	 * 2º Bad test -> cannot edit category without title 
+	 * 1º Good test -> expected: category edited
+	 * 2º Bad test -> cannot edit category without title
 	 * 3º Bad test -> cannot edit category without fee
 	 */
 
@@ -83,9 +82,9 @@ public class CategoryServiceTest  extends AbstractTest{
 	public void editCategoryDriver() {
 		final Object[][] testingData = {
 				// actor, categoryId ,name, description, expected exception
-				{ "manager1", 84, "name", "description 1", null },
-				{ "manager1", 84, "","description 2", ConstraintViolationException.class },
-				{ "manager1", 84, "name 1", null, ConstraintViolationException.class } };
+				{"manager1", 92, "name", "description 1", null},
+				{"manager1", 92, "", "description 2", ConstraintViolationException.class},
+				{"manager1", 92, "name 1", null, ConstraintViolationException.class}};
 
 		for (int i = 0; i < testingData.length; i++) {
 			this.editCategoryTemplated((String) testingData[i][0], (int) testingData[i][1], (String) testingData[i][2],
@@ -93,13 +92,13 @@ public class CategoryServiceTest  extends AbstractTest{
 		}
 	}
 
-	protected void editCategoryTemplated(String principal, int marketId, String name, String description,
+	protected void editCategoryTemplated(String principal, int categoryId, String name, String description,
 			Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			Category category = categoryService.findOne(marketId);
+			Category category = categoryService.findOne(categoryId);
 			category.setName(name);
 			category.setDescription(description);
 
@@ -111,7 +110,7 @@ public class CategoryServiceTest  extends AbstractTest{
 		}
 		this.checkExceptions(expectedException, caught);
 	}
-	
+
 	/***
 	 * Delete categories
 	 * 1º Good test -> expected: category deleted
@@ -122,14 +121,14 @@ public class CategoryServiceTest  extends AbstractTest{
 	@Test
 	public void deletecategoryDriver() {
 		final Object[][] testingData = {
-			//actor, categoryId, expected exception
-			{
-				"manager1", 84, null
-			}, {
-				"customer1", 84, IllegalArgumentException.class
-			}, {
-				"admin", 84, IllegalArgumentException.class
-			}
+				//actor, categoryId, expected exception
+				{
+						"manager1", 92, null
+		}, {
+				"customer1", 92, IllegalArgumentException.class
+		}, {
+				"admin", 92, IllegalArgumentException.class
+		}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
@@ -142,7 +141,7 @@ public class CategoryServiceTest  extends AbstractTest{
 
 		try {
 			this.authenticate(principal);
-			Tournament tournament = tournamentService.findOne(81);
+			Tournament tournament = tournamentService.findOne(89);
 			Category category = new Category();
 			category.setName("Name 1");
 			category.setDescription("Description 1");
@@ -150,7 +149,7 @@ public class CategoryServiceTest  extends AbstractTest{
 			category.setFixtures(new ArrayList<Fixture>());
 
 			category = categoryService.save(category);
-			
+
 			categoryService.delete(category);
 			this.unauthenticate();
 			this.categoryService.flush();

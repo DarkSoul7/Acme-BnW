@@ -560,9 +560,21 @@
 	
 	<bean id="fixture3" class="domain.Fixture">
 		<property name="title" value="Fixture 3" />
-		<property name="startMoment" value="2018/05/16 12:45" />
-		<property name="endMoment" value="2018/05/19 23:15" />
+		<property name="startMoment" value="2017/06/12 12:45" />
+		<property name="endMoment" value="2017/06/14 23:15" />
 		<property name="category" ref="category3" />
+		<property name="matches">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="fixture4" class="domain.Fixture">
+		<property name="title" value="Fixture 4" />
+		<property name="startMoment" value="2018/01/12 12:45" />
+		<property name="endMoment" value="2018/01/15 23:15" />
+		<property name="category" ref="category1" />
 		<property name="matches">
 			<list>
 				<null/>
@@ -636,6 +648,22 @@
 		<property name="localTeam" ref="team8" />
 	</bean>
 	
+	<bean id="match5" class="domain.Match">
+		<property name="startMoment" value="2017/06/13 22:15" />
+		<property name="endMoment" value="2017/06/14 00:00" />
+		<property name="fixture" ref="fixture3" />
+		<property name="localResult" value="0" />
+		<property name="visitorResult" value="0" />
+		<property name="solvedBets" value="false" />
+		<property name="markets">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="visitorTeam" ref="team1" />
+		<property name="localTeam" ref="team4" />
+	</bean>
+	
 	
 	<!-- MARKET -->
 
@@ -703,6 +731,78 @@
 		<property name="type" value="TIE" />
 		<property name="fee" value="2.30" />
 		<property name="match" ref="match2" />
+		<property name="promotion"><null/></property>
+		<property name="bets">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="market7" class="domain.Market">
+		<property name="type" value="LOCALVICTORY" />
+		<property name="fee" value="1.15" />
+		<property name="match" ref="match3" />
+		<property name="promotion"><null/></property>
+		<property name="bets">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="market8" class="domain.Market">
+		<property name="type" value="VISITORVICTORY" />
+		<property name="fee" value="2.35" />
+		<property name="match" ref="match3" />
+		<property name="promotion"><null/></property>
+		<property name="bets">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="market9" class="domain.Market">
+		<property name="type" value="TIE" />
+		<property name="fee" value="2.30" />
+		<property name="match" ref="match3" />
+		<property name="promotion"><null/></property>
+		<property name="bets">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="market10" class="domain.Market">
+		<property name="type" value="LOCALVICTORY" />
+		<property name="fee" value="1.15" />
+		<property name="match" ref="match4" />
+		<property name="promotion"><null/></property>
+		<property name="bets">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="market11" class="domain.Market">
+		<property name="type" value="VISITORVICTORY" />
+		<property name="fee" value="2.35" />
+		<property name="match" ref="match4" />
+		<property name="promotion"><null/></property>
+		<property name="bets">
+			<list>
+				<null/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="market12" class="domain.Market">
+		<property name="type" value="TIE" />
+		<property name="fee" value="2.30" />
+		<property name="match" ref="match4" />
 		<property name="promotion"><null/></property>
 		<property name="bets">
 			<list>

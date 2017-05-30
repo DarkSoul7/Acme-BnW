@@ -48,11 +48,11 @@ public class MatchServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 				//actor, startMoment, endMoment, idTeamLocal , idTeamVisitor, idFixture ,expected exception
 				{
-						"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), 91, 92, 98, null
+						"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), 95, 98, 107, null
 		}, {
-				"manager1", new DateTime().plusHours(3).toDate(), new DateTime().plusHours(1).toDate(), 91, 92, 98, IllegalArgumentException.class
+				"manager1", new DateTime().plusHours(3).toDate(), new DateTime().plusHours(1).toDate(), 95, 98, 107, IllegalArgumentException.class
 		}, {
-				"manager1", new DateTime().plusHours(-1).toDate(), new DateTime().plusHours(-2).toDate(), 91, 92, 98, IllegalArgumentException.class
+				"manager1", new DateTime().plusHours(-1).toDate(), new DateTime().plusHours(-2).toDate(), 95, 98, 107, IllegalArgumentException.class
 		}
 		};
 
@@ -73,6 +73,7 @@ public class MatchServiceTest extends AbstractTest {
 			match.setMarkets(new ArrayList<Market>());
 			match.setStartMoment(startMoment);
 			match.setEndMoment(endMoment);
+			match.setSolvedBets(false);
 			match.setVisitorTeam(teamService.findOne(idTeamVisitor));
 			match.setLocalTeam(teamService.findOne(idTeamLocal));
 			match.setFixture(fixtureService.findOne(idFixture));
@@ -100,15 +101,15 @@ public class MatchServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 				//actor,idMatch,expected exception
 				{
-						"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), 2, 1, 99, null
+						"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), 2, 1, 112, null
 		}, {
-				"manager1", new DateTime().plusHours(3).toDate(), new DateTime().plusHours(1).toDate(), 2, 1, 99, IllegalArgumentException.class
+				"manager1", new DateTime().plusHours(3).toDate(), new DateTime().plusHours(1).toDate(), 2, 1, 112, IllegalArgumentException.class
 		}, {
-				"manager1", new DateTime().plusHours(-1).toDate(), new DateTime().plusHours(-2).toDate(), 2, 1, 99, IllegalArgumentException.class
+				"manager1", new DateTime().plusHours(-1).toDate(), new DateTime().plusHours(-2).toDate(), 2, 1, 112, IllegalArgumentException.class
 		}, {
-				"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), -1, 1, 99, ConstraintViolationException.class
+				"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), -1, 1, 112, ConstraintViolationException.class
 		}, {
-				"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), 2, -2, 99, ConstraintViolationException.class
+				"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), 2, -2, 112, ConstraintViolationException.class
 		}
 		};
 
@@ -149,11 +150,11 @@ public class MatchServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 				//actor, matchId , expected exception
 				{
-						"manager1", 101, null
+						"manager1", 112, null
 		}, {
-				"customer1", 101, NullPointerException.class
+				"customer1", 112, NullPointerException.class
 		}, {
-				"admin", 101, NullPointerException.class
+				"admin", 112, NullPointerException.class
 		}
 		};
 

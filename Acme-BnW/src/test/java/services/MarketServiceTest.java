@@ -39,10 +39,10 @@ public class MarketServiceTest extends AbstractTest {
 	@Test
 	public void registerMarketDriver() {
 		final Object[][] testingData = {
-				// actor, title, fee, expected exception
-				{"manager1", MarketType.LOCALVICTORY, 10.0, 99, null},
-				{"manager1", null, 30.0, 99, ConstraintViolationException.class},
-				{"manager1", MarketType.TIE, null, 99, ConstraintViolationException.class}};
+				// actor, title, fee, idMatch expected exception
+				{"manager1", MarketType.LOCALVICTORY, 10.0, 112, null},
+				{"manager1", null, 30.0, 112, ConstraintViolationException.class},
+				{"manager1", MarketType.TIE, null, 112, IllegalArgumentException.class}};
 
 		for (int i = 0; i < testingData.length; i++) {
 			this.registerMarketTemplated((String) testingData[i][0], (MarketType) testingData[i][1],
@@ -76,31 +76,30 @@ public class MarketServiceTest extends AbstractTest {
 	/***
 	 * Edit teams
 	 * 1º Good test -> expected: market edited
-	 * 2º Bad test -> cannot edit market without title
+	 * 2º Bad test -> cannot edit market with negative fee
 	 * 3º Bad test -> cannot edit market without fee
 	 */
 
 	@Test
 	public void editMarketDriver() {
 		final Object[][] testingData = {
-				// actor, marketId ,title, fee, expected exception
-				{"manager1", 103, MarketType.VISITORVICTORY, 10., null},
-				{"manager1", 103, null, 20., ConstraintViolationException.class},
-				{"manager1", 103, MarketType.LOCALVICTORY, null, ConstraintViolationException.class}};
+				// actor, marketId, fee, expected exception
+				{"manager1", 119, 10., null},
+				{"manager1", 119, -20., IllegalArgumentException.class},
+				{"manager1", 119, null, IllegalArgumentException.class}};
 
 		for (int i = 0; i < testingData.length; i++) {
-			this.editMarketTemplated((String) testingData[i][0], (int) testingData[i][1], (MarketType) testingData[i][2],
-					(Double) testingData[i][3], (Class<?>) testingData[i][4]);
+			this.editMarketTemplated((String) testingData[i][0], (int) testingData[i][1],
+					(Double) testingData[i][2], (Class<?>) testingData[i][3]);
 		}
 	}
 
-	protected void editMarketTemplated(String principal, int marketId, MarketType type, Double fee, Class<?> expectedException) {
+	protected void editMarketTemplated(String principal, int marketId, Double fee, Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
 			Market market = marketService.findOne(marketId);
-			market.setType(type);
 			market.setFee(fee);
 
 			this.marketService.save(market);
@@ -137,7 +136,7 @@ public class MarketServiceTest extends AbstractTest {
 
 		try {
 			this.authenticate(principal);
-			final Match match = this.matchService.findOne(99);
+			final Match match = this.matchService.findOne(112);
 			Market market = new Market();
 			market.setType(MarketType.LOCALVICTORY);
 			market.setFee(20.);
