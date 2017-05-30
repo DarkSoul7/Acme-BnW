@@ -29,6 +29,9 @@ public interface BetRepository extends JpaRepository<Bet, Integer> {
 	@Query("select b from Bet b where b.market.match.id = ?1 and b.type <> ?2")
 	public Collection<Bet> findAllNotMultipleFromMatch(int matchId, BetType multipleType);
 
+	@Query("select count(b) from Bet b where b.parentBet.id = ?1 and b.status = ?2")
+	public Integer getPendingChildBetsNumberFromParent(int parentBetId, Status pendingStatus);
+
 	//Dashboard
 
 	//C1

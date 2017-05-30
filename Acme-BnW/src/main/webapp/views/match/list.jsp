@@ -77,7 +77,7 @@
 	
 	<security:authorize access="hasRole('MANAGER')">
 		<display:column>
-			<jstl:if test="${row.endMoment > currentMoment}">
+			<jstl:if test="${row.endMoment > currentMoment && row.startMoment < currentMoment}">
 				<acme:cancel url="match/editResult.do?matchId=${row.id}" code="match.editResult" />
 			</jstl:if>
 		</display:column>

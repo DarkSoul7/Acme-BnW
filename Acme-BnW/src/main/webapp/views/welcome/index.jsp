@@ -64,7 +64,16 @@
 	pagesize="5">
 
 		<spring:message code="market.title" var="title" />
-		<display:column property="title" title="${title}"/>
+		<display:column title="${title}">
+			<jstl:choose>
+			<jstl:when test="${pageContext.response.locale.language=='en'}">
+				<jstl:out value="${row.type.getName()}"></jstl:out>
+			</jstl:when>
+			<jstl:otherwise>
+				<jstl:out value="${row.type.getSpanishName()}"></jstl:out>
+			</jstl:otherwise>
+		</jstl:choose>
+		</display:column>
 		
 		<spring:message code="market.fee" var="fee" />
 		<display:column property="fee" title="${fee}"/>

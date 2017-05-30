@@ -96,7 +96,7 @@ public class BetController extends AbstractController {
 				bet = this.betService.createSimple(quantity, market);
 			}
 
-			this.betService.save(bet, true);
+			this.betService.save(bet, true, false);
 
 			result = new ModelAndView("redirect:/bet/pendingBets.do");
 			result.addObject("successMessage", "bet.simple.success");
@@ -163,7 +163,7 @@ public class BetController extends AbstractController {
 		try {
 			market = this.marketService.findOne(marketId);
 			bet = this.betService.createDefault(market);
-			this.betService.save(bet, true);
+			this.betService.save(bet, true, false);
 
 			result = new ModelAndView("redirect:/bet/showSelection.do");
 			result.addObject("successMessage", "bet.addSelection.success");

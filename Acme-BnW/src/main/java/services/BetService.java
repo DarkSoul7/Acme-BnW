@@ -122,7 +122,7 @@ public class BetService {
 
 	}
 
-	public Bet save(Bet bet, Boolean payment) throws IllegalStateException, IllegalArgumentException {
+	public Bet save(Bet bet, Boolean payment, Boolean solvingBets) throws IllegalStateException, IllegalArgumentException {
 		Customer customer;
 		Double balance;
 		Bet result;
@@ -134,7 +134,7 @@ public class BetService {
 			}
 		}
 
-		if (bet.getMarket().getMatch().getSolvedBets()) {
+		if (solvingBets) {
 			customer = this.customerService.findOne(bet.getCustomer().getId());
 		} else {
 			customer = this.customerService.findByPrincipal();
@@ -149,8 +149,8 @@ public class BetService {
 					balance -= bet.getQuantity();
 				}
 			} else if (Status.SUCCESSFUL.equals(bet.getStatus())) {
-				String pay = String.format("%.2f", bet.getFee() * bet.getQuantity());
-				balance += Double.valueOf(pay);
+				balance += bet.getFee() * bet.getQuantity();
+				balance = Double.valueOf(String.format("%.2f", balance));
 			}
 
 			customer.setBalance(balance);
@@ -259,7 +259,7 @@ public class BetService {
 		Double totalFee = 1.0;
 
 		parentBet = this.createMultiple(quantity);
-		parentBet = this.save(parentBet, false);
+		parentBet = this.save(parentBet, false, false);
 
 		childrenBets = this.findAllById(betsIds);
 		matchesIds = new ArrayList<Integer>();
@@ -288,7 +288,7 @@ public class BetService {
 
 		childrenBets = this.save(childrenBets);
 		parentBet.setChildrenBets(childrenBets);
-		this.save(parentBet, true);
+		this.save(parentBet, true, false);
 	}
 
 	public Bet completeSelectedBet(int betId, Double quantity, Market market) {
@@ -299,6 +299,14 @@ public class BetService {
 		result.setCompleted(true);
 		result.setFee(market.getFee());
 		result.setQuantity(quantity);
+
+		return result;
+	}
+
+	public Integer getPendingChildBetsNumberFromParent(int parentBetId) {
+		Integer result;
+
+		result = this.betRepository.getPendingChildBetsNumberFromParent(parentBetId, Status.PENDING);
 
 		return result;
 	}
@@ -335,7 +343,7 @@ public class BetService {
 				}
 			}
 
-			this.save(bet, true);
+			this.save(bet, true, true);
 
 			//Si la apuesta combinada ya ha sido resuelta por otra hija no hace falta hacer nada
 			if (BetType.CHILD.equals(bet.getType()) && Status.PENDING.equals(bet.getParentBet().getStatus())) {
@@ -343,7 +351,15 @@ public class BetService {
 					Bet parentBet = bet.getParentBet();
 					parentBet.setStatus(Status.FAILED);
 
-					this.save(bet, false);
+					this.save(parentBet, false, true);
+				} else {
+					Integer pendingChildBets = this.getPendingChildBetsNumberFromParent(bet.getParentBet().getId());
+					if (pendingChildBets.compareTo(0) == 0) {
+						Bet parentBet = bet.getParentBet();
+						parentBet.setStatus(bet.getStatus());
+
+						this.save(parentBet, true, true);
+					}
 				}
 			}
 		}
