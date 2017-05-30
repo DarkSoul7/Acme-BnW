@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Team;
+import forms.ListTeamForm;
 import forms.TeamForm;
 import services.TeamService;
 
@@ -33,17 +34,16 @@ public class TeamController extends AbstractController {
 		super();
 	}
 
-	//Listing 
-
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 		ModelAndView result;
-		Collection<Team> teams;
+		Collection<ListTeamForm> teams;
 
-		teams = teamService.findAll();
+		teams = teamService.findTeamFavourite();
 
 		result = new ModelAndView("team/list");
 		result.addObject("teams", teams);
+		result.addObject("listForm", true);
 		result.addObject("requestURI", "team/list.do");
 
 		return result;

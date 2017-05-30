@@ -95,7 +95,7 @@
 		<security:intercept-url pattern="/fixture/delete.do" access="hasRole('MANAGER')" />
 		
 		<!-- Team -->
-		<security:intercept-url pattern="/team/list.do" access="permitAll" /> 
+		<security:intercept-url pattern="/team/list.do" access="permitAll" />
 		<security:intercept-url pattern="/team/register.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/team/edit.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/team/delete.do" access="hasRole('MANAGER')" />

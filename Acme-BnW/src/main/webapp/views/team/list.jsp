@@ -30,6 +30,19 @@
 	<display:column title="${shield}">
 		<img src="${row.shield}" alt="shield" width="70" height="70">
 	</display:column>
+	
+	<security:authorize access="hasRole('CUSTOMER')">
+		<jstl:if test="${listForm==true}">
+			<display:column>
+				<jstl:if test="${row.favourite==true}">
+					<acme:cancel url="customer/addTeamFavourite.do?teamId=${row.id}" code="customer.addTeam"/>
+				</jstl:if>
+				<jstl:if test="${row.favourite==false}">
+					<acme:cancel url="customer/deleteTeamFavourite.do?teamId=${row.id}" code="customer.deleteTeam"/>
+				</jstl:if>
+			</display:column>
+		</jstl:if>
+	</security:authorize>
 
 	<security:authorize access="hasRole('MANAGER')">
 	

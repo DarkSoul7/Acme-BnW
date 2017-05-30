@@ -479,4 +479,86 @@ public class CustomerServiceTest extends AbstractTest {
 		this.checkExceptions(expectedException, caught);
 	}
 
+	/***
+	 * Add team favourite
+	 * 1º Good test -> expected: add team a favourite
+	 * 2º Bad test -> Cannot add team a favourite if exits in favourites
+	 * 3º Bad test -> Admin cannot add team a favourite
+	 */
+
+	@Test
+	public void addTeamFavouriteDriver() {
+		final Object[][] testingData = {
+			//actor, idTeam, expected exception
+			{
+				"customer1", 105, null
+			}, {
+				"customer1", 105, IllegalArgumentException.class
+			}, {
+				"admin", 105, IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.addTeamFavouriteTemplated((String) testingData[i][0], (int) testingData[i][1], (Class<?>) testingData[i][2]);
+		}
+	}
+
+	protected void addTeamFavouriteTemplated(String principal, int teamId, Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+
+			customerService.addTeamFavourite(teamId);
+
+			this.unauthenticate();
+			this.customerService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expectedException, caught);
+	}
+
+	/***
+	 * delete team favourite
+	 * 1º Good test -> expected: delete team of favourite
+	 * 2º Bad test -> Cannot delete team a favourite if don't exits in favourites
+	 * 3º Bad test -> Admin cannot delete team of favourite
+	 */
+
+	@Test
+	public void removeTeamFavouriteDriver() {
+		final Object[][] testingData = {
+			//actor, idTeam, expected exception
+			{
+				"customer1", 97, null
+			}, {
+				"customer1", 97, IllegalArgumentException.class
+			}, {
+				"admin", 97, IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.deleteTeamFavouriteTemplated((String) testingData[i][0], (int) testingData[i][1], (Class<?>) testingData[i][2]);
+		}
+	}
+
+	protected void deleteTeamFavouriteTemplated(String principal, int teamId, Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+
+			customerService.deleteTeamFavourite(teamId);
+
+			this.unauthenticate();
+			this.customerService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expectedException, caught);
+	}
+
 }
