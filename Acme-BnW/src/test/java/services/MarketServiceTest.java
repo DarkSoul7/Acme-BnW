@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.ArrayList;
@@ -13,14 +12,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
+import utilities.AbstractTest;
 import domain.Bet;
 import domain.Market;
 import domain.MarketType;
 import domain.Match;
-import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
-	"classpath:spring/junit.xml"
+		"classpath:spring/junit.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -43,14 +42,14 @@ public class MarketServiceTest extends AbstractTest {
 	@Test
 	public void registerMarketDriver() {
 		final Object[][] testingData = {
-			// actor, title, fee, idMatch expected exception
-			{
-				"manager1", MarketType.LOCALVICTORY, 10.0, 114, null
-			}, {
+				// actor, title, fee, idMatch expected exception
+				{
+						"manager1", MarketType.LOCALVICTORY, 10.0, 114, null
+		}, {
 				"manager1", null, 30.0, 114, ConstraintViolationException.class
-			}, {
+		}, {
 				"manager1", MarketType.TIE, null, 114, IllegalArgumentException.class
-			}
+		}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
@@ -90,14 +89,14 @@ public class MarketServiceTest extends AbstractTest {
 	@Test
 	public void editMarketDriver() {
 		final Object[][] testingData = {
-			// actor, marketId, fee, expected exception
-			{
-				"manager1", 126, 10., null
-			}, {
+				// actor, marketId, fee, expected exception
+				{
+						"manager1", 126, 10., null
+		}, {
 				"manager1", 126, -20.0, IllegalArgumentException.class
-			}, {
+		}, {
 				"manager1", 126, null, IllegalArgumentException.class
-			}
+		}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
@@ -132,14 +131,14 @@ public class MarketServiceTest extends AbstractTest {
 	@Test
 	public void deleteMarketDriver() {
 		final Object[][] testingData = {
-			// actor , expected exception
-			{
-				"manager1", null
-			}, {
+				// actor , expected exception
+				{
+						"manager1", null
+		}, {
 				"customer1", IllegalArgumentException.class
-			}, {
+		}, {
 				"admin", IllegalArgumentException.class
-			}
+		}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
@@ -169,9 +168,6 @@ public class MarketServiceTest extends AbstractTest {
 		}
 		this.checkExceptions(expectedException, caught);
 	}
-<<<<<<< HEAD
-	
-=======
 
 	/***
 	 * Participar promocion
@@ -184,14 +180,14 @@ public class MarketServiceTest extends AbstractTest {
 	public void enjoyPromotionDriver() {
 
 		final Object testingData[][] = {
-			//principal, idPromotion,expected exception
-			{
-				"customer1", 149, null
-			}, {
+				//principal, idPromotion,expected exception
+				{
+						"customer1", 149, null
+		}, {
 				"customer1", 152, IllegalArgumentException.class
-			}, {
+		}, {
 				"customer1", 151, IllegalArgumentException.class
-			}
+		}
 		};
 
 		for (int i = 0; i < testingData.length; i++)
@@ -216,5 +212,4 @@ public class MarketServiceTest extends AbstractTest {
 
 		this.checkExceptions(expectedException, caught);
 	}
->>>>>>> branch 'master' of https://github.com/DarkSoul7/Acme-BnW.git
 }
