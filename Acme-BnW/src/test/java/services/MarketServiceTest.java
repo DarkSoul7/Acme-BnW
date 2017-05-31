@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -10,14 +11,17 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 
-import utilities.AbstractTest;
 import domain.Bet;
 import domain.Market;
 import domain.MarketType;
 import domain.Match;
+import utilities.AbstractTest;
 
-@ContextConfiguration(locations = {"classpath:spring/junit.xml"})
+@ContextConfiguration(locations = {
+	"classpath:spring/junit.xml"
+})
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class MarketServiceTest extends AbstractTest {
@@ -39,19 +43,22 @@ public class MarketServiceTest extends AbstractTest {
 	@Test
 	public void registerMarketDriver() {
 		final Object[][] testingData = {
-				// actor, title, fee, idMatch expected exception
-				{"manager1", MarketType.LOCALVICTORY, 10.0, 112, null},
-				{"manager1", null, 30.0, 112, ConstraintViolationException.class},
-				{"manager1", MarketType.TIE, null, 112, IllegalArgumentException.class}};
+			// actor, title, fee, idMatch expected exception
+			{
+				"manager1", MarketType.LOCALVICTORY, 10.0, 114, null
+			}, {
+				"manager1", null, 30.0, 114, ConstraintViolationException.class
+			}, {
+				"manager1", MarketType.TIE, null, 114, IllegalArgumentException.class
+			}
+		};
 
 		for (int i = 0; i < testingData.length; i++) {
-			this.registerMarketTemplated((String) testingData[i][0], (MarketType) testingData[i][1],
-					(Double) testingData[i][2], (Integer) testingData[i][3], (Class<?>) testingData[i][4]);
+			this.registerMarketTemplated((String) testingData[i][0], (MarketType) testingData[i][1], (Double) testingData[i][2], (Integer) testingData[i][3], (Class<?>) testingData[i][4]);
 		}
 	}
 
-	protected void registerMarketTemplated(String principal, MarketType type, Double fee, Integer matchId,
-			Class<?> expectedException) {
+	protected void registerMarketTemplated(String principal, MarketType type, Double fee, Integer matchId, Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
@@ -83,14 +90,18 @@ public class MarketServiceTest extends AbstractTest {
 	@Test
 	public void editMarketDriver() {
 		final Object[][] testingData = {
-				// actor, marketId, fee, expected exception
-				{"manager1", 119, 10., null},
-				{"manager1", 119, -20., IllegalArgumentException.class},
-				{"manager1", 119, null, IllegalArgumentException.class}};
+			// actor, marketId, fee, expected exception
+			{
+				"manager1", 126, 10., null
+			}, {
+				"manager1", 126, -20.0, IllegalArgumentException.class
+			}, {
+				"manager1", 126, null, IllegalArgumentException.class
+			}
+		};
 
 		for (int i = 0; i < testingData.length; i++) {
-			this.editMarketTemplated((String) testingData[i][0], (int) testingData[i][1],
-					(Double) testingData[i][2], (Class<?>) testingData[i][3]);
+			this.editMarketTemplated((String) testingData[i][0], (int) testingData[i][1], (Double) testingData[i][2], (Class<?>) testingData[i][3]);
 		}
 	}
 
@@ -121,10 +132,15 @@ public class MarketServiceTest extends AbstractTest {
 	@Test
 	public void deleteMarketDriver() {
 		final Object[][] testingData = {
-				// actor , expected exception
-				{"manager1", null},
-				{"customer1", IllegalArgumentException.class},
-				{"admin", IllegalArgumentException.class}};
+			// actor , expected exception
+			{
+				"manager1", null
+			}, {
+				"customer1", IllegalArgumentException.class
+			}, {
+				"admin", IllegalArgumentException.class
+			}
+		};
 
 		for (int i = 0; i < testingData.length; i++) {
 			this.deleteMarketTemplated((String) testingData[i][0], (Class<?>) testingData[i][1]);
@@ -136,7 +152,7 @@ public class MarketServiceTest extends AbstractTest {
 
 		try {
 			this.authenticate(principal);
-			final Match match = this.matchService.findOne(112);
+			final Match match = this.matchService.findOne(114);
 			Market market = new Market();
 			market.setType(MarketType.LOCALVICTORY);
 			market.setFee(20.);
@@ -153,5 +169,52 @@ public class MarketServiceTest extends AbstractTest {
 		}
 		this.checkExceptions(expectedException, caught);
 	}
+<<<<<<< HEAD
 	
+=======
+
+	/***
+	 * Participar promocion
+	 * 1º Good test -> expected: results show
+	 * 2º Bad test -> Cannot join promotion cancelled
+	 * 3º Bad test -> Cannot join promotion don't start
+	 */
+
+	@Test
+	public void enjoyPromotionDriver() {
+
+		final Object testingData[][] = {
+			//principal, idPromotion,expected exception
+			{
+				"customer1", 149, null
+			}, {
+				"customer1", 152, IllegalArgumentException.class
+			}, {
+				"customer1", 151, IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.enjoyPromotionTemplate((String) testingData[i][0], (int) testingData[i][1], (Class<?>) testingData[i][2]);
+	}
+
+	protected void enjoyPromotionTemplate(final String principal, int idPromotion, final Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+
+			Market market = marketService.enjoyPromotion(idPromotion);
+
+			Assert.notNull(market);
+
+			this.unauthenticate();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expectedException, caught);
+	}
+>>>>>>> branch 'master' of https://github.com/DarkSoul7/Acme-BnW.git
 }

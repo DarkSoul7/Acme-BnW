@@ -114,12 +114,12 @@ public class TournamentService {
 	}
 
 	//C6
-	public Sport SportMoreBets() {
+	public Collection<Sport> SportMoreBets() {
 		return tournamentRepository.SportMoreBets();
 	}
 
 	//C7
-	public Sport SportLessBets() {
+	public Collection<Sport> SportLessBets() {
 		return tournamentRepository.SportLessBets();
 	}
 }

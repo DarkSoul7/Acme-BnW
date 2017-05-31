@@ -18,6 +18,7 @@ import org.springframework.validation.Validator;
 import domain.Customer;
 import domain.Match;
 import domain.Team;
+import forms.ListTeamForm;
 import forms.TeamForm;
 import repositories.TeamRepository;
 
@@ -32,6 +33,9 @@ public class TeamService {
 
 	@Autowired
 	private ManagerService	managerService;
+
+	@Autowired
+	private CustomerService	customerService;
 
 
 	// Supported services
@@ -57,6 +61,10 @@ public class TeamService {
 	public void save(final Team team) {
 		managerService.findByPrincipal();
 		this.teamRepository.save(team);
+	}
+
+	public void addTeamFavourite(Team team) {
+		teamRepository.save(team);
 	}
 
 	public void delete(final Team team) {
@@ -150,5 +158,14 @@ public class TeamService {
 
 	public void flush() {
 		teamRepository.flush();
+	}
+
+	public Collection<ListTeamForm> findTeamFavourite() {
+		return teamRepository.findTeamFavourite(customerService.findByPrincipal().getId());
+	}
+	
+	//Dashboard
+	public Double avgFavouritTeamPerCustomer(){
+		return teamRepository.avgFavouritTeamPerCustomer();
 	}
 }

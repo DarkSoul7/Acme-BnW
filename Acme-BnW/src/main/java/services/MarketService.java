@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -12,13 +13,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 
-import repositories.MarketRepository;
 import domain.Bet;
 import domain.Market;
 import domain.MarketType;
 import domain.Match;
+import domain.Promotion;
 import forms.MarketForm;
+<<<<<<< HEAD
 import forms.MarketResponseForm;
+=======
+import repositories.MarketRepository;
+>>>>>>> branch 'master' of https://github.com/DarkSoul7/Acme-BnW.git
 
 @Service
 @Transactional
@@ -36,6 +41,9 @@ public class MarketService {
 
 	@Autowired
 	private ManagerService		managerService;
+
+	@Autowired
+	private PromotionService	promotionService;
 
 	@Autowired
 	private Validator			validator;
@@ -85,6 +93,15 @@ public class MarketService {
 		this.marketRepository.delete(market);
 	}
 
+	public Market enjoyPromotion(int idPromotion) {
+		Promotion promotion = promotionService.findOne(idPromotion);
+		Assert.notNull(promotion);
+		Assert.isTrue(!promotion.isCancel());
+		Assert.isTrue(promotion.getStartMoment().before(new Date()));
+		Assert.isTrue(promotion.getEndMoment().after(new Date()));
+		return promotion.getMarket();
+	}
+
 	//Other business services
 
 	public Market reconstruct(MarketForm marketForm, BindingResult binding) {
@@ -107,7 +124,7 @@ public class MarketService {
 		if (result.getMatch() == null) {
 			FieldError fieldError;
 			final String[] codes = {
-					"javax.validation.constraints.NotNull.message"
+				"javax.validation.constraints.NotNull.message"
 			};
 			fieldError = new FieldError("marketForm", "idMatch", result.getMatch(), false, codes, null, "");
 			binding.addError(fieldError);

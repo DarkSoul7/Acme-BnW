@@ -20,10 +20,10 @@ public interface TournamentRepository extends JpaRepository<Tournament, Integer>
 	Collection<Tournament> listTournamentOfBasketball();
 
 	//C6
-	@Query("select distinct c from Category c join c.fixtures f join f.matches m join m.markets mk where mk.bets.size = (select max(mk2.bets.size)from Category c2 join c2.fixtures f2 join f2.matches m2 join m2.markets mk2)")
-	Sport SportMoreBets();
+	@Query("select distinct c.tournament.sport from Category c join c.fixtures f join f.matches m join m.markets mk where mk.bets.size = (select max(mk2.bets.size)from Category c2 join c2.fixtures f2 join f2.matches m2 join m2.markets mk2)")
+	Collection<Sport> SportMoreBets();
 
 	//C7
-	@Query("select distinct c from Category c join c.fixtures f join f.matches m join m.markets mk where mk.bets.size = (select min(mk2.bets.size)from Category c2 join c2.fixtures f2 join f2.matches m2 join m2.markets mk2)")
-	Sport SportLessBets();
+	@Query("select distinct c.tournament.sport from Category c join c.fixtures f join f.matches m join m.markets mk where mk.bets.size = (select min(mk2.bets.size)from Category c2 join c2.fixtures f2 join f2.matches m2 join m2.markets mk2)")
+	Collection<Sport> SportLessBets();
 }

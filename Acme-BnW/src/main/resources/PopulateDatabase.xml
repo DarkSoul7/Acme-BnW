@@ -268,6 +268,14 @@
 		<property name="endPeriod" value="2019/02/22" />
 		<property name="amount" value="30.00" />
 		<property name="extractionAmount" value="10.00" />
+	</bean>
+
+	<bean id="welcomeOffer2" class="domain.WelcomeOffer">
+		<property name="title" value="Si aceptas la oferta al canjear 25 monedas obentras 50 mas!!" />
+		<property name="openPeriod" value="2025/02/22" />
+		<property name="endPeriod" value="2025/03/22" />
+		<property name="amount" value="50.00" />
+		<property name="extractionAmount" value="25.00" />
 	</bean>	
 	
 	<!-- TOURNAMENT -->
@@ -814,7 +822,7 @@
 	
 	<bean id="bet1" class="domain.Bet">
 		<property name="quantity" value="2.0" />
-		<property name="fee" value="1.15" />
+		<property name="fee" value="2.30" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="SUCCESSFUL" />
@@ -831,7 +839,7 @@
 	
 	<bean id="bet2" class="domain.Bet">
 		<property name="quantity" value="10.0" />
-		<property name="fee" value="1.23" />
+		<property name="fee" value="4.04" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="FAILED" />
@@ -848,7 +856,7 @@
 	
 	<bean id="bet3" class="domain.Bet">
 		<property name="quantity" value="20.0" />
-		<property name="fee" value="1.45" />
+		<property name="fee" value="3.35" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="FAILED" />
@@ -865,7 +873,7 @@
 	
 	<bean id="bet4" class="domain.Bet">
 		<property name="quantity" value="60.50" />
-		<property name="fee" value="1.15" />
+		<property name="fee" value="2.65" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="PENDING" />
@@ -882,7 +890,7 @@
 	
 		<bean id="bet5" class="domain.Bet">
 		<property name="quantity" value="60.50" />
-		<property name="fee" value="1.15" />
+		<property name="fee" value="2.35" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="PENDING" />
@@ -899,7 +907,7 @@
 	
 	<bean id="bet6" class="domain.Bet">
 		<property name="quantity" value="60.50" />
-		<property name="fee" value="1.15" />
+		<property name="fee" value="2.3" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="PENDING" />
@@ -1069,41 +1077,54 @@
 		<property name="topic" ref="topic1" />
 	</bean>
 	
+	<bean id="message4" class="domain.Message">
+		<property name="title" value="Promocion activa" />
+		<property name="description" value="Promocion" />
+		<property name="order" value="4" />
+		<property name="creationMoment" value="2017/04/15 15:40" />
+		<property name="customer" ref="customer2" />
+		<property name="topic" ref="topic2" />
+	</bean>
+	
 	<!-- PROMOTION -->
 	
 	<bean id="promotion1" class="domain.Promotion">
 		<property name="title" value="Duplicando ganancias" />
 		<property name="description" value="Las ganancias que obtengas con las cuotas actuales serán duplicadas" />
-		<property name="fee" value="15.0" />
+		<property name="fee" value="2.30" />
 		<property name="startMoment" value="2017/05/15 " />
 		<property name="endMoment" value="2017/08/15" />
 		<property name="market" ref="market1" />
+		<property name="cancel" value="false" />
 	</bean>
 	
 	<bean id="promotion2" class="domain.Promotion">
-		<property name="title" value="Apuesta segura" />
-		<property name="description" value="Si no ganas se te reenvolsará el crédito virtual gastado" />
-		<property name="fee" value="50.0" />
+		<property name="title" value="Super couta" />
+		<property name="description" value="Durante el tiempo en vigor las cuotas suben un punto!!" />
+		<property name="fee" value="3.35" />
 		<property name="startMoment" value="2017/05/15 " />
 		<property name="endMoment" value="2017/08/15" />
+		<property name="cancel" value="false" />
 		<property name="market" ref="market2" />
 	</bean>
 	
 	<bean id="promotion3" class="domain.Promotion">
 		<property name="title" value="Duplicando ganancias" />
 		<property name="description" value="Las ganancias que obtengas con las cuotas actuales serán duplicadas" />
-		<property name="fee" value="5.0" />
-		<property name="startMoment" value="2017/05/15 " />
-		<property name="endMoment" value="2017/08/15" />
+		<property name="fee" value="4.04" />
+		<property name="startMoment" value="2018/05/15 " />
+		<property name="endMoment" value="2018/08/15" />
+		<property name="cancel" value="false" />
 		<property name="market" ref="market3" />
 	</bean>
 	
 	<bean id="promotion4" class="domain.Promotion">
-		<property name="title" value="Apuesta segura" />
-		<property name="description" value="Si no ganas se te reenvolsará el crédito virtual gastado" />
-		<property name="fee" value="50.0" />
+		<property name="title" value="Yo no soy tonto!!" />
+		<property name="description" value="Mega cuota, aumentamos la cuota en 1.5 puntos, no la dejes escapar!!" />
+		<property name="fee" value="2.65" />
 		<property name="startMoment" value="2017/05/15 " />
 		<property name="endMoment" value="2017/08/15" />
+		<property name="cancel" value="true" />
 		<property name="market" ref="market4" />
 	</bean>
 	

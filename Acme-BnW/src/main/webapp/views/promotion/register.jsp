@@ -45,7 +45,7 @@
 		<br />
 		
 		<jstl:if test="${promotionForm.id == 0}">
-			<acme:select items="${markets}" itemLabel="title" code="market.title" path="idMarket" mandatory="true"/>
+			<acme:select items="${markets}" itemLabel="type" code="market.title" path="idMarket" mandatory="true"/>
 		</jstl:if>
 
 	</fieldset>

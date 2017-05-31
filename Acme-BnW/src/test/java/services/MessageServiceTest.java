@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Date;
@@ -11,12 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import utilities.AbstractTest;
 import domain.Message;
 import domain.Topic;
+import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
-		"classpath:spring/junit.xml"
+	"classpath:spring/junit.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -44,14 +45,14 @@ public class MessageServiceTest extends AbstractTest {
 	@Test
 	public void registerMessageDriver() {
 		final Object[][] testingData = {
-				//actor, title, description, topicId ,expected exception
-				{
-						"customer1", "title", "description", 134, null
-		}, {
-				"customer1", "", "description", 134, ConstraintViolationException.class
-		}, {
-				"admin", "title", "description", 134, IllegalArgumentException.class
-		}
+			//actor, title, description, topicId ,expected exception
+			{
+				"customer1", "title", "description", 136, null
+			}, {
+				"customer1", "", "description", 136, ConstraintViolationException.class
+			}, {
+				"admin", "title", "description", 136, IllegalArgumentException.class
+			}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
@@ -95,14 +96,14 @@ public class MessageServiceTest extends AbstractTest {
 	@Test
 	public void editMessageDriver() {
 		final Object[][] testingData = {
-				//actor, title, description, messageId ,expected exception
-				{
-						"customer1", "description", 144, null
-		}, {
-				"customer1", "", 144, ConstraintViolationException.class
-		}, {
-				"customer2", "description", 144, IllegalArgumentException.class
-		}
+			//actor, title, description, messageId ,expected exception
+			{
+				"customer1", "description", 146, null
+			}, {
+				"customer1", "", 146, ConstraintViolationException.class
+			}, {
+				"customer2", "description", 146, IllegalArgumentException.class
+			}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
@@ -123,6 +124,46 @@ public class MessageServiceTest extends AbstractTest {
 
 			this.unauthenticate();
 			this.topicService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expectedException, caught);
+	}
+
+	/***
+	 * Delete messages
+	 * 1º Good test -> expected: message deleted
+	 * 2º Bad test -> an customer cannot delete message
+	 * 3º Bad test -> an manager cannot delete message
+	 */
+
+	@Test
+	public void deleteMessageDriver() {
+		final Object[][] testingData = {
+			//actor, messageId , expected exception
+			{
+				"admin", 146, null
+			}, {
+				"customer1", 147, IllegalArgumentException.class
+			}, {
+				"manager", 147, IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++) {
+			this.deleteMessageTemplated((String) testingData[i][0], (int) testingData[i][1], (Class<?>) testingData[i][2]);
+		}
+	}
+
+	protected void deleteMessageTemplated(String principal, int messageId, Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+			Message message = messageService.findOne(messageId);
+			messageService.delete(message);
+			this.unauthenticate();
+			this.messageService.flush();
 		} catch (Throwable oops) {
 			caught = oops.getClass();
 		}

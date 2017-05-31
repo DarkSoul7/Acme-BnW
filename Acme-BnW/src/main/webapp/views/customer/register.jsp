@@ -27,8 +27,9 @@
 	<jstl:set var="itemLabel" value="spanishName"></jstl:set>
 </jstl:if>
 
-<acme:confirm code="customer.disableProfile" url="customer/autoExclusion.do" msg="customer.disableProfile.confirm" />
-
+<security:authorize access="hasRole('CUSTOMER')">
+	<acme:confirm code="customer.disableProfile" url="customer/autoExclusion.do" msg="customer.disableProfile.confirm" />
+</security:authorize>
 <br/>
 
 <form:form action="${requestURI}" modelAttribute="customerForm">
