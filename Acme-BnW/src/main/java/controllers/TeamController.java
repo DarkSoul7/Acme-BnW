@@ -1,4 +1,3 @@
-
 package controllers;
 
 import java.util.Collection;
@@ -13,10 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Team;
-import forms.ListTeamForm;
-import forms.TeamForm;
+import services.CustomerService;
 import services.TeamService;
+import domain.Customer;
+import domain.Team;
+import forms.TeamForm;
 
 @RequestMapping(value = "/team")
 @Controller
@@ -25,7 +25,10 @@ public class TeamController extends AbstractController {
 	//Related services
 
 	@Autowired
-	private TeamService teamService;
+	private TeamService		teamService;
+
+	@Autowired
+	private CustomerService	customerService;
 
 
 	//Constructor
@@ -35,15 +38,22 @@ public class TeamController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam(required = false) String errorMessage, @RequestParam(required = false) String successMessage) {
 		ModelAndView result;
-		Collection<ListTeamForm> teams;
+		Customer principal;
+		Collection<? extends TeamForm> teams;
 
-		teams = teamService.findTeamFavourite();
+		try {
+			principal = this.customerService.findByPrincipal();
+			teams = teamService.findTeamFavourite(principal.getId());
+		} catch (IllegalArgumentException e) {
+			teams = this.teamService.findAllForms();
+		}
 
 		result = new ModelAndView("team/list");
 		result.addObject("teams", teams);
-		result.addObject("listForm", true);
+		result.addObject("errorMessage", errorMessage);
+		result.addObject("successMessage", successMessage);
 		result.addObject("requestURI", "team/list.do");
 
 		return result;
@@ -51,7 +61,7 @@ public class TeamController extends AbstractController {
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public ModelAndView register() {
-		ModelAndView result = new ModelAndView();
+		ModelAndView result;
 
 		TeamForm teamForm = teamService.create();
 		result = this.createModelAndView(teamForm);
@@ -60,17 +70,17 @@ public class TeamController extends AbstractController {
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam int teamId) {
-		ModelAndView result = new ModelAndView();
+		ModelAndView result;
 
 		Team team = teamService.findOne(teamId);
 		TeamForm teamForm = teamService.toFormObject(team);
-		result = this.createEditModelAndView(teamForm);
+		result = this.editModelAndView(teamForm);
 		return result;
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid TeamForm teamForm, BindingResult binding) {
-		ModelAndView result = new ModelAndView();
+		ModelAndView result;
 		Team team = new Team();
 
 		team = teamService.reconstruct(teamForm, binding);
@@ -80,8 +90,9 @@ public class TeamController extends AbstractController {
 			try {
 				teamService.save(team);
 				result = new ModelAndView("redirect:/team/list.do");
+				result.addObject("succesMessage", "team.save.success");
 			} catch (Throwable oops) {
-				result = this.createModelAndView(teamForm, "team.commit.error");
+				result = this.createModelAndView(teamForm, "team.save.error");
 			}
 		}
 
@@ -90,18 +101,19 @@ public class TeamController extends AbstractController {
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView saveEdit(@Valid TeamForm teamForm, BindingResult binding) {
-		ModelAndView result = new ModelAndView();
-		Team team = new Team();
+		ModelAndView result;
+		Team team;
 
 		team = teamService.reconstruct(teamForm, binding);
 		if (binding.hasErrors()) {
-			result = this.createEditModelAndView(teamForm);
+			result = this.editModelAndView(teamForm);
 		} else {
 			try {
 				teamService.save(team);
 				result = new ModelAndView("redirect:/team/list.do");
+				result.addObject("succesMessage", "team.edit.success");
 			} catch (Throwable oops) {
-				result = this.createEditModelAndView(teamForm, "team.commit.error");
+				result = this.editModelAndView(teamForm, "team.edit.error");
 			}
 		}
 
@@ -110,12 +122,14 @@ public class TeamController extends AbstractController {
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView delete(@RequestParam int teamId) {
-		ModelAndView result = new ModelAndView();
+		ModelAndView result;
+		Team team;
 
-		Team team = teamService.findOne(teamId);
 		try {
+			team = teamService.findOne(teamId);
 			teamService.delete(team);
 			result = new ModelAndView("redirect:/team/list.do");
+			result.addObject("succesMessage", "team.delete.success");
 		} catch (Throwable oops) {
 			result = new ModelAndView("redirect:/team/list.do");
 			result.addObject("errorMessage", "team.delete.error");
@@ -124,34 +138,76 @@ public class TeamController extends AbstractController {
 		return result;
 	}
 
-	//Ancillary methods
-
-	protected ModelAndView createModelAndView(final TeamForm teamForm) {
-		return this.createModelAndView(teamForm, null);
-	}
-
-	protected ModelAndView createModelAndView(final TeamForm teamForm, final String message) {
+	@RequestMapping(value = "/addFavourite", method = RequestMethod.GET)
+	public ModelAndView addFavourite(@RequestParam int teamId) {
 		ModelAndView result;
+		String errorMessage = null;
+		String successMessage = null;
 
-		result = new ModelAndView("team/register");
-		result.addObject("teamForm", teamForm);
-		result.addObject("message", message);
-		result.addObject("RequestURI", "team/register.do");
+		try {
+			this.teamService.addFavourite(teamId);
+
+			successMessage = "team.addFavourite.success";
+		} catch (Exception e) {
+			errorMessage = "team.addFavourite.error";
+		}
+
+		result = new ModelAndView("redirect:/team/list.do");
+		result.addObject("errorMessage", errorMessage);
+		result.addObject("successMessage", successMessage);
 
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final TeamForm teamForm) {
-		return this.createEditModelAndView(teamForm, null);
+	@RequestMapping(value = "/deleteFavourite", method = RequestMethod.GET)
+	public ModelAndView deleteFavourite(@RequestParam int teamId) {
+		ModelAndView result;
+		String errorMessage = null;
+		String successMessage = null;
+
+		try {
+			this.teamService.deleteFavourite(teamId);
+
+			successMessage = "team.deleteFavourite.success";
+		} catch (Exception e) {
+			errorMessage = "team.deleteFavourite.error";
+		}
+
+		result = new ModelAndView("redirect:/team/list.do");
+		result.addObject("errorMessage", errorMessage);
+		result.addObject("successMessage", successMessage);
+
+		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final TeamForm teamForm, final String message) {
+	//Ancillary methods
+
+	protected ModelAndView createModelAndView(TeamForm teamForm) {
+		return this.createModelAndView(teamForm, null);
+	}
+
+	protected ModelAndView createModelAndView(TeamForm teamForm, String errorMessage) {
+		ModelAndView result;
+
+		result = new ModelAndView("team/register");
+		result.addObject("teamForm", teamForm);
+		result.addObject("errorMessage", errorMessage);
+		result.addObject("requestURI", "team/register.do");
+
+		return result;
+	}
+
+	protected ModelAndView editModelAndView(TeamForm teamForm) {
+		return this.editModelAndView(teamForm, null);
+	}
+
+	protected ModelAndView editModelAndView(TeamForm teamForm, String errorMessage) {
 		ModelAndView result;
 
 		result = new ModelAndView("team/edit");
 		result.addObject("teamForm", teamForm);
-		result.addObject("message", message);
-		result.addObject("RequestURI", "team/edit.do");
+		result.addObject("errorMessage", errorMessage);
+		result.addObject("requestURI", "team/edit.do");
 
 		return result;
 	}

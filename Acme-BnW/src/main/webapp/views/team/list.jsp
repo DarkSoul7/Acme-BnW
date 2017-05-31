@@ -32,16 +32,14 @@
 	</display:column>
 	
 	<security:authorize access="hasRole('CUSTOMER')">
-		<jstl:if test="${listForm==true}">
-			<display:column>
-				<jstl:if test="${row.favourite==true}">
-					<acme:cancel url="customer/addTeamFavourite.do?teamId=${row.id}" code="customer.addTeam"/>
-				</jstl:if>
-				<jstl:if test="${row.favourite==false}">
-					<acme:cancel url="customer/deleteTeamFavourite.do?teamId=${row.id}" code="customer.deleteTeam"/>
-				</jstl:if>
-			</display:column>
-		</jstl:if>
+		<display:column>
+			<jstl:if test="${row.favourite == false}">
+				<acme:cancel url="team/addFavourite.do?teamId=${row.id}" code="team.addTeam"/>
+			</jstl:if>
+			<jstl:if test="${row.favourite == true}">
+				<acme:cancel url="team/deleteFavourite.do?teamId=${row.id}" code="team.deleteTeam"/>
+			</jstl:if>
+		</display:column>
 	</security:authorize>
 
 	<security:authorize access="hasRole('MANAGER')">

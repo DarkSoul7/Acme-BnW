@@ -1,4 +1,3 @@
-
 package forms;
 
 public class TeamForm {
@@ -9,6 +8,16 @@ public class TeamForm {
 	private String	shield;
 	private int		id;
 
+
+	public TeamForm() {
+		super();
+	}
+
+	public TeamForm(String name, String shield, int id) {
+		this.name = name;
+		this.shield = shield;
+		this.id = id;
+	}
 
 	public int getId() {
 		return id;

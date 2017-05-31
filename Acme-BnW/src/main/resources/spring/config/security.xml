@@ -99,6 +99,8 @@
 		<security:intercept-url pattern="/team/register.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/team/edit.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/team/delete.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/team/addFavourite.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/team/deleteFavourite.do" access="hasRole('CUSTOMER')" />
 		
 		<!-- Category -->
 		<security:intercept-url pattern="/category/list.do" access="permitAll" /> 

@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.ArrayList;
@@ -15,12 +14,12 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.TeamRepository;
 import domain.Customer;
 import domain.Match;
 import domain.Team;
 import forms.ListTeamForm;
 import forms.TeamForm;
-import repositories.TeamRepository;
 
 @Service
 @Transactional
@@ -45,21 +44,27 @@ public class TeamService {
 	}
 
 	public TeamForm create() {
-		final TeamForm result = new TeamForm();
+		TeamForm result = new TeamForm();
 
 		return result;
 	}
+
 	public Collection<Team> findAll() {
 		return this.teamRepository.findAll();
 	}
 
-	public Team findOne(final int teamId) {
+	public Team findOne(int teamId) {
 		return this.teamRepository.findOne(teamId);
 
 	}
 
-	public void save(final Team team) {
+	public void save(Team team) {
 		managerService.findByPrincipal();
+		this.teamRepository.save(team);
+	}
+
+	public void customerSave(Team team) {
+		this.customerService.findByPrincipal();
 		this.teamRepository.save(team);
 	}
 
@@ -67,17 +72,17 @@ public class TeamService {
 		teamRepository.save(team);
 	}
 
-	public void delete(final Team team) {
+	public void delete(Team team) {
 		managerService.findByPrincipal();
 		this.teamRepository.delete(team);
 	}
 
 
 	@Autowired
-	private Validator validator;
+	private Validator	validator;
 
 
-	public Team reconstruct(final TeamForm teamForm, final BindingResult binding) {
+	public Team reconstruct(TeamForm teamForm, BindingResult binding) {
 		Assert.notNull(teamForm);
 
 		Team result = new Team();
@@ -97,8 +102,8 @@ public class TeamService {
 		return result;
 	}
 
-	public TeamForm toFormObject(final Team team) {
-		final TeamForm result = this.create();
+	public TeamForm toFormObject(Team team) {
+		TeamForm result = this.create();
 		result.setName(team.getName());
 		result.setShield(team.getShield());
 		result.setId(team.getId());
@@ -116,31 +121,31 @@ public class TeamService {
 	 */
 	public List<List<Team>> teamStatisticsBets() {
 
-		final List<List<Team>> result = new ArrayList<>();
+		List<List<Team>> result = new ArrayList<>();
 
-		final ArrayList<Team> moreBetTeams = new ArrayList<>();
+		ArrayList<Team> moreBetTeams = new ArrayList<>();
 		ArrayList<Team> lessBetTeams;
-		final Map<Team, Long> map = new HashMap<Team, Long>();
-		final Collection<Object[]> localBets = this.teamRepository.betsByLocalTeam();
-		final Collection<Object[]> visitorBets = this.teamRepository.betsByVisitorTeam();
+		Map<Team, Long> map = new HashMap<Team, Long>();
+		Collection<Object[]> localBets = this.teamRepository.betsByLocalTeam();
+		Collection<Object[]> visitorBets = this.teamRepository.betsByVisitorTeam();
 
 		localBets.addAll(visitorBets);
-		for (final Object[] objArray : localBets) {
-			final Team team = (Team) objArray[0];
-			final Long bets = (Long) objArray[1];
+		for (Object[] objArray : localBets) {
+			Team team = (Team) objArray[0];
+			Long bets = (Long) objArray[1];
 
 			if (map.containsKey(team)) {
-				final Long accumBets = map.get(team);
+				Long accumBets = map.get(team);
 				map.put(team, bets + accumBets);
 			} else
 				map.put(team, bets);
 		}
 
-		for (final Team team : map.keySet())
+		for (Team team : map.keySet())
 			if (moreBetTeams.isEmpty())
 				moreBetTeams.add(team);
 			else {
-				final Team firstPosition = moreBetTeams.get(0);
+				Team firstPosition = moreBetTeams.get(0);
 				if (map.get(team) >= map.get(firstPosition))
 					moreBetTeams.add(0, team);
 				else
@@ -160,12 +165,44 @@ public class TeamService {
 		teamRepository.flush();
 	}
 
-	public Collection<ListTeamForm> findTeamFavourite() {
-		return teamRepository.findTeamFavourite(customerService.findByPrincipal().getId());
+	public Collection<ListTeamForm> findTeamFavourite(int customerId) {
+		return teamRepository.findTeamFavourite(customerId);
 	}
-	
+
+	public Collection<TeamForm> findAllForms() {
+		return teamRepository.findAllForms();
+	}
+
+	public void addFavourite(int teamId) {
+		Team team;
+		Customer principal;
+
+		team = this.findOne(teamId);
+		principal = this.customerService.findByPrincipal();
+
+		Assert.isTrue(!team.getCustomers().contains(principal));
+
+		team.getCustomers().add(principal);
+
+		this.customerSave(team);
+	}
+
+	public void deleteFavourite(int teamId) {
+		Team team;
+		Customer principal;
+
+		team = this.findOne(teamId);
+		principal = this.customerService.findByPrincipal();
+
+		Assert.isTrue(team.getCustomers().contains(principal));
+
+		team.getCustomers().remove(principal);
+
+		this.customerSave(team);
+	}
+
 	//Dashboard
-	public Double avgFavouritTeamPerCustomer(){
+	public Double avgFavouritTeamPerCustomer() {
 		return teamRepository.avgFavouritTeamPerCustomer();
 	}
 }
