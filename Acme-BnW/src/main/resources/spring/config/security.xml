@@ -64,7 +64,6 @@
 		<security:intercept-url pattern="/tournament/edit.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/tournament/delete.do" access="hasRole('MANAGER')" />
 		
-		
 		<!-- Match -->
 		<security:intercept-url pattern="/match/list.do" access="permitAll" />
 		<security:intercept-url pattern="/match/listByFixture.do" access="permitAll" /> 
@@ -80,6 +79,7 @@
 		<security:intercept-url pattern="/market/edit.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/market/delete.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/market/list.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/market/updateFees.do" access="permitAll" />
 		
 		<!-- Promotion -->
 		<security:intercept-url pattern="/promotion/register.do" access="hasRole('MANAGER')" />

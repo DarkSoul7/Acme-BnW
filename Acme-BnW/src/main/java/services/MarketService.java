@@ -18,6 +18,7 @@ import domain.Market;
 import domain.MarketType;
 import domain.Match;
 import forms.MarketForm;
+import forms.MarketResponseForm;
 
 @Service
 @Transactional
@@ -197,6 +198,22 @@ public class MarketService {
 		Collection<MarketType> result;
 
 		result = this.marketRepository.getAllMarketTypesUsedByMatch(matchId);
+
+		return result;
+	}
+
+	public Collection<MarketResponseForm> findAllMarketsFees() {
+		Collection<MarketResponseForm> result;
+
+		result = this.marketRepository.findAllMarketsFees();
+
+		return result;
+	}
+
+	public Collection<MarketResponseForm> findAllMarketsFeesFromMatch(int matchId) {
+		Collection<MarketResponseForm> result;
+
+		result = this.marketRepository.findAllMarketsFeesFromMatch(matchId);
 
 		return result;
 	}

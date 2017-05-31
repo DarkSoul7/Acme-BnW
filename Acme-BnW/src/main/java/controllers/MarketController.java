@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.MarketService;
@@ -19,6 +20,7 @@ import domain.Market;
 import domain.MarketType;
 import domain.Match;
 import forms.MarketForm;
+import forms.MarketResponseForm;
 
 @RequestMapping(value = "/market")
 @Controller
@@ -199,6 +201,21 @@ public class MarketController extends AbstractController {
 		result.addObject("match", match);
 		result.addObject("errorMessage", errorMessage);
 		result.addObject("RequestURI", "market/edit.do");
+
+		return result;
+	}
+
+	// AJAX
+
+	@RequestMapping(value = "/updateFees", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody Collection<MarketResponseForm> updateFees(@RequestParam(required = false) Integer matchId) {
+		Collection<MarketResponseForm> result;
+
+		if (matchId == null) {
+			result = this.marketService.findAllMarketsFees();
+		} else {
+			result = this.marketService.findAllMarketsFeesFromMatch(matchId);
+		}
 
 		return result;
 	}

@@ -19,8 +19,34 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+<script type="text/javascript">
+	setInterval(
+		function updateFees(matchId) {
+			var url = "market/updateFees.do";
+			
+			if(matchId != null) {
+				url += '?matchId=' + matchId;
+			}
+			
+			$.ajax({
+				type: 'get',
+				url: url,
+				success: function(response) {
+					$.each(response, function(index, element) {
+						var feeSpan = document.getElementById('fee' + element.marketId);
+						if(feeSpan != null) {
+							feeSpan.innerHTML = element.fee;
+						}
+					});
+				},
+				error: function(e) {
+				}
+			});
+	}, 10000);
+</script>
+
 <jstl:if test="${match != null}">
-	<h3><jstl:out value="${match.localTeam.name} - ${match.visitorTeam.name}" /></h3>
+	<h3 onload="javascript: updateFees('${match.id}');"><jstl:out value="${match.localTeam.name} - ${match.visitorTeam.name}" /></h3>
 </jstl:if>
 
 <display:table name="markets" id="row" requestURI="${requestURI}" pagesize="5">
@@ -43,7 +69,9 @@
 	</display:column>
 	
 	<spring:message code="market.fee" var="fee" />
-	<display:column property="fee" title="${fee}" />
+	<display:column title="${fee}">
+		<span id="fee${row.id}"><jstl:out value="${row.fee}" /></span>
+	</display:column>
 
 	<security:authorize access="hasRole('MANAGER')">
 		<display:column>

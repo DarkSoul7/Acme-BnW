@@ -153,4 +153,5 @@ public class MarketServiceTest extends AbstractTest {
 		}
 		this.checkExceptions(expectedException, caught);
 	}
+	
 }

@@ -70,6 +70,7 @@ public class Market extends DomainEntity {
 		return this.bets;
 	}
 
+	
 	public void setBets(Collection<Bet> bets) {
 		this.bets = bets;
 	}

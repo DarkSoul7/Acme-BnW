@@ -20,6 +20,28 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+<script type="text/javascript">
+	setInterval(
+		function updateFees() {
+			$.ajax({
+				type: 'get',
+				url: 'market/updateFees.do',
+				success: function(response) {
+					$.each(response, function(index, element) {
+						var feeSpan = document.getElementById('fee' + element.marketId);
+						if(feeSpan != null) {
+							feeSpan.innerHTML = element.fee;
+						}
+					});
+				},
+				error: function(e) {
+				}
+			});
+	}, 10000);
+</script>
+
+<div onload="javascript: updateFees();"></div>
+
 <display:table name="bets" id="row" requestURI="${requestURI}" pagesize="5">
 
 	<display:column>
@@ -44,7 +66,9 @@
 	</display:column>
 	
 	<spring:message code="bet.market.fee" var="fee" />
-	<display:column property="market.fee" title="${fee}" />
+	<display:column title="${fee}">
+		<span id="fee${row.market.id}"><jstl:out value="${row.market.fee}" /></span>
+	</display:column>
 
 	<spring:message code="bet.quantity" var="betQuantity" />
 	<display:column title="${betQuantity}">

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import domain.Market;
 import domain.MarketType;
+import forms.MarketResponseForm;
 
 @Repository
 public interface MarketRepository extends JpaRepository<Market, Integer> {
@@ -28,5 +29,11 @@ public interface MarketRepository extends JpaRepository<Market, Integer> {
 
 	@Query("select m.type from Market m where m.match.id = ?1")
 	public Collection<MarketType> getAllMarketTypesUsedByMatch(int marketId);
+
+	@Query("select new forms.MarketResponseForm(m.id, m.fee) from Market m")
+	public Collection<MarketResponseForm> findAllMarketsFees();
+
+	@Query("select new forms.MarketResponseForm(m.id, m.fee) from Market m where m.match.id = ?1")
+	public Collection<MarketResponseForm> findAllMarketsFeesFromMatch(int matchId);
 
 }
