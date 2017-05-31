@@ -26,6 +26,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 
+import repositories.CustomerRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
 import domain.Bet;
 import domain.CreditCard;
 import domain.Customer;
@@ -36,10 +40,6 @@ import domain.Ticket;
 import domain.Topic;
 import forms.BalanceForm;
 import forms.CustomerForm;
-import repositories.CustomerRepository;
-import security.Authority;
-import security.LoginService;
-import security.UserAccount;
 
 @Service
 @Transactional
@@ -261,7 +261,8 @@ public class CustomerService {
 		boolean result = false;
 
 		if (creditCard != null)
-			if (creditCard.getBrandName() != null || !creditCard.getHolderName().isEmpty() || creditCard.getCvv() != null || creditCard.getExpirationMonth() != null || creditCard.getExpirationYear() != null || !creditCard.getNumber().isEmpty())
+			if (creditCard.getBrandName() != null || !creditCard.getHolderName().isEmpty() || creditCard.getCvv() != null || creditCard.getExpirationMonth() != null
+				|| creditCard.getExpirationYear() != null || !creditCard.getNumber().isEmpty())
 				result = true;
 		return result;
 	}
@@ -367,10 +368,10 @@ public class CustomerService {
 		return result;
 	}
 
-	public void managementBan(int customerId) {
-		Customer customer = customerRepository.findOne(customerId);
+	public void managementBan(final int customerId) {
+		final Customer customer = this.customerRepository.findOne(customerId);
 		Assert.notNull(customer);
-		administratorService.findByPrincipal();
+		this.administratorService.findByPrincipal();
 
 		if (customer.getUserAccount().isEnabled()) {
 			customer.getUserAccount().setEnabled(false);
@@ -408,26 +409,26 @@ public class CustomerService {
 		this.save(customer);
 	}
 
-	public void addTeamFavourite(int teamId) {
-		Team team = teamService.findOne(teamId);
-		Customer customer = findByPrincipal();
+	public void addTeamFavourite(final int teamId) {
+		final Team team = this.teamService.findOne(teamId);
+		final Customer customer = this.findByPrincipal();
 		Assert.notNull(team);
 		Assert.isTrue(!team.getCustomers().contains(customer));
 
 		team.getCustomers().add(customer);
 
-		teamService.addTeamFavourite(team);
+		this.teamService.addTeamFavourite(team);
 	}
 
-	public void deleteTeamFavourite(int teamId) {
-		Team team = teamService.findOne(teamId);
-		Customer customer = findByPrincipal();
+	public void deleteTeamFavourite(final int teamId) {
+		final Team team = this.teamService.findOne(teamId);
+		final Customer customer = this.findByPrincipal();
 		Assert.notNull(team);
 		Assert.isTrue(team.getCustomers().contains(customer));
 
 		team.getCustomers().remove(customer);
 
-		teamService.addTeamFavourite(team);
+		this.teamService.addTeamFavourite(team);
 	}
 
 	public Collection<Team> getFavouriteTeams() {
@@ -454,7 +455,7 @@ public class CustomerService {
 	}
 
 	public void flush() {
-		customerRepository.flush();
+		this.customerRepository.flush();
 	}
 
 	//Dashboard
@@ -470,9 +471,42 @@ public class CustomerService {
 	public Integer getBanNumber() {
 		return this.customerRepository.getBanNumber();
 	}
-	
+
 	//A2
-	public Collection<Customer> customerWithMoreMessages(){
-		return customerRepository.customerWithMoreMessages();
+	public Collection<Customer> customerWithMoreMessages() {
+		return this.customerRepository.customerWithMoreMessages();
+	}
+
+	//A.3
+
+	public Collection<Customer> getCustomersWhoJoinMorePromotion() {
+		final Collection<Object[]> collection = this.customerRepository.getCustomersWhoJoinMorePromotion();
+		Collection<Customer> result = null;
+
+		if (!collection.isEmpty()) {
+			final Map<Long, Collection<Customer>> map = new HashMap<>();
+			Long count = 0L;
+
+			for (final Object[] objectArray : collection) {
+				if (map.containsKey(objectArray[1])) {
+					final Collection<Customer> customers = map.get(objectArray[1]);
+					customers.add((Customer) objectArray[0]);
+					map.put((Long) objectArray[1], customers);
+
+				} else {
+					final Collection<Customer> customers = new ArrayList<>();
+					customers.add((Customer) objectArray[0]);
+					map.put((Long) objectArray[1], customers);
+				}
+
+				if (count < (Long) objectArray[1]) {
+					count = (Long) objectArray[1];
+				}
+			}
+
+			result = map.get(count);
+		}
+
+		return result;
 	}
 }

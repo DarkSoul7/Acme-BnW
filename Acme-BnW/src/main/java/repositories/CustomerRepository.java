@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import domain.Customer;
-import domain.Message;
 import domain.Team;
 
 @Repository
@@ -32,10 +31,15 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 	//B.2
 	@Query("select sum(c.banNum) from Customer c")
 	public Integer getBanNumber();
-	
+
 	//Dashboard A
-	
+
 	//A2
 	@Query("select c from Customer c where c.messages.size = (select max(c2.messages.size) from Customer c2)")
 	public Collection<Customer> customerWithMoreMessages();
+
+	//A.3
+	@Query("select c,count(b) from Customer c join c.bets b where b.market.promotion != null and b.fee = b.market.promotion.fee group by c")
+	public Collection<Object[]> getCustomersWhoJoinMorePromotion();
+
 }

@@ -823,7 +823,7 @@
 	
 	<bean id="bet1" class="domain.Bet">
 		<property name="quantity" value="2.0" />
-		<property name="fee" value="1.15" />
+		<property name="fee" value="2.30" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="SUCCESSFUL" />
@@ -840,7 +840,7 @@
 	
 	<bean id="bet2" class="domain.Bet">
 		<property name="quantity" value="10.0" />
-		<property name="fee" value="1.23" />
+		<property name="fee" value="4.04" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="FAILED" />
@@ -857,7 +857,7 @@
 	
 	<bean id="bet3" class="domain.Bet">
 		<property name="quantity" value="20.0" />
-		<property name="fee" value="1.45" />
+		<property name="fee" value="3.35" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="FAILED" />
@@ -874,7 +874,7 @@
 	
 	<bean id="bet4" class="domain.Bet">
 		<property name="quantity" value="60.50" />
-		<property name="fee" value="1.15" />
+		<property name="fee" value="2.65" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="PENDING" />
@@ -891,7 +891,7 @@
 	
 		<bean id="bet5" class="domain.Bet">
 		<property name="quantity" value="60.50" />
-		<property name="fee" value="1.15" />
+		<property name="fee" value="2.35" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="PENDING" />
@@ -908,7 +908,7 @@
 	
 	<bean id="bet6" class="domain.Bet">
 		<property name="quantity" value="60.50" />
-		<property name="fee" value="1.15" />
+		<property name="fee" value="2.3" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="PENDING" />
@@ -1092,7 +1092,7 @@
 	<bean id="promotion1" class="domain.Promotion">
 		<property name="title" value="Duplicando ganancias" />
 		<property name="description" value="Las ganancias que obtengas con las cuotas actuales serán duplicadas" />
-		<property name="fee" value="15.0" />
+		<property name="fee" value="2.30" />
 		<property name="startMoment" value="2017/05/15 " />
 		<property name="endMoment" value="2017/08/15" />
 		<property name="market" ref="market1" />
@@ -1100,9 +1100,9 @@
 	</bean>
 	
 	<bean id="promotion2" class="domain.Promotion">
-		<property name="title" value="Apuesta segura" />
-		<property name="description" value="Si no ganas se te reenvolsará el crédito virtual gastado" />
-		<property name="fee" value="50.0" />
+		<property name="title" value="Super couta" />
+		<property name="description" value="Durante el tiempo en vigor las cuotas suben un punto!!" />
+		<property name="fee" value="3.35" />
 		<property name="startMoment" value="2017/05/15 " />
 		<property name="endMoment" value="2017/08/15" />
 		<property name="cancel" value="false" />
@@ -1112,7 +1112,7 @@
 	<bean id="promotion3" class="domain.Promotion">
 		<property name="title" value="Duplicando ganancias" />
 		<property name="description" value="Las ganancias que obtengas con las cuotas actuales serán duplicadas" />
-		<property name="fee" value="5.0" />
+		<property name="fee" value="4.04" />
 		<property name="startMoment" value="2018/05/15 " />
 		<property name="endMoment" value="2018/08/15" />
 		<property name="cancel" value="false" />
@@ -1120,9 +1120,9 @@
 	</bean>
 	
 	<bean id="promotion4" class="domain.Promotion">
-		<property name="title" value="Apuesta segura" />
-		<property name="description" value="Si no ganas se te reenvolsará el crédito virtual gastado" />
-		<property name="fee" value="50.0" />
+		<property name="title" value="Yo no soy tonto!!" />
+		<property name="description" value="Mega cuota, aumentamos la cuota en 1.5 puntos, no la dejes escapar!!" />
+		<property name="fee" value="2.65" />
 		<property name="startMoment" value="2017/05/15 " />
 		<property name="endMoment" value="2017/08/15" />
 		<property name="cancel" value="true" />
