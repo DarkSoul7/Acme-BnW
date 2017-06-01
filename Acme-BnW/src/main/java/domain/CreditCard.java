@@ -1,4 +1,3 @@
-
 package domain;
 
 import javax.persistence.Access;
@@ -29,6 +28,7 @@ public class CreditCard {
 	public String getHolderName() {
 		return holderName;
 	}
+
 	public void setHolderName(String holderName) {
 		this.holderName = holderName;
 	}
@@ -37,6 +37,7 @@ public class CreditCard {
 	public Brand getBrandName() {
 		return brandName;
 	}
+
 	public void setBrandName(Brand brandName) {
 		this.brandName = brandName;
 	}
@@ -47,14 +48,17 @@ public class CreditCard {
 	public String getNumber() {
 		return number;
 	}
+
 	public void setNumber(String number) {
 		this.number = number;
 	}
 
+	@NotNull
 	@Range(min = 1, max = 12)
 	public Integer getExpirationMonth() {
 		return expirationMonth;
 	}
+
 	public void setExpirationMonth(Integer expirationMonth) {
 		this.expirationMonth = expirationMonth;
 	}
@@ -64,6 +68,7 @@ public class CreditCard {
 	public Integer getExpirationYear() {
 		return expirationYear;
 	}
+
 	public void setExpirationYear(Integer expirationYear) {
 		this.expirationYear = expirationYear;
 	}
@@ -73,6 +78,7 @@ public class CreditCard {
 	public Integer getCvv() {
 		return cvv;
 	}
+
 	public void setCvv(Integer cvv) {
 		this.cvv = cvv;
 	}
