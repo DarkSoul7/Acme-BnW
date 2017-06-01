@@ -23,7 +23,14 @@
 
 	<spring:message code="topic.creationMoment" var="creationMoment" />
 	<display:column title="${creationMoment}">
-		<fmt:formatDate value="${row.creationMoment}" pattern="MM/dd/yyyy HH:mm" />
+		<jstl:choose>
+			<jstl:when test="${pageContext.response.locale.language=='en'}">
+				<fmt:formatDate value="${row.creationMoment}" pattern="MM/dd/yyyy" />
+			</jstl:when>
+			<jstl:otherwise>
+				<fmt:formatDate value="${row.creationMoment}" pattern="dd/MM/yyyy" />
+			</jstl:otherwise>
+		</jstl:choose>
 	</display:column>
 	
 	<spring:message code="topic.customer" var="customerUserName" />

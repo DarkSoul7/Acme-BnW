@@ -38,7 +38,14 @@
 	<display:column property="order" title="${order}"/> <!--sortable="true" headerClass="sortable"-->
 	<spring:message code="message.creationMoment" var="creationMoment" />
 	<display:column title="${creationMoment}">
-		<fmt:formatDate value="${row.creationMoment}" pattern="MM/dd/yyyy HH:mm" />
+		<jstl:choose>
+			<jstl:when test="${pageContext.response.locale.language=='en'}">
+				<fmt:formatDate value="${row.creationMoment}" pattern="MM/dd/yyyy" />
+			</jstl:when>
+			<jstl:otherwise>
+				<fmt:formatDate value="${row.creationMoment}" pattern="dd/MM/yyyy" />
+			</jstl:otherwise>
+		</jstl:choose>
 	</display:column>
 	
 	<security:authorize access="hasRole('CUSTOMER')">
@@ -72,7 +79,7 @@
 	<jstl:if test="${givenPunctuation == false }">
 		<acme:cancel code="topic.punctuation" url="topic/punctuation/create.do?topicId=${topic.id}" />
 	</jstl:if>
-</security:authorize>)
+</security:authorize>
 <br/>
 <br/>
 <security:authorize access="hasRole('CUSTOMER')">

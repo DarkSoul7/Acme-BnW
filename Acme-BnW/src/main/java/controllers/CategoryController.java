@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.CategoryService;
+import services.TournamentService;
 import domain.Category;
 import domain.Tournament;
 import forms.CategoryForm;
-import services.CategoryService;
-import services.TournamentService;
 
 @RequestMapping(value = "/category")
 @Controller
@@ -41,25 +41,26 @@ public class CategoryController extends AbstractController {
 	//Listing 
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam(required = false) final String errorMessage) {
 		ModelAndView result;
 		Collection<Category> categories;
 
-		categories = categoryService.findAll();
+		categories = this.categoryService.findAll();
 
 		result = new ModelAndView("category/list");
 		result.addObject("categories", categories);
 		result.addObject("requestURI", "category/list.do");
+		result.addObject("errorMessage", errorMessage);
 
 		return result;
 	}
 
 	@RequestMapping(value = "/listByTournament", method = RequestMethod.GET)
-	public ModelAndView listByTournament(@RequestParam int tournamentId) {
+	public ModelAndView listByTournament(@RequestParam final int tournamentId) {
 		ModelAndView result;
 		Collection<Category> categories;
 
-		categories = categoryService.categoriesOfTournament(tournamentId);
+		categories = this.categoryService.categoriesOfTournament(tournamentId);
 
 		result = new ModelAndView("category/list");
 		result.addObject("categories", categories);
@@ -72,34 +73,34 @@ public class CategoryController extends AbstractController {
 	public ModelAndView register() {
 		ModelAndView result = new ModelAndView();
 
-		CategoryForm categoryForm = categoryService.create();
+		final CategoryForm categoryForm = this.categoryService.create();
 		result = this.createModelAndView(categoryForm);
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam int categoryId) {
+	public ModelAndView edit(@RequestParam final int categoryId) {
 		ModelAndView result = new ModelAndView();
 
-		Category category = categoryService.findOne(categoryId);
-		CategoryForm categoryForm = categoryService.toFormObject(category);
+		final Category category = this.categoryService.findOne(categoryId);
+		final CategoryForm categoryForm = this.categoryService.toFormObject(category);
 		result = this.createEditModelAndView(categoryForm);
 		return result;
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid CategoryForm categoryForm, BindingResult binding) {
+	public ModelAndView save(@Valid final CategoryForm categoryForm, final BindingResult binding) {
 		ModelAndView result = new ModelAndView();
 		Category category = new Category();
 
-		category = categoryService.reconstruct(categoryForm, binding);
+		category = this.categoryService.reconstruct(categoryForm, binding);
 		if (binding.hasErrors()) {
 			result = this.createModelAndView(categoryForm);
 		} else {
 			try {
-				categoryService.save(category);
+				this.categoryService.save(category);
 				result = new ModelAndView("redirect:/category/list.do");
-			} catch (Throwable oops) {
+			} catch (final Throwable oops) {
 				result = this.createModelAndView(categoryForm, "category.commit.error");
 			}
 		}
@@ -108,18 +109,18 @@ public class CategoryController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView saveEdit(@Valid CategoryForm categoryForm, BindingResult binding) {
+	public ModelAndView saveEdit(@Valid final CategoryForm categoryForm, final BindingResult binding) {
 		ModelAndView result = new ModelAndView();
 		Category category = new Category();
 
-		category = categoryService.reconstruct(categoryForm, binding);
+		category = this.categoryService.reconstruct(categoryForm, binding);
 		if (binding.hasErrors()) {
 			result = this.createEditModelAndView(categoryForm);
 		} else {
 			try {
-				categoryService.save(category);
+				this.categoryService.save(category);
 				result = new ModelAndView("redirect:/category/list.do");
-			} catch (Throwable oops) {
+			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(categoryForm, "category.commit.error");
 			}
 		}
@@ -128,14 +129,14 @@ public class CategoryController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public ModelAndView delete(@RequestParam int categoryId) {
+	public ModelAndView delete(@RequestParam final int categoryId) {
 		ModelAndView result = new ModelAndView();
 
-		Category category = categoryService.findOne(categoryId);
+		final Category category = this.categoryService.findOne(categoryId);
 		try {
-			categoryService.delete(category);
+			this.categoryService.delete(category);
 			result = new ModelAndView("redirect:/category/list.do");
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/category/list.do");
 			result.addObject("errorMessage", "category.delete.error");
 		}
@@ -152,7 +153,7 @@ public class CategoryController extends AbstractController {
 	protected ModelAndView createModelAndView(final CategoryForm categoryForm, final String message) {
 		ModelAndView result;
 
-		Collection<Tournament> tournaments = tournamentService.findAll();
+		final Collection<Tournament> tournaments = this.tournamentService.findAll();
 		result = new ModelAndView("category/register");
 		result.addObject("categoryForm", categoryForm);
 		result.addObject("message", message);

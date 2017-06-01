@@ -42,8 +42,10 @@
 		</display:column>
 		
 		<display:column>
-			<acme:cancel url="category/delete.do?categoryId=${row.id}"
-				code="category.delete" />
+			<jstl:if test="${empty row.fixtures}">
+				<acme:cancel url="category/delete.do?categoryId=${row.id}"
+					code="category.delete" />
+			</jstl:if>
 		</display:column>
 	
 
