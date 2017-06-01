@@ -78,3 +78,9 @@
 <security:authorize access="hasRole('CUSTOMER')">
 	<acme:cancel code="message.create" url="message/create.do?topicId=${topic.id}" />
 </security:authorize>
+
+<jstl:if test="${errorMessage != null }">
+	<br/>
+	<spring:message code="${errorMessage}" var="error" />
+	<font size="4" color="red"><jstl:out value="${error}"></jstl:out></font>
+</jstl:if>

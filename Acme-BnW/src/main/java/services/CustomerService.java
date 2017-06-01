@@ -157,11 +157,12 @@ public class CustomerService {
 		//New customer (register)
 		if (customerForm.getId() == 0) {
 
-			if (customerForm.getPassword().equals(customerForm.getRepeatPassword()))
+			if (!customerForm.getPassword().isEmpty() && customerForm.getPassword().equals(customerForm.getRepeatPassword())) {
 				result.getUserAccount().setPassword(this.hashPassword(customerForm.getPassword()));
-			else
+			} else {
 				result.getUserAccount().setPassword("");
 
+			}
 			result.getUserAccount().setUsername(customerForm.getUsername());
 			final Collection<Bet> bets = new ArrayList<Bet>();
 			result.setBets(bets);
@@ -209,6 +210,19 @@ public class CustomerService {
 		else
 			result.setOverAge(true);
 
+		//Check overAge
+
+		if (result.getOverAge() == false) {
+			FieldError fieldError;
+			final String[] codes = {
+				"customer.birthDate.error"
+			};
+			fieldError = new FieldError("customerForm", "overAge", result.getOverAge(), false, codes, null, "");
+			binding.addError(fieldError);
+
+			this.validator.validate(customerForm.isOverAge(), binding);
+		}
+
 		// Check creditCard if any
 		if (this.analyzeCreditCard(customerForm.getCreditCard())) {
 			if (!this.checkCreditCard(result.getCreditCard())) {
@@ -220,11 +234,10 @@ public class CustomerService {
 				binding.addError(fieldError);
 			}
 			//			result.setValidCreditCard(this.checkCreditCard(result.getCreditCard()));
-			this.validator.validate(customerForm.getCreditCard(), binding);
+			this.validator.validate(customerForm.getCreditCard().getCvv(), binding);
 		}
 
 		if (binding != null && customerForm.getId() == 0) {
-			this.validator.validate(result, binding);
 
 			if (result.getUserAccount().getPassword() == "" || result.getUserAccount().getPassword() == null) {
 				FieldError fieldError;
@@ -234,12 +247,10 @@ public class CustomerService {
 				fieldError = new FieldError("customerForm", "userAccount.password", result.getUserAccount().getPassword(), false, codes, null, "");
 				binding.addError(fieldError);
 			}
-		} else
-			this.validator.validate(result, binding);
+		}
 
 		return result;
 	}
-
 	public CustomerForm toFormObject(final Customer customer) {
 		Assert.notNull(customer);
 		final CustomerForm result = new CustomerForm();

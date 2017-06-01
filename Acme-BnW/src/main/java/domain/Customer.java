@@ -47,7 +47,7 @@ public class Customer extends Actor {
 		this.birthDate = birthDate;
 	}
 
-	@Valid
+	//	@Valid
 	public CreditCard getCreditCard() {
 		return this.creditCard;
 	}

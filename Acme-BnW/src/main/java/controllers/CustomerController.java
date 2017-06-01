@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.CustomerService;
 import domain.Brand;
 import domain.Customer;
 import forms.BalanceForm;
 import forms.CustomerForm;
-import services.CustomerService;
 
 @RequestMapping(value = "/customer")
 @Controller
@@ -29,7 +29,7 @@ public class CustomerController extends AbstractController {
 	//Related services
 
 	@Autowired
-	private CustomerService customerService;
+	private CustomerService	customerService;
 
 
 	//Constructor
@@ -70,11 +70,18 @@ public class CustomerController extends AbstractController {
 
 		Customer customer;
 
-		customer = this.customerService.reconstruct(customerForm, binding);
+		try {
+			customer = this.customerService.reconstruct(customerForm, binding);
+
+		} catch (final Throwable e) {
+			result = this.createModelAndView(customerForm, "customer.creditCard.error");
+		}
+
 		if (binding.hasErrors()) {
-			result = this.createModelAndView(customerForm);
+			result = this.createModelAndView(customerForm, "customer.creditCard.error");
 		} else {
 			try {
+				customer = this.customerService.reconstruct(customerForm, binding);
 				this.customerService.save(customer);
 				result = new ModelAndView("redirect:/security/login.do");
 			} catch (final Throwable oops) {
@@ -194,7 +201,7 @@ public class CustomerController extends AbstractController {
 
 		try {
 
-			customerService.managementBan(customerId);
+			this.customerService.managementBan(customerId);
 
 			result = new ModelAndView("redirect:/customer/list.do");
 		} catch (final Throwable e) {
@@ -210,7 +217,7 @@ public class CustomerController extends AbstractController {
 		ModelAndView result;
 
 		try {
-			customerService.autoExclusion();
+			this.customerService.autoExclusion();
 			result = new ModelAndView("redirect:/j_spring_security_logout");
 		} catch (final Throwable e) {
 			result = new ModelAndView("redirect:/welcome/index.do");

@@ -1,10 +1,20 @@
+
 package forms;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import domain.Coordinates;
@@ -69,6 +79,8 @@ public class CustomerForm {
 		this.id = id;
 	}
 
+	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getName() {
 		return this.name;
 	}
@@ -77,6 +89,8 @@ public class CustomerForm {
 		this.name = name;
 	}
 
+	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getSurname() {
 		return this.surname;
 	}
@@ -85,6 +99,9 @@ public class CustomerForm {
 		this.surname = surname;
 	}
 
+	@Email
+	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getEmail() {
 		return this.email;
 	}
@@ -93,6 +110,9 @@ public class CustomerForm {
 		this.email = email;
 	}
 
+	@NotBlank
+	@Pattern(regexp = "((\\+|00)\\d{2,4}(\\s)?)?\\d{9,13}")
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getPhone() {
 		return this.phone;
 	}
@@ -101,6 +121,8 @@ public class CustomerForm {
 		this.phone = phone;
 	}
 
+	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getNid() {
 		return this.nid;
 	}
@@ -109,6 +131,8 @@ public class CustomerForm {
 		this.nid = nid;
 	}
 
+	@NotNull
+	@Valid
 	public Coordinates getCoordinates() {
 		return this.coordinates;
 	}
@@ -119,6 +143,7 @@ public class CustomerForm {
 
 	@Temporal(value = TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@NotNull
 	public Date getBirthDate() {
 		return this.birthDate;
 	}
@@ -151,6 +176,7 @@ public class CustomerForm {
 		this.finishedOffer = finishedOffer;
 	}
 
+	@NotBlank
 	public String getPassword() {
 		return this.password;
 	}
@@ -159,6 +185,7 @@ public class CustomerForm {
 		this.password = password;
 	}
 
+	@NotBlank
 	public String getRepeatPassword() {
 		return this.repeatPassword;
 	}
@@ -167,6 +194,7 @@ public class CustomerForm {
 		this.repeatPassword = repeatPassword;
 	}
 
+	@AssertTrue
 	public boolean isAcceptCondition() {
 		return this.acceptCondition;
 	}
@@ -199,11 +227,13 @@ public class CustomerForm {
 		this.losses = losses;
 	}
 
+	@NotBlank
+	@Column(unique = true)
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
-	public void setUsername(String username) {
+	public void setUsername(final String username) {
 		this.username = username;
 	}
 

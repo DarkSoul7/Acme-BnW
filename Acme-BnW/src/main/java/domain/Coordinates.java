@@ -1,42 +1,48 @@
+
 package domain;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Embeddable;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @Embeddable
 @Access(AccessType.PROPERTY)
 public class Coordinates {
 
-	private String country;
-	private String state;
-	private String province;
-	private String city;
-	
+	private String	country;
+	private String	state;
+	private String	province;
+	private String	city;
+
+
+	@NotBlank
 	public String getCountry() {
-		return country;
+		return this.country;
 	}
-	public void setCountry(String country) {
+	public void setCountry(final String country) {
 		this.country = country;
 	}
 	public String getState() {
-		return state;
+		return this.state;
 	}
-	public void setState(String state) {
+	public void setState(final String state) {
 		this.state = state;
 	}
 	public String getProvince() {
-		return province;
+		return this.province;
 	}
-	public void setProvince(String province) {
+	public void setProvince(final String province) {
 		this.province = province;
 	}
+
+	@NotBlank
 	public String getCity() {
-		return city;
+		return this.city;
 	}
-	public void setCity(String city) {
+	public void setCity(final String city) {
 		this.city = city;
 	}
-	
-	
+
 }
