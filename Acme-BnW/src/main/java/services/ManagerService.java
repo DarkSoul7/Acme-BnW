@@ -13,12 +13,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 
-import domain.Manager;
-import forms.ManagerForm;
 import repositories.ManagerRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.Manager;
+import forms.ManagerForm;
 
 @Service
 @Transactional
@@ -71,7 +71,7 @@ public class ManagerService {
 	}
 
 	public void save(final Manager manager) {
-		administratorService.findByPrincipal();
+		this.administratorService.findByPrincipal();
 		this.managerRepository.save(manager);
 	}
 
@@ -79,13 +79,13 @@ public class ManagerService {
 		this.managerRepository.delete(manager);
 	}
 
-	public void editProfile(Manager manager) {
-		managerRepository.save(manager);
+	public void editProfile(final Manager manager) {
+		this.managerRepository.save(manager);
 	}
 
 
 	@Autowired
-	private Validator validator;
+	private Validator	validator;
 
 
 	public Manager reconstruct(final ManagerForm managerForm, final BindingResult binding) throws CheckDigitException {
@@ -94,10 +94,10 @@ public class ManagerService {
 
 		if (managerForm.getId() == 0) {
 
-			if (managerForm.getPassword().equals(managerForm.getRepeatPassword()))
+			if (!managerForm.getPassword().isEmpty() && managerForm.getPassword().equals(managerForm.getRepeatPassword()))
 				result.getUserAccount().setPassword(this.hashPassword(managerForm.getPassword()));
 			else
-				result.getUserAccount().setPassword("");
+				result.getUserAccount().setPassword(null);
 
 			result.getUserAccount().setUsername(managerForm.getUserName());
 			//Editing customer
@@ -116,7 +116,6 @@ public class ManagerService {
 		result.setCoordinates(managerForm.getCoordinates());
 
 		if (binding != null && managerForm.getId() == 0) {
-			this.validator.validate(result, binding);
 
 			if (result.getUserAccount().getPassword() == "" || result.getUserAccount().getPassword() == null) {
 				FieldError fieldError;
@@ -126,8 +125,7 @@ public class ManagerService {
 				fieldError = new FieldError("managerForm", "userAccount.password", result.getUserAccount().getPassword(), false, codes, null, "");
 				binding.addError(fieldError);
 			}
-		} else
-			this.validator.validate(result, binding);
+		}
 
 		return result;
 	}
@@ -191,6 +189,6 @@ public class ManagerService {
 	}
 
 	public void flush() {
-		managerRepository.flush();
+		this.managerRepository.flush();
 	}
 }

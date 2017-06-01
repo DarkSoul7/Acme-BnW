@@ -1,6 +1,16 @@
 
 package forms;
 
+import javax.validation.Valid;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
+
 import domain.Coordinates;
 
 public class ManagerForm {
@@ -36,6 +46,8 @@ public class ManagerForm {
 		this.id = id;
 	}
 
+	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getName() {
 		return this.name;
 	}
@@ -44,6 +56,8 @@ public class ManagerForm {
 		this.name = name;
 	}
 
+	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getSurname() {
 		return this.surname;
 	}
@@ -52,6 +66,9 @@ public class ManagerForm {
 		this.surname = surname;
 	}
 
+	@NotBlank
+	@Email
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getEmail() {
 		return this.email;
 	}
@@ -60,6 +77,9 @@ public class ManagerForm {
 		this.email = email;
 	}
 
+	@NotBlank
+	@Pattern(regexp = "((\\+|00)\\d{2,4}(\\s)?)?\\d{9,13}")
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getPhone() {
 		return this.phone;
 	}
@@ -68,6 +88,8 @@ public class ManagerForm {
 		this.phone = phone;
 	}
 
+	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getNid() {
 		return this.nid;
 	}
@@ -76,6 +98,8 @@ public class ManagerForm {
 		this.nid = nid;
 	}
 
+	@Valid
+	@NotNull
 	public Coordinates getCoordinates() {
 		return this.coordinates;
 	}
@@ -84,6 +108,8 @@ public class ManagerForm {
 		this.coordinates = coordinates;
 	}
 
+	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getUserName() {
 		return this.userName;
 	}
@@ -92,6 +118,8 @@ public class ManagerForm {
 		this.userName = userName;
 	}
 
+	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getPassword() {
 		return this.password;
 	}
@@ -100,6 +128,8 @@ public class ManagerForm {
 		this.password = password;
 	}
 
+	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getRepeatPassword() {
 		return this.repeatPassword;
 	}
@@ -108,6 +138,7 @@ public class ManagerForm {
 		this.repeatPassword = repeatPassword;
 	}
 
+	@AssertTrue
 	public boolean isAcceptCondition() {
 		return this.acceptCondition;
 	}
