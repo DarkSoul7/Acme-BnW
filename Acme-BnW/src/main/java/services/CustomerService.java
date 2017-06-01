@@ -320,6 +320,7 @@ public class CustomerService {
 		Assert.isTrue(balanceForm.getBalance() > 10.0);
 		principal.setBalance(principal.getBalance() - balanceForm.getBalance());
 		Assert.isTrue(principal.getBalance() >= 0);
+		final Ticket ticket = this.ticketService.create();
 
 		this.save(principal);
 	}
@@ -402,7 +403,7 @@ public class CustomerService {
 	public void getextractVirtualCredit(final double amount) {
 		final Customer customer = this.findByPrincipal();
 
-		final Ticket ticket = this.ticketService.getDefaultExtractionTicket(amount);
+		final Ticket ticket = this.ticketService.getDefaultEnglishExtractionTicket(amount);
 
 		customer.setBalance(customer.getBalance() - amount);
 
