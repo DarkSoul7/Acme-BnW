@@ -49,7 +49,7 @@
 </display:table>
 
 <br/>
-<acme:cancel code="welcomeOffer.create" url="welcomeOffer/create.do" />
+<acme:cancel code="welcomeOffer.create" url="welcomeOffer/register.do" />
 
 <jstl:if test="${errorMessage != null }">
 <br/>
