@@ -24,7 +24,6 @@
 		-->
 		<bean class="converters.ActorToStringConverter" />
 		<bean class="converters.AdministratorToStringConverter" />
-		<bean class="converters.BalanceSearchEngineToStringConverter" />
 		<bean class="converters.BetToStringConverter" />
 		<bean class="converters.CategoryToStringConverter" />
 		<bean class="converters.CustomerToStringConverter" />
@@ -43,7 +42,6 @@
 		
 		<bean class="converters.StringToActorConverter" />
 		<bean class="converters.StringToAdministratorConverter" />
-		<bean class="converters.StringToBalanceSearchEngineConverter" />
 		<bean class="converters.StringToBetConverter" />
 		<bean class="converters.StringToCategoryConverter" />
 		<bean class="converters.StringToCustomerConverter" />
