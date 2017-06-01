@@ -1,7 +1,8 @@
 
 package forms;
 
-import javax.validation.constraints.Min;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 public class BalanceForm {
 
@@ -18,7 +19,8 @@ public class BalanceForm {
 
 	//Getter & setter
 
-	@Min(1)
+	@DecimalMin(value = "1.0")
+	@NotNull
 	public Double getBalance() {
 		return this.balance;
 	}

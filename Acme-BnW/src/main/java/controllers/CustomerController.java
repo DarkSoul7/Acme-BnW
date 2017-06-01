@@ -169,7 +169,7 @@ public class CustomerController extends AbstractController {
 				this.customerService.extractBalance(balanceForm);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
-				result = this.extractBalanceModelAndView(balanceForm, "balance.commit.error");
+				result = this.extractBalanceModelAndView(balanceForm, "balance.extract.error");
 			}
 		}
 
@@ -188,7 +188,7 @@ public class CustomerController extends AbstractController {
 				this.customerService.addBalance(balanceForm);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
-				result = this.addBalanceModelAndView(balanceForm, "balance.commit.error");
+				result = this.addBalanceModelAndView(balanceForm, "balance.add.error");
 			}
 		}
 

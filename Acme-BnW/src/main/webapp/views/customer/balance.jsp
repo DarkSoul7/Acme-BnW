@@ -35,3 +35,10 @@
 		<acme:cancel code="customer.back" url="" />
 
 </form:form>
+
+<jstl:if test="${message != null }">
+<br/>
+<br/>
+	<spring:message code="${message}" var="error" />
+	<font size="4" color="red"><jstl:out value="${error}"></jstl:out></font>
+</jstl:if>
