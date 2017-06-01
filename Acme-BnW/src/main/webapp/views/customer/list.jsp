@@ -48,7 +48,3 @@
 
 </display:table>
 
-<br/>
-<acme:cancel code="welcomeOffer.create" url="welcomeOffer/create.do" />
-
-<br/>
