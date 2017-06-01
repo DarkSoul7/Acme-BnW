@@ -143,7 +143,7 @@
 		<security:intercept-url pattern="/welcomeOffer/register.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/welcomeOffer/edit.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/welcomeOffer/delete.do" access="hasRole('MANAGER')" />
-		
+
 		
 		<!-- Bet -->
 		<security:intercept-url pattern="/bet/simpleBet.do" access="hasRole('CUSTOMER')" />
