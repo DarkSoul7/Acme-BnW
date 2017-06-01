@@ -195,7 +195,7 @@ public class WelcomeOfferController extends AbstractController {
 
 		result = new ModelAndView("welcomeOffer/create");
 		result.addObject("welcomeOfferForm", welcomeOfferForm);
-		result.addObject("message", message);
+		result.addObject("errorMessage", message);
 		result.addObject("RequestURI", "welcomeOffer/register.do");
 
 		return result;
@@ -210,7 +210,7 @@ public class WelcomeOfferController extends AbstractController {
 
 		result = new ModelAndView("welcomeOffer/edit");
 		result.addObject("welcomeOfferForm", welcomeOfferForm);
-		result.addObject("message", message);
+		result.addObject("errorMessage", message);
 		result.addObject("RequestURI", "welcomeOffer/edit.do");
 
 		return result;
