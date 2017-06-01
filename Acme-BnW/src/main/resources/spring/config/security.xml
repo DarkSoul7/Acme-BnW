@@ -43,6 +43,10 @@
 		<security:intercept-url access="permitAll" pattern="/welcome/eraseMe.do"/>
 		<security:intercept-url pattern="/welcome/index.do" access="permitAll" /> 
 		
+		<!-- Balance search engine -->
+		<security:intercept-url pattern="/balanceSearchEngine/list.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/balanceSearchEngine/search.do" access="hasRole('ADMINISTRATOR')" />
+		
 		<!-- Customer -->
 		<security:intercept-url pattern="/customer/register.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/customer/addBalance.do" access="hasRole('CUSTOMER')" />

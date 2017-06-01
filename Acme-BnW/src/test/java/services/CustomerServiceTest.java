@@ -16,6 +16,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
+import security.Authority;
+import security.UserAccount;
+import utilities.AbstractTest;
 import domain.Bet;
 import domain.Brand;
 import domain.Coordinates;
@@ -28,9 +31,6 @@ import domain.Ticket;
 import domain.Topic;
 import forms.BalanceForm;
 import forms.CustomerForm;
-import security.Authority;
-import security.UserAccount;
-import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
@@ -42,10 +42,13 @@ public class CustomerServiceTest extends AbstractTest {
 	// System under test ------------------------------------------------------
 
 	@Autowired
-	private CustomerService		customerService;
+	private CustomerService				customerService;
 
 	@Autowired
-	private WelcomeOfferService	welcomeOfferService;
+	private WelcomeOfferService			welcomeOfferService;
+
+	@Autowired
+	private BalanceSearchEngineService	balanceSearchEngineService;
 
 
 	/***
@@ -86,7 +89,7 @@ public class CustomerServiceTest extends AbstractTest {
 		try {
 			this.authenticate(principal);
 
-			final Collection<CustomerForm> result = this.customerService.getGlobalBalance(name, surname, nid);
+			final Collection<CustomerForm> result = this.balanceSearchEngineService.getGlobalBalance(name, surname, nid);
 
 			Assert.notNull(result);
 
@@ -119,17 +122,18 @@ public class CustomerServiceTest extends AbstractTest {
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			this.registerCustomerTemplate((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Date) testingData[i][5], (String) testingData[i][6],
-				(String) testingData[i][7], (Class<?>) testingData[i][8]);
+			this.registerCustomerTemplate((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4],
+				(Date) testingData[i][5], (String) testingData[i][6], (String) testingData[i][7], (Class<?>) testingData[i][8]);
 	}
 
-	protected void registerCustomerTemplate(String name, String surname, String phone, String email, String nid, Date birthDate, String username, String password, Class<?> expectedException) {
+	protected void registerCustomerTemplate(final String name, final String surname, final String phone, final String email, final String nid, final Date birthDate, final String username,
+		final String password, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
-			Customer customer = new Customer();
+			final Customer customer = new Customer();
 
-			CreditCard creditCard = new CreditCard();
+			final CreditCard creditCard = new CreditCard();
 			creditCard.setBrandName(Brand.VISA);
 			creditCard.setCvv(123);
 			creditCard.setExpirationMonth(10);
@@ -137,7 +141,7 @@ public class CustomerServiceTest extends AbstractTest {
 			creditCard.setHolderName("holder");
 			creditCard.setNumber("4800553115069231");
 
-			Coordinates coordinates = new Coordinates();
+			final Coordinates coordinates = new Coordinates();
 			coordinates.setCity("city");
 			coordinates.setCountry("country");
 			coordinates.setProvince("province");
@@ -148,7 +152,7 @@ public class CustomerServiceTest extends AbstractTest {
 			authority = new Authority();
 			authority.setAuthority(Authority.CUSTOMER);
 
-			UserAccount userAccount = new UserAccount();
+			final UserAccount userAccount = new UserAccount();
 
 			userAccount.setEnabled(true);
 			userAccount.setPassword(password);
@@ -178,9 +182,9 @@ public class CustomerServiceTest extends AbstractTest {
 			customer.setTopics(new ArrayList<Topic>());
 			customer.setTickets(new ArrayList<Ticket>());
 
-			customerService.save(customer);
+			this.customerService.save(customer);
 			this.customerService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -211,19 +215,19 @@ public class CustomerServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void addBalanceTemplated(String principal, Double balance, Class<?> expectedException) {
+	protected void addBalanceTemplated(final String principal, final Double balance, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			BalanceForm balanceForm = new BalanceForm();
+			final BalanceForm balanceForm = new BalanceForm();
 			balanceForm.setBalance(balance);
 
-			customerService.addBalance(balanceForm);
+			this.customerService.addBalance(balanceForm);
 
 			this.unauthenticate();
 			this.customerService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -254,19 +258,19 @@ public class CustomerServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void extractBalanceTemplated(String principal, Double balance, Class<?> expectedException) {
+	protected void extractBalanceTemplated(final String principal, final Double balance, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			BalanceForm balanceForm = new BalanceForm();
+			final BalanceForm balanceForm = new BalanceForm();
 			balanceForm.setBalance(balance);
 
-			customerService.extractBalance(balanceForm);
+			this.customerService.extractBalance(balanceForm);
 
 			this.unauthenticate();
 			this.customerService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -297,19 +301,19 @@ public class CustomerServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void editProfile(String principal, String phone, Class<?> expectedException) {
+	protected void editProfile(final String principal, final String phone, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
 
-			Customer customer = customerService.findByPrincipal();
+			final Customer customer = this.customerService.findByPrincipal();
 			customer.setPhone(phone);
-			customerService.save(customer);
+			this.customerService.save(customer);
 
 			this.unauthenticate();
 			this.customerService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -340,17 +344,17 @@ public class CustomerServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void activeOfferTemplated(String principal, Double charge, Class<?> expectedException) {
+	protected void activeOfferTemplated(final String principal, final Double charge, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
 
-			customerService.activeOffer(charge, customerService.findByPrincipal().getId());
+			this.customerService.activeOffer(charge, this.customerService.findByPrincipal().getId());
 
 			this.unauthenticate();
 			this.customerService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -381,17 +385,17 @@ public class CustomerServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void cancelOfferTemplated(String principal, Class<?> expectedException) {
+	protected void cancelOfferTemplated(final String principal, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
 
-			customerService.cancelOffer(customerService.findByPrincipal().getId());
+			this.customerService.cancelOffer(this.customerService.findByPrincipal().getId());
 
 			this.unauthenticate();
 			this.customerService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -422,17 +426,17 @@ public class CustomerServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void autoExclusionTemplated(String principal, Class<?> expectedException) {
+	protected void autoExclusionTemplated(final String principal, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
 
-			customerService.autoExclusion();
+			this.customerService.autoExclusion();
 
 			this.unauthenticate();
 			this.customerService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -463,17 +467,17 @@ public class CustomerServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void managementBanTemplated(String principal, int customerId, Class<?> expectedException) {
+	protected void managementBanTemplated(final String principal, final int customerId, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
 
-			customerService.managementBan(customerId);
+			this.customerService.managementBan(customerId);
 
 			this.unauthenticate();
 			this.customerService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -504,17 +508,17 @@ public class CustomerServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void addTeamFavouriteTemplated(String principal, int teamId, Class<?> expectedException) {
+	protected void addTeamFavouriteTemplated(final String principal, final int teamId, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
 
-			customerService.addTeamFavourite(teamId);
+			this.customerService.addTeamFavourite(teamId);
 
 			this.unauthenticate();
 			this.customerService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -545,17 +549,17 @@ public class CustomerServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void deleteTeamFavouriteTemplated(String principal, int teamId, Class<?> expectedException) {
+	protected void deleteTeamFavouriteTemplated(final String principal, final int teamId, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
 
-			customerService.deleteTeamFavourite(teamId);
+			this.customerService.deleteTeamFavourite(teamId);
 
 			this.unauthenticate();
 			this.customerService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
