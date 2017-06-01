@@ -95,11 +95,11 @@ public class TopicServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, description, topicId expected exception
 			{
-				"customer1", "description", 138, null
+				"customer1", "description", 147, null
 			}, {
-				"customer1", "", 138, ConstraintViolationException.class
+				"customer2", "", 145, ConstraintViolationException.class
 			}, {
-				"customer2", "description", 138, IllegalArgumentException.class
+				"customer1", "description", 145, IllegalArgumentException.class
 			}
 		};
 
@@ -139,11 +139,11 @@ public class TopicServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, topicId , expected exception
 			{
-				"admin", 136, null
+				"admin", 145, null
 			}, {
-				"customer1", 137, IllegalArgumentException.class
+				"customer1", 146, IllegalArgumentException.class
 			}, {
-				"manager", 137, IllegalArgumentException.class
+				"manager", 146, IllegalArgumentException.class
 			}
 		};
 

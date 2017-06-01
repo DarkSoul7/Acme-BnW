@@ -91,6 +91,10 @@ public class MarketService {
 
 	public Market enjoyPromotion(int idPromotion) {
 		Promotion promotion = promotionService.findOne(idPromotion);
+		return this.enjoyPromotion(promotion);
+	}
+
+	public Market enjoyPromotion(Promotion promotion) {
 		Assert.notNull(promotion);
 		Assert.isTrue(!promotion.isCancel());
 		Assert.isTrue(promotion.getStartMoment().before(new Date()));

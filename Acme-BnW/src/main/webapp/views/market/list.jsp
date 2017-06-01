@@ -70,8 +70,11 @@
 	
 	<spring:message code="market.fee" var="fee" />
 	<display:column title="${fee}">
-		<span id="fee${row.id}"><jstl:out value="${row.fee}" /></span>
+		<span style="${row.promotion != null? 'text-decoration:line-through;':''}" id="fee${row.id}"><jstl:out value="${row.fee}" /></span>
 	</display:column>
+	
+	<spring:message code="market.promotion.fee" var="promotionFee" />
+	<display:column property="promotion.fee" title="${promotionFee}" />
 
 	<security:authorize access="hasRole('MANAGER')">
 		<display:column>

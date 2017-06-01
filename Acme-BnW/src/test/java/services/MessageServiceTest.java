@@ -47,11 +47,11 @@ public class MessageServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, title, description, topicId ,expected exception
 			{
-				"customer1", "title", "description", 136, null
+				"customer1", "title", "description", 145, null
 			}, {
-				"customer1", "", "description", 136, ConstraintViolationException.class
+				"customer1", "", "description", 145, ConstraintViolationException.class
 			}, {
-				"admin", "title", "description", 136, IllegalArgumentException.class
+				"admin", "title", "description", 145, IllegalArgumentException.class
 			}
 		};
 
@@ -98,11 +98,11 @@ public class MessageServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, title, description, messageId ,expected exception
 			{
-				"customer1", "description", 146, null
+				"customer1", "description", 155, null
 			}, {
-				"customer1", "", 146, ConstraintViolationException.class
+				"customer1", "", 155, ConstraintViolationException.class
 			}, {
-				"customer2", "description", 146, IllegalArgumentException.class
+				"customer2", "description", 155, IllegalArgumentException.class
 			}
 		};
 
@@ -142,11 +142,11 @@ public class MessageServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, messageId , expected exception
 			{
-				"admin", 146, null
+				"admin", 155, null
 			}, {
-				"customer1", 147, IllegalArgumentException.class
+				"customer1", 156, IllegalArgumentException.class
 			}, {
-				"manager", 147, IllegalArgumentException.class
+				"manager", 156, IllegalArgumentException.class
 			}
 		};
 

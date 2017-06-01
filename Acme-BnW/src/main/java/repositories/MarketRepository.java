@@ -20,7 +20,7 @@ public interface MarketRepository extends JpaRepository<Market, Integer> {
 	public Collection<Market> marketsOfMatches(int id);
 
 	//Marked market
-	@Query("select distinct m from Market m where m.bets.size >= all(select m2.bets.size from Market m2)")
+	@Query("select distinct m from Market m where m.match.endMoment > NOW() and m.bets.size >= all(select m2.bets.size from Market m2)")
 	public Collection<Market> getMarkedMarket();
 
 	//Cantidad de apuestas sobre un partido -> número de clientes que han apostado en un partido

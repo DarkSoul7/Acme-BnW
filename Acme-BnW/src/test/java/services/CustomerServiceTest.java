@@ -241,7 +241,7 @@ public class CustomerServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, balance, expected exception
 			{
-				"customer1", 20.0, null
+				"customer2", 20.0, null
 			}, {
 				"manager1", 20.0, IllegalArgumentException.class
 			}, {
@@ -448,13 +448,13 @@ public class CustomerServiceTest extends AbstractTest {
 	@Test
 	public void managementBanDriver() {
 		final Object[][] testingData = {
-			//actor, charge, expected exception
+			//actor, customerId, expected exception
 			{
-				"admin", 86, null
+				"admin", 91, null
 			}, {
-				"manager1", 86, IllegalArgumentException.class
+				"manager1", 91, IllegalArgumentException.class
 			}, {
-				"customer1", 86, IllegalArgumentException.class
+				"customer1", 91, IllegalArgumentException.class
 			}
 		};
 
@@ -532,11 +532,11 @@ public class CustomerServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, idTeam, expected exception
 			{
-				"customer1", 97, null
+				"customer1", 102, null
 			}, {
-				"customer1", 97, IllegalArgumentException.class
+				"customer1", 102, IllegalArgumentException.class
 			}, {
-				"admin", 97, IllegalArgumentException.class
+				"admin", 102, IllegalArgumentException.class
 			}
 		};
 

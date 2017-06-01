@@ -91,11 +91,11 @@ public class TournamentServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, name, description,starMoment,endMoment,sport, idTournament, expected exception
 			{
-				"manager1", "name", "description 1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(10).toDate(), Sport.FOOTBALL, 91, null
+				"manager1", "name", "description 1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(10).toDate(), Sport.FOOTBALL, 96, null
 			}, {
-				"manager1", "", "description 1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(10).toDate(), Sport.FOOTBALL, 91, ConstraintViolationException.class
+				"manager1", "", "description 1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(10).toDate(), Sport.FOOTBALL, 96, ConstraintViolationException.class
 			}, {
-				"manager1", "name", "", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(10).toDate(), Sport.FOOTBALL, 91, ConstraintViolationException.class
+				"manager1", "name", "", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(10).toDate(), Sport.FOOTBALL, 96, ConstraintViolationException.class
 			}
 		};
 
@@ -140,9 +140,9 @@ public class TournamentServiceTest extends AbstractTest {
 			{
 				"manager1", 0, null
 			}, {
-				"manager1", 91, IllegalArgumentException.class
+				"manager1", 96, IllegalArgumentException.class
 			}, {
-				"admin", 91, IllegalArgumentException.class
+				"admin", 96, IllegalArgumentException.class
 			}
 		};
 

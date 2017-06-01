@@ -67,8 +67,11 @@
 	
 	<spring:message code="bet.market.fee" var="fee" />
 	<display:column title="${fee}">
-		<span id="fee${row.market.id}"><jstl:out value="${row.market.fee}" /></span>
+		<span style="${row.market.promotion != null? 'text-decoration:line-through;':''}" id="fee${row.market.id}"><jstl:out value="${row.market.fee}" /></span>
 	</display:column>
+	
+	<spring:message code="bet.market.promotion.fee" var="promotionFee" />
+	<display:column property="market.promotion.fee" title="${promotionFee}" />
 
 	<spring:message code="bet.quantity" var="betQuantity" />
 	<display:column title="${betQuantity}">

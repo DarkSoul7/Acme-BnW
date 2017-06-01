@@ -95,11 +95,11 @@ public class PromotionServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			// actor, description,startMoment,endMoment,idPromotion,expected exception
 			{
-				"manager1", "Description1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(10).toDate(), 149, null
+				"manager1", "Description1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(10).toDate(), 159, null
 			}, {
-				"manager1", "", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(10).toDate(), 149, ConstraintViolationException.class
+				"manager1", "", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(10).toDate(), 159, ConstraintViolationException.class
 			}, {
-				"manager1", "Description1", new DateTime().plusDays(-2).toDate(), new DateTime().plusDays(10).toDate(), 149, IllegalArgumentException.class
+				"manager1", "Description1", new DateTime().plusDays(-2).toDate(), new DateTime().plusDays(10).toDate(), 159, IllegalArgumentException.class
 			}
 		};
 
@@ -140,11 +140,11 @@ public class PromotionServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, promotionId , expected exception
 			{
-				"manager1", 150, null
+				"manager1", 159, null
 			}, {
-				"admin", 150, IllegalArgumentException.class
+				"admin", 162, IllegalArgumentException.class
 			}, {
-				"manager1", 150, IllegalArgumentException.class
+				"manager1", 162, IllegalArgumentException.class
 			}
 		};
 

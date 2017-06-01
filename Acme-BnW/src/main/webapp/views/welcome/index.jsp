@@ -60,10 +60,15 @@
 	<spring:message code="welcome.notedMarkets" var="markedMarkets" />
 	<h3><jstl:out value="${markedMarkets }"/></h3>
 	
-	<display:table name="notedMarkets" id="row" requestURI="${RequestURI}"
-	pagesize="5">
+	<display:table name="notedMarkets" id="row" requestURI="${RequestURI}" pagesize="5">
 
-		<spring:message code="market.title" var="title" />
+		<spring:message code="match.localTeam" var="localTeam" />
+		<display:column property="match.localTeam.name" title="${localTeam}"/>
+		
+		<spring:message code="match.visitorTeam" var="visitorTeam" />
+		<display:column property="match.visitorTeam.name" title="${visitorTeam}"/>
+		
+		<spring:message code="welcome.title" var="title" />
 		<display:column title="${title}">
 			<jstl:choose>
 			<jstl:when test="${pageContext.response.locale.language=='en'}">
@@ -76,7 +81,10 @@
 		</display:column>
 		
 		<spring:message code="market.fee" var="fee" />
-		<display:column property="fee" title="${fee}"/>
+		<display:column style="${row.promotion != null? 'text-decoration:line-through;':''}" property="fee" title="${fee}"/>
+		
+		<spring:message code="promotion.fee" var="promotionFee" />
+		<display:column property="promotion.fee" title="${promotionFee}" />
 		
 		<spring:message code="match.startMoment" var="startMoment" />
 		<display:column title="${startMoment}">
@@ -87,12 +95,6 @@
 		<display:column title="${endMoment}">
 			<fmt:formatDate value="${row.match.endMoment}" pattern="MM/dd/yyyy HH:mm" />
 		</display:column>
-		
-		<spring:message code="match.localTeam" var="localTeam" />
-		<display:column property="match.localTeam.name" title="${localTeam}"/>
-		
-		<spring:message code="match.visitorTeam" var="visitorTeam" />
-		<display:column property="match.visitorTeam.name" title="${visitorTeam}"/>
 		
 		<display:column>
 			<acme:cancel code="welcome.goToMarket" url="market/listByMatch.do?matchId=${row.match.id}" />
@@ -105,44 +107,64 @@
 	<spring:message code="welcome.favouriteTeamPromotions" var="favouriteTeamPromotions" />
 	<h3><jstl:out value="${favouriteTeamPromotions }"/></h3>
 	
-	<display:table name="favouritePromotions" id="row" requestURI="${RequestURI}"
-	pagesize="5">
-
+	<display:table name="favouritePromotions" id="row" requestURI="${RequestURI}" pagesize="5">
+	
 		<spring:message code="promotion.title" var="title" />
-	<display:column property="title" title="${title}" />
-	
-	<spring:message code="promotion.description" var="description" />
-	<display:column property="description" title="${description}" />
-	
-	<spring:message code="promotion.fee" var="fee" />
-	<display:column property="fee" title="${fee}" />
-
-	<spring:message code="promotion.startMoment" var="startMoment" />
-	<display:column title="${startMoment}">
-		<jstl:choose>
-			<jstl:when test="${pageContext.response.locale.language=='en'}">
-				<fmt:formatDate value="${row.startMoment}" pattern="MM/dd/yyyy" />
-			</jstl:when>
-			<jstl:otherwise>
-				<fmt:formatDate value="${row.startMoment}" pattern="dd/MM/yyyy" />
-			</jstl:otherwise>
-		</jstl:choose>
-	</display:column>
-	
-	<spring:message code="promotion.endMoment" var="endMoment" />
-	<display:column title="${endMoment}">
-		<jstl:choose>
-			<jstl:when test="${pageContext.response.locale.language=='en'}">
-				<fmt:formatDate value="${row.endMoment}" pattern="MM/dd/yyyy" />
-			</jstl:when>
-			<jstl:otherwise>
-				<fmt:formatDate value="${row.endMoment}" pattern="dd/MM/yyyy" />
-			</jstl:otherwise>
-		</jstl:choose>
-	</display:column>
+		<display:column property="title" title="${title}" />
 		
+		<spring:message code="promotion.description" var="description" />
+		<display:column property="description" title="${description}" />
+		
+		<spring:message code="match.localTeam" var="localTeam" />
+		<display:column property="market.match.localTeam.name" title="${localTeam}"/>
+		
+		<spring:message code="match.visitorTeam" var="visitorTeam" />
+		<display:column property="market.match.visitorTeam.name" title="${visitorTeam}"/>
+		
+		<spring:message code="welcome.title" var="wTitle" />
+		<display:column title="${wTitle}">
+			<jstl:choose>
+			<jstl:when test="${pageContext.response.locale.language=='en'}">
+				<jstl:out value="${row.market.type.getName()}"></jstl:out>
+			</jstl:when>
+			<jstl:otherwise>
+				<jstl:out value="${row.market.type.getSpanishName()}"></jstl:out>
+			</jstl:otherwise>
+		</jstl:choose>
+		</display:column>
+		
+		<spring:message code="promotion.market.fee" var="marketFee" />
+		<display:column style="text-decoration:line-through;" property="market.fee" title="${marketFee}" />
+		
+		<spring:message code="promotion.fee" var="fee" />
+		<display:column property="fee" title="${fee}" />
+	
+		<spring:message code="promotion.startMoment" var="startMoment" />
+		<display:column title="${startMoment}">
+			<jstl:choose>
+				<jstl:when test="${pageContext.response.locale.language=='en'}">
+					<fmt:formatDate value="${row.startMoment}" pattern="MM/dd/yyyy" />
+				</jstl:when>
+				<jstl:otherwise>
+					<fmt:formatDate value="${row.startMoment}" pattern="dd/MM/yyyy" />
+				</jstl:otherwise>
+			</jstl:choose>
+		</display:column>
+		
+		<spring:message code="promotion.endMoment" var="endMoment" />
+		<display:column title="${endMoment}">
+			<jstl:choose>
+				<jstl:when test="${pageContext.response.locale.language=='en'}">
+					<fmt:formatDate value="${row.endMoment}" pattern="MM/dd/yyyy" />
+				</jstl:when>
+				<jstl:otherwise>
+					<fmt:formatDate value="${row.endMoment}" pattern="dd/MM/yyyy" />
+				</jstl:otherwise>
+			</jstl:choose>
+		</display:column>
+			
 		<display:column>
-			<acme:cancel code="welcome.goToMarket" url="market/listByMatch.do?matchId=${row.market.match.id}" />
+			<acme:cancel code="welcome.goToMarket" url="market/list.do?marketId=${row.market.id}" />
 		</display:column>
 	
 	</display:table>

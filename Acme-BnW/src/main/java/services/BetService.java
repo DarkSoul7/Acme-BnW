@@ -54,13 +54,21 @@ public class BetService {
 		Assert.notNull(market);
 		Bet result;
 		Customer principal;
+		Double fee;
 
 		principal = this.customerService.findByPrincipal();
+
+		if (market.getPromotion() == null) {
+			fee = market.getFee();
+		} else {
+			this.marketService.enjoyPromotion(market.getPromotion());
+			fee = market.getPromotion().getFee();
+		}
 
 		result = new Bet();
 		result.setCreationMoment(new Date(System.currentTimeMillis() - 1000));
 		result.setCustomer(principal);
-		result.setFee(market.getFee());
+		result.setFee(fee);
 		result.setMarket(market);
 		result.setQuantity(quantity);
 		result.setStatus(Status.PENDING);
@@ -231,26 +239,6 @@ public class BetService {
 		return result;
 	}
 
-	public Collection<Bet> prepareChildrenBets(List<String> betsIds, Bet parentBet, Double quantity) {
-		Collection<Bet> childrenBets;
-		Market market;
-
-		childrenBets = this.findAllById(betsIds);
-
-		for (Bet bet : childrenBets) {
-			market = this.marketService.findOne(bet.getMarket().getId());
-			bet.setCompleted(true);
-			bet.setCreationMoment(new Date(System.currentTimeMillis() - 1000));
-			bet.setFee(market.getFee());
-			bet.setParentBet(parentBet);
-			bet.setQuantity(quantity);
-			bet.setStatus(Status.PENDING);
-			bet.setType(BetType.CHILD);
-		}
-
-		return childrenBets;
-	}
-
 	public void saveMultipleBet(List<String> betsIds, Double quantity) throws IllegalStateException, IllegalArgumentException {
 		Bet parentBet;
 		Collection<Bet> childrenBets;
@@ -272,11 +260,20 @@ public class BetService {
 			//Se comprueba accediendo a base de datos para estar seguro de que se trabaja con el último valor establecido
 			market = this.marketService.findOne(bet.getMarket().getId());
 			Assert.notNull(market);
-			totalFee *= market.getFee();
+			Double betFee;
+
+			if (market.getPromotion() == null) {
+				betFee = market.getFee();
+			} else {
+				this.marketService.enjoyPromotion(market.getPromotion());
+				betFee = market.getPromotion().getFee();
+			}
+
+			totalFee *= betFee;
 
 			bet.setCompleted(true);
 			bet.setCreationMoment(new Date(System.currentTimeMillis() - 1000));
-			bet.setFee(market.getFee());
+			bet.setFee(betFee);
 			bet.setParentBet(parentBet);
 			bet.setQuantity(quantity);
 			bet.setStatus(Status.PENDING);
@@ -293,11 +290,19 @@ public class BetService {
 
 	public Bet completeSelectedBet(int betId, Double quantity, Market market) {
 		Bet result;
+		Double fee;
+
+		if (market.getPromotion() == null) {
+			fee = market.getFee();
+		} else {
+			this.marketService.enjoyPromotion(market.getPromotion());
+			fee = market.getPromotion().getFee();
+		}
 
 		result = this.findOne(betId);
 		result.setCreationMoment(new Date(System.currentTimeMillis() - 1000));
 		result.setCompleted(true);
-		result.setFee(market.getFee());
+		result.setFee(fee);
 		result.setQuantity(quantity);
 
 		return result;

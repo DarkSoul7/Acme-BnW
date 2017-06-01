@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -63,11 +64,16 @@ public class MarketController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required = false) String errorMessage, @RequestParam(required = false) String successMessage) {
+	public ModelAndView list(@RequestParam(required = false) Integer marketId, @RequestParam(required = false) String errorMessage, @RequestParam(required = false) String successMessage) {
 		ModelAndView result;
 		Collection<Market> markets;
 
-		markets = marketService.findAll();
+		if (marketId != null) {
+			markets = new ArrayList<Market>();
+			markets.add(this.marketService.findOne(marketId));
+		} else {
+			markets = marketService.findAll();
+		}
 
 		result = new ModelAndView("market/list");
 		result.addObject("markets", markets);
@@ -208,7 +214,8 @@ public class MarketController extends AbstractController {
 	// AJAX
 
 	@RequestMapping(value = "/updateFees", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody Collection<MarketResponseForm> updateFees(@RequestParam(required = false) Integer matchId) {
+	public @ResponseBody
+	Collection<MarketResponseForm> updateFees(@RequestParam(required = false) Integer matchId) {
 		Collection<MarketResponseForm> result;
 
 		if (matchId == null) {

@@ -46,11 +46,11 @@ public class FixtureServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, title, startMoment, endMoment, idCategory ,expected exception
 			{
-				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 94, null
+				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 99, null
 			}, {
-				"manager1", "", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 94, ConstraintViolationException.class
+				"manager1", "", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 99, ConstraintViolationException.class
 			}, {
-				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(1).toDate(), 94, IllegalArgumentException.class
+				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(1).toDate(), 99, IllegalArgumentException.class
 			}
 		};
 
@@ -92,11 +92,11 @@ public class FixtureServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, title, startMoment, endMoment, idFixture ,expected exception
 			{
-				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 107, null
+				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 111, null
 			}, {
-				"manager1", "", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 107, ConstraintViolationException.class
+				"manager1", "", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 111, ConstraintViolationException.class
 			}, {
-				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(1).toDate(), 107, IllegalArgumentException.class
+				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(1).toDate(), 111, IllegalArgumentException.class
 			}
 		};
 
@@ -138,9 +138,9 @@ public class FixtureServiceTest extends AbstractTest {
 			{
 				"manager1", 0, null
 			}, {
-				"customer", 107, IllegalArgumentException.class
+				"customer", 111, IllegalArgumentException.class
 			}, {
-				"admin", 107, IllegalArgumentException.class
+				"admin", 111, IllegalArgumentException.class
 			}
 		};
 

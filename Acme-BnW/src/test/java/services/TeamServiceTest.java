@@ -88,11 +88,11 @@ public class TeamServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, teamId ,name, shield, expected exception
 			{
-				"manager1", 97, "name", "https://c1.staticflickr.com/9/8108/8531201674_60519d433a.jpg", null
+				"manager1", 102, "name", "https://c1.staticflickr.com/9/8108/8531201674_60519d433a.jpg", null
 			}, {
-				"manager1", 97, "", "https://c1.staticflickr.com/9/8108/8531201674_60519d433a.jpg", ConstraintViolationException.class
+				"manager1", 102, "", "https://c1.staticflickr.com/9/8108/8531201674_60519d433a.jpg", ConstraintViolationException.class
 			}, {
-				"manager1", 97, "name", "", ConstraintViolationException.class
+				"manager1", 102, "name", "", ConstraintViolationException.class
 			}
 		};
 
@@ -131,11 +131,11 @@ public class TeamServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, teamId , expected exception
 			{
-				"manager1", 105, null
+				"manager1", 110, null
 			}, {
-				"customer1", 105, IllegalArgumentException.class
+				"customer1", 110, IllegalArgumentException.class
 			}, {
-				"admin", 105, IllegalArgumentException.class
+				"admin", 110, IllegalArgumentException.class
 			}
 		};
 

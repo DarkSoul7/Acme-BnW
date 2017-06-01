@@ -38,11 +38,11 @@ public class PunctuationServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, starts, topicId ,expected exception
 			{
-				"customer2", 3, 137, null
+				"customer2", 3, 146, null
 			}, {
-				"customer2", -2, 137, ConstraintViolationException.class
+				"customer2", -2, 145, ConstraintViolationException.class
 			}, {
-				"admin", 2, 137, IllegalArgumentException.class
+				"admin", 2, 145, IllegalArgumentException.class
 			}
 		};
 
@@ -80,11 +80,11 @@ public class PunctuationServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, punctuationId ,expected exception
 			{
-				"customer1", 139, null
+				"customer1", 148, null
 			}, {
-				"customer2", 141, IllegalArgumentException.class
+				"customer2", 150, IllegalArgumentException.class
 			}, {
-				"admin", 141, IllegalArgumentException.class
+				"admin", 150, IllegalArgumentException.class
 			}
 		};
 

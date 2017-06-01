@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.Collection;
@@ -13,11 +12,11 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.PromotionRepository;
 import domain.Customer;
 import domain.Market;
 import domain.Promotion;
 import forms.PromotionForm;
-import repositories.PromotionRepository;
 
 @Service
 @Transactional
@@ -35,9 +34,6 @@ public class PromotionService {
 
 	@Autowired
 	private MarketService		marketService;
-
-	@Autowired
-	private ManagerService		managerService;
 
 
 	//Constructor
@@ -84,7 +80,7 @@ public class PromotionService {
 
 
 	@Autowired
-	private Validator validator;
+	private Validator	validator;
 
 
 	public Promotion reconstruct(final PromotionForm promotionForm, final BindingResult binding) {

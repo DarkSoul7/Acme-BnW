@@ -93,11 +93,11 @@ public class WelcomeOfferServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor,openPeriod, endPeriod, amount,expected exception
 			{
-				"manager1", new DateTime(2020, 10, 10, 0, 0).toDate(), new DateTime(2022, 10, 10, 0, 0).toDate(), 20.0, 90, null
+				"manager1", new DateTime(2020, 10, 10, 0, 0).toDate(), new DateTime(2022, 10, 10, 0, 0).toDate(), 20.0, 94, null
 			}, {
-				"manager1", new DateTime(2018, 10, 10, 0, 0).toDate(), new DateTime(2019, 10, 10, 0, 0).toDate(), 22.0, 90, IllegalArgumentException.class
+				"manager1", new DateTime(2018, 10, 10, 0, 0).toDate(), new DateTime(2019, 10, 10, 0, 0).toDate(), 22.0, 94, IllegalArgumentException.class
 			}, {
-				"manager2", new DateTime(2023, 10, 10, 0, 0).toDate(), new DateTime(2024, 10, 10, 0, 0).toDate(), -1.0, 90, ConstraintViolationException.class
+				"manager2", new DateTime(2023, 10, 10, 0, 0).toDate(), new DateTime(2024, 10, 10, 0, 0).toDate(), -1.0, 94, ConstraintViolationException.class
 			},
 		};
 
@@ -139,11 +139,11 @@ public class WelcomeOfferServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, welcomeOfferId , expected exception
 			{
-				"manager1", 90, null
+				"manager1", 95, null
 			}, {
-				"manager1", 89, IllegalArgumentException.class
+				"manager1", 94, IllegalArgumentException.class
 			}, {
-				"admin", 89, IllegalArgumentException.class
+				"admin", 94, IllegalArgumentException.class
 			}
 		};
 

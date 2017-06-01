@@ -42,13 +42,13 @@ public class MarketServiceTest extends AbstractTest {
 	@Test
 	public void registerMarketDriver() {
 		final Object[][] testingData = {
-				// actor, title, fee, idMatch expected exception
-				{
-						"manager1", MarketType.LOCALVICTORY, 10.0, 114, null
+		// actor, title, fee, idMatch expected exception
+		{
+				"manager1", MarketType.LOCALVICTORY, 10.0, 119, null
 		}, {
-				"manager1", null, 30.0, 114, ConstraintViolationException.class
+				"manager1", null, 30.0, 119, ConstraintViolationException.class
 		}, {
-				"manager1", MarketType.TIE, null, 114, IllegalArgumentException.class
+				"manager1", MarketType.TIE, null, 119, IllegalArgumentException.class
 		}
 		};
 
@@ -89,13 +89,13 @@ public class MarketServiceTest extends AbstractTest {
 	@Test
 	public void editMarketDriver() {
 		final Object[][] testingData = {
-				// actor, marketId, fee, expected exception
-				{
-						"manager1", 126, 10., null
+		// actor, marketId, fee, expected exception
+		{
+				"manager1", 129, 10., null
 		}, {
-				"manager1", 126, -20.0, IllegalArgumentException.class
+				"manager1", 129, -20.0, IllegalArgumentException.class
 		}, {
-				"manager1", 126, null, IllegalArgumentException.class
+				"manager1", 129, null, IllegalArgumentException.class
 		}
 		};
 
@@ -131,9 +131,9 @@ public class MarketServiceTest extends AbstractTest {
 	@Test
 	public void deleteMarketDriver() {
 		final Object[][] testingData = {
-				// actor , expected exception
-				{
-						"manager1", null
+		// actor , expected exception
+		{
+				"manager1", null
 		}, {
 				"customer1", IllegalArgumentException.class
 		}, {
@@ -151,7 +151,7 @@ public class MarketServiceTest extends AbstractTest {
 
 		try {
 			this.authenticate(principal);
-			final Match match = this.matchService.findOne(114);
+			final Match match = this.matchService.findOne(119);
 			Market market = new Market();
 			market.setType(MarketType.LOCALVICTORY);
 			market.setFee(20.);
@@ -180,13 +180,13 @@ public class MarketServiceTest extends AbstractTest {
 	public void enjoyPromotionDriver() {
 
 		final Object testingData[][] = {
-				//principal, idPromotion,expected exception
-				{
-						"customer1", 149, null
+		//principal, idPromotion,expected exception
+		{
+				"customer1", 159, null
 		}, {
-				"customer1", 152, IllegalArgumentException.class
+				"customer1", 162, IllegalArgumentException.class
 		}, {
-				"customer1", 151, IllegalArgumentException.class
+				"customer1", 161, IllegalArgumentException.class
 		}
 		};
 

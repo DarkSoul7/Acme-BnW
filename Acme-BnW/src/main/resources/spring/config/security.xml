@@ -78,7 +78,7 @@
 		<security:intercept-url pattern="/market/register.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/market/edit.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/market/delete.do" access="hasRole('MANAGER')" />
-		<security:intercept-url pattern="/market/list.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/market/list.do" access="permitAll" />
 		<security:intercept-url pattern="/market/updateFees.do" access="permitAll" />
 		
 		<!-- Promotion -->

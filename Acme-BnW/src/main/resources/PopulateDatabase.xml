@@ -263,7 +263,7 @@
 	
 	<!-- WELCOMEOFFER -->
 	<bean id="welcomeOffer1" class="domain.WelcomeOffer">
-		<property name="title" value="Si aceptas la oferta al canjear 10 monedas obentras 30 mas!!" />
+		<property name="title" value="¡Si aceptas la oferta al canjear 10 monedas obtendrás 30 mas!" />
 		<property name="openPeriod" value="2017/02/22" />
 		<property name="endPeriod" value="2019/02/22" />
 		<property name="amount" value="30.00" />
@@ -271,7 +271,7 @@
 	</bean>
 
 	<bean id="welcomeOffer2" class="domain.WelcomeOffer">
-		<property name="title" value="Si aceptas la oferta al canjear 25 monedas obentras 50 mas!!" />
+		<property name="title" value="¡Si aceptas la oferta al canjear 25 monedas obtendrás 50 mas!" />
 		<property name="openPeriod" value="2025/02/22" />
 		<property name="endPeriod" value="2025/03/22" />
 		<property name="amount" value="50.00" />
@@ -772,7 +772,7 @@
 	
 	<bean id="market9" class="domain.Market">
 		<property name="type" value="TIE" />
-		<property name="fee" value="2.30" />
+		<property name="fee" value="2.02" />
 		<property name="match" ref="match3" />
 		<property name="promotion"><null/></property>
 		<property name="bets">
@@ -920,7 +920,76 @@
 			</list>
 		</property>
 		<property name="market" ref="market6" />
-	</bean>		
+	</bean>
+	
+	<bean id="bet7" class="domain.Bet">
+		<property name="quantity" value="25.00" />
+		<property name="fee" value="8.87" />
+		<property name="creationMoment" value="2017/05/16" />
+		<property name="type" value="MULTIPLE" />
+		<property name="status" value="PENDING" />
+		<property name="completed" value="true" />
+		<property name="customer" ref="customer1" />
+		<property name="parentBet"><null/></property>
+		<property name="childrenBets">
+			<list>
+				<ref bean="bet8" />
+				<ref bean="bet9" />
+			</list>
+		</property>
+		<property name="market"><null/></property>
+	</bean>
+	
+	<bean id="bet8" class="domain.Bet">
+		<property name="quantity" value="25.00" />
+		<property name="fee" value="3.35" />
+		<property name="creationMoment" value="2017/05/16" />
+		<property name="type" value="CHILD" />
+		<property name="status" value="PENDING" />
+		<property name="completed" value="true" />
+		<property name="customer" ref="customer1" />
+		<property name="parentBet" ref="bet7" />
+		<property name="childrenBets">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="market" ref="market8" />
+	</bean>
+	
+	<bean id="bet9" class="domain.Bet">
+		<property name="quantity" value="25.00" />
+		<property name="fee" value="2.65" />
+		<property name="creationMoment" value="2017/05/16" />
+		<property name="type" value="CHILD" />
+		<property name="status" value="PENDING" />
+		<property name="completed" value="true" />
+		<property name="customer" ref="customer1" />
+		<property name="parentBet" ref="bet7" />
+		<property name="childrenBets">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="market" ref="market10" />
+	</bean>
+	
+	<bean id="bet10" class="domain.Bet">
+		<property name="quantity" value="7.5" />
+		<property name="fee" value="2.30" />
+		<property name="creationMoment" value="2017/05/16" />
+		<property name="type" value="SIMPLE" />
+		<property name="status" value="PENDING" />
+		<property name="completed" value="true" />
+		<property name="customer" ref="customer2" />
+		<property name="parentBet"><null/></property>
+		<property name="childrenBets">
+			<list>
+				<null/>
+			</list>
+		</property>
+		<property name="market" ref="market12" />
+	</bean>
 	
 	<!-- TICKET -->
 	
@@ -1089,43 +1158,43 @@
 	<!-- PROMOTION -->
 	
 	<bean id="promotion1" class="domain.Promotion">
-		<property name="title" value="Duplicando ganancias" />
-		<property name="description" value="Las ganancias que obtengas con las cuotas actuales serán duplicadas" />
+		<property name="title" value="Supercuota" />
+		<property name="description" value="Duplicamos la cuota del mercado. ¿Podrás resistirte?" />
 		<property name="fee" value="2.30" />
 		<property name="startMoment" value="2017/05/15 " />
 		<property name="endMoment" value="2017/08/15" />
-		<property name="market" ref="market1" />
+		<property name="market" ref="market7" />
 		<property name="cancel" value="false" />
 	</bean>
 	
 	<bean id="promotion2" class="domain.Promotion">
-		<property name="title" value="Super couta" />
-		<property name="description" value="Durante el tiempo en vigor las cuotas suben un punto!!" />
+		<property name="title" value="¡Rompemos las cuotas!" />
+		<property name="description" value="Apuesta ahora y obtendrás una cuota mejorada. ¡No te lo pierdas!" />
 		<property name="fee" value="3.35" />
 		<property name="startMoment" value="2017/05/15 " />
 		<property name="endMoment" value="2017/08/15" />
 		<property name="cancel" value="false" />
-		<property name="market" ref="market2" />
+		<property name="market" ref="market8" />
 	</bean>
 	
 	<bean id="promotion3" class="domain.Promotion">
-		<property name="title" value="Duplicando ganancias" />
+		<property name="title" value="¡Duplicamos tus ganancias!" />
 		<property name="description" value="Las ganancias que obtengas con las cuotas actuales serán duplicadas" />
 		<property name="fee" value="4.04" />
-		<property name="startMoment" value="2018/05/15 " />
-		<property name="endMoment" value="2018/08/15" />
+		<property name="startMoment" value="2017/06/15 " />
+		<property name="endMoment" value="2017/08/15" />
 		<property name="cancel" value="false" />
-		<property name="market" ref="market3" />
+		<property name="market" ref="market9" />
 	</bean>
 	
 	<bean id="promotion4" class="domain.Promotion">
-		<property name="title" value="Yo no soy tonto!!" />
-		<property name="description" value="Mega cuota, aumentamos la cuota en 1.5 puntos, no la dejes escapar!!" />
+		<property name="title" value="Megacuota" />
+		<property name="description" value="Megacuota, aumentamos la cuota en 1.5 puntos, ¡no la dejes escapar!" />
 		<property name="fee" value="2.65" />
 		<property name="startMoment" value="2017/05/15 " />
 		<property name="endMoment" value="2017/08/15" />
 		<property name="cancel" value="true" />
-		<property name="market" ref="market4" />
+		<property name="market" ref="market10" />
 	</bean>
 	
 </beans>

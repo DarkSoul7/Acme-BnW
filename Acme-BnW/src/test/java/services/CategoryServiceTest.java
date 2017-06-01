@@ -43,13 +43,16 @@ public class CategoryServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			// actor, name, description, tournamentId,expected exception
 			{
-				"manager1", "Name1", "Description1", 91, null
+				"manager1", "Name1", "Description1", 96, null
 			}, {
-				"manager1", "", "Description2", 91, ConstraintViolationException.class
+				"manager1", "", "Description2", 96, ConstraintViolationException.class
 			}, {
-				"manager1", "Name2", "", 91, ConstraintViolationException.class
+				"manager1", "Name2", "", 96, ConstraintViolationException.class
 			}
 		};
+		
+		
+		
 
 		for (int i = 0; i < testingData.length; i++) {
 			this.registerCategoryTemplated((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Integer) testingData[i][3], (Class<?>) testingData[i][4]);
@@ -89,11 +92,11 @@ public class CategoryServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			// actor, categoryId ,name, description, expected exception
 			{
-				"manager1", 94, "name", "description 1", null
+				"manager1", 99, "name", "description 1", null
 			}, {
-				"manager1", 94, "", "description 2", ConstraintViolationException.class
+				"manager1", 99, "", "description 2", ConstraintViolationException.class
 			}, {
-				"manager1", 94, "name 1", null, ConstraintViolationException.class
+				"manager1", 99, "name 1", null, ConstraintViolationException.class
 			}
 		};
 
@@ -150,7 +153,7 @@ public class CategoryServiceTest extends AbstractTest {
 
 		try {
 			this.authenticate(principal);
-			Tournament tournament = tournamentService.findOne(91);
+			Tournament tournament = tournamentService.findOne(96);
 			Category category = new Category();
 			category.setName("Name 1");
 			category.setDescription("Description 1");
