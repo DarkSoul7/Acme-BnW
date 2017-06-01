@@ -78,12 +78,20 @@
 
 	<security:authorize access="hasRole('MANAGER')">
 		<display:column>
-			<acme:cancel url="market/edit.do?marketId=${row.id}"
-				code="market.edit" />
+			<jstl:if test="${row.match.endMoment > currentDate }">
+				<acme:cancel url="market/edit.do?marketId=${row.id}"
+					code="market.edit" />
+			</jstl:if>
 		</display:column>
 		
 		<display:column>
 			<acme:confirm url="market/delete.do?marketId=${row.id}" code="market.delete" msg="market.removeSelection.confirm" />
+		</display:column>
+		
+		<display:column>
+			<jstl:if test="${row.promotion == null && row.match.endMoment > currentDate}">
+				<acme:cancel url="promotion/register.do?marketId=${row.id}" code="promotion.createPromotion"/>
+			</jstl:if>
 		</display:column>
 	</security:authorize>
 	

@@ -19,8 +19,9 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form action="${requestURI}" modelAttribute="promotionForm">
+<form:form action="${RequestURI}" modelAttribute="promotionForm">
 	<form:hidden path="id" />
+	<form:hidden path="idMarket" />
 
 	<fieldset>
 		<legend>
@@ -42,11 +43,6 @@
 		
 		<acme:datepicker code="promotion.endMoment" path="endMoment"
 			mandatory="true" />
-		<br />
-		
-		<jstl:if test="${promotionForm.id == 0}">
-			<acme:select items="${markets}" itemLabel="type" code="market.title" path="idMarket" mandatory="true"/>
-		</jstl:if>
 
 	</fieldset>
 	<br />

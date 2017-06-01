@@ -105,12 +105,14 @@
 		</display:column>
 		
 		<display:column>
-			<acme:cancel url="promotion/cancel.do?promotionId=${row.id}"
-				code="promotion.cancel" />
+			<jstl:if test="${row.cancel == false }">
+				<acme:cancel url="promotion/cancel.do?promotionId=${row.id}"
+					code="promotion.cancel" />
+			</jstl:if>
 		</display:column>
 	</security:authorize>
 </display:table>
 
 <security:authorize access="hasRole('MANAGER')">
-	<acme:cancel url="promotion/register.do" code="promotion.create" />
+	<acme:cancel url="market/list.do" code="promotion.create" />
 </security:authorize>

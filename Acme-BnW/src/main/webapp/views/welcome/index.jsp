@@ -46,9 +46,9 @@
 			<fmt:formatDate value="${activeOffer.endPeriod}" pattern="MM/dd/yyyy" />
 			<br/>
 			<spring:message code="welcome.win" var="win" /> <!-- win: win -->
-			<spring:message code="welcome.virtualCredit" var="virtualCredit" /> <!-- win: win -->
+			<spring:message code="welcome.euros" var="euros" /> <!-- win: win -->
 			<spring:message code="welcome.deposit" var="deposit" /> <!-- deposit: if you deposit -->
-			<jstl:out value="${win} ${activeOffer.amount} (${virtualCredit }) ${deposit} ${activeOffer.extractionAmount} (${virtualCredit })"/>
+			<jstl:out value="${win} ${activeOffer.amount} (${euros }) ${deposit} ${activeOffer.extractionAmount} (${euros })"/>
 		</div>
 		
 	</div>

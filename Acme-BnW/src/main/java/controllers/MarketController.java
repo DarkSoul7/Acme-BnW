@@ -1,8 +1,10 @@
+
 package controllers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.validation.Valid;
 
@@ -45,7 +47,7 @@ public class MarketController extends AbstractController {
 	//Listing 
 
 	@RequestMapping(value = "/listByMatch", method = RequestMethod.GET)
-	public ModelAndView listByMatch(@RequestParam int matchId, @RequestParam(required = false) String errorMessage, @RequestParam(required = false) String successMessage) {
+	public ModelAndView listByMatch(@RequestParam final int matchId, @RequestParam(required = false) final String errorMessage, @RequestParam(required = false) final String successMessage) {
 		ModelAndView result;
 		Match match;
 		Collection<Market> markets;
@@ -64,21 +66,24 @@ public class MarketController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required = false) Integer marketId, @RequestParam(required = false) String errorMessage, @RequestParam(required = false) String successMessage) {
+	public ModelAndView list(@RequestParam(required = false) final Integer marketId, @RequestParam(required = false) final String errorMessage,
+		@RequestParam(required = false) final String successMessage) {
 		ModelAndView result;
 		Collection<Market> markets;
+		final Date currentDate = new Date();
 
 		if (marketId != null) {
 			markets = new ArrayList<Market>();
 			markets.add(this.marketService.findOne(marketId));
 		} else {
-			markets = marketService.findAll();
+			markets = this.marketService.findAll();
 		}
 
 		result = new ModelAndView("market/list");
 		result.addObject("markets", markets);
 		result.addObject("errorMessage", errorMessage);
 		result.addObject("successMessage", successMessage);
+		result.addObject("currentDate", currentDate);
 		result.addObject("requestURI", "market/list.do");
 
 		return result;
@@ -88,36 +93,47 @@ public class MarketController extends AbstractController {
 	public ModelAndView register() {
 		ModelAndView result = new ModelAndView();
 
-		MarketForm marketForm = marketService.create();
+		final MarketForm marketForm = this.marketService.create();
 		result = this.createModelAndView(marketForm);
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam int marketId) {
+	public ModelAndView edit(@RequestParam final int marketId) {
 		ModelAndView result = new ModelAndView();
 
-		Market market = marketService.findOne(marketId);
-		MarketForm marketForm = marketService.toFormObject(market);
+		final Market market = this.marketService.findOne(marketId);
+		final MarketForm marketForm = this.marketService.toFormObject(market);
 		result = this.editModelAndView(marketForm);
 		return result;
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid MarketForm marketForm, BindingResult binding) {
+	public ModelAndView save(@Valid final MarketForm marketForm, final BindingResult binding) {
 		ModelAndView result = new ModelAndView();
 		Market market = new Market();
-
-		market = marketService.reconstruct(marketForm, binding);
+		Boolean incorrectMatch = false;
+		market = this.marketService.reconstruct(marketForm, binding);
 		if (binding.hasErrors()) {
 			result = this.createModelAndView(marketForm);
 		} else {
 			try {
-				marketService.save(market);
+				final Date now = new Date();
+				if (market.getMatch().getEndMoment().before(now)) {
+					incorrectMatch = true;
+					throw new IllegalArgumentException();
+				}
+
+				this.marketService.save(market);
 				result = new ModelAndView("redirect:/market/listByMatch.do?matchId=" + market.getMatch().getId());
 				result.addObject("successMessage", "market.register.success");
-			} catch (Throwable oops) {
-				result = this.createModelAndView(marketForm, "market.register.error");
+			} catch (final Throwable oops) {
+				if (incorrectMatch == true) {
+					result = this.createModelAndView(marketForm, "market.match.error");
+				} else {
+					result = this.createModelAndView(marketForm, "market.register.error");
+				}
+
 			}
 		}
 
@@ -125,20 +141,31 @@ public class MarketController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView saveEdit(@Valid MarketForm marketForm, BindingResult binding) {
+	public ModelAndView saveEdit(@Valid final MarketForm marketForm, final BindingResult binding) {
 		ModelAndView result = new ModelAndView();
 		Market market;
+		Boolean incorrectMatch = false;
 
-		market = marketService.reconstruct(marketForm, binding);
+		market = this.marketService.reconstruct(marketForm, binding);
 		if (binding.hasErrors()) {
 			result = this.editModelAndView(marketForm);
 		} else {
 			try {
-				marketService.save(market);
+				final Date now = new Date();
+				if (market.getMatch().getEndMoment().before(now)) {
+					incorrectMatch = true;
+					throw new IllegalArgumentException();
+				}
+
+				this.marketService.save(market);
 				result = new ModelAndView("redirect:/market/listByMatch.do?matchId=" + market.getMatch().getId());
 				result.addObject("successMessage", "market.edit.success");
-			} catch (Throwable oops) {
-				result = this.editModelAndView(marketForm, "market.edit.error");
+			} catch (final Throwable oops) {
+				if (incorrectMatch == true) {
+					result = this.createModelAndView(marketForm, "market.match.error");
+				} else {
+					result = this.createModelAndView(marketForm, "market.register.error");
+				}
 			}
 		}
 
@@ -146,18 +173,18 @@ public class MarketController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public ModelAndView delete(@RequestParam int marketId) {
+	public ModelAndView delete(@RequestParam final int marketId) {
 		ModelAndView result = new ModelAndView();
 		Market market;
 		String errorMessage = null;
 		String successMessage = null;
 
 		try {
-			market = marketService.findOne(marketId);
-			marketService.delete(market);
+			market = this.marketService.findOne(marketId);
+			this.marketService.delete(market);
 
 			successMessage = "market.delete.success";
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			errorMessage = "market.delete.error";
 		}
 
@@ -170,16 +197,16 @@ public class MarketController extends AbstractController {
 
 	//Ancillary methods
 
-	protected ModelAndView createModelAndView(MarketForm marketForm) {
+	protected ModelAndView createModelAndView(final MarketForm marketForm) {
 		return this.createModelAndView(marketForm, null);
 	}
 
-	protected ModelAndView createModelAndView(MarketForm marketForm, String message) {
+	protected ModelAndView createModelAndView(final MarketForm marketForm, final String message) {
 		ModelAndView result;
 		Collection<Match> matches;
 		Collection<MarketType> marketTypes;
 
-		matches = matchService.findAll();
+		matches = this.matchService.findAll();
 		marketTypes = Arrays.asList(MarketType.values());
 
 		result = new ModelAndView("market/register");
@@ -192,11 +219,11 @@ public class MarketController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView editModelAndView(MarketForm marketForm) {
+	protected ModelAndView editModelAndView(final MarketForm marketForm) {
 		return this.editModelAndView(marketForm, null);
 	}
 
-	protected ModelAndView editModelAndView(MarketForm marketForm, String errorMessage) {
+	protected ModelAndView editModelAndView(final MarketForm marketForm, final String errorMessage) {
 		ModelAndView result;
 		Match match;
 
@@ -215,7 +242,7 @@ public class MarketController extends AbstractController {
 
 	@RequestMapping(value = "/updateFees", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	Collection<MarketResponseForm> updateFees(@RequestParam(required = false) Integer matchId) {
+	Collection<MarketResponseForm> updateFees(@RequestParam(required = false) final Integer matchId) {
 		Collection<MarketResponseForm> result;
 
 		if (matchId == null) {

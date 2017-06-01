@@ -2,6 +2,7 @@
 package controllers;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.validation.Valid;
 
@@ -13,11 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Market;
+import services.PromotionService;
 import domain.Promotion;
 import forms.PromotionForm;
-import services.MarketService;
-import services.PromotionService;
 
 @RequestMapping(value = "/promotion")
 @Controller
@@ -27,9 +26,6 @@ public class PromotionController extends AbstractController {
 
 	@Autowired
 	private PromotionService	promotionService;
-
-	@Autowired
-	private MarketService		marketService;
 
 
 	//Constructor
@@ -41,52 +37,72 @@ public class PromotionController extends AbstractController {
 	//Listing 
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam(required = false) final String errorMessage) {
 		ModelAndView result;
 		Collection<Promotion> promotions;
 
-		promotions = promotionService.findAll();
+		promotions = this.promotionService.findAll();
 
 		result = new ModelAndView("promotion/list");
 		result.addObject("promotions", promotions);
 		result.addObject("requestURI", "promotion/list.do");
+		result.addObject("errorMessage", errorMessage);
 
 		return result;
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public ModelAndView register() {
+	public ModelAndView register(@RequestParam final int marketId) {
 		ModelAndView result = new ModelAndView();
 
-		PromotionForm promotionForm = promotionService.create();
+		final PromotionForm promotionForm = this.promotionService.create();
+		promotionForm.setIdMarket(marketId);
 		result = this.createModelAndView(promotionForm);
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam int promotionId) {
+	public ModelAndView edit(@RequestParam final int promotionId) {
 		ModelAndView result = new ModelAndView();
 
-		Promotion promotion = promotionService.findOne(promotionId);
-		PromotionForm promotionForm = promotionService.toFormObject(promotion);
+		final Promotion promotion = this.promotionService.findOne(promotionId);
+		final PromotionForm promotionForm = this.promotionService.toFormObject(promotion);
 		result = this.createEditModelAndView(promotionForm);
 		return result;
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid PromotionForm promotionForm, BindingResult binding) {
+	public ModelAndView save(@Valid final PromotionForm promotionForm, final BindingResult binding) {
 		ModelAndView result = new ModelAndView();
 		Promotion promotion = new Promotion();
+		Boolean invalidDates = false;
+		Boolean incorrectMarket = false;
 
-		promotion = promotionService.reconstruct(promotionForm, binding);
+		promotion = this.promotionService.reconstruct(promotionForm, binding);
 		if (binding.hasErrors()) {
 			result = this.createModelAndView(promotionForm);
 		} else {
 			try {
-				promotionService.save(promotion);
+				final Date now = new Date();
+				if (promotion.getStartMoment().before(now) || promotion.getEndMoment().before(promotion.getStartMoment())) {
+					invalidDates = true;
+					throw new IllegalArgumentException();
+				}
+
+				if (promotion.getMarket().getMatch().getEndMoment().before(now)) {
+					incorrectMarket = true;
+					throw new IllegalArgumentException();
+				}
+				this.promotionService.save(promotion);
 				result = new ModelAndView("redirect:/promotion/list.do");
-			} catch (Throwable oops) {
-				result = this.createModelAndView(promotionForm, "promotion.commit.error");
+			} catch (final Throwable oops) {
+				if (invalidDates == true) {
+					result = this.createModelAndView(promotionForm, "promotion.dates.error");
+				} else if (incorrectMarket == true) {
+					result = this.createModelAndView(promotionForm, "promotion.market.error");
+				} else {
+					result = this.createModelAndView(promotionForm, "promotion.commit.error");
+				}
 			}
 		}
 
@@ -94,19 +110,37 @@ public class PromotionController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView saveEdit(@Valid PromotionForm promotionForm, BindingResult binding) {
+	public ModelAndView saveEdit(@Valid final PromotionForm promotionForm, final BindingResult binding) {
 		ModelAndView result = new ModelAndView();
 		Promotion promotion = new Promotion();
+		Boolean invalidDates = false;
+		Boolean incorrectMarket = false;
 
-		promotion = promotionService.reconstruct(promotionForm, binding);
+		promotion = this.promotionService.reconstruct(promotionForm, binding);
 		if (binding.hasErrors()) {
 			result = this.createEditModelAndView(promotionForm);
 		} else {
 			try {
-				promotionService.save(promotion);
+				final Date now = new Date();
+				if (promotion.getStartMoment().before(now) || promotion.getEndMoment().before(promotion.getStartMoment())) {
+					invalidDates = true;
+					throw new IllegalArgumentException();
+				}
+
+				if (promotion.getMarket().getMatch().getEndMoment().before(now)) {
+					incorrectMarket = true;
+					throw new IllegalArgumentException();
+				}
+				this.promotionService.save(promotion);
 				result = new ModelAndView("redirect:/promotion/list.do");
-			} catch (Throwable oops) {
-				result = this.createEditModelAndView(promotionForm, "promotion.commit.error");
+			} catch (final Throwable oops) {
+				if (invalidDates == true) {
+					result = this.createModelAndView(promotionForm, "promotion.dates.error");
+				} else if (incorrectMarket == true) {
+					result = this.createModelAndView(promotionForm, "promotion.market.error");
+				} else {
+					result = this.createModelAndView(promotionForm, "promotion.commit.error");
+				}
 			}
 		}
 
@@ -114,14 +148,14 @@ public class PromotionController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/cancel", method = RequestMethod.GET)
-	public ModelAndView delete(@RequestParam int promotionId) {
+	public ModelAndView delete(@RequestParam final int promotionId) {
 		ModelAndView result = new ModelAndView();
 
-		Promotion promotion = promotionService.findOne(promotionId);
+		final Promotion promotion = this.promotionService.findOne(promotionId);
 		try {
-			promotionService.cancel(promotion);
+			this.promotionService.cancel(promotion);
 			result = new ModelAndView("redirect:/promotion/list.do");
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/promotion/list.do");
 			result.addObject("errorMessage", "promotion.cancel.error");
 		}
@@ -138,11 +172,9 @@ public class PromotionController extends AbstractController {
 	protected ModelAndView createModelAndView(final PromotionForm promotionForm, final String message) {
 		ModelAndView result;
 
-		Collection<Market> markets = marketService.findAll();
 		result = new ModelAndView("promotion/register");
 		result.addObject("promotionForm", promotionForm);
-		result.addObject("message", message);
-		result.addObject("markets", markets);
+		result.addObject("errorMessage", message);
 		result.addObject("RequestURI", "promotion/register.do");
 
 		return result;
@@ -157,7 +189,7 @@ public class PromotionController extends AbstractController {
 
 		result = new ModelAndView("promotion/edit");
 		result.addObject("promotionForm", promotionForm);
-		result.addObject("message", message);
+		result.addObject("errorMessage", message);
 		result.addObject("RequestURI", "promotion/edit.do");
 
 		return result;
