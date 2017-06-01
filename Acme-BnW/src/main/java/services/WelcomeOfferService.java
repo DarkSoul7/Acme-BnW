@@ -15,10 +15,10 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.WelcomeOfferRepository;
 import domain.Customer;
 import domain.WelcomeOffer;
 import forms.WelcomeOfferForm;
-import repositories.WelcomeOfferRepository;
 
 @Service
 @Transactional
@@ -27,10 +27,10 @@ public class WelcomeOfferService {
 	// Managed repository
 
 	@Autowired
-	private WelcomeOfferRepository welcomeOfferRepository;
+	private WelcomeOfferRepository	welcomeOfferRepository;
+
 
 	// Supported services
-
 
 	//Constructor
 
@@ -82,11 +82,13 @@ public class WelcomeOfferService {
 
 
 	@Autowired
-	private Validator validator;
+	private Validator	validator;
 
 
 	public WelcomeOffer reconstruct(final WelcomeOfferForm welcomeOfferForm, final BindingResult binding) throws ParseException {
 		WelcomeOffer result = new WelcomeOffer();
+		Date openPeriod = null;
+		Date endPeriod = null;
 
 		if (welcomeOfferForm.getId() == 0) {
 			final Collection<Customer> customers = new ArrayList<>();
@@ -96,9 +98,11 @@ public class WelcomeOfferService {
 			result = this.findOne(welcomeOfferForm.getId());
 		}
 
-		final DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-		final Date openPeriod = df.parse(welcomeOfferForm.getOpenPeriod());
-		final Date endPeriod = df.parse(welcomeOfferForm.getEndPeriod());
+		if (!welcomeOfferForm.getOpenPeriod().isEmpty() && !welcomeOfferForm.getEndPeriod().isEmpty()) {
+			final DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			openPeriod = df.parse(welcomeOfferForm.getOpenPeriod());
+			endPeriod = df.parse(welcomeOfferForm.getEndPeriod());
+		}
 
 		result.setTitle(welcomeOfferForm.getTitle());
 		result.setOpenPeriod(openPeriod);
@@ -129,7 +133,7 @@ public class WelcomeOfferService {
 	}
 
 	public void flush() {
-		welcomeOfferRepository.flush();
+		this.welcomeOfferRepository.flush();
 
 	}
 }
