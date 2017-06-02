@@ -144,7 +144,7 @@
 		<property name="creditCard" ref="creditCard1"/>
 		<property name="balance" value="20.00" />
 		<property name="finishedOffer" value="false" />
-		<property name="activeWO"><null/></property>
+		<property name="activeWO" value="true" />
 		<property name="isDisabled" value="false"/>
 		<property name="banNum" value="0" />
 		<property name="coordinates" ref="coordinates4"/>
@@ -160,7 +160,7 @@
 		<property name="nid" value="69590934H" />
 		<property name="birthDate" value="1990/09/07" />
 		<property name="creditCard" ref="creditCard2"/>
-		<property name="activeWO"><null/></property>
+		<property name="activeWO" value="true" />
 		<property name="isDisabled" value="false"/>
 		<property name="banNum" value="0" />
 		<property name="balance" value="52.00" />
@@ -178,7 +178,7 @@
 		<property name="nid" value="81963239W" />
 		<property name="birthDate" value="1989/11/06" />
 		<property name="creditCard" ref="creditCard3"/>
-		<property name="activeWO"><null/></property>
+		<property name="activeWO" value="true" />
 		<property name="isDisabled" value="false"/>
 		<property name="banNum" value="0" />
 		<property name="balance" value="100.00" />

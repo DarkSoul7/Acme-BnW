@@ -7,18 +7,17 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.CustomerService;
+import services.WelcomeOfferService;
 import domain.Customer;
 import domain.WelcomeOffer;
 import forms.WelcomeOfferForm;
-import services.CustomerService;
-import services.WelcomeOfferService;
 
 @Controller
 @RequestMapping(value = "/welcomeOffer")
@@ -42,37 +41,29 @@ public class WelcomeOfferController extends AbstractController {
 	@RequestMapping(value = "/showWelcomeOfferOption", method = RequestMethod.GET)
 	public ModelAndView welcomeOfferOptions(@RequestParam(required = false) final String errorMessage) {
 		ModelAndView result;
+		Collection<WelcomeOffer> welcomeOffers;
+		Customer principal;
 
-		final Customer customer = this.customerService.findByPrincipal();
+		welcomeOffers = this.welcomeOfferService.findAll();
+		principal = this.customerService.findByPrincipal();
+
 		result = new ModelAndView("welcomeOffer/showWelcomeOfferOption");
+		result.addObject("welcomeOffers", welcomeOffers);
+		result.addObject("activeWelcomeOffer", principal.getWelcomeOffer());
+		result.addObject("activeWO", principal.getActiveWO());
 		result.addObject("errorMessage", errorMessage);
-		result.addObject("welcomeOffer", customer.getWelcomeOffer());
-		result.addObject("optionSelected", customer.getActiveWO());
 		result.addObject("RequestURI", "welcomeOffer/showWelcomeOfferOption.do");
 
 		return result;
 	}
 
 	// Accept/Decline welcome offer
-	@RequestMapping(value = "/welcomeOfferOption", method = RequestMethod.GET)
-	public ModelAndView acceptDeclineWO(@RequestParam final String option) {
+	@RequestMapping(value = "/cancelWelcomeOffer", method = RequestMethod.GET)
+	public ModelAndView acceptDeclineWO() {
 		ModelAndView result;
 
 		try {
-			final Customer customer = this.customerService.findByPrincipal();
-			Assert.isTrue(customer.getActiveWO() == null);
-
-			if (option.equals("accept")) {
-				customer.setActiveWO(true);
-				this.customerService.save(customer);
-
-			} else if (option.equals("decline")) {
-				customer.setActiveWO(false);
-				this.customerService.save(customer);
-
-			} else {
-				throw new IllegalArgumentException("Invalid option");
-			}
+			this.customerService.cancelOffer();
 
 			result = new ModelAndView("redirect:/welcomeOffer/showWelcomeOfferOption.do");
 

@@ -49,11 +49,4 @@
 </display:table>
 
 <br/>
-<acme:cancel code="welcomeOffer.create" url="welcomeOffer/register.do" />
-
-<jstl:if test="${errorMessage != null }">
-<br/>
-<br/>
-	<spring:message code="${errorMessage}" var="error" />
-	<font size="4" color="red"><jstl:out value="${error}"></jstl:out></font>
-</jstl:if>
+<acme:cancel code="welcomeOffer.create" url="welcomeOffer/register.do" class_="btn btn-primary" />

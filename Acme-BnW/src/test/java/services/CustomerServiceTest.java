@@ -350,7 +350,7 @@ public class CustomerServiceTest extends AbstractTest {
 		try {
 			this.authenticate(principal);
 
-			this.customerService.activeOffer(charge, this.customerService.findByPrincipal().getId());
+			this.customerService.activeOffer(charge);
 
 			this.unauthenticate();
 			this.customerService.flush();
@@ -391,7 +391,7 @@ public class CustomerServiceTest extends AbstractTest {
 		try {
 			this.authenticate(principal);
 
-			this.customerService.cancelOffer(this.customerService.findByPrincipal().getId());
+			this.customerService.cancelOffer();
 
 			this.unauthenticate();
 			this.customerService.flush();
