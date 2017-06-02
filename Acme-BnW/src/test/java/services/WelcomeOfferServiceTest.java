@@ -15,9 +15,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
+import utilities.AbstractTest;
 import domain.Customer;
 import domain.WelcomeOffer;
-import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
@@ -29,7 +29,7 @@ public class WelcomeOfferServiceTest extends AbstractTest {
 	// System under test ------------------------------------------------------
 
 	@Autowired
-	private WelcomeOfferService welcomeOfferService;
+	private WelcomeOfferService	welcomeOfferService;
 
 
 	/***
@@ -53,17 +53,19 @@ public class WelcomeOfferServiceTest extends AbstractTest {
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
-			this.registerWelcomeOfferTemplated((String) testingData[i][0], (String) testingData[i][1], (Date) testingData[i][2], (Date) testingData[i][3], (Double) testingData[i][4], (Double) testingData[i][5], (Class<?>) testingData[i][6]);
+			this.registerWelcomeOfferTemplated((String) testingData[i][0], (String) testingData[i][1], (Date) testingData[i][2], (Date) testingData[i][3], (Double) testingData[i][4],
+				(Double) testingData[i][5], (Class<?>) testingData[i][6]);
 		}
 	}
 
-	protected void registerWelcomeOfferTemplated(String principal, String title, Date openPeriod, Date endPeriod, Double amount, Double extractionAmount, Class<?> expectedException) {
+	protected void registerWelcomeOfferTemplated(final String principal, final String title, final Date openPeriod, final Date endPeriod, final Double amount, final Double extractionAmount,
+		final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
 
-			WelcomeOffer welcomeOffer = new WelcomeOffer();
+			final WelcomeOffer welcomeOffer = new WelcomeOffer();
 			welcomeOffer.setTitle(title);
 			welcomeOffer.setOpenPeriod(openPeriod);
 			welcomeOffer.setEndPeriod(endPeriod);
@@ -71,11 +73,11 @@ public class WelcomeOfferServiceTest extends AbstractTest {
 			welcomeOffer.setExtractionAmount(extractionAmount);
 			welcomeOffer.setCustomers(new ArrayList<Customer>());
 
-			welcomeOfferService.save(welcomeOffer);
+			this.welcomeOfferService.save(welcomeOffer);
 
 			this.unauthenticate();
 			this.welcomeOfferService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -84,44 +86,45 @@ public class WelcomeOfferServiceTest extends AbstractTest {
 	/***
 	 * Edit welcomeOffer
 	 * 1º Good test -> expected: welcomeOffer edit
-	 * 2º Bad test -> cannot edit welcomeOffer when exists one welcomeOffer
+	 * 2º Bad test -> a customer cannot edit a welcomeOffer
 	 * 3º Bad test -> cannot edit welcomeOffer with amount negative
 	 */
 
 	@Test
 	public void editWelcomeOfferDriver() {
 		final Object[][] testingData = {
-			//actor,openPeriod, endPeriod, amount,expected exception
+			//			actor,openPeriod, endPeriod, amount, welcomeOffer id, expected exception
 			{
 				"manager1", new DateTime(2020, 10, 10, 0, 0).toDate(), new DateTime(2022, 10, 10, 0, 0).toDate(), 20.0, 94, null
 			}, {
-				"manager1", new DateTime(2018, 10, 10, 0, 0).toDate(), new DateTime(2019, 10, 10, 0, 0).toDate(), 22.0, 94, IllegalArgumentException.class
+				"customer1", new DateTime(2018, 10, 10, 0, 0).toDate(), new DateTime(2019, 10, 10, 0, 0).toDate(), 22.0, 94, IllegalArgumentException.class
 			}, {
 				"manager2", new DateTime(2023, 10, 10, 0, 0).toDate(), new DateTime(2024, 10, 10, 0, 0).toDate(), -1.0, 94, ConstraintViolationException.class
 			},
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
-			this.editWelcomeOfferTemplated((String) testingData[i][0], (Date) testingData[i][1], (Date) testingData[i][2], (Double) testingData[i][3], (int) testingData[i][4], (Class<?>) testingData[i][5]);
+			this.editWelcomeOfferTemplated((String) testingData[i][0], (Date) testingData[i][1], (Date) testingData[i][2], (Double) testingData[i][3], (int) testingData[i][4],
+				(Class<?>) testingData[i][5]);
 		}
 	}
 
-	protected void editWelcomeOfferTemplated(String principal, Date openPeriod, Date endPeriod, Double amount, int welcomeOfferId, Class<?> expectedException) {
+	protected void editWelcomeOfferTemplated(final String principal, final Date openPeriod, final Date endPeriod, final Double amount, final int welcomeOfferId, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
 
-			WelcomeOffer welcomeOffer = welcomeOfferService.findOne(welcomeOfferId);
+			final WelcomeOffer welcomeOffer = this.welcomeOfferService.findOne(welcomeOfferId);
 			welcomeOffer.setOpenPeriod(openPeriod);
 			welcomeOffer.setEndPeriod(endPeriod);
 			welcomeOffer.setAmount(amount);
 
-			welcomeOfferService.save(welcomeOffer);
+			this.welcomeOfferService.save(welcomeOffer);
 
 			this.unauthenticate();
 			this.welcomeOfferService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -152,16 +155,16 @@ public class WelcomeOfferServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void deleteWelcomeOfferTemplated(String principal, int welcomeOfferId, Class<?> expectedException) {
+	protected void deleteWelcomeOfferTemplated(final String principal, final int welcomeOfferId, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			WelcomeOffer welcomeOffer = welcomeOfferService.findOne(welcomeOfferId);
-			welcomeOfferService.delete(welcomeOffer);
+			final WelcomeOffer welcomeOffer = this.welcomeOfferService.findOne(welcomeOfferId);
+			this.welcomeOfferService.delete(welcomeOffer);
 			this.unauthenticate();
 			this.welcomeOfferService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -193,7 +196,7 @@ public class WelcomeOfferServiceTest extends AbstractTest {
 		try {
 			this.authenticate(principal);
 
-			WelcomeOffer welcomeOffer = welcomeOfferService.getActive();
+			final WelcomeOffer welcomeOffer = this.welcomeOfferService.getActive();
 
 			Assert.notNull(welcomeOffer);
 

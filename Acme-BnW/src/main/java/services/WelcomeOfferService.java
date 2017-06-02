@@ -29,8 +29,11 @@ public class WelcomeOfferService {
 	@Autowired
 	private WelcomeOfferRepository	welcomeOfferRepository;
 
-
 	// Supported services
+
+	@Autowired
+	private ManagerService			managerService;
+
 
 	//Constructor
 
@@ -55,6 +58,7 @@ public class WelcomeOfferService {
 
 	public void save(final WelcomeOffer welcomeOffer) {
 		Assert.notNull(welcomeOffer);
+		this.managerService.findByPrincipal();
 		final Collection<WelcomeOffer> welcomeOffersInDates = this.welcomeOfferRepository.getOffersInDates(welcomeOffer.getOpenPeriod(), welcomeOffer.getEndPeriod());
 		if (welcomeOffer.getId() != 0 && welcomeOffersInDates.size() == 1) {
 			final WelcomeOffer wo = welcomeOffersInDates.iterator().next();
