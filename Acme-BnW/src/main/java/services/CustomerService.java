@@ -1,10 +1,7 @@
-
 package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.commons.validator.routines.checkdigit.CheckDigitException;
 import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
@@ -209,7 +206,7 @@ public class CustomerService {
 		if (result.getOverAge() == false) {
 			FieldError fieldError;
 			final String[] codes = {
-				"customer.birthDate.error"
+					"customer.birthDate.error"
 			};
 			fieldError = new FieldError("customerForm", "overAge", result.getOverAge(), false, codes, null, "");
 			binding.addError(fieldError);
@@ -222,7 +219,7 @@ public class CustomerService {
 			if (!this.checkCreditCard(result.getCreditCard())) {
 				FieldError fieldError;
 				final String[] codes = {
-					"customer.creditCard.error"
+						"customer.creditCard.error"
 				};
 				fieldError = new FieldError("customerForm", "creditCard", result.getCreditCard(), false, codes, null, "");
 				binding.addError(fieldError);
@@ -236,7 +233,7 @@ public class CustomerService {
 			if (result.getUserAccount().getPassword() == "" || result.getUserAccount().getPassword() == null) {
 				FieldError fieldError;
 				final String[] codes = {
-					"customer.passwords.error"
+						"customer.passwords.error"
 				};
 				fieldError = new FieldError("customerForm", "userAccount.password", result.getUserAccount().getPassword(), false, codes, null, "");
 				binding.addError(fieldError);
@@ -245,6 +242,7 @@ public class CustomerService {
 
 		return result;
 	}
+
 	public CustomerForm toFormObject(final Customer customer) {
 		Assert.notNull(customer);
 		final CustomerForm result = new CustomerForm();
@@ -267,7 +265,7 @@ public class CustomerService {
 
 		if (creditCard != null)
 			if (creditCard.getBrandName() != null || !creditCard.getHolderName().isEmpty() || creditCard.getCvv() != null || creditCard.getExpirationMonth() != null
-				|| creditCard.getExpirationYear() != null || !creditCard.getNumber().isEmpty())
+					|| creditCard.getExpirationYear() != null || !creditCard.getNumber().isEmpty())
 				result = true;
 		return result;
 	}
@@ -332,9 +330,9 @@ public class CustomerService {
 
 		if (customer.getUserAccount().isEnabled()) {
 			customer.getUserAccount().setEnabled(false);
+			customer.setBanNum(customer.getBanNum() + 1);
 		} else {
 			customer.getUserAccount().setEnabled(true);
-			customer.setBanNum(customer.getBanNum() + 1);
 		}
 		this.customerRepository.save(customer);
 
@@ -434,35 +432,12 @@ public class CustomerService {
 		return this.customerRepository.customerWithMoreMessages();
 	}
 
-	//A.3
+	//A4
 
-	public Collection<Customer> getCustomersWhoJoinMorePromotion() {
-		final Collection<Object[]> collection = this.customerRepository.getCustomersWhoJoinMorePromotion();
-		Collection<Customer> result = null;
+	public Collection<Customer> getCustomersWhoJoinedMorePromotion() {
+		Collection<Customer> result;
 
-		if (!collection.isEmpty()) {
-			final Map<Long, Collection<Customer>> map = new HashMap<>();
-			Long count = 0L;
-
-			for (final Object[] objectArray : collection) {
-				if (map.containsKey(objectArray[1])) {
-					final Collection<Customer> customers = map.get(objectArray[1]);
-					customers.add((Customer) objectArray[0]);
-					map.put((Long) objectArray[1], customers);
-
-				} else {
-					final Collection<Customer> customers = new ArrayList<>();
-					customers.add((Customer) objectArray[0]);
-					map.put((Long) objectArray[1], customers);
-				}
-
-				if (count < (Long) objectArray[1]) {
-					count = (Long) objectArray[1];
-				}
-			}
-
-			result = map.get(count);
-		}
+		result = this.customerRepository.getCustomersWhoJoinedMorePromotion();
 
 		return result;
 	}

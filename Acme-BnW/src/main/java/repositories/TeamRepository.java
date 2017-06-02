@@ -32,6 +32,6 @@ public interface TeamRepository extends JpaRepository<Team, Integer> {
 	//Dashboard A
 
 	//A1
-	@Query("select sum(c.favouriteTeams.size)*1.0/count(c) from Customer c")
+	@Query("select sum(t.customers.size)*1.0/(select count(c) from Customer c) from Team t")
 	public Double avgFavouritTeamPerCustomer();
 }

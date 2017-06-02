@@ -46,9 +46,8 @@
 			<fmt:formatDate value="${activeOffer.endPeriod}" pattern="MM/dd/yyyy" />
 			<br/>
 			<spring:message code="welcome.win" var="win" /> <!-- win: win -->
-			<spring:message code="welcome.euros" var="euros" /> <!-- win: win -->
 			<spring:message code="welcome.deposit" var="deposit" /> <!-- deposit: if you deposit -->
-			<jstl:out value="${win} ${activeOffer.amount} (${euros }) ${deposit} ${activeOffer.extractionAmount} (${euros })"/>
+			<jstl:out value="${win} ${activeOffer.amount}" />&euro; <jstl:out value="${deposit} ${activeOffer.extractionAmount}"/>&euro;
 		</div>
 		
 	</div>
@@ -58,7 +57,7 @@
 	<br/>
 	<br/>
 	<spring:message code="welcome.notedMarkets" var="markedMarkets" />
-	<h3><jstl:out value="${markedMarkets }"/></h3>
+	<h3><jstl:out value="${markedMarkets}"/></h3>
 	
 	<display:table name="notedMarkets" id="row" requestURI="${RequestURI}" pagesize="5">
 
@@ -80,11 +79,16 @@
 		</jstl:choose>
 		</display:column>
 		
+		<jstl:set var="validPromotion" value="${row.promotion != null && !row.promotion.cancel && row.promotion.startMoment < currentMoment && row.promotion.endMoment > currentMoment}" />
 		<spring:message code="market.fee" var="fee" />
-		<display:column style="${row.promotion != null? 'text-decoration:line-through;':''}" property="fee" title="${fee}"/>
+		<display:column style="${validPromotion? 'text-decoration:line-through;':''}" property="fee" title="${fee}"/>
 		
 		<spring:message code="promotion.fee" var="promotionFee" />
-		<display:column property="promotion.fee" title="${promotionFee}" />
+		<display:column title="${promotionFee}">
+			<jstl:if test="${validPromotion}">
+				<jstl:out value="${row.promotion.fee}" />
+			</jstl:if>
+		</display:column>
 		
 		<spring:message code="match.startMoment" var="startMoment" />
 		<display:column title="${startMoment}">

@@ -95,11 +95,17 @@ public class MarketService {
 	}
 
 	public Market enjoyPromotion(Promotion promotion) {
-		Assert.notNull(promotion);
-		Assert.isTrue(!promotion.isCancel());
-		Assert.isTrue(promotion.getStartMoment().before(new Date()));
-		Assert.isTrue(promotion.getEndMoment().after(new Date()));
+		Boolean validPromotion = this.validPromotion(promotion);
+		Assert.isTrue(validPromotion);
 		return promotion.getMarket();
+	}
+
+	public Boolean validPromotion(Promotion promotion) {
+		Boolean result;
+
+		result = promotion != null && !promotion.isCancel() && promotion.getStartMoment().before(new Date()) && promotion.getEndMoment().after(new Date());
+
+		return result;
 	}
 
 	//Other business services

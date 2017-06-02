@@ -68,17 +68,22 @@
 		</jstl:choose>
 	</display:column>
 	
+	<jstl:set var="validPromotion" value="${row.promotion != null && !row.promotion.cancel && row.promotion.startMoment < currentMoment && row.promotion.endMoment > currentMoment}" />
 	<spring:message code="market.fee" var="fee" />
 	<display:column title="${fee}">
-		<span style="${row.promotion != null? 'text-decoration:line-through;':''}" id="fee${row.id}"><jstl:out value="${row.fee}" /></span>
+		<span style="${validPromotion? 'text-decoration:line-through;':''}" id="fee${row.id}"><jstl:out value="${row.fee}" /></span>
 	</display:column>
 	
 	<spring:message code="market.promotion.fee" var="promotionFee" />
-	<display:column property="promotion.fee" title="${promotionFee}" />
+	<display:column title="${promotionFee}">
+		<jstl:if test="${validPromotion}">
+			<jstl:out value="${row.promotion.fee}" />
+		</jstl:if>
+	</display:column>
 
 	<security:authorize access="hasRole('MANAGER')">
 		<display:column>
-			<jstl:if test="${row.match.endMoment > currentDate }">
+			<jstl:if test="${row.match.endMoment > currentMoment }">
 				<acme:cancel url="market/edit.do?marketId=${row.id}"
 					code="market.edit" />
 			</jstl:if>
@@ -89,7 +94,7 @@
 		</display:column>
 		
 		<display:column>
-			<jstl:if test="${row.promotion == null && row.match.endMoment > currentDate}">
+			<jstl:if test="${row.promotion == null && row.match.endMoment > currentMoment}">
 				<acme:cancel url="promotion/register.do?marketId=${row.id}" code="promotion.createPromotion"/>
 			</jstl:if>
 		</display:column>

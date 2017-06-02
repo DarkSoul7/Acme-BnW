@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import security.LoginService;
 import services.CustomerService;
 import services.TeamService;
 import domain.Customer;
@@ -44,10 +43,10 @@ public class TeamController extends AbstractController {
 		Customer principal;
 		Collection<? extends TeamForm> teams;
 
-		if (LoginService.isAuthenticated()) {
+		try {
 			principal = this.customerService.findByPrincipal();
 			teams = teamService.findTeamFavourite(principal.getId());
-		} else {
+		} catch (Exception e) {
 			teams = this.teamService.findAllForms();
 		}
 

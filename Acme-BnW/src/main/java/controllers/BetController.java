@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +76,7 @@ public class BetController extends AbstractController {
 
 		result = new ModelAndView("bet/showSelection");
 		result.addObject("bets", bets);
+		result.addObject("currentMoment", new Date());
 		result.addObject("errorMessage", errorMessage);
 		result.addObject("successMessage", successMessage);
 		result.addObject("requestURI", "bet/showSelection.do");

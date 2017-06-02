@@ -11,6 +11,7 @@
 package controllers;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -83,10 +84,12 @@ public class WelcomeController extends AbstractController {
 		result.addObject("activeOffer", active);
 		result.addObject("notedMarkets", notedMarkets);
 		result.addObject("favouritePromotions", favouritePromotions);
+		result.addObject("currentMoment", new Date());
 		result.addObject("RequestURI", "welcome/index.do");
 
 		return result;
 	}
+
 	@RequestMapping(value = "/cookies")
 	public ModelAndView cookies() {
 

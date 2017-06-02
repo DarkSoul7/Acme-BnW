@@ -31,14 +31,14 @@ function relativeRedir(loc) {
 
 function submitSimpleBet(marketId, matchId) {
 	var quantity = document.getElementById('input' + marketId).value;
-	var url = '/bet/simpleBet.do?marketId=' + marketId + '&matchId=' + matchId + '&quantity=' + quantity;
+	var url = '/bet/simpleBet.do?marketId=' + marketId + '&matchId=' + matchId + '&quantityStr=' + quantity;
 
 	relativeRedir(url);
 }
 
 function submitSelectedSimpleBet(marketId, matchId, betId) {
 	var quantity = document.getElementById('input' + betId).value;
-	var url = '/bet/simpleBet.do?marketId=' + marketId + '&matchId=' + matchId + '&quantity=' + quantity + '&betId=' + betId;
+	var url = '/bet/simpleBet.do?marketId=' + marketId + '&matchId=' + matchId + '&quantityStr=' + quantity + '&betId=' + betId;
 
 	relativeRedir(url);
 }
@@ -59,7 +59,7 @@ function submitMultipleBets() {
 		bets = bets.substring(0, bets.length - 1);
 	}
 
-	url = '/bet/multipleBet.do?betsIdsStr=' + bets + '&quantity=' + quantity;
+	url = '/bet/multipleBet.do?betsIdsStr=' + bets + '&quantityStr=' + quantity;
 
 	relativeRedir(url);
 }

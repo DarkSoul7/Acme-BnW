@@ -263,7 +263,7 @@
 	
 	<!-- WELCOMEOFFER -->
 	<bean id="welcomeOffer1" class="domain.WelcomeOffer">
-		<property name="title" value="¡Si aceptas la oferta al canjear 10 monedas obtendrás 30 mas!" />
+		<property name="title" value="¡Si aceptas la oferta al canjear 10 euros obtendrás 30 euros mas!" />
 		<property name="openPeriod" value="2017/02/22" />
 		<property name="endPeriod" value="2019/02/22" />
 		<property name="amount" value="30.00" />
@@ -271,7 +271,7 @@
 	</bean>
 
 	<bean id="welcomeOffer2" class="domain.WelcomeOffer">
-		<property name="title" value="¡Si aceptas la oferta al canjear 25 monedas obtendrás 50 mas!" />
+		<property name="title" value="¡Si aceptas la oferta al canjear 25 euros obtendrás 50 euros mas!" />
 		<property name="openPeriod" value="2025/02/22" />
 		<property name="endPeriod" value="2025/03/22" />
 		<property name="amount" value="50.00" />
@@ -822,11 +822,12 @@
 	
 	<bean id="bet1" class="domain.Bet">
 		<property name="quantity" value="2.0" />
-		<property name="fee" value="2.30" />
+		<property name="fee" value="1.15" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="SUCCESSFUL" />
 		<property name="completed" value="true" />
+		<property name="promotionFee" value="false" />
 		<property name="customer" ref="customer1" />
 		<property name="parentBet"><null/></property>
 		<property name="childrenBets">
@@ -839,11 +840,12 @@
 	
 	<bean id="bet2" class="domain.Bet">
 		<property name="quantity" value="10.0" />
-		<property name="fee" value="4.04" />
+		<property name="fee" value="2.02" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="FAILED" />
 		<property name="completed" value="true" />
+		<property name="promotionFee" value="false" />
 		<property name="customer" ref="customer2" />
 		<property name="parentBet"><null/></property>
 		<property name="childrenBets">
@@ -856,11 +858,12 @@
 	
 	<bean id="bet3" class="domain.Bet">
 		<property name="quantity" value="20.0" />
-		<property name="fee" value="3.35" />
+		<property name="fee" value="2.3" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="FAILED" />
 		<property name="completed" value="true" />
+		<property name="promotionFee" value="false" />
 		<property name="customer" ref="customer1" />
 		<property name="parentBet"><null/></property>
 		<property name="childrenBets">
@@ -873,11 +876,12 @@
 	
 	<bean id="bet4" class="domain.Bet">
 		<property name="quantity" value="60.50" />
-		<property name="fee" value="2.65" />
+		<property name="fee" value="1.15" />
 		<property name="creationMoment" value="2017/05/16" />
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="PENDING" />
 		<property name="completed" value="true" />
+		<property name="promotionFee" value="false" />
 		<property name="customer" ref="customer1" />
 		<property name="parentBet"><null/></property>
 		<property name="childrenBets">
@@ -895,6 +899,7 @@
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="PENDING" />
 		<property name="completed" value="true" />
+		<property name="promotionFee" value="false" />
 		<property name="customer" ref="customer2" />
 		<property name="parentBet"><null/></property>
 		<property name="childrenBets">
@@ -912,6 +917,7 @@
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="PENDING" />
 		<property name="completed" value="true" />
+		<property name="promotionFee" value="false" />
 		<property name="customer" ref="customer3" />
 		<property name="parentBet"><null/></property>
 		<property name="childrenBets">
@@ -929,6 +935,7 @@
 		<property name="type" value="MULTIPLE" />
 		<property name="status" value="PENDING" />
 		<property name="completed" value="true" />
+		<property name="promotionFee" value="false" />
 		<property name="customer" ref="customer1" />
 		<property name="parentBet"><null/></property>
 		<property name="childrenBets">
@@ -947,6 +954,7 @@
 		<property name="type" value="CHILD" />
 		<property name="status" value="PENDING" />
 		<property name="completed" value="true" />
+		<property name="promotionFee" value="true" />
 		<property name="customer" ref="customer1" />
 		<property name="parentBet" ref="bet7" />
 		<property name="childrenBets">
@@ -964,6 +972,7 @@
 		<property name="type" value="CHILD" />
 		<property name="status" value="PENDING" />
 		<property name="completed" value="true" />
+		<property name="promotionFee" value="true" />
 		<property name="customer" ref="customer1" />
 		<property name="parentBet" ref="bet7" />
 		<property name="childrenBets">
@@ -981,6 +990,7 @@
 		<property name="type" value="SIMPLE" />
 		<property name="status" value="PENDING" />
 		<property name="completed" value="true" />
+		<property name="promotionFee" value="false" />
 		<property name="customer" ref="customer2" />
 		<property name="parentBet"><null/></property>
 		<property name="childrenBets">
@@ -1196,6 +1206,4 @@
 		<property name="cancel" value="true" />
 		<property name="market" ref="market10" />
 	</bean>
-	
-	
 </beans>

@@ -1,4 +1,3 @@
-
 package controllers;
 
 import java.util.ArrayList;
@@ -58,6 +57,7 @@ public class MarketController extends AbstractController {
 		result = new ModelAndView("market/list");
 		result.addObject("markets", markets);
 		result.addObject("match", match);
+		result.addObject("currentMoment", new Date());
 		result.addObject("errorMessage", errorMessage);
 		result.addObject("successMessage", successMessage);
 		result.addObject("requestURI", "markets/listByMatch.do");
@@ -67,7 +67,7 @@ public class MarketController extends AbstractController {
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list(@RequestParam(required = false) final Integer marketId, @RequestParam(required = false) final String errorMessage,
-		@RequestParam(required = false) final String successMessage) {
+			@RequestParam(required = false) final String successMessage) {
 		ModelAndView result;
 		Collection<Market> markets;
 		final Date currentDate = new Date();
@@ -83,7 +83,7 @@ public class MarketController extends AbstractController {
 		result.addObject("markets", markets);
 		result.addObject("errorMessage", errorMessage);
 		result.addObject("successMessage", successMessage);
-		result.addObject("currentDate", currentDate);
+		result.addObject("currentMoment", currentDate);
 		result.addObject("requestURI", "market/list.do");
 
 		return result;

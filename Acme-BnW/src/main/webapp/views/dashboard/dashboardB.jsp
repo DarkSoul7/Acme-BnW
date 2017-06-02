@@ -28,11 +28,9 @@
 	</legend>
 
 	<jstl:set var="i" value="0"></jstl:set>
-	<display:table name="autoExclusionAndBanNumber" id="row1"
-		requestURI="administrator/dashboardB.do" class="displaytag">
-		<spring:message code="dashboard.autoExclusionNumberAndBanNumber"
-			var="autoExclusionNumberAndBanNumber" />
-		<display:column title="${autoExclusionNumberAndBanNumber}">
+	<display:table name="autoExclusionAndBanNumber" uid="autoExclusionAndBanNumber" requestURI="${requestURI}" class="displaytag">
+		<spring:message code="dashboard.autoExclusionNumberAndBanNumber" var="autoExclusionNumberAndBanNumberHeader" />
+		<display:column title="${autoExclusionNumberAndBanNumberHeader}">
 			<jstl:choose>
 				<jstl:when test="${i == 0}">
 					<spring:message code="dashboard.autoExclusionNumber" var="title" />
@@ -43,7 +41,7 @@
 					<jstl:set var="i" value="3"></jstl:set>
 				</jstl:otherwise>
 			</jstl:choose>
-			<fmt:formatNumber var="value" value="${row1}" maxFractionDigits="2"></fmt:formatNumber>
+			<fmt:formatNumber var="value" value="${autoExclusionAndBanNumber}" maxFractionDigits="2"></fmt:formatNumber>
 			<b><jstl:out value="${title}:"></jstl:out></b>
 			<jstl:out value="${value} ${years}"></jstl:out>
 		</display:column>
@@ -58,8 +56,7 @@
 	</legend>
 
 	<jstl:set var="i" value="0"></jstl:set>
-	<display:table name="stadisticsTopicsByCustomer" id="row1"
-		requestURI="administrator/dashboardB.do" class="displaytag">
+	<display:table name="stadisticsTopicsByCustomer" uid="stadisticsTopicsByCustomer" requestURI="${requestURI}" class="displaytag">
 		<spring:message code="dashboard.statistics" var="statistics" />
 		<display:column title="${statistics}">
 			<jstl:choose>
@@ -76,7 +73,7 @@
 					<jstl:set var="i" value="3"></jstl:set>
 				</jstl:otherwise>
 			</jstl:choose>
-			<fmt:formatNumber var="value" value="${row1}" maxFractionDigits="2"></fmt:formatNumber>
+			<fmt:formatNumber var="value" value="${stadisticsTopicsByCustomer}" maxFractionDigits="2"></fmt:formatNumber>
 			<b><jstl:out value="${title}:"></jstl:out></b>
 			<jstl:out value="${value} ${years}"></jstl:out>
 		</display:column>
@@ -92,8 +89,7 @@
 	</legend>
 
 	<jstl:set var="i" value="0"></jstl:set>
-	<display:table name="stadisticsMessagesByCustomer" id="row2"
-		requestURI="administrator/dashboardC.do" class="displaytag">
+	<display:table name="stadisticsMessagesByCustomer" uid="stadisticsMessagesByCustomer" requestURI="administrator/dashboardC.do" class="displaytag">
 		<spring:message code="dashboard.statistics" var="statistics" />
 		<display:column title="${statistics}">
 			<jstl:choose>
@@ -110,7 +106,7 @@
 					<jstl:set var="i" value="3"></jstl:set>
 				</jstl:otherwise>
 			</jstl:choose>
-			<fmt:formatNumber var="value" value="${row2}" maxFractionDigits="2"></fmt:formatNumber>
+			<fmt:formatNumber var="value" value="${stadisticsMessagesByCustomer}" maxFractionDigits="2"></fmt:formatNumber>
 			<b><jstl:out value="${title}:"></jstl:out></b>
 			<jstl:out value="${value} ${years}"></jstl:out>
 		</display:column>

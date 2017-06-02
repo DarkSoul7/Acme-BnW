@@ -46,8 +46,8 @@
 		<b><spring:message code="dashboard.customerWithMoreMessages" /></b>
 	</legend>
 
-	<display:table name="customerWithMoreMessages" id="row"
-		requestURI="${RequestURI}" pagesize="5">
+	<display:table name="customerWithMoreMessages" uid="customerWithMoreMessages"
+		requestURI="${requestURI}" pagesize="5">
 
 		<spring:message code="dashboard.name" var="name" />
 		<display:column property="name" title="${name}" />
@@ -68,13 +68,48 @@
 		<display:column title="${birthDate}">
 			<jstl:choose>
 				<jstl:when test="${pageContext.response.locale.language=='en'}">
-					<fmt:formatDate value="${row.birthDate}" pattern="MM/dd/yyyy" />
+					<fmt:formatDate value="${customerWithMoreMessages.birthDate}" pattern="MM/dd/yyyy" />
 				</jstl:when>
 				<jstl:otherwise>
-					<fmt:formatDate value="${row.birthDate}" pattern="dd/MM/yyyy" />
+					<fmt:formatDate value="${customerWithMoreMessages.birthDate}" pattern="dd/MM/yyyy" />
 				</jstl:otherwise>
 			</jstl:choose>
 		</display:column>
+	</display:table>
+</fieldset>
 
+<fieldset>
+	<legend>
+		<b><spring:message code="dashboard.customersWhoJoinedMorePromotion" /></b>
+	</legend>
+	<display:table name="customersWhoJoinedMorePromotion" uid="customersWhoJoinedMorePromotion"
+		requestURI="${requestURI}" pagesize="5">
+
+		<spring:message code="dashboard.name" var="name" />
+		<display:column property="name" title="${name}" />
+
+		<spring:message code="dashboard.surname" var="surname" />
+		<display:column property="surname" title="${surname}" />
+
+		<spring:message code="dashboard.email" var="email" />
+		<display:column property="email" title="${email}" />
+
+		<spring:message code="dashboard.phone" var="phone" />
+		<display:column property="phone" title="${phone}" />
+
+		<spring:message code="dashboard.nid" var="nid" />
+		<display:column property="nid" title="${nid}" />
+
+		<spring:message code="dashboard.birthDate" var="birthDate" />
+		<display:column title="${birthDate}">
+			<jstl:choose>
+				<jstl:when test="${pageContext.response.locale.language=='en'}">
+					<fmt:formatDate value="${customersWhoJoinedMorePromotion.birthDate}" pattern="MM/dd/yyyy" />
+				</jstl:when>
+				<jstl:otherwise>
+					<fmt:formatDate value="${customersWhoJoinedMorePromotion.birthDate}" pattern="dd/MM/yyyy" />
+				</jstl:otherwise>
+			</jstl:choose>
+		</display:column>
 	</display:table>
 </fieldset>

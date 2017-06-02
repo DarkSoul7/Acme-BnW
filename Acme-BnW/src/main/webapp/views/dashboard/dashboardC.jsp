@@ -28,8 +28,7 @@
 	</legend>
 
 	<jstl:set var="i" value="0"></jstl:set>
-	<display:table name="stadisticsQuantityForBet" id="row1"
-		requestURI="administrator/dashboardC" class="displaytag">
+	<display:table name="stadisticsQuantityForBet" uid="stadisticsQuantityForBet" requestURI="${requestURI}" class="displaytag">
 		<spring:message code="dashboard.statistics" var="statistics" />
 		<display:column title="${statistics}">
 			<jstl:choose>
@@ -46,7 +45,7 @@
 					<jstl:set var="i" value="3"></jstl:set>
 				</jstl:otherwise>
 			</jstl:choose>
-			<fmt:formatNumber var="value" value="${row1}" maxFractionDigits="2"></fmt:formatNumber>
+			<fmt:formatNumber var="value" value="${stadisticsQuantityForBet}" maxFractionDigits="2"></fmt:formatNumber>
 			<b><jstl:out value="${title}:"></jstl:out></b>
 			<jstl:out value="${value} ${years}"></jstl:out>
 		</display:column>
@@ -62,8 +61,7 @@
 	</legend>
 
 	<jstl:set var="i" value="0"></jstl:set>
-	<display:table name="stadisticsBetsWonPerClients" id="row2"
-		requestURI="administrator/dashboardC" class="displaytag">
+	<display:table name="stadisticsBetsWonPerClients" uid="stadisticsBetsWonPerClients" requestURI="${requestURI}" class="displaytag">
 		<spring:message code="dashboard.statistics" var="statistics" />
 		<display:column title="${statistics}">
 			<jstl:choose>
@@ -80,7 +78,7 @@
 					<jstl:set var="i" value="3"></jstl:set>
 				</jstl:otherwise>
 			</jstl:choose>
-			<fmt:formatNumber var="value" value="${row2}" maxFractionDigits="2"></fmt:formatNumber>
+			<fmt:formatNumber var="value" value="${stadisticsBetsWonPerClients}" maxFractionDigits="2"></fmt:formatNumber>
 			<b><jstl:out value="${title}:"></jstl:out></b>
 			<jstl:out value="${value} ${years}"></jstl:out>
 		</display:column>
@@ -95,8 +93,7 @@
 	</legend>
 
 	<jstl:set var="i" value="0"></jstl:set>
-	<display:table name="stadisticsBetsLostPerClients" id="row3"
-		requestURI="administrator/dashboardC" class="displaytag">
+	<display:table name="stadisticsBetsLostPerClients" uid="stadisticsBetsLostPerClients" requestURI="${requestURI}" class="displaytag">
 		<spring:message code="dashboard.statistics" var="statistics" />
 		<display:column title="${statistics}">
 			<jstl:choose>
@@ -114,7 +111,7 @@
 				</jstl:otherwise>
 			</jstl:choose>
 
-			<fmt:formatNumber var="value" value="${row3}" maxFractionDigits="2"></fmt:formatNumber>
+			<fmt:formatNumber var="value" value="${stadisticsBetsLostPerClients}" maxFractionDigits="2"></fmt:formatNumber>
 			<b><jstl:out value="${title}:"></jstl:out></b>
 			<jstl:out value="${value} ${years}"></jstl:out>
 		</display:column>
@@ -128,8 +125,7 @@
 		<b><spring:message code="dashboard.categoryMoreBets" /></b>
 	</legend>
 
-	<display:table name="categoryMoreBets" uid="categoryMoreBets"
-		requestURI="administrator/dashboardC" pagesize="5">
+	<display:table name="categoryMoreBets" uid="categoryMoreBets" requestURI="${requestURI}" pagesize="5">
 		<spring:message code="dashboard.name" var="name" />
 		<display:column property="name" title="${name}" />
 
@@ -145,8 +141,7 @@
 		<b><spring:message code="dashboard.categoryLessBets" /></b>
 	</legend>
 
-	<display:table name="categoryLessBets" uid="categoryLessBets"
-		requestURI="administrator/dashboardC" pagesize="5">
+	<display:table name="categoryLessBets" uid="categoryLessBets" requestURI="${requestURI}" pagesize="5">
 		<spring:message code="dashboard.name" var="name" />
 		<display:column property="name" title="${name}" />
 
@@ -162,16 +157,15 @@
 		<b><spring:message code="dashboard.sportMoreBets" /></b>
 	</legend>
 
-	<display:table name="sportMoreBets" uid="sportMoreBets"
-		requestURI="administrator/dashboardC" pagesize="5" id="row4">
+	<display:table name="sportMoreBets" uid="sportMoreBets" requestURI="${requestURI}" pagesize="5">
 		<spring:message code="dashboard.name" var="name" />
 		<display:column title="${name}">
 			<jstl:choose>
 				<jstl:when test="${pageContext.response.locale.language=='en'}">
-					<jstl:out value="${row4.getName()}"></jstl:out>
+					<jstl:out value="${sportMoreBets.getName()}"></jstl:out>
 				</jstl:when>
 				<jstl:otherwise>
-					<jstl:out value="${row4.getSpanishName()}"></jstl:out>
+					<jstl:out value="${sportMoreBets.getSpanishName()}"></jstl:out>
 				</jstl:otherwise>
 			</jstl:choose>
 		</display:column>
@@ -185,16 +179,15 @@
 		<b><spring:message code="dashboard.sportLessBets" /></b>
 	</legend>
 
-	<display:table name="sportLessBets" uid="sportLessBets"
-		requestURI="administrator/dashboardC" pagesize="5" id="row5">
+	<display:table name="sportLessBets" uid="sportLessBets" requestURI="${requestURI}" pagesize="5">
 		<spring:message code="dashboard.name" var="name" />
 		<display:column title="${name}">
 			<jstl:choose>
 				<jstl:when test="${pageContext.response.locale.language=='en'}">
-					<jstl:out value="${row5.getName()}"></jstl:out>
+					<jstl:out value="${sportLessBets.getName()}"></jstl:out>
 				</jstl:when>
 				<jstl:otherwise>
-					<jstl:out value="${row5.getSpanishName()}"></jstl:out>
+					<jstl:out value="${sportLessBets.getSpanishName()}"></jstl:out>
 				</jstl:otherwise>
 			</jstl:choose>
 		</display:column>
@@ -208,16 +201,13 @@
 		<b><spring:message code="dashboard.betsByLocalTeam" /></b>
 	</legend>
 
-	<display:table name="${teamStatisticsBets[0]}" uid="betsByLocalTeam"
-		requestURI="administrator/dashboardC.do" class="displaytag" id="row6"
-		pagesize="5">
-
+	<display:table name="${teamStatisticsBets[0]}" uid="betsByLocalTeam" requestURI="${requestURI}" class="displaytag" pagesize="5">
 		<spring:message code="dashboard.name" var="name" />
 		<display:column property="name" title="${name}" />
 
 		<spring:message code="dashboard.shield" var="shield" />
 		<display:column title="${shield}">
-			<img src="${row6.shield}" alt="shield" width="70" height="70">
+			<img src="${betsByLocalTeam.shield}" alt="shield" width="70" height="70">
 		</display:column>
 	</display:table>
 </fieldset>
@@ -229,16 +219,14 @@
 		<b><spring:message code="dashboard.betsByVisitorTeam" /></b>
 	</legend>
 	
-	<display:table name="${teamStatisticsBets[1]}" uid="betsByVisitorTeam"
-		requestURI="administrator/dashboardC.do" class="displaytag" id="row7"
-		pagesize="5">
+	<display:table name="${teamStatisticsBets[1]}" uid="betsByVisitorTeam" requestURI="${requestURI}" class="displaytag" pagesize="5">
 
 		<spring:message code="dashboard.name" var="name" />
 		<display:column property="name" title="${name}" />
 
 		<spring:message code="dashboard.shield" var="shield" />
 		<display:column title="${shield}">
-			<img src="${row7.shield}" alt="shield" width="70" height="70">
+			<img src="${betsByVisitorTeam.shield}" alt="shield" width="70" height="70">
 		</display:column>
 	</display:table>
 </fieldset>

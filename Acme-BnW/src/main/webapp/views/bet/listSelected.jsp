@@ -65,13 +65,18 @@
 		</jstl:choose>
 	</display:column>
 	
+	<jstl:set var="validPromotion" value="${row.market.promotion != null && !row.market.promotion.cancel && row.market.promotion.startMoment < currentMoment && row.market.promotion.endMoment > currentMoment}" />
 	<spring:message code="bet.market.fee" var="fee" />
 	<display:column title="${fee}">
-		<span style="${row.market.promotion != null? 'text-decoration:line-through;':''}" id="fee${row.market.id}"><jstl:out value="${row.market.fee}" /></span>
+		<span style="${validPromotion? 'text-decoration:line-through;':''}" id="fee${row.market.id}"><jstl:out value="${row.market.fee}" /></span>
 	</display:column>
 	
 	<spring:message code="bet.market.promotion.fee" var="promotionFee" />
-	<display:column property="market.promotion.fee" title="${promotionFee}" />
+	<display:column title="${promotionFee}">
+		<jstl:if test="${validPromotion}">
+			<jstl:out value="${row.market.promotion.fee}" />
+		</jstl:if>
+	</display:column>
 
 	<spring:message code="bet.quantity" var="betQuantity" />
 	<display:column title="${betQuantity}">

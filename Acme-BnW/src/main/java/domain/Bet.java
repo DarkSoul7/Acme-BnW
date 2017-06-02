@@ -27,6 +27,7 @@ public class Bet extends DomainEntity {
 	private BetType	type;
 	private Status	status;
 	private Boolean	completed;
+	private Boolean	promotionFee;
 
 
 	@NotNull
@@ -86,6 +87,15 @@ public class Bet extends DomainEntity {
 
 	public void setCompleted(Boolean completed) {
 		this.completed = completed;
+	}
+
+	@NotNull
+	public Boolean getPromotionFee() {
+		return promotionFee;
+	}
+
+	public void setPromotionFee(Boolean promotionFee) {
+		this.promotionFee = promotionFee;
 	}
 
 

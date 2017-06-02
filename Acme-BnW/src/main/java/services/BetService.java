@@ -55,14 +55,21 @@ public class BetService {
 		Bet result;
 		Customer principal;
 		Double fee;
+		Boolean validPromotion;
+		Boolean promotionFee = false;
 
 		principal = this.customerService.findByPrincipal();
 
 		if (market.getPromotion() == null) {
 			fee = market.getFee();
 		} else {
-			this.marketService.enjoyPromotion(market.getPromotion());
-			fee = market.getPromotion().getFee();
+			validPromotion = this.marketService.validPromotion(market.getPromotion());
+			if (validPromotion) {
+				fee = market.getPromotion().getFee();
+				promotionFee = true;
+			} else {
+				fee = market.getFee();
+			}
 		}
 
 		result = new Bet();
@@ -74,6 +81,7 @@ public class BetService {
 		result.setStatus(Status.PENDING);
 		result.setType(BetType.SIMPLE);
 		result.setCompleted(true);
+		result.setPromotionFee(promotionFee);
 
 		return result;
 	}
@@ -94,6 +102,7 @@ public class BetService {
 		result.setStatus(Status.PENDING);
 		result.setType(BetType.SIMPLE);
 		result.setCompleted(false);
+		result.setPromotionFee(false);
 
 		return result;
 	}
@@ -117,6 +126,7 @@ public class BetService {
 		result.setStatus(Status.PENDING);
 		result.setType(BetType.MULTIPLE);
 		result.setCompleted(true);
+		result.setPromotionFee(false);
 
 		return result;
 	}
@@ -245,6 +255,7 @@ public class BetService {
 		List<Integer> matchesIds;
 		Market market;
 		Double totalFee = 1.0;
+		Boolean validPromotion;
 
 		parentBet = this.createMultiple(quantity);
 		parentBet = this.save(parentBet, false, false);
@@ -261,12 +272,18 @@ public class BetService {
 			market = this.marketService.findOne(bet.getMarket().getId());
 			Assert.notNull(market);
 			Double betFee;
+			Boolean promotionFee = false;
 
 			if (market.getPromotion() == null) {
 				betFee = market.getFee();
 			} else {
-				this.marketService.enjoyPromotion(market.getPromotion());
-				betFee = market.getPromotion().getFee();
+				validPromotion = this.marketService.validPromotion(market.getPromotion());
+				if (validPromotion) {
+					betFee = market.getPromotion().getFee();
+					promotionFee = true;
+				} else {
+					betFee = market.getFee();
+				}
 			}
 
 			totalFee *= betFee;
@@ -278,6 +295,7 @@ public class BetService {
 			bet.setQuantity(quantity);
 			bet.setStatus(Status.PENDING);
 			bet.setType(BetType.CHILD);
+			bet.setPromotionFee(promotionFee);
 		}
 
 		totalFee = Double.valueOf(String.format("%.2f", totalFee));
@@ -291,12 +309,20 @@ public class BetService {
 	public Bet completeSelectedBet(int betId, Double quantity, Market market) {
 		Bet result;
 		Double fee;
+		Boolean validPromotion;
+		Boolean promotionFee = false;
 
 		if (market.getPromotion() == null) {
 			fee = market.getFee();
 		} else {
-			this.marketService.enjoyPromotion(market.getPromotion());
-			fee = market.getPromotion().getFee();
+			validPromotion = this.marketService.validPromotion(market.getPromotion());
+			if (validPromotion) {
+				fee = market.getPromotion().getFee();
+				promotionFee = true;
+			} else {
+				fee = market.getFee();
+			}
+
 		}
 
 		result = this.findOne(betId);
@@ -304,6 +330,7 @@ public class BetService {
 		result.setCompleted(true);
 		result.setFee(fee);
 		result.setQuantity(quantity);
+		result.setPromotionFee(promotionFee);
 
 		return result;
 	}

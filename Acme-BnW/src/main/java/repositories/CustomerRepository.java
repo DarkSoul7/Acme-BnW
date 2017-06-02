@@ -1,4 +1,3 @@
-
 package repositories;
 
 import java.util.Collection;
@@ -38,8 +37,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 	@Query("select c from Customer c where c.messages.size = (select max(c2.messages.size) from Customer c2)")
 	public Collection<Customer> customerWithMoreMessages();
 
-	//A.3
-	@Query("select c,count(b) from Customer c join c.bets b where b.market.promotion != null and b.fee = b.market.promotion.fee group by c")
-	public Collection<Object[]> getCustomersWhoJoinMorePromotion();
+	//A4
+	@Query("select c from Customer c where (select count(b) from Bet b where b.customer = c and b.promotionFee = true) >= all(select count(b2) from Bet b2 where b2.promotionFee = true group by b2.customer)")
+	public Collection<Customer> getCustomersWhoJoinedMorePromotion();
 
 }
