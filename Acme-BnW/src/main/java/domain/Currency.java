@@ -3,25 +3,25 @@ package domain;
 
 public enum Currency {
 
-	EURO("EURO", "Euro", "Euro"), USD("USD", "USD", "USD"), POUND("LB", "LB", "LB");
+	EURO("EURO", "Euro", "Euro"), USD("USD", "USD", "USD"), LB("LB", "LB", "LB");
 
-	private String	currencyName;
+	private String	constant;
 	private String	englishName;
 	private String	spanishName;
 
 
-	private Currency(final String currencyName, final String englishName, final String spanishName) {
-		this.currencyName = currencyName;
+	private Currency(final String constant, final String englishName, final String spanishName) {
+		this.constant = constant;
 		this.englishName = englishName;
 		this.spanishName = spanishName;
 	}
 
-	public String getCurrencyName() {
-		return this.currencyName;
+	public String getConstant() {
+		return this.constant;
 	}
 
-	public void setCurrencyName(final String currencyName) {
-		this.currencyName = currencyName;
+	public void setConstant(final String constant) {
+		this.constant = constant;
 	}
 
 	public String getEnglishName() {

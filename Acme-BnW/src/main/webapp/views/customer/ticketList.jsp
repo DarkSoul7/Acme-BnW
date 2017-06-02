@@ -16,12 +16,6 @@
 <display:table name="tickets" id="row" requestURI="${RequestURI}"
 	pagesize="5">
 
-	<spring:message code="ticket.title" var="title" />
-	<display:column property="title" title="${title}" />
-	
-	<spring:message code="ticket.description" var="description" />
-	<display:column property="description" title="${description}" />
-	
 	<spring:message code="ticket.amount" var="amount" />
 	<display:column property="amount" title="${amount}" />
 	
@@ -45,8 +39,7 @@
 
 	<display:column>
 		
-		<spring:message code="ticket.generatePdf" var="generatePdf" />
-		<button type="button" onclick="printFunction()"><jstl:out value="${generatePdf }"/></button>
+		<acme:confirm code="ticket.generatePdf" url="customer/generateInvoice.do?ticketId=${row.id}" msg="message.deleteConfirm"/>
 	</display:column>
 
 </display:table>

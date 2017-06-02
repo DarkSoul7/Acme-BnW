@@ -20,6 +20,13 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
+<jstl:if test="${pageContext.response.locale.language=='en'}">
+	<jstl:set var="itemLabel" value="englishName"></jstl:set>
+</jstl:if>
+
+<jstl:if test="${pageContext.response.locale.language=='es'}">
+	<jstl:set var="itemLabel" value="spanishName"></jstl:set>
+</jstl:if>
 
 <spring:message code="customer.balanceNow" /> : <jstl:out value="${balanceNow}"></jstl:out>
 <br>
@@ -29,6 +36,10 @@
 <form:form action="${requestURI}" modelAttribute="balanceForm">
 
 		<acme:textbox code="customer.balance" path="balance" mandatory="true" />
+		<br />
+		
+		<acme:select2 items="${currencies}" itemLabel="${itemLabel}"
+			code="customer.currency" path="currency" mandatory="true" />
 		<br />
 			
 		<acme:submit code="customer.save" name="save" />

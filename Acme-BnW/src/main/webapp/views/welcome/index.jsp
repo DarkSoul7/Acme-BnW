@@ -52,6 +52,19 @@
 		
 	</div>
 </jstl:if>
+	<br/>
+	<br/>
+<spring:message code="welcome.conersionTable" var="conersionTable" />
+	<h3><jstl:out value="${conersionTable}"/></h3>
+<display:table name="convertionCurrencies" id="row" requestURI="${RequestURI}" pagesize="5">
+
+		<spring:message code="currency.currencyType" var="currencyType" />
+		<display:column property="currency.constant" title="${currencyType}"/>
+		
+		<spring:message code="currency.convertionAmount" var="convertionAmount" />
+		<display:column property="convertionAmount" title="${convertionAmount}"/>
+		
+</display:table>
 	
 <security:authorize access="hasRole('CUSTOMER')"> 
 	<br/>

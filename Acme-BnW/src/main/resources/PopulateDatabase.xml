@@ -111,7 +111,7 @@
 	</bean>
 	
 	<bean id="convertionCurrency3" class="domain.ConvertionCurrency">
-		<property name="currency" value="POUND" />
+		<property name="currency" value="LB" />
 		<property name="convertionAmount" value="0.874" />
 	</bean>
 	

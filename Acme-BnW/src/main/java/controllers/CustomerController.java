@@ -12,6 +12,7 @@ import org.apache.commons.validator.routines.checkdigit.CheckDigitException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,8 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.CustomerService;
+import services.TicketService;
 import domain.Brand;
+import domain.Currency;
 import domain.Customer;
+import domain.Ticket;
 import forms.BalanceForm;
 import forms.CustomerForm;
 
@@ -32,6 +36,9 @@ public class CustomerController extends AbstractController {
 
 	@Autowired
 	private CustomerService	customerService;
+
+	@Autowired
+	private TicketService	ticketService;
 
 
 	//Constructor
@@ -231,13 +238,35 @@ public class CustomerController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/ticketList", method = RequestMethod.GET)
-	public ModelAndView ticketList() {
+	public ModelAndView ticketList(@RequestParam(required = false) final String errorMessage) {
 		ModelAndView result;
 		final Customer customer = this.customerService.findByPrincipal();
 
 		result = new ModelAndView("customer/ticketList");
 		result.addObject("tickets", customer.getTickets());
 		result.addObject("RequestURI", "customer/ticketList.do");
+		result.addObject("errorMessage", errorMessage);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/generateInvoice", method = RequestMethod.GET)
+	public ModelAndView generateInvoice(@RequestParam final int ticketId) {
+		ModelAndView result;
+
+		try {
+			final Ticket ticket = this.ticketService.findOne(ticketId);
+			final Customer customer = this.customerService.findByPrincipal();
+
+			Assert.isTrue(ticket.getCustomer().equals(customer));
+			result = new ModelAndView("customer/generateInvoice");
+			result.addObject("ticket", ticket);
+			result.addObject("showFooter", true);
+			result.addObject("customer", customer);
+		} catch (final Throwable e) {
+			result = new ModelAndView("redirect:/customer/ticketList.do");
+			result.addObject("errorMessage", "customer.ticket.generate.error");
+		}
 
 		return result;
 	}
@@ -282,9 +311,12 @@ public class CustomerController extends AbstractController {
 	protected ModelAndView addBalanceModelAndView(final BalanceForm balanceForm, final String message) {
 		ModelAndView result;
 
+		final Collection<Currency> currencies = Arrays.asList(Currency.values());
+
 		result = new ModelAndView("customer/addBalance");
 		result.addObject("balanceForm", balanceForm);
 		result.addObject("message", message);
+		result.addObject("currencies", currencies);
 		result.addObject("balanceNow", this.customerService.findByPrincipal().getBalance());
 
 		return result;
@@ -297,10 +329,13 @@ public class CustomerController extends AbstractController {
 	protected ModelAndView extractBalanceModelAndView(final BalanceForm balanceForm, final String message) {
 		ModelAndView result;
 
+		final Collection<Currency> currencies = Arrays.asList(Currency.values());
+
 		result = new ModelAndView("customer/extractBalance");
 		result.addObject("balanceForm", balanceForm);
 		result.addObject("message", message);
 		result.addObject("balanceNow", this.customerService.findByPrincipal().getBalance());
+		result.addObject("currencies", currencies);
 
 		return result;
 	}

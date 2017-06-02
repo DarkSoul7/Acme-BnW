@@ -318,8 +318,8 @@ public class CustomerService {
 		//Conversión de moneda
 		final ConvertionCurrency convertionCurrency = this.convertionCurrencyService.findOne(balanceForm.getCurrency());
 		final Double convertedAmount = balanceForm.getBalance() * convertionCurrency.getConvertionAmount();
-
-		principal.setBalance(principal.getBalance() + convertedAmount);
+		final Double roundAmount = Math.round(convertedAmount * 100.0) / 100.0;
+		principal.setBalance(principal.getBalance() + roundAmount);
 
 		this.save(principal);
 	}
@@ -370,7 +370,7 @@ public class CustomerService {
 	}
 
 	public void cancelOffer() {
-		Customer customer = this.findByPrincipal();
+		final Customer customer = this.findByPrincipal();
 		Assert.isTrue(!customer.getFinishedOffer());
 		customer.setFinishedOffer(true);
 		customer.setActiveWO(false);

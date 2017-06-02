@@ -20,10 +20,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
 import services.ActorService;
+import services.ConvertionCurrencyService;
 import services.MarketService;
 import services.PromotionService;
 import services.WelcomeOfferService;
 import domain.Actor;
+import domain.ConvertionCurrency;
 import domain.Market;
 import domain.Promotion;
 import domain.WelcomeOffer;
@@ -35,16 +37,19 @@ public class WelcomeController extends AbstractController {
 	// Related services -------------------------------------------------------
 
 	@Autowired
-	private ActorService		actorService;
+	private ActorService				actorService;
 
 	@Autowired
-	private WelcomeOfferService	welcomeOfferService;
+	private WelcomeOfferService			welcomeOfferService;
 
 	@Autowired
-	private MarketService		marketService;
+	private MarketService				marketService;
 
 	@Autowired
-	private PromotionService	promotionService;
+	private PromotionService			promotionService;
+
+	@Autowired
+	private ConvertionCurrencyService	convertionCurrencyService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -63,6 +68,7 @@ public class WelcomeController extends AbstractController {
 		WelcomeOffer active;
 		Collection<Market> notedMarkets = null;
 		Collection<Promotion> favouritePromotions = null;
+		final Collection<ConvertionCurrency> convertionCurrencies = this.convertionCurrencyService.findAll();
 
 		if (LoginService.isAuthenticated()) {
 			principal = this.actorService.findByPrincipal();
@@ -83,6 +89,7 @@ public class WelcomeController extends AbstractController {
 		result.addObject("fullName", fullName);
 		result.addObject("activeOffer", active);
 		result.addObject("notedMarkets", notedMarkets);
+		result.addObject("convertionCurrencies", convertionCurrencies);
 		result.addObject("favouritePromotions", favouritePromotions);
 		result.addObject("currentMoment", new Date());
 		result.addObject("RequestURI", "welcome/index.do");
