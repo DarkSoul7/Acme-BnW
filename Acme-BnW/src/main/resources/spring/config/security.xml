@@ -55,6 +55,7 @@
 		<security:intercept-url pattern="/customer/autoExclusion.do" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/customer/banManagement.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/customer/list.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/customer/ticketList.do" access="hasRole('CUSTOMER')" />
 		
 		<!-- Manager -->
 		<security:intercept-url pattern="/manager/register.do" access="hasRole('ADMINISTRATOR')" />

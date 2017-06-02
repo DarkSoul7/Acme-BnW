@@ -4,11 +4,14 @@ package forms;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
+import domain.Currency;
+
 public class BalanceForm {
 
 	//Attributes
 
-	private Double	balance;
+	private Double		balance;
+	private Currency	currency;
 
 
 	//Constructor
@@ -27,6 +30,15 @@ public class BalanceForm {
 
 	public void setBalance(final Double balance) {
 		this.balance = balance;
+	}
+
+	@NotNull
+	public Currency getCurrency() {
+		return this.currency;
+	}
+
+	public void setCurrency(final Currency currency) {
+		this.currency = currency;
 	}
 
 }

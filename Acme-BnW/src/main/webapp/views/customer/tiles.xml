@@ -41,4 +41,9 @@
 		<put-attribute name="body" value="/views/customer/list.jsp" />
 	</definition>
 	
+	<definition name="customer/ticketList" extends="master.page">
+		<put-attribute name="title" value="Lista de facturas" />
+		<put-attribute name="body" value="/views/customer/ticketList.jsp" />
+	</definition>
+	
 </tiles-definitions>

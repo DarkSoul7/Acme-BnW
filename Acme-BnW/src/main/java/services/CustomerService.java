@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -22,7 +23,9 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Bet;
+import domain.ConvertionCurrency;
 import domain.CreditCard;
+import domain.Currency;
 import domain.Customer;
 import domain.Message;
 import domain.Punctuation;
@@ -39,24 +42,27 @@ public class CustomerService {
 	// Managed repository
 
 	@Autowired
-	private CustomerRepository		customerRepository;
+	private CustomerRepository			customerRepository;
 
 	// Supported services
 
 	@Autowired
-	private WelcomeOfferService		welcomeOfferService;
+	private WelcomeOfferService			welcomeOfferService;
 
 	@Autowired
-	private AdministratorService	administratorService;
+	private AdministratorService		administratorService;
 
 	@Autowired
-	private TeamService				teamService;
+	private TeamService					teamService;
 
 	@Autowired
-	private TicketService			ticketService;
+	private TicketService				ticketService;
 
 	@Autowired
-	private Validator				validator;
+	private Validator					validator;
+
+	@Autowired
+	private ConvertionCurrencyService	convertionCurrencyService;
 
 
 	//Constructor
@@ -206,7 +212,7 @@ public class CustomerService {
 		if (result.getOverAge() == false) {
 			FieldError fieldError;
 			final String[] codes = {
-					"customer.birthDate.error"
+				"customer.birthDate.error"
 			};
 			fieldError = new FieldError("customerForm", "overAge", result.getOverAge(), false, codes, null, "");
 			binding.addError(fieldError);
@@ -219,7 +225,7 @@ public class CustomerService {
 			if (!this.checkCreditCard(result.getCreditCard())) {
 				FieldError fieldError;
 				final String[] codes = {
-						"customer.creditCard.error"
+					"customer.creditCard.error"
 				};
 				fieldError = new FieldError("customerForm", "creditCard", result.getCreditCard(), false, codes, null, "");
 				binding.addError(fieldError);
@@ -233,7 +239,7 @@ public class CustomerService {
 			if (result.getUserAccount().getPassword() == "" || result.getUserAccount().getPassword() == null) {
 				FieldError fieldError;
 				final String[] codes = {
-						"customer.passwords.error"
+					"customer.passwords.error"
 				};
 				fieldError = new FieldError("customerForm", "userAccount.password", result.getUserAccount().getPassword(), false, codes, null, "");
 				binding.addError(fieldError);
@@ -265,7 +271,7 @@ public class CustomerService {
 
 		if (creditCard != null)
 			if (creditCard.getBrandName() != null || !creditCard.getHolderName().isEmpty() || creditCard.getCvv() != null || creditCard.getExpirationMonth() != null
-					|| creditCard.getExpirationYear() != null || !creditCard.getNumber().isEmpty())
+				|| creditCard.getExpirationYear() != null || !creditCard.getNumber().isEmpty())
 				result = true;
 		return result;
 	}
@@ -308,19 +314,25 @@ public class CustomerService {
 
 	public void addBalance(final BalanceForm balanceForm) {
 		final Customer principal = this.findByPrincipal();
-		principal.setBalance(principal.getBalance() + balanceForm.getBalance());
+
+		//Conversión de moneda
+		final ConvertionCurrency convertionCurrency = this.convertionCurrencyService.findOne(balanceForm.getCurrency());
+		final Double convertedAmount = balanceForm.getBalance() * convertionCurrency.getConvertionAmount();
+
+		principal.setBalance(principal.getBalance() + convertedAmount);
 
 		this.save(principal);
 	}
 
-	public void extractBalance(final BalanceForm balanceForm) {
+	public void extractBalance(final BalanceForm balanceForm, final String language) {
 		final Customer principal = this.findByPrincipal();
 		Assert.isTrue(balanceForm.getBalance() > 10.0);
 		principal.setBalance(principal.getBalance() - balanceForm.getBalance());
 		Assert.isTrue(principal.getBalance() >= 0);
-		final Ticket ticket = this.ticketService.create();
 
-		this.save(principal);
+		//Create ticket and save ticket and customer
+		this.getextractVirtualCredit(balanceForm.getBalance(), language, balanceForm.getCurrency());
+
 	}
 
 	public void managementBan(final int customerId) {
@@ -398,10 +410,15 @@ public class CustomerService {
 		this.save(customer);
 	}
 
-	public void getextractVirtualCredit(final double amount) {
+	public void getextractVirtualCredit(final double amount, final String language, final Currency currency) {
 		final Customer customer = this.findByPrincipal();
+		Ticket ticket;
 
-		final Ticket ticket = this.ticketService.getDefaultEnglishExtractionTicket(amount);
+		if (language.equals("en_US")) {
+			ticket = this.ticketService.getDefaultEnglishExtractionTicket(amount, currency);
+		} else {
+			ticket = this.ticketService.getDefaultSpanishExtractionTicket(amount, currency);
+		}
 
 		customer.setBalance(customer.getBalance() - amount);
 

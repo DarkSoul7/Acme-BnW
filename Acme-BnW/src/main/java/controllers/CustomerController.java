@@ -4,11 +4,13 @@ package controllers;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 import javax.validation.Valid;
 
 import org.apache.commons.validator.routines.checkdigit.CheckDigitException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -161,12 +163,14 @@ public class CustomerController extends AbstractController {
 	public ModelAndView saveExt(@Valid final BalanceForm balanceForm, final BindingResult binding) {
 
 		ModelAndView result = new ModelAndView();
+		Locale locale;
 
 		if (binding.hasErrors()) {
 			result = this.extractBalanceModelAndView(balanceForm);
 		} else {
 			try {
-				this.customerService.extractBalance(balanceForm);
+				locale = LocaleContextHolder.getLocale();
+				this.customerService.extractBalance(balanceForm, locale.getLanguage());
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
 				result = this.extractBalanceModelAndView(balanceForm, "balance.extract.error");
@@ -175,7 +179,6 @@ public class CustomerController extends AbstractController {
 
 		return result;
 	}
-
 	@RequestMapping(value = "/addBalance", method = RequestMethod.POST, params = "save")
 	public ModelAndView saveAdd(@Valid final BalanceForm balanceForm, final BindingResult binding) {
 
@@ -223,6 +226,18 @@ public class CustomerController extends AbstractController {
 			result = new ModelAndView("redirect:/welcome/index.do");
 			result.addObject("errorMessage", "customer.ban.error");
 		}
+
+		return result;
+	}
+
+	@RequestMapping(value = "/ticketList", method = RequestMethod.GET)
+	public ModelAndView ticketList() {
+		ModelAndView result;
+		final Customer customer = this.customerService.findByPrincipal();
+
+		result = new ModelAndView("customer/ticketList");
+		result.addObject("tickets", customer.getTickets());
+		result.addObject("RequestURI", "customer/ticketList.do");
 
 		return result;
 	}

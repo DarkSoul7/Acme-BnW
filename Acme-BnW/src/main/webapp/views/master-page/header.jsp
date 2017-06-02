@@ -116,6 +116,7 @@
 									<li role="presentation" class="divider"></li>
 									<li><a href="customer/addBalance.do"><span class="glyphicon glyphicon-euro"></span> <spring:message code="master.page.customer.addBalance" /></a></li>
 									<li><a href="customer/extractBalance.do"><span class="glyphicon glyphicon-euro"></span> <spring:message code="master.page.customer.extractBalance" /></a></li>
+									<li><a href="customer/ticketList.do"> <span class="glyphicon glyphicon-barcode"></span></span><spring:message code="master.page.customer.tickets" /></a></li>
 									<li role="presentation" class="divider"></li>
 									<li><a href="customer/edit.do"><span class="glyphicon glyphicon-edit"></span> <spring:message code="master.page.edit.user" /></a></li>
 								</security:authorize>

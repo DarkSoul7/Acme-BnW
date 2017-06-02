@@ -27,25 +27,26 @@ public class Ticket extends DomainEntity {
 	private Date	moment;
 	private Double	amount;
 	private Double	convertedMoney;
+	private String	currency;
 
 
 	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.title = title;
 	}
 
 	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
@@ -54,43 +55,52 @@ public class Ticket extends DomainEntity {
 	@Temporal(value = TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getMoment() {
-		return moment;
+		return this.moment;
 	}
 
-	public void setMoment(Date moment) {
+	public void setMoment(final Date moment) {
 		this.moment = moment;
 	}
 
 	@NotNull
 	public Double getAmount() {
-		return amount;
+		return this.amount;
 	}
 
-	public void setAmount(Double amount) {
+	public void setAmount(final Double amount) {
 		this.amount = amount;
 	}
 
 	@NotNull
 	public Double getConvertedMoney() {
-		return convertedMoney;
+		return this.convertedMoney;
 	}
 
-	public void setConvertedMoney(Double convertedMoney) {
+	public void setConvertedMoney(final Double convertedMoney) {
 		this.convertedMoney = convertedMoney;
+	}
+
+	@NotBlank
+	public String getCurrency() {
+		return this.currency;
+	}
+
+	public void setCurrency(final String currency) {
+		this.currency = currency;
 	}
 
 
 	//Relationships
-	private Customer customer;
+	private Customer	customer;
 
 
 	@Valid
 	@ManyToOne(optional = false)
 	public Customer getCustomer() {
-		return customer;
+		return this.customer;
 	}
 
-	public void setCustomer(Customer customer) {
+	public void setCustomer(final Customer customer) {
 		this.customer = customer;
 	}
 }

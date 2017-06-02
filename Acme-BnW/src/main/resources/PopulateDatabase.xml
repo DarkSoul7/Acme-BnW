@@ -98,6 +98,23 @@
 	
 	<!-- Other domain beans come here -->	
 	
+	<!-- ConvertionCurrency -->
+	
+	<bean id="convertionCurrency1" class="domain.ConvertionCurrency">
+		<property name="currency" value="EURO" />
+		<property name="convertionAmount" value="1.0" />
+	</bean>
+	
+	<bean id="convertionCurrency2" class="domain.ConvertionCurrency">
+		<property name="currency" value="USD" />
+		<property name="convertionAmount" value="1.126" />
+	</bean>
+	
+	<bean id="convertionCurrency3" class="domain.ConvertionCurrency">
+		<property name="currency" value="POUND" />
+		<property name="convertionAmount" value="0.874" />
+	</bean>
+	
 	<!-- ADMINISTRATORS -->
 	
 	<bean id="administrator" class="domain.Administrator">
@@ -1009,6 +1026,7 @@
 		<property name="moment" value="2017/05/17" />
 		<property name="amount" value="42" />
 		<property name="convertedMoney" value="42" />
+		<property name="currency" value="Euro" />
 		<property name="customer" ref="customer1" />
 	</bean>	
 	
@@ -1017,6 +1035,7 @@
 		<property name="description" value="Reguardo para el cliente de haber retirado los fondos. Conversión a €" />
 		<property name="moment" value="2017/03/30" />
 		<property name="amount" value="71" />
+		<property name="currency" value="Euro" />
 		<property name="convertedMoney" value="71" />
 		<property name="customer" ref="customer1" />
 	</bean>	
@@ -1026,6 +1045,7 @@
 		<property name="description" value="Reguardo para el cliente de haber retirado los fondos. Conversión a €" />
 		<property name="moment" value="2017/04/27" />
 		<property name="amount" value="80" />
+		<property name="currency" value="Euro" />
 		<property name="convertedMoney" value="80" />
 		<property name="customer" ref="customer2" />
 	</bean>	

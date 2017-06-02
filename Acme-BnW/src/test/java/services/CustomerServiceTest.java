@@ -23,6 +23,7 @@ import domain.Bet;
 import domain.Brand;
 import domain.Coordinates;
 import domain.CreditCard;
+import domain.Currency;
 import domain.Customer;
 import domain.Message;
 import domain.Punctuation;
@@ -49,6 +50,9 @@ public class CustomerServiceTest extends AbstractTest {
 
 	@Autowired
 	private BalanceSearchEngineService	balanceSearchEngineService;
+
+	@Autowired
+	private ConvertionCurrencyService	s;
 
 
 	/***
@@ -265,8 +269,9 @@ public class CustomerServiceTest extends AbstractTest {
 			this.authenticate(principal);
 			final BalanceForm balanceForm = new BalanceForm();
 			balanceForm.setBalance(balance);
+			balanceForm.setCurrency(Currency.EURO);
 
-			this.customerService.extractBalance(balanceForm);
+			this.customerService.extractBalance(balanceForm, "en_US");
 
 			this.unauthenticate();
 			this.customerService.flush();
