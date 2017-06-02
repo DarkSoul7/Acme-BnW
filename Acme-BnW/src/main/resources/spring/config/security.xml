@@ -139,7 +139,7 @@
 		
 		<!-- Welcome offer -->
 		<security:intercept-url pattern="/welcomeOffer/showWelcomeOfferOption.do" access="hasRole('CUSTOMER')" />
-		<security:intercept-url pattern="/welcomeOffer/welcomeOfferOption.do" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/welcomeOffer/cancelWelcomeOffer.do" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/welcomeOffer/list.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/welcomeOffer/register.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/welcomeOffer/edit.do" access="hasRole('MANAGER')" />

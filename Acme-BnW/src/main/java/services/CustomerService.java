@@ -179,7 +179,7 @@ public class CustomerService {
 			result.setWelcomeOffer(this.welcomeOfferService.getActive());
 			result.setBalance(0.);
 			result.setIsDisabled(false);
-			result.setActiveWO(null);
+			result.setActiveWO(true);
 			result.setBanNum(0);
 
 			//Editing customer
@@ -359,7 +359,7 @@ public class CustomerService {
 		this.customerRepository.save(customer);
 	}
 
-	public void activeOffer(final Double charge, final int customerId) {
+	public void activeOffer(final Double charge) {
 		final Customer customer = this.findByPrincipal();
 		Assert.isTrue(charge >= customer.getWelcomeOffer().getExtractionAmount());
 		Assert.isTrue(customer.getFinishedOffer() == false);
@@ -369,10 +369,11 @@ public class CustomerService {
 
 	}
 
-	public void cancelOffer(final int customerId) {
-		final Customer customer = this.findByPrincipal();
+	public void cancelOffer() {
+		Customer customer = this.findByPrincipal();
 		Assert.isTrue(!customer.getFinishedOffer());
-		customer.setWelcomeOffer(null);
+		customer.setFinishedOffer(true);
+		customer.setActiveWO(false);
 		this.save(customer);
 	}
 

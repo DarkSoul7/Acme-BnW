@@ -12,8 +12,7 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-<display:table name="welcomeOffer" id="row" requestURI="${RequestURI}"
-	pagesize="5">
+<display:table name="welcomeOffers" id="row" requestURI="${RequestURI}" pagesize="5">
 
 	<spring:message code="welcomeOffer.title" var="title" />
 	<display:column property="title" title="${title}" />
@@ -24,28 +23,26 @@
 	<spring:message code="welcomeOffer.extractionAmount" var="extractionAmount" />
 	<display:column property="extractionAmount" title="${extractionAmount}" />
 	
+	<spring:message code="welcomeOffer.active" var="active" />
+	<display:column title="${active}">
+		<jstl:if test="${activeWelcomeOffer.id == row.id && activeWO == true}">
+			<span class="glyphicon glyphicon-ok-circle"></span>
+		</jstl:if>
+		<jstl:if test="${activeWelcomeOffer.id == row.id && activeWO == false}">
+			<span class="glyphicon glyphicon-remove-circle"></span>
+		</jstl:if>
+	</display:column>
+	
 </display:table>
 
-<jstl:if test="${optionSelected == true }">
-<br/>
+<jstl:if test="${activeWO == true}">
 	<spring:message code="welcomeOffer.extractionAmountTrue" var="extractionAmountTrue" />
-	<jstl:out value="${extractionAmountTrue }"></jstl:out>
+	<jstl:out value="${extractionAmountTrue}"></jstl:out>
+	
+	<acme:cancel code="welcomeOffer.declineButton" url="welcomeOffer/cancelWelcomeOffer.do" />
 </jstl:if>
 
-<jstl:if test="${optionSelected == false }">
-<br/>
+<jstl:if test="${activeWO == false}">
 	<spring:message code="welcomeOffer.extractionAmountFalse" var="extractionAmountFalse" />
 	<jstl:out value="${extractionAmountFalse }"></jstl:out>
-</jstl:if>
-
-<jstl:if test="${optionSelected == null }">
-	<br/>
-	<acme:cancel code="welcomeOffer.acceptButton" url="welcomeOffer/welcomeOfferOption.do?option=accept" />
-	&nbsp;&nbsp;&nbsp;&nbsp;
-	<acme:cancel code="welcomeOffer.declineButton" url="welcomeOffer/welcomeOfferOption.do?option=decline" />
-</jstl:if>
-
-<jstl:if test="${errorMessage != null }">
-	<spring:message code="${errorMessage}" var="error" />
-	<font size="4" color="red"><jstl:out value="${error}"></jstl:out></font>
 </jstl:if>
