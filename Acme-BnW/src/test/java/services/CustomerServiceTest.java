@@ -51,9 +51,6 @@ public class CustomerServiceTest extends AbstractTest {
 	@Autowired
 	private BalanceSearchEngineService	balanceSearchEngineService;
 
-	@Autowired
-	private ConvertionCurrencyService	s;
-
 
 	/***
 	 * Visualizar una lista con el balance ganancia-perdidas de todos los clientes existentes, pudiendo filtrar por nombre, apellido o DNI
