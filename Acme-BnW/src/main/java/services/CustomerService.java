@@ -355,7 +355,7 @@ public class CustomerService {
 
 	public void extractBalance(final BalanceForm balanceForm, final String language) {
 		final Customer principal = this.findByPrincipal();
-		Assert.isTrue(balanceForm.getBalance() >= 10.0);
+		//		Assert.isTrue(balanceForm.getBalance() >= 10.0);
 		Assert.isTrue(principal.getBalance() - balanceForm.getBalance() >= 0);
 
 		//Create ticket and save ticket and customer
@@ -382,8 +382,8 @@ public class CustomerService {
 		final Customer customer = this.findByPrincipal();
 		Assert.isTrue(!customer.getIsDisabled());
 
-		customer.setIsDisabled(true);
-		customer.getUserAccount().setEnabled(false);
+		//		customer.setIsDisabled(true);
+		//		customer.getUserAccount().setEnabled(false);
 		this.customerRepository.save(customer);
 	}
 

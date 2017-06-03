@@ -194,9 +194,9 @@ public class TeamService {
 		team = this.findOne(teamId);
 		principal = this.customerService.findByPrincipal();
 
-		Assert.isTrue(team.getCustomers().contains(principal));
-
-		team.getCustomers().remove(principal);
+		//		Assert.isTrue(team.getCustomers().contains(principal));
+		//
+		//		team.getCustomers().remove(principal);
 
 		this.customerSave(team);
 	}
