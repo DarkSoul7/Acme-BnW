@@ -12,10 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import utilities.AbstractTest;
 import domain.Category;
 import domain.Fixture;
 import domain.Tournament;
-import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
@@ -43,38 +43,35 @@ public class CategoryServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			// actor, name, description, tournamentId,expected exception
 			{
-				"manager1", "Name1", "Description1", 96, null
+				"manager1", "Name1", "Description1", 102, null
 			}, {
-				"manager1", "", "Description2", 96, ConstraintViolationException.class
+				"manager1", "", "Description2", 102, ConstraintViolationException.class
 			}, {
-				"manager1", "Name2", "", 96, ConstraintViolationException.class
+				"manager1", "Name2", "", 102, ConstraintViolationException.class
 			}
 		};
-		
-		
-		
 
 		for (int i = 0; i < testingData.length; i++) {
 			this.registerCategoryTemplated((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Integer) testingData[i][3], (Class<?>) testingData[i][4]);
 		}
 	}
 
-	protected void registerCategoryTemplated(String principal, String name, String description, Integer tournamentId, Class<?> expectedException) {
+	protected void registerCategoryTemplated(final String principal, final String name, final String description, final Integer tournamentId, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			Tournament tournament = tournamentService.findOne(tournamentId);
-			Category category = new Category();
+			final Tournament tournament = this.tournamentService.findOne(tournamentId);
+			final Category category = new Category();
 			category.setName(name);
 			category.setDescription(description);
 			category.setTournament(tournament);
 			category.setFixtures(new ArrayList<Fixture>());
 
-			categoryService.save(category);
+			this.categoryService.save(category);
 			this.unauthenticate();
 			this.categoryService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -92,11 +89,11 @@ public class CategoryServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			// actor, categoryId ,name, description, expected exception
 			{
-				"manager1", 99, "name", "description 1", null
+				"manager1", 105, "name", "description 1", null
 			}, {
-				"manager1", 99, "", "description 2", ConstraintViolationException.class
+				"manager1", 105, "", "description 2", ConstraintViolationException.class
 			}, {
-				"manager1", 99, "name 1", null, ConstraintViolationException.class
+				"manager1", 105, "name 1", null, ConstraintViolationException.class
 			}
 		};
 
@@ -105,19 +102,19 @@ public class CategoryServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void editCategoryTemplated(String principal, int categoryId, String name, String description, Class<?> expectedException) {
+	protected void editCategoryTemplated(final String principal, final int categoryId, final String name, final String description, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			Category category = categoryService.findOne(categoryId);
+			final Category category = this.categoryService.findOne(categoryId);
 			category.setName(name);
 			category.setDescription(description);
 
-			categoryService.save(category);
+			this.categoryService.save(category);
 			this.unauthenticate();
 			this.categoryService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -126,8 +123,8 @@ public class CategoryServiceTest extends AbstractTest {
 	/***
 	 * Delete categories
 	 * 1º Good test -> expected: category deleted
-	 * 2º Bad test -> an customer cannot delete categorys
-	 * 3º Bad test -> an admin cannot delete categorys
+	 * 2º Bad test -> an customer cannot delete categories
+	 * 3º Bad test -> an administrator cannot delete categories
 	 */
 
 	@Test
@@ -135,11 +132,11 @@ public class CategoryServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, categoryId, expected exception
 			{
-				"manager1", 94, null
+				"manager1", 105, null
 			}, {
-				"customer1", 94, IllegalArgumentException.class
+				"customer1", 105, IllegalArgumentException.class
 			}, {
-				"admin", 94, IllegalArgumentException.class
+				"admin", 105, IllegalArgumentException.class
 			}
 		};
 
@@ -148,24 +145,24 @@ public class CategoryServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void deletecategoryTemplated(String principal, int categoryId, Class<?> expectedException) {
+	protected void deletecategoryTemplated(final String principal, final int categoryId, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			Tournament tournament = tournamentService.findOne(96);
+			final Tournament tournament = this.tournamentService.findOne(102);
 			Category category = new Category();
 			category.setName("Name 1");
 			category.setDescription("Description 1");
 			category.setTournament(tournament);
 			category.setFixtures(new ArrayList<Fixture>());
 
-			category = categoryService.save(category);
+			category = this.categoryService.save(category);
 
-			categoryService.delete(category);
+			this.categoryService.delete(category);
 			this.unauthenticate();
 			this.categoryService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);

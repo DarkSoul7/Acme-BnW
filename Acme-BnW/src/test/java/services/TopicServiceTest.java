@@ -13,10 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import utilities.AbstractTest;
 import domain.Message;
 import domain.Punctuation;
 import domain.Topic;
-import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
@@ -59,25 +59,25 @@ public class TopicServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void registerTopicTemplated(String principal, String title, String description, Class<?> expectedException) {
+	protected void registerTopicTemplated(final String principal, final String title, final String description, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			Topic topic = new Topic();
+			final Topic topic = new Topic();
 
 			topic.setCreationMoment(new Date(System.currentTimeMillis() - 1000));
 			topic.setTitle(title);
 			topic.setDescription(description);
 			topic.setMessages(new ArrayList<Message>());
 			topic.setPunctuations(new ArrayList<Punctuation>());
-			topic.setCustomer(customerService.findByPrincipal());
+			topic.setCustomer(this.customerService.findByPrincipal());
 
-			topicService.save(topic);
+			this.topicService.save(topic);
 
 			this.unauthenticate();
 			this.topicService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -95,11 +95,11 @@ public class TopicServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, description, topicId expected exception
 			{
-				"customer1", "description", 147, null
+				"customer2", "description", 151, null
 			}, {
-				"customer2", "", 145, ConstraintViolationException.class
+				"customer2", "", 151, ConstraintViolationException.class
 			}, {
-				"customer1", "description", 145, IllegalArgumentException.class
+				"customer1", "description", 151, IllegalArgumentException.class
 			}
 		};
 
@@ -108,20 +108,20 @@ public class TopicServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void editTopicTemplated(String principal, String description, int topicId, Class<?> expectedException) {
+	protected void editTopicTemplated(final String principal, final String description, final int topicId, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			Topic topic = topicService.findOne(topicId);
+			final Topic topic = this.topicService.findOne(topicId);
 
 			topic.setDescription(description);
 
-			topicService.save(topic);
+			this.topicService.save(topic);
 
 			this.unauthenticate();
 			this.topicService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -139,11 +139,11 @@ public class TopicServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, topicId , expected exception
 			{
-				"admin", 145, null
+				"admin", 151, null
 			}, {
-				"customer1", 146, IllegalArgumentException.class
+				"customer1", 152, IllegalArgumentException.class
 			}, {
-				"manager", 146, IllegalArgumentException.class
+				"manager", 152, IllegalArgumentException.class
 			}
 		};
 
@@ -152,16 +152,16 @@ public class TopicServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void deleteTopicTemplated(String principal, int topicId, Class<?> expectedException) {
+	protected void deleteTopicTemplated(final String principal, final int topicId, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			Topic topic = topicService.findOne(topicId);
-			topicService.delete(topic);
+			final Topic topic = this.topicService.findOne(topicId);
+			this.topicService.delete(topic);
 			this.unauthenticate();
 			this.topicService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);

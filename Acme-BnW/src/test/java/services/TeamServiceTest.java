@@ -12,10 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import utilities.AbstractTest;
 import domain.Customer;
 import domain.Match;
 import domain.Team;
-import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
@@ -27,7 +27,7 @@ public class TeamServiceTest extends AbstractTest {
 	// System under test ------------------------------------------------------
 
 	@Autowired
-	private TeamService teamService;
+	private TeamService	teamService;
 
 
 	/***
@@ -55,22 +55,22 @@ public class TeamServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void registerTeamTemplated(String principal, String name, String shield, Class<?> expectedException) {
+	protected void registerTeamTemplated(final String principal, final String name, final String shield, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			Team team = new Team();
+			final Team team = new Team();
 			team.setName(name);
 			team.setShield(shield);
 			team.setCustomers(new ArrayList<Customer>());
 			team.setLocalMatches(new ArrayList<Match>());
 			team.setVisitorMatches(new ArrayList<Match>());
 
-			teamService.save(team);
+			this.teamService.save(team);
 			this.unauthenticate();
 			this.teamService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -88,11 +88,11 @@ public class TeamServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, teamId ,name, shield, expected exception
 			{
-				"manager1", 102, "name", "https://c1.staticflickr.com/9/8108/8531201674_60519d433a.jpg", null
+				"manager1", 108, "name", "https://c1.staticflickr.com/9/8108/8531201674_60519d433a.jpg", null
 			}, {
-				"manager1", 102, "", "https://c1.staticflickr.com/9/8108/8531201674_60519d433a.jpg", ConstraintViolationException.class
+				"manager1", 108, "", "https://c1.staticflickr.com/9/8108/8531201674_60519d433a.jpg", ConstraintViolationException.class
 			}, {
-				"manager1", 102, "name", "", ConstraintViolationException.class
+				"manager1", 108, "name", "", ConstraintViolationException.class
 			}
 		};
 
@@ -101,19 +101,19 @@ public class TeamServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void editTeamTemplated(String principal, int teamId, String name, String shield, Class<?> expectedException) {
+	protected void editTeamTemplated(final String principal, final int teamId, final String name, final String shield, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			Team team = teamService.findOne(teamId);
+			final Team team = this.teamService.findOne(teamId);
 			team.setName(name);
 			team.setShield(shield);
 
-			teamService.save(team);
+			this.teamService.save(team);
 			this.unauthenticate();
 			this.teamService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -131,11 +131,11 @@ public class TeamServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, teamId , expected exception
 			{
-				"manager1", 110, null
+				"manager1", 116, null
 			}, {
-				"customer1", 110, IllegalArgumentException.class
+				"customer1", 115, IllegalArgumentException.class
 			}, {
-				"admin", 110, IllegalArgumentException.class
+				"admin", 115, IllegalArgumentException.class
 			}
 		};
 
@@ -144,16 +144,16 @@ public class TeamServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void deleteTeamTemplated(String principal, int teamId, Class<?> expectedException) {
+	protected void deleteTeamTemplated(final String principal, final int teamId, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			Team team = teamService.findOne(teamId);
-			teamService.delete(team);
+			final Team team = this.teamService.findOne(teamId);
+			this.teamService.delete(team);
 			this.unauthenticate();
 			this.teamService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
