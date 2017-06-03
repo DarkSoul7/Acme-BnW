@@ -8,11 +8,25 @@
  * http://www.tdg-seville.info/License.html
  --%>
 
+<%@page import="security.Authority"%>
 <%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+
+<!-- Scriptlets -->
+<%@ page import="services.CustomerService, security.LoginService" %>
+<%
+	if(LoginService.isAuthenticated() && Authority.CUSTOMER.equals(LoginService.getPrincipal().getAuthorities().iterator().next().getAuthority())) {
+		Double balance = CustomerService.findStaticByPrincipal().getBalance();
+		request.setAttribute("balance", balance);
+	}
+%>
+
+<!-- Variables -->
+<fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${balance}" var="balance"></fmt:formatNumber>
 
 <!-- Scripts -->
 <script type="text/javascript" src="scripts/moment-with-locales.js"></script>
@@ -126,6 +140,10 @@
 								<li><a href="j_spring_security_logout"><span class="glyphicon glyphicon-log-out"></span> <spring:message code="master.page.logout" /> </a></li>
 							</ul>
 						</li>
+						
+						<security:authorize access="hasRole('CUSTOMER')">
+							<li class="dropdown"><a class="dropdown-toggle">${balance}&euro;</a>
+						</security:authorize>
 					</ul>
 				</div>
 			</security:authorize>

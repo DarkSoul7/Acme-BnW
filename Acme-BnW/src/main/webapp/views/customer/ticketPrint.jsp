@@ -340,7 +340,8 @@
 </div>
 
 <spring:message code="ticket.generatePdf" var="generatePdf" />
-		<button class="btn btn-default" type="button" onclick="printFunction()"><jstl:out value="${generatePdf }"/></button>
+<button class="btn btn-success" type="button" onclick="printFunction()"><jstl:out value="${generatePdf }"/></button>
+<acme:cancel code="customer.back" url="/customer/ticketList.do"/>
 
 <script>
 

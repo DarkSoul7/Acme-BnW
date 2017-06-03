@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.Collection;
@@ -79,13 +78,14 @@ public class TicketService {
 
 		//Conversión de moneda
 		final ConvertionCurrency convertionCurrency = this.convertionCurrencyService.findOne(currency);
-		final Double convertedAmount = amount / convertionCurrency.getConvertionAmount();
+		final Double convertedAmount = Double.valueOf(String.format("%.2f", amount / convertionCurrency.getConvertionAmount()));
 		result.setConvertedMoney(convertedAmount);
 		result.setAmount(amount);
 		result.setCurrency(currency.getEnglishName());
 
 		return result;
 	}
+
 	public Ticket getDefaultSpanishExtractionTicket(final double amount, final Currency currency) {
 		final Ticket result = this.create();
 
@@ -94,7 +94,7 @@ public class TicketService {
 		result.setTitle("Cantidad extraída: " + amount + " vistual credits");
 
 		final ConvertionCurrency convertionCurrency = this.convertionCurrencyService.findOne(currency);
-		final Double convertedAmount = amount / convertionCurrency.getConvertionAmount();
+		final Double convertedAmount = Double.valueOf(String.format("%.2f", amount / convertionCurrency.getConvertionAmount()));
 		result.setConvertedMoney(convertedAmount);
 		result.setAmount(amount);
 		result.setCurrency(currency.getSpanishName());
