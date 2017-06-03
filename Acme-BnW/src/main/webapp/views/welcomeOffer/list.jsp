@@ -13,8 +13,7 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-<display:table name="welcomeOffers" id="row" requestURI="${RequestURI}"
-	pagesize="5">
+<display:table name="welcomeOffers" id="row" requestURI="${RequestURI}" pagesize="5">
 
 	<spring:message code="welcomeOffer.title" var="title" />
 	<display:column property="title" title="${title}" />
@@ -42,7 +41,7 @@
 	</display:column>
 	<display:column >
 		<jstl:if test="${fn:length(row.customers) == 0}">
-			<acme:cancel code="welcomeOffer.delete" url="welcomeOffer/delete.do?welcomeOfferId=${row.id}" />
+			<acme:confirm code="welcomeOffer.delete" url="welcomeOffer/delete.do?welcomeOfferId=${row.id}" msg="welcomeOffer.delete.confirm" />
 		</jstl:if>
 	</display:column>
 
@@ -50,3 +49,4 @@
 
 <br/>
 <acme:cancel code="welcomeOffer.create" url="welcomeOffer/register.do" class_="btn btn-primary" />
+<acme:cancel code="welcomeOffer.back" url="/" />

@@ -74,20 +74,11 @@
 	</security:authorize>
 
 </display:table>
-<br/>
+
 <security:authorize access="hasRole('CUSTOMER')">
 	<jstl:if test="${givenPunctuation == false }">
 		<acme:cancel code="topic.punctuation" url="topic/punctuation/create.do?topicId=${topic.id}" />
 	</jstl:if>
+	<acme:cancel code="message.create" url="message/create.do?topicId=${topic.id}" class_="btn btn-primary" />
 </security:authorize>
-<br/>
-<br/>
-<security:authorize access="hasRole('CUSTOMER')">
-	<acme:cancel code="message.create" url="message/create.do?topicId=${topic.id}" />
-</security:authorize>
-
-<jstl:if test="${errorMessage != null }">
-	<br/>
-	<spring:message code="${errorMessage}" var="error" />
-	<font size="4" color="red"><jstl:out value="${error}"></jstl:out></font>
-</jstl:if>
+<acme:cancel url="/topic/listAll.do" code="topic.back" />

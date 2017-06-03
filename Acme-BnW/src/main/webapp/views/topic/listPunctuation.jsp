@@ -29,13 +29,7 @@
 
 </display:table>
 
-<br/>
-	<jstl:if test="${givenPunctuation == false }">
-		<acme:cancel code="topic.punctuation.create" url="topic/punctuation/create.do?topicId=${topicId}" />
-	</jstl:if>
-	
-<jstl:if test="${errorMessage != null }">
-<br/>
-	<spring:message code="${errorMessage}" var="error" />
-	<font size="4" color="red"><jstl:out value="${error}"></jstl:out></font>
+<jstl:if test="${givenPunctuation == false }">
+	<acme:cancel code="topic.punctuation.create" url="topic/punctuation/create.do?topicId=${topicId}" />
 </jstl:if>
+<acme:cancel url="/topic/listAll.do" code="topic.back" />

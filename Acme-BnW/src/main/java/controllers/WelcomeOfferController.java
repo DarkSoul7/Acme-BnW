@@ -38,7 +38,7 @@ public class WelcomeOfferController extends AbstractController {
 
 	// Show welcome offer options
 	@RequestMapping(value = "/showWelcomeOfferOption", method = RequestMethod.GET)
-	public ModelAndView welcomeOfferOptions(@RequestParam(required = false) final String errorMessage) {
+	public ModelAndView welcomeOfferOptions(@RequestParam(required = false) String errorMessage) {
 		ModelAndView result;
 		Collection<WelcomeOffer> welcomeOffers;
 		Customer principal;
@@ -56,7 +56,7 @@ public class WelcomeOfferController extends AbstractController {
 		return result;
 	}
 
-	// Accept/Decline welcome offer
+	// Decline welcome offer
 	@RequestMapping(value = "/cancelWelcomeOffer", method = RequestMethod.GET)
 	public ModelAndView acceptDeclineWO() {
 		ModelAndView result;
@@ -66,7 +66,7 @@ public class WelcomeOfferController extends AbstractController {
 
 			result = new ModelAndView("redirect:/welcomeOffer/showWelcomeOfferOption.do");
 
-		} catch (final Throwable e) {
+		} catch (Throwable e) {
 			result = new ModelAndView("redirect:/welcomeOffer/showWelcomeOfferOption.do");
 			result.addObject("errorMessage", "welcomeOffer.option.error");
 		}
@@ -76,15 +76,16 @@ public class WelcomeOfferController extends AbstractController {
 	//List
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required = false) final String errorMessage) {
+	public ModelAndView list(@RequestParam(required = false) String errorMessage, @RequestParam(required = false) String successMessage) {
 		ModelAndView result;
 
-		final Collection<WelcomeOffer> welcomeOffers = this.welcomeOfferService.findAll();
+		Collection<WelcomeOffer> welcomeOffers = this.welcomeOfferService.findAll();
 
 		result = new ModelAndView("welcomeOffer/list");
 		result.addObject("RequestURI", "welcomeOffer/list.do");
 		result.addObject("welcomeOffers", welcomeOffers);
 		result.addObject("errorMessage", errorMessage);
+		result.addObject("successMessage", successMessage);
 
 		return result;
 	}
@@ -93,23 +94,23 @@ public class WelcomeOfferController extends AbstractController {
 	public ModelAndView register() {
 		ModelAndView result = new ModelAndView();
 
-		final WelcomeOfferForm welcomeOfferForm = this.welcomeOfferService.create();
+		WelcomeOfferForm welcomeOfferForm = this.welcomeOfferService.create();
 		result = this.createModelAndView(welcomeOfferForm);
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam final int welcomeOfferId) {
+	public ModelAndView edit(@RequestParam int welcomeOfferId) {
 		ModelAndView result = new ModelAndView();
 
-		final WelcomeOffer welcomeOffer = this.welcomeOfferService.findOne(welcomeOfferId);
-		final WelcomeOfferForm welcomeOfferForm = this.welcomeOfferService.toFormObject(welcomeOffer);
-		result = this.createEditModelAndView(welcomeOfferForm);
+		WelcomeOffer welcomeOffer = this.welcomeOfferService.findOne(welcomeOfferId);
+		WelcomeOfferForm welcomeOfferForm = this.welcomeOfferService.toFormObject(welcomeOffer);
+		result = this.editModelAndView(welcomeOfferForm);
 		return result;
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final WelcomeOfferForm welcomeOfferForm, final BindingResult binding) {
+	public ModelAndView save(@Valid WelcomeOfferForm welcomeOfferForm, BindingResult binding) {
 		ModelAndView result = new ModelAndView();
 		WelcomeOffer welcomeOffer = new WelcomeOffer();
 
@@ -121,35 +122,37 @@ public class WelcomeOfferController extends AbstractController {
 				try {
 					this.welcomeOfferService.save(welcomeOffer);
 					result = new ModelAndView("redirect:/welcomeOffer/list.do");
-				} catch (final Throwable oops) {
+					result.addObject("successMessage", "welcomeOffer.save.success");
+				} catch (Throwable oops) {
 					result = this.createModelAndView(welcomeOfferForm, "welcomeOffer.save.error");
 				}
 			}
 		} catch (Throwable e) {
-			result = this.createModelAndView(welcomeOfferForm, "welcomeOffer.save.error");
+			result = this.createModelAndView(welcomeOfferForm, "welcomeOffer.register.error");
 		}
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView saveEdit(@Valid final WelcomeOfferForm welcomeOfferForm, final BindingResult binding) {
+	public ModelAndView saveEdit(@Valid WelcomeOfferForm welcomeOfferForm, BindingResult binding) {
 		ModelAndView result = new ModelAndView();
 		WelcomeOffer welcomeOffer = new WelcomeOffer();
 
 		try {
 			welcomeOffer = this.welcomeOfferService.reconstruct(welcomeOfferForm, binding);
 			if (binding.hasErrors()) {
-				result = this.createEditModelAndView(welcomeOfferForm);
+				result = this.editModelAndView(welcomeOfferForm);
 			} else {
 				try {
 					this.welcomeOfferService.save(welcomeOffer);
 					result = new ModelAndView("redirect:/welcomeOffer/list.do");
-				} catch (final Throwable oops) {
-					result = this.createEditModelAndView(welcomeOfferForm, "welcomeOffer.save.error");
+					result.addObject("successMessage", "welcomeOffer.edit.success");
+				} catch (Throwable oops) {
+					result = this.editModelAndView(welcomeOfferForm, "welcomeOffer.edit.error");
 				}
 			}
 		} catch (Throwable e) {
-			result = this.createEditModelAndView(welcomeOfferForm, "welcomeOffer.save.error");
+			result = this.editModelAndView(welcomeOfferForm, "welcomeOffer.edit.error");
 		}
 		return result;
 	}
@@ -157,16 +160,17 @@ public class WelcomeOfferController extends AbstractController {
 	//Delete
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public ModelAndView delete(@RequestParam final int welcomeOfferId) {
+	public ModelAndView delete(@RequestParam int welcomeOfferId) {
 		ModelAndView result;
 
 		try {
-			final WelcomeOffer welcomeOffer = this.welcomeOfferService.findOne(welcomeOfferId);
+			WelcomeOffer welcomeOffer = this.welcomeOfferService.findOne(welcomeOfferId);
 
 			this.welcomeOfferService.delete(welcomeOffer);
 			result = new ModelAndView("redirect:/welcomeOffer/list.do");
+			result.addObject("successMessage", "welcomeOffer.delete.success");
 
-		} catch (final Throwable e) {
+		} catch (Throwable e) {
 			result = new ModelAndView("redirect:/welcomeOffer/list.do");
 			result.addObject("errorMessage", "welcomeOffer.delete.error");
 		}
@@ -176,31 +180,31 @@ public class WelcomeOfferController extends AbstractController {
 
 	//Ancillary methods
 
-	protected ModelAndView createModelAndView(final WelcomeOfferForm welcomeOfferForm) {
+	protected ModelAndView createModelAndView(WelcomeOfferForm welcomeOfferForm) {
 		return this.createModelAndView(welcomeOfferForm, null);
 	}
 
-	protected ModelAndView createModelAndView(final WelcomeOfferForm welcomeOfferForm, final String message) {
+	protected ModelAndView createModelAndView(WelcomeOfferForm welcomeOfferForm, String errorMessage) {
 		ModelAndView result;
 
 		result = new ModelAndView("welcomeOffer/create");
 		result.addObject("welcomeOfferForm", welcomeOfferForm);
-		result.addObject("errorMessage", message);
+		result.addObject("errorMessage", errorMessage);
 		result.addObject("RequestURI", "welcomeOffer/register.do");
 
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final WelcomeOfferForm welcomeOfferForm) {
-		return this.createEditModelAndView(welcomeOfferForm, null);
+	protected ModelAndView editModelAndView(WelcomeOfferForm welcomeOfferForm) {
+		return this.editModelAndView(welcomeOfferForm, null);
 	}
 
-	protected ModelAndView createEditModelAndView(final WelcomeOfferForm welcomeOfferForm, final String message) {
+	protected ModelAndView editModelAndView(WelcomeOfferForm welcomeOfferForm, String errorMessage) {
 		ModelAndView result;
 
 		result = new ModelAndView("welcomeOffer/edit");
 		result.addObject("welcomeOfferForm", welcomeOfferForm);
-		result.addObject("errorMessage", message);
+		result.addObject("errorMessage", errorMessage);
 		result.addObject("RequestURI", "welcomeOffer/edit.do");
 
 		return result;

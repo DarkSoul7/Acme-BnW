@@ -82,37 +82,39 @@
 	<spring:message code="promotion.cancelled" var="cancel" />
 	<display:column title="${cancel}">
 			<jstl:if test="${row.cancel}">
-				<spring:message code="promotion.cancel.true" var="cancelTrue" />
-				<jstl:out value="${cancelTrue}"></jstl:out>
+				<span class="glyphicon glyphicon-ok-circle"></span>
 			</jstl:if>
 			<jstl:if test="${!row.cancel}">
-				<spring:message code="promotion.cancel.false" var="cancelFalse" />
-				<jstl:out value="${cancelFalse}"></jstl:out>
+				<span class="glyphicon glyphicon-remove-circle"></span>
 			</jstl:if>
 		</display:column>
 	</security:authorize>
 	
 	<security:authorize access="hasRole('CUSTOMER')"> 
 		<display:column>
-			<acme:cancel code="welcome.goToMarket" url="market/list.do?marketId=${row.market.id}" />
+			<jstl:set var="validPromotion" value="${row.startMoment < currentMoment && row.endMoment > currentMoment}" />
+			<jstl:choose>
+				<jstl:when test="${validPromotion}">
+					<acme:cancel code="welcome.goToMarket" url="market/list.do?marketId=${row.market.id}" />			
+				</jstl:when>
+				<jstl:otherwise>
+					<i><spring:message code="promotion.comingSoon" /></i>
+				</jstl:otherwise>
+			</jstl:choose>
 		</display:column>
 	</security:authorize>´
 	
 	<security:authorize access="hasRole('MANAGER')">
 		<display:column>
-			<acme:cancel url="promotion/edit.do?promotionId=${row.id}"
-				code="promotion.edit" />
+			<acme:cancel url="promotion/edit.do?promotionId=${row.id}" code="promotion.edit" />
 		</display:column>
 		
 		<display:column>
 			<jstl:if test="${row.cancel == false }">
-				<acme:cancel url="promotion/cancel.do?promotionId=${row.id}"
-					code="promotion.cancel" />
+				<acme:confirm url="promotion/cancel.do?promotionId=${row.id}" code="promotion.cancel" msg="promotion.cancel.confirm" />
 			</jstl:if>
 		</display:column>
 	</security:authorize>
 </display:table>
 
-<security:authorize access="hasRole('MANAGER')">
-	<acme:cancel url="market/list.do" code="promotion.create" />
-</security:authorize>
+<acme:cancel url="/" code="promotion.back" />

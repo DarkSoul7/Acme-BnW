@@ -16,4 +16,7 @@ public interface PromotionRepository extends JpaRepository<Promotion, Integer> {
 
 	@Query("select m.promotion from Team t join t.customers c join t.visitorMatches vm join vm.markets m where c.id = ?1 and m.promotion.startMoment < NOW() and m.promotion.endMoment > NOW() and m.promotion.cancel = false")
 	public Collection<Promotion> getVisitorFavouriteTeamPromotions(int customerId);
+
+	@Query("select p from Promotion p where p.cancel = false")
+	public Collection<Promotion> findAllNotCancelled();
 }

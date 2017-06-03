@@ -140,6 +140,9 @@ public class PromotionService {
 
 	public void flush() {
 		promotionRepository.flush();
+	}
 
+	public Collection<Promotion> findAllNotCancelled() {
+		return this.promotionRepository.findAllNotCancelled();
 	}
 }
