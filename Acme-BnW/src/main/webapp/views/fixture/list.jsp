@@ -62,8 +62,7 @@
 		</display:column>
 		
 		<display:column>
-			<acme:cancel url="fixture/delete.do?fixtureId=${row.id}"
-				code="fixture.delete" />
+			<acme:confirm url="fixture/delete.do?fixtureId=${row.id}" code="fixture.delete" msg="fixture.delete.confirm" />
 		</display:column>
 	
 
@@ -71,6 +70,6 @@
 </display:table>
 
 <security:authorize access="hasRole('MANAGER')">
-	<acme:cancel url="fixture/register.do"
-				code="fixture.create" />
+	<acme:cancel url="fixture/register.do" code="fixture.create" class_="btn btn-primary" />
 </security:authorize>
+<acme:cancel url="/category/list.do" code="fixture.back"/>

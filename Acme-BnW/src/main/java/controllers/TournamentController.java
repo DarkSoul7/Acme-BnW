@@ -1,4 +1,3 @@
-
 package controllers;
 
 import java.util.Arrays;
@@ -39,7 +38,7 @@ public class TournamentController extends AbstractController {
 	//Listing 
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required = false) final String errorMessage) {
+	public ModelAndView list(@RequestParam(required = false) String errorMessage, @RequestParam(required = false) String successMessage) {
 		ModelAndView result;
 		Collection<Tournament> tournaments;
 
@@ -49,12 +48,13 @@ public class TournamentController extends AbstractController {
 		result.addObject("tournaments", tournaments);
 		result.addObject("requestURI", "tournament/list.do");
 		result.addObject("errorMessage", errorMessage);
+		result.addObject("successMessage", successMessage);
 
 		return result;
 	}
 
 	@RequestMapping(value = "/listOfBasketball", method = RequestMethod.GET)
-	public ModelAndView listOfBasketball() {
+	public ModelAndView listOfBasketball(@RequestParam(required = false) String errorMessage, @RequestParam(required = false) String successMessage) {
 		ModelAndView result;
 		Collection<Tournament> tournaments;
 
@@ -63,12 +63,14 @@ public class TournamentController extends AbstractController {
 		result = new ModelAndView("tournament/list");
 		result.addObject("tournaments", tournaments);
 		result.addObject("requestURI", "tournament/listOfBasketball.do");
+		result.addObject("errorMessage", errorMessage);
+		result.addObject("successMessage", successMessage);
 
 		return result;
 	}
 
 	@RequestMapping(value = "/listOfFootball", method = RequestMethod.GET)
-	public ModelAndView listOfFootball() {
+	public ModelAndView listOfFootball(@RequestParam(required = false) String errorMessage, @RequestParam(required = false) String successMessage) {
 		ModelAndView result;
 		Collection<Tournament> tournaments;
 
@@ -77,6 +79,8 @@ public class TournamentController extends AbstractController {
 		result = new ModelAndView("tournament/list");
 		result.addObject("tournaments", tournaments);
 		result.addObject("requestURI", "tournament/listOfFootball.do");
+		result.addObject("errorMessage", errorMessage);
+		result.addObject("successMessage", successMessage);
 
 		return result;
 	}
@@ -85,23 +89,23 @@ public class TournamentController extends AbstractController {
 	public ModelAndView register() {
 		ModelAndView result = new ModelAndView();
 
-		final TournamentForm tournamentForm = this.tournamentService.create();
+		TournamentForm tournamentForm = this.tournamentService.create();
 		result = this.createModelAndView(tournamentForm);
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam final int tournamentId) {
+	public ModelAndView edit(@RequestParam int tournamentId) {
 		ModelAndView result = new ModelAndView();
 
-		final Tournament tournament = this.tournamentService.findOne(tournamentId);
-		final TournamentForm tournamentForm = this.tournamentService.toFormObject(tournament);
-		result = this.createEditModelAndView(tournamentForm);
+		Tournament tournament = this.tournamentService.findOne(tournamentId);
+		TournamentForm tournamentForm = this.tournamentService.toFormObject(tournament);
+		result = this.editModelAndView(tournamentForm);
 		return result;
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final TournamentForm tournamentForm, final BindingResult binding) {
+	public ModelAndView save(@Valid TournamentForm tournamentForm, BindingResult binding) {
 		ModelAndView result = new ModelAndView();
 		Tournament tournament = new Tournament();
 
@@ -112,8 +116,9 @@ public class TournamentController extends AbstractController {
 			try {
 				this.tournamentService.save(tournament);
 				result = new ModelAndView("redirect:/tournament/list.do");
-			} catch (final Throwable oops) {
-				result = this.createModelAndView(tournamentForm, "tournament.commit.error");
+				result.addObject("successMessage", "tournament.register.success");
+			} catch (Throwable oops) {
+				result = this.createModelAndView(tournamentForm, "tournament.register.error");
 			}
 		}
 
@@ -121,19 +126,20 @@ public class TournamentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView saveEdit(@Valid final TournamentForm tournamentForm, final BindingResult binding) {
+	public ModelAndView saveEdit(@Valid TournamentForm tournamentForm, BindingResult binding) {
 		ModelAndView result = new ModelAndView();
 		Tournament tournament = new Tournament();
 
 		tournament = this.tournamentService.reconstruct(tournamentForm, binding);
 		if (binding.hasErrors()) {
-			result = this.createEditModelAndView(tournamentForm);
+			result = this.editModelAndView(tournamentForm);
 		} else {
 			try {
 				this.tournamentService.save(tournament);
 				result = new ModelAndView("redirect:/tournament/list.do");
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(tournamentForm, "tournament.commit.error");
+				result.addObject("successMessage", "tournament.edit.success");
+			} catch (Throwable oops) {
+				result = this.editModelAndView(tournamentForm, "tournament.edit.error");
 			}
 		}
 
@@ -141,14 +147,15 @@ public class TournamentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public ModelAndView delete(@RequestParam final int tournamentId) {
+	public ModelAndView delete(@RequestParam int tournamentId) {
 		ModelAndView result = new ModelAndView();
 
-		final Tournament tournament = this.tournamentService.findOne(tournamentId);
+		Tournament tournament = this.tournamentService.findOne(tournamentId);
 		try {
 			this.tournamentService.delete(tournament);
 			result = new ModelAndView("redirect:/tournament/list.do");
-		} catch (final Throwable oops) {
+			result.addObject("successMessage", "tournament.delete.success");
+		} catch (Throwable oops) {
 			result = new ModelAndView("redirect:/tournament/list.do");
 			result.addObject("errorMessage", "tournament.delete.error");
 		}
@@ -158,36 +165,36 @@ public class TournamentController extends AbstractController {
 
 	//Ancillary methods
 
-	protected ModelAndView createModelAndView(final TournamentForm tournamentForm) {
+	protected ModelAndView createModelAndView(TournamentForm tournamentForm) {
 		return this.createModelAndView(tournamentForm, null);
 	}
 
-	protected ModelAndView createModelAndView(final TournamentForm tournamentForm, final String message) {
+	protected ModelAndView createModelAndView(TournamentForm tournamentForm, String errorMessage) {
 		ModelAndView result;
 
-		final List<Sport> sports = Arrays.asList(Sport.values());
+		List<Sport> sports = Arrays.asList(Sport.values());
 		result = new ModelAndView("tournament/register");
 		result.addObject("tournamentForm", tournamentForm);
-		result.addObject("message", message);
+		result.addObject("errorMessage", errorMessage);
 		result.addObject("sports", sports);
-		result.addObject("RequestURI", "tournament/register.do");
+		result.addObject("requestURI", "tournament/register.do");
 
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final TournamentForm tournamentForm) {
-		return this.createEditModelAndView(tournamentForm, null);
+	protected ModelAndView editModelAndView(TournamentForm tournamentForm) {
+		return this.editModelAndView(tournamentForm, null);
 	}
 
-	protected ModelAndView createEditModelAndView(final TournamentForm tournamentForm, final String message) {
+	protected ModelAndView editModelAndView(TournamentForm tournamentForm, String errorMessage) {
 		ModelAndView result;
 
-		final List<Sport> sports = Arrays.asList(Sport.values());
+		List<Sport> sports = Arrays.asList(Sport.values());
 		result = new ModelAndView("tournament/edit");
 		result.addObject("tournamentForm", tournamentForm);
-		result.addObject("message", message);
+		result.addObject("errorMessage", errorMessage);
 		result.addObject("sports", sports);
-		result.addObject("RequestURI", "tournament/edit.do");
+		result.addObject("requestURI", "tournament/edit.do");
 
 		return result;
 	}

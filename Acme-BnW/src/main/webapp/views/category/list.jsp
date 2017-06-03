@@ -20,8 +20,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<display:table name="categories" id="row" requestURI="${requestURI}"
-	pagesize="5">
+<display:table name="categories" id="row" requestURI="${requestURI}" pagesize="5">
 
 	<spring:message code="category.name" var="name" />
 	<display:column property="name" title="${name}" />
@@ -43,8 +42,7 @@
 		
 		<display:column>
 			<jstl:if test="${empty row.fixtures}">
-				<acme:cancel url="category/delete.do?categoryId=${row.id}"
-					code="category.delete" />
+				<acme:confirm url="category/delete.do?categoryId=${row.id}" code="category.delete" msg="category.delete.confirm" />
 			</jstl:if>
 		</display:column>
 	
@@ -54,6 +52,6 @@
 
 
 <security:authorize access="hasRole('MANAGER')">
-	<acme:cancel url="category/register.do"
-				code="category.create" />
+	<acme:cancel url="category/register.do" code="category.create" class_="btn btn-primary" />
 </security:authorize>
+<acme:cancel code="category.back" url="/tournament/list.do" />

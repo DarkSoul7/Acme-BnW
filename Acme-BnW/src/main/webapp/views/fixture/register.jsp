@@ -39,7 +39,7 @@
 		<br />
 
 		<jstl:if test="${fixtureForm.id == 0}">
-			<acme:select items="${categories}" itemLabel="name" code="category.name" path="idCategory" mandatory="true"/>
+			<acme:select items="${categories}" itemLabel="name" code="fixture.category.name" path="idCategory" mandatory="true"/>
 		</jstl:if>
 		
 

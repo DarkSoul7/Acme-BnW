@@ -119,8 +119,9 @@ public class MatchController extends AbstractController {
 			try {
 				matchService.save(match);
 				result = new ModelAndView("redirect:/match/list.do");
+				result.addObject("successMessage", "match.register.success");
 			} catch (Throwable oops) {
-				result = this.createModelAndView(matchForm, "match.commit.error");
+				result = this.createModelAndView(matchForm, "match.register.error");
 			}
 		}
 
@@ -139,8 +140,9 @@ public class MatchController extends AbstractController {
 			try {
 				matchService.save(match);
 				result = new ModelAndView("redirect:/match/list.do");
+				result.addObject("successMessage", "match.edit.success");
 			} catch (Throwable oops) {
-				result = this.editModelAndView(matchForm, "match.commit.error");
+				result = this.editModelAndView(matchForm, "match.edit.error");
 			}
 		}
 
@@ -155,6 +157,7 @@ public class MatchController extends AbstractController {
 		try {
 			matchService.delete(match);
 			result = new ModelAndView("redirect:/match/list.do");
+			result.addObject("successMessage", "match.delete.success");
 		} catch (Throwable oops) {
 			result = new ModelAndView("redirect:/match/list.do");
 			result.addObject("errorMessage", "match.delete.error");
@@ -185,8 +188,9 @@ public class MatchController extends AbstractController {
 			try {
 				matchService.editResult(resultForm);
 				result = new ModelAndView("redirect:/match/list.do");
+				result.addObject("successMessage", "match.editResult.success");
 			} catch (Throwable oops) {
-				result = editResultModelAndView(resultForm, "result.commit.error");
+				result = editResultModelAndView(resultForm, "match.editResult.error");
 			}
 		}
 

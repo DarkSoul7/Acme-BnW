@@ -105,3 +105,5 @@
 <security:authorize access="hasRole('MANAGER')">
 	<acme:cancel url="match/register.do" code="match.create" class_="btn btn-primary" />
 </security:authorize>
+
+<acme:cancel code="match.back" url="/fixture/list.do" />

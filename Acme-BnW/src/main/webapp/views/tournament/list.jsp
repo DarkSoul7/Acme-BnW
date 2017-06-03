@@ -76,8 +76,7 @@
 		
 		<display:column>
 			<jstl:if test="${empty row.categories}">
-				<acme:cancel url="tournament/delete.do?tournamentId=${row.id}"
-					code="tournament.delete" />
+				<acme:confirm url="tournament/delete.do?tournamentId=${row.id}" code="tournament.delete" msg="tournament.delete.confirm" />
 			</jstl:if>
 		</display:column>
 	
@@ -86,13 +85,6 @@
 </display:table>
 
 <security:authorize access="hasRole('MANAGER')">
-	<acme:cancel url="tournament/register.do"
-				code="tournament.create" />
+	<acme:cancel url="tournament/register.do" code="tournament.create" class_="btn btn-primary" />
 </security:authorize>
-
-<%-- <jstl:if test="${errorMessage != null }"> --%>
-<!-- <br/> -->
-<!-- <br/> -->
-<%-- 	<spring:message code="${errorMessage}" var="error" /> --%>
-<%-- 	<font size="4" color="red"><jstl:out value="${error}"></jstl:out></font> --%>
-<%-- </jstl:if> --%>
+<acme:cancel code="tournament.back" url="/" />

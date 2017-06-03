@@ -129,8 +129,10 @@ public class MatchService {
 	public void editResult(ResultForm resultForm) {
 		Assert.notNull(resultForm);
 		Match match = this.findOne(resultForm.getIdMatch());
+		Date currentMoment = new Date();
 		//No se debe poder editar el resultado de un partido que no ha comenzado aún
-		Assert.isTrue(new Date().compareTo(match.getStartMoment()) > 0);
+		Assert.isTrue(currentMoment.compareTo(match.getStartMoment()) > 0);
+		Assert.isTrue(currentMoment.compareTo(match.getEndMoment()) < 0);
 
 		match.setLocalResult(resultForm.getLocalResult());
 		match.setVisitorResult(resultForm.getVisitorResult());

@@ -34,7 +34,7 @@
 			mandatory="true" />
 		<br />
 		<jstl:if test="${categoryForm.id == 0}">
-			<acme:select items="${tournaments}" itemLabel="name" code="tournament.name" path="idTournament" mandatory="true"/>
+			<acme:select items="${tournaments}" itemLabel="name" code="category.tournament.name" path="idTournament" mandatory="true"/>
 		</jstl:if>
 		
 

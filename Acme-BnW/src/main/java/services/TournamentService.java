@@ -1,9 +1,7 @@
-
 package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,11 +10,11 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.TournamentRepository;
 import domain.Category;
 import domain.Sport;
 import domain.Tournament;
 import forms.TournamentForm;
-import repositories.TournamentRepository;
 
 @Service
 @Transactional
@@ -53,7 +51,7 @@ public class TournamentService {
 	}
 
 	public void save(final Tournament tournament) {
-		Assert.isTrue(tournament.getStartMoment().after(new Date()));
+		//		Assert.isTrue(tournament.getStartMoment().after(new Date()));
 		Assert.isTrue(tournament.getEndMoment().after(tournament.getStartMoment()));
 		this.tournamentRepository.save(tournament);
 	}
@@ -74,7 +72,7 @@ public class TournamentService {
 
 
 	@Autowired
-	private Validator validator;
+	private Validator	validator;
 
 
 	public Tournament reconstruct(TournamentForm tournamentForm, BindingResult binding) {
