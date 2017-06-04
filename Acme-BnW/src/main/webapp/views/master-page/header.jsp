@@ -60,7 +60,7 @@
 				<li><a href="topic/listAll.do"><spring:message code="master.page.list.topic" /></a></li>
 				<li><a href="balanceSearchEngine/list.do"><spring:message code="master.page.balanceSearchEngine" /></a></li>
 				<li><a href="customer/list.do"><spring:message code="master.page.list.customer" /></a></li>
-				<li><a href="manager/register.do"><spring:message code="master.page.manager.register" /></a></li>
+				<li><a href="actionManager/register.do"><spring:message code="master.page.manager.register" /></a></li>
 			</security:authorize>
 			<security:authorize access="permitAll">
 			<li class="dropdown"><a class="handCursor dropdown-toggle" data-toggle="dropdown"><spring:message	code="master.page.lists" /><span class="caret"></span></a>
@@ -135,7 +135,7 @@
 									<li><a href="customer/edit.do"><span class="glyphicon glyphicon-edit"></span> <spring:message code="master.page.edit.user" /></a></li>
 								</security:authorize>
 								<security:authorize access="hasRole('MANAGER')">
-									<li><a href="manager/edit.do"><span class="glyphicon glyphicon-edit"></span> <spring:message code="master.page.edit.user" /></a></li>
+									<li><a href="actionManager/edit.do"><span class="glyphicon glyphicon-edit"></span> <spring:message code="master.page.edit.user" /></a></li>
 								</security:authorize>
 								<li><a href="j_spring_security_logout"><span class="glyphicon glyphicon-log-out"></span> <spring:message code="master.page.logout" /> </a></li>
 							</ul>
