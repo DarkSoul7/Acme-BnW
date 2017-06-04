@@ -29,6 +29,7 @@
 <div id="botonMostrarBarra" style="display: block;">
 	<input type="button" value="<spring:message code="master.page.mostrarBarraCookies" />" onClick="abrirBarra();" class="btn btn-default">
 	<acme:cancel code="master.page.eraseMe" url="/welcome/eraseMe.do" />
+	<acme:cancel code="master.page.useCondition" url="/welcome/conditions.do" />
 </div>
 
 

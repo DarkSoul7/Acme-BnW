@@ -15,13 +15,27 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <body style="text-align: justify;">
 	<p><spring:message code="welcome.conditions.p1" /></p>
+	<br/>
+	<p><b><spring:message code="welcome.conditions.paymentSuspensionTitle" /></p></b>
+	<br/>
+	<p><spring:message code="welcome.conditions.paymentSuspension" /></p>
+	<br/>
+	<p><spring:message code="welcome.conditions.paymentSuspension2" /></p>
+	<br/>
+	<p><spring:message code="welcome.conditions.betsAndEntries" /></p>
+	<br/>
+	<p><spring:message code="welcome.conditions.betsAndEntries2" /></p>
+	<br/>
+	<p><spring:message code="welcome.conditions.betsAndEntries3" /></p>
+	<br/>
 </body>
 <br>
 <br>
 <br>
-<button onclick="javascript:window.close();" class="btn btn-default"><spring:message code="welcome.close" /></button>
+<acme:cancel code="welcome.close" url="${backURI}" />
 
 </html>
