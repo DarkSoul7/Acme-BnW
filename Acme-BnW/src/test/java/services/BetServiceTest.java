@@ -1,8 +1,6 @@
-
 package services;
 
 import javax.transaction.Transactional;
-import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +13,7 @@ import domain.Bet;
 import domain.Market;
 
 @ContextConfiguration(locations = {
-	"classpath:spring/junit.xml"
+		"classpath:spring/junit.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -42,14 +40,14 @@ public class BetServiceTest extends AbstractTest {
 	@Test
 	public void makingSimpleBetDriver() {
 		final Object[][] testingData = {
-			// actor, expected exception
-			{
+		// actor, expected exception
+		{
 				"customer1", null
-			}, {
-				null, ConstraintViolationException.class
-			}, {
-				"admin", ConstraintViolationException.class
-			}
+		}, {
+				null, IllegalArgumentException.class
+		}, {
+				"admin", IllegalArgumentException.class
+		}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
@@ -65,9 +63,8 @@ public class BetServiceTest extends AbstractTest {
 			this.authenticate(principal);
 
 			final Market market = this.marketService.findOne(137);
-			final Bet bet = this.betService.createDefault(market);
-			bet.setQuantity(10.3);
-			this.betService.save(bet, false, false);
+			final Bet bet = this.betService.createSimple(10.3, market);
+			this.betService.save(bet, true, false);
 
 			this.unauthenticate();
 
