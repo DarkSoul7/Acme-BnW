@@ -121,24 +121,30 @@ public class CustomerController extends AbstractController {
 	public ModelAndView editSave(@Valid final CustomerForm customerForm, final BindingResult binding) throws CheckDigitException {
 		ModelAndView result = new ModelAndView();
 		final Customer customer;
+		Boolean error = false;
 
 		try {
 			customer = this.customerService.reconstruct(customerForm, binding);
-
-			if (binding.hasErrors()) {
-				result = this.editModelAndView(customerForm, "customer.creditCard.error");
-			} else {
-				try {
-					this.customerService.save(customer);
-					result = new ModelAndView("redirect:/customer/edit.do");
-					result.addObject("successMessage", "customer.edit.success");
-				} catch (final Throwable oops) {
-					result = this.editModelAndView(customerForm, "customer.commit.error");
-				}
+			if (binding.getAllErrors().toString().contains("CreditCard")) {
+				error = true;
+				throw new IllegalArgumentException();
 			}
+			try {
+				this.customerService.save(customer);
+				result = new ModelAndView("redirect:/customer/edit.do");
+				result.addObject("successMessage", "customer.edit.success");
+			} catch (final Throwable oops) {
+				result = this.editModelAndView(customerForm, "customer.commit.error");
+			}
+			//			}
 
 		} catch (final Throwable oops) {
-			result = this.editModelAndView(customerForm, "customer.commit.error");
+			if (error == true) {
+				result = this.editModelAndView(customerForm, "customer.creditCard.error");
+			} else {
+				result = this.editModelAndView(customerForm, "customer.commit.error");
+			}
+
 		}
 
 		return result;
