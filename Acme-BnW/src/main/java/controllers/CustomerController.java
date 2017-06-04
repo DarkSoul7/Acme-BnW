@@ -283,7 +283,7 @@ public class CustomerController extends AbstractController {
 		final List<Brand> brands = Arrays.asList(Brand.values());
 		result = new ModelAndView("customer/register");
 		result.addObject("customerForm", customerForm);
-		result.addObject("message", message);
+		result.addObject("errorMessage", message);
 		result.addObject("brands", brands);
 
 		return result;
@@ -298,7 +298,7 @@ public class CustomerController extends AbstractController {
 		ModelAndView result;
 		result = new ModelAndView("customer/edit");
 		result.addObject("customerForm", customerForm);
-		result.addObject("message", message);
+		result.addObject("errorMessage", message);
 		result.addObject("requestURI", "customer/edit.do");
 
 		return result;
@@ -315,7 +315,7 @@ public class CustomerController extends AbstractController {
 
 		result = new ModelAndView("customer/addBalance");
 		result.addObject("balanceForm", balanceForm);
-		result.addObject("message", message);
+		result.addObject("errorMessage", message);
 		result.addObject("currencies", currencies);
 		result.addObject("balanceNow", this.customerService.findByPrincipal().getBalance());
 
@@ -333,7 +333,7 @@ public class CustomerController extends AbstractController {
 
 		result = new ModelAndView("customer/extractBalance");
 		result.addObject("balanceForm", balanceForm);
-		result.addObject("message", message);
+		result.addObject("errorMessage", message);
 		result.addObject("balanceNow", this.customerService.findByPrincipal().getBalance());
 		result.addObject("currencies", currencies);
 
