@@ -46,7 +46,7 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="/Acme-BnW"><img style="max-height: 150%;" src="images/logo-bnw.jpg" alt="Acme-BnW Co., Inc." /></a>
+			<a class="navbar-brand" href="/"><img style="max-height: 150%;" src="images/logo-bnw.jpg" alt="Acme-BnW Co., Inc." /></a>
 		</div>
 		<ul class="nav navbar-nav" style="margin:0; padding:0">
 			<security:authorize access="hasRole('ADMINISTRATOR')">
