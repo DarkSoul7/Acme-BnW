@@ -59,6 +59,7 @@
 </display:table>
 
 <security:authorize access="hasRole('MANAGER')">
-	<acme:cancel url="team/register.do"
-				code="team.create" />
+	<acme:cancel url="team/register.do" code="team.create" />
 </security:authorize>
+
+<acme:cancel url="/" code="team.back" />
