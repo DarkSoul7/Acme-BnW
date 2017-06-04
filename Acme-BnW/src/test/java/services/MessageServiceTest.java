@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import utilities.AbstractTest;
 import domain.Message;
 import domain.Topic;
-import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
@@ -39,7 +39,7 @@ public class MessageServiceTest extends AbstractTest {
 	 * Register message
 	 * 1º Good test -> expected: message registered
 	 * 2º Bad test -> cannot register message without title
-	 * 3º Bad test -> cannot register message an admin
+	 * 3º Bad test -> cannot register message an administrator
 	 */
 
 	@Test
@@ -47,11 +47,11 @@ public class MessageServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, title, description, topicId ,expected exception
 			{
-				"customer1", "title", "description", 145, null
+				"customer1", "title", "description", 151, null
 			}, {
-				"customer1", "", "description", 145, ConstraintViolationException.class
+				"customer1", "", "description", 151, ConstraintViolationException.class
 			}, {
-				"admin", "title", "description", 145, IllegalArgumentException.class
+				"admin", "title", "description", 151, IllegalArgumentException.class
 			}
 		};
 
@@ -60,27 +60,27 @@ public class MessageServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void registerMessageTemplated(String principal, String title, String description, int topicId, Class<?> expectedException) {
+	protected void registerMessageTemplated(final String principal, final String title, final String description, final int topicId, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			Message message = new Message();
+			final Message message = new Message();
 
-			Topic topic = topicService.findOne(topicId);
+			final Topic topic = this.topicService.findOne(topicId);
 
 			message.setCreationMoment(new Date(System.currentTimeMillis() - 1000));
 			message.setTitle(title);
 			message.setDescription(description);
 			message.setOrder(topic.getMessages().size() + 1);
-			message.setCustomer(customerService.findByPrincipal());
+			message.setCustomer(this.customerService.findByPrincipal());
 			message.setTopic(topic);
 
-			messageService.save(message);
+			this.messageService.save(message);
 
 			this.unauthenticate();
 			this.messageService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -98,11 +98,11 @@ public class MessageServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, title, description, messageId ,expected exception
 			{
-				"customer1", "description", 155, null
+				"customer1", "description", 161, null
 			}, {
-				"customer1", "", 155, ConstraintViolationException.class
+				"customer1", "", 161, ConstraintViolationException.class
 			}, {
-				"customer2", "description", 155, IllegalArgumentException.class
+				"customer2", "description", 161, IllegalArgumentException.class
 			}
 		};
 
@@ -111,20 +111,20 @@ public class MessageServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void editMessageTemplated(String principal, String description, int messageId, Class<?> expectedException) {
+	protected void editMessageTemplated(final String principal, final String description, final int messageId, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			Message message = messageService.findOne(messageId);
+			final Message message = this.messageService.findOne(messageId);
 
 			message.setDescription(description);
 
-			messageService.save(message);
+			this.messageService.save(message);
 
 			this.unauthenticate();
 			this.topicService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -142,11 +142,11 @@ public class MessageServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, messageId , expected exception
 			{
-				"admin", 155, null
+				"admin", 161, null
 			}, {
-				"customer1", 156, IllegalArgumentException.class
+				"customer1", 162, IllegalArgumentException.class
 			}, {
-				"manager", 156, IllegalArgumentException.class
+				"manager", 163, IllegalArgumentException.class
 			}
 		};
 
@@ -155,16 +155,16 @@ public class MessageServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void deleteMessageTemplated(String principal, int messageId, Class<?> expectedException) {
+	protected void deleteMessageTemplated(final String principal, final int messageId, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			Message message = messageService.findOne(messageId);
-			messageService.delete(message);
+			final Message message = this.messageService.findOne(messageId);
+			this.messageService.delete(message);
 			this.unauthenticate();
 			this.messageService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);

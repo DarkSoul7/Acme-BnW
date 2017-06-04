@@ -14,9 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import utilities.AbstractTest;
 import domain.Fixture;
 import domain.Match;
-import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
@@ -46,35 +46,36 @@ public class FixtureServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, title, startMoment, endMoment, idCategory ,expected exception
 			{
-				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 99, null
+				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 105, null
 			}, {
-				"manager1", "", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 99, ConstraintViolationException.class
+				"manager1", "", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 105, ConstraintViolationException.class
 			}, {
-				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(1).toDate(), 99, IllegalArgumentException.class
+				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(1).toDate(), 105, IllegalArgumentException.class
 			}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
-			this.registerFixtureTemplated((String) testingData[i][0], (String) testingData[i][1], (Date) testingData[i][2], (Date) testingData[i][3], (int) testingData[i][4], (Class<?>) testingData[i][5]);
+			this.registerFixtureTemplated((String) testingData[i][0], (String) testingData[i][1], (Date) testingData[i][2], (Date) testingData[i][3], (int) testingData[i][4],
+				(Class<?>) testingData[i][5]);
 		}
 	}
 
-	protected void registerFixtureTemplated(String principal, String title, Date startMoment, Date endMoment, int idCategory, Class<?> expectedException) {
+	protected void registerFixtureTemplated(final String principal, final String title, final Date startMoment, final Date endMoment, final int idCategory, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			Fixture fixture = new Fixture();
+			final Fixture fixture = new Fixture();
 			fixture.setTitle(title);
 			fixture.setStartMoment(startMoment);
 			fixture.setEndMoment(endMoment);
-			fixture.setCategory(categoryService.findOne(idCategory));
+			fixture.setCategory(this.categoryService.findOne(idCategory));
 			fixture.setMatches(new ArrayList<Match>());
 
-			fixtureService.save(fixture);
+			this.fixtureService.save(fixture);
 			this.unauthenticate();
 			this.fixtureService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -92,11 +93,11 @@ public class FixtureServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, title, startMoment, endMoment, idFixture ,expected exception
 			{
-				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 111, null
+				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 117, null
 			}, {
-				"manager1", "", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 111, ConstraintViolationException.class
+				"manager1", "", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(4).toDate(), 117, ConstraintViolationException.class
 			}, {
-				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(1).toDate(), 111, IllegalArgumentException.class
+				"manager1", "title1", new DateTime().plusDays(2).toDate(), new DateTime().plusDays(1).toDate(), 118, IllegalArgumentException.class
 			}
 		};
 
@@ -105,20 +106,20 @@ public class FixtureServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void editFixtureTemplated(String principal, String title, Date startMoment, Date endMoment, int idFixture, Class<?> expectedException) {
+	protected void editFixtureTemplated(final String principal, final String title, final Date startMoment, final Date endMoment, final int idFixture, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			Fixture fixture = fixtureService.findOne(idFixture);
+			final Fixture fixture = this.fixtureService.findOne(idFixture);
 			fixture.setTitle(title);
 			fixture.setStartMoment(startMoment);
 			fixture.setEndMoment(endMoment);
 
-			fixtureService.save(fixture);
+			this.fixtureService.save(fixture);
 			this.unauthenticate();
 			this.fixtureService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -136,11 +137,11 @@ public class FixtureServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, fixtureId , expected exception
 			{
-				"manager1", 0, null
+				"manager1", 117, null
 			}, {
-				"customer", 111, IllegalArgumentException.class
+				"customer", 118, IllegalArgumentException.class
 			}, {
-				"admin", 111, IllegalArgumentException.class
+				"admin", 119, IllegalArgumentException.class
 			}
 		};
 
@@ -149,27 +150,25 @@ public class FixtureServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void deleteFixtureTemplated(String principal, int idFixture, Class<?> expectedException) {
+	protected void deleteFixtureTemplated(final String principal, final int idFixture, final Class<?> expectedException) {
 		Class<?> caught = null;
 		Fixture fixture;
 		try {
-			if (idFixture != 0) {
-				fixture = fixtureService.findOne(idFixture);
-			} else {
-				fixture = new Fixture();
-				fixture.setTitle("title 300");
-				fixture.setStartMoment(new DateTime().plusDays(2).toDate());
-				fixture.setEndMoment(new DateTime().plusDays(4).toDate());
-				fixture.setMatches(new ArrayList<Match>());
-				fixture.setCategory(categoryService.findAll().iterator().next());
-				fixtureService.save(fixture);
-			}
+			fixture = this.fixtureService.findOne(idFixture);
+			fixture = new Fixture();
+			fixture.setTitle("title 300");
+			fixture.setStartMoment(new DateTime().plusDays(2).toDate());
+			fixture.setEndMoment(new DateTime().plusDays(4).toDate());
+			fixture.setMatches(new ArrayList<Match>());
+			fixture.setCategory(this.categoryService.findAll().iterator().next());
+			this.fixtureService.save(fixture);
 			this.authenticate(principal);
 
-			fixtureService.delete(fixture);
+			this.fixtureService.delete(fixture);
 			this.unauthenticate();
 			this.fixtureService.flush();
-		} catch (Throwable oops) {
+
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);

@@ -658,7 +658,7 @@
 	
 	<bean id="match4" class="domain.Match">
 		<property name="startMoment" value="2017/06/20 22:15" />
-		<property name="endMoment" value="2017/06/21 00:00" />
+		<property name="endMoment" value="2017/07/21 00:00" />
 		<property name="fixture" ref="fixture1" />
 		<property name="localResult" value="0" />
 		<property name="visitorResult" value="0" />

@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import domain.Punctuation;
 import utilities.AbstractTest;
+import domain.Punctuation;
 
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
@@ -23,7 +23,7 @@ public class PunctuationServiceTest extends AbstractTest {
 	// System under test ------------------------------------------------------
 
 	@Autowired
-	private PunctuationService punctuationService;
+	private PunctuationService	punctuationService;
 
 
 	/***
@@ -38,11 +38,11 @@ public class PunctuationServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, starts, topicId ,expected exception
 			{
-				"customer2", 3, 146, null
+				"customer3", 3, 153, null
 			}, {
-				"customer2", -2, 145, ConstraintViolationException.class
+				"customer3", -2, 153, ConstraintViolationException.class
 			}, {
-				"admin", 2, 145, IllegalArgumentException.class
+				"admin", 2, 151, IllegalArgumentException.class
 			}
 		};
 
@@ -51,18 +51,18 @@ public class PunctuationServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void registerPunctuationTemplated(String principal, Integer stars, int topicId, Class<?> expectedException) {
+	protected void registerPunctuationTemplated(final String principal, final Integer stars, final int topicId, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			Punctuation punctuation = new Punctuation();
+			final Punctuation punctuation = new Punctuation();
 			punctuation.setStars(stars);
 
-			punctuationService.givePunctuation(punctuation, topicId);
+			this.punctuationService.givePunctuation(punctuation, topicId);
 
 			this.punctuationService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -80,11 +80,11 @@ public class PunctuationServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, punctuationId ,expected exception
 			{
-				"customer1", 148, null
+				"customer1", 154, null
 			}, {
-				"customer2", 150, IllegalArgumentException.class
+				"customer3", 155, IllegalArgumentException.class
 			}, {
-				"admin", 150, IllegalArgumentException.class
+				"admin", 159, IllegalArgumentException.class
 			}
 		};
 
@@ -93,18 +93,18 @@ public class PunctuationServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void deletePunctuationTemplated(String principal, int punctuationId, Class<?> expectedException) {
+	protected void deletePunctuationTemplated(final String principal, final int punctuationId, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
-			Punctuation punctuation = punctuationService.findOne(punctuationId);
+			final Punctuation punctuation = this.punctuationService.findOne(punctuationId);
 
-			punctuationService.delete(punctuation);
+			this.punctuationService.delete(punctuation);
 
 			this.unauthenticate();
 			this.punctuationService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);

@@ -51,9 +51,6 @@ public class CustomerServiceTest extends AbstractTest {
 	@Autowired
 	private BalanceSearchEngineService	balanceSearchEngineService;
 
-	@Autowired
-	private ConvertionCurrencyService	s;
-
 
 	/***
 	 * Visualizar una lista con el balance ganancia-perdidas de todos los clientes existentes, pudiendo filtrar por nombre, apellido o DNI
@@ -226,6 +223,7 @@ public class CustomerServiceTest extends AbstractTest {
 			this.authenticate(principal);
 			final BalanceForm balanceForm = new BalanceForm();
 			balanceForm.setBalance(balance);
+			balanceForm.setCurrency(Currency.EURO);
 
 			this.customerService.addBalance(balanceForm);
 
@@ -459,11 +457,11 @@ public class CustomerServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, customerId, expected exception
 			{
-				"admin", 91, null
+				"admin", 97, null
 			}, {
-				"manager1", 91, IllegalArgumentException.class
+				"manager1", 97, IllegalArgumentException.class
 			}, {
-				"customer1", 91, IllegalArgumentException.class
+				"customer1", 97, IllegalArgumentException.class
 			}
 		};
 
@@ -500,11 +498,11 @@ public class CustomerServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, idTeam, expected exception
 			{
-				"customer1", 105, null
+				"customer3", 108, null
 			}, {
-				"customer1", 105, IllegalArgumentException.class
+				"customer1", 108, IllegalArgumentException.class
 			}, {
-				"admin", 105, IllegalArgumentException.class
+				"admin", 108, IllegalArgumentException.class
 			}
 		};
 
@@ -541,11 +539,11 @@ public class CustomerServiceTest extends AbstractTest {
 		final Object[][] testingData = {
 			//actor, idTeam, expected exception
 			{
-				"customer1", 102, null
+				"customer1", 108, null
 			}, {
-				"customer1", 102, IllegalArgumentException.class
+				"customer1", 108, IllegalArgumentException.class
 			}, {
-				"admin", 102, IllegalArgumentException.class
+				"admin", 108, IllegalArgumentException.class
 			}
 		};
 

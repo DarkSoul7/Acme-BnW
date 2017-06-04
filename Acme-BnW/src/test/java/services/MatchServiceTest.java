@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import domain.Market;
 import domain.Match;
 
 @ContextConfiguration(locations = {
-		"classpath:spring/junit.xml"
+	"classpath:spring/junit.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -46,42 +47,44 @@ public class MatchServiceTest extends AbstractTest {
 	@Test
 	public void registerMatchDriver() {
 		final Object[][] testingData = {
-		//actor, startMoment, endMoment, idTeamLocal , idTeamVisitor, idFixture ,expected exception
-		{
-				"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), 102, 105, 111, null
-		}, {
-				"manager1", new DateTime().plusHours(3).toDate(), new DateTime().plusHours(1).toDate(), 102, 105, 113, IllegalArgumentException.class
-		}, {
-				"manager1", new DateTime().plusHours(-1).toDate(), new DateTime().plusHours(-2).toDate(), 102, 105, 113, IllegalArgumentException.class
-		}
+			//actor, startMoment, endMoment, idTeamLocal , idTeamVisitor, idFixture ,expected exception
+			{
+				"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), 108, 109, 117, null
+			}, {
+				"manager1", new DateTime().plusHours(3).toDate(), new DateTime().plusHours(1).toDate(), 108, 109, 117, IllegalArgumentException.class
+			}, {
+				"manager1", new DateTime().plusHours(-1).toDate(), new DateTime().plusHours(-2).toDate(), 108, 109, 119, IllegalArgumentException.class
+			}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
-			this.registerMatchTemplated((String) testingData[i][0], (Date) testingData[i][1], (Date) testingData[i][2], (int) testingData[i][3], (int) testingData[i][4], (int) testingData[i][5], (Class<?>) testingData[i][6]);
+			this.registerMatchTemplated((String) testingData[i][0], (Date) testingData[i][1], (Date) testingData[i][2], (int) testingData[i][3], (int) testingData[i][4], (int) testingData[i][5],
+				(Class<?>) testingData[i][6]);
 		}
 	}
 
-	protected void registerMatchTemplated(String principal, Date startMoment, Date endMoment, int idTeamLocal, int idTeamVisitor, int idFixture, Class<?> expectedException) {
+	protected void registerMatchTemplated(final String principal, final Date startMoment, final Date endMoment, final int idTeamLocal, final int idTeamVisitor, final int idFixture,
+		final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
 
-			Match match = new Match();
+			final Match match = new Match();
 			match.setLocalResult(0);
 			match.setVisitorResult(0);
 			match.setMarkets(new ArrayList<Market>());
 			match.setStartMoment(startMoment);
 			match.setEndMoment(endMoment);
 			match.setSolvedBets(false);
-			match.setVisitorTeam(teamService.findOne(idTeamVisitor));
-			match.setLocalTeam(teamService.findOne(idTeamLocal));
-			match.setFixture(fixtureService.findOne(idFixture));
+			match.setVisitorTeam(this.teamService.findOne(idTeamVisitor));
+			match.setLocalTeam(this.teamService.findOne(idTeamLocal));
+			match.setFixture(this.fixtureService.findOne(idFixture));
 
-			matchService.save(match);
+			this.matchService.save(match);
 			this.unauthenticate();
 			this.matchService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -99,40 +102,42 @@ public class MatchServiceTest extends AbstractTest {
 	@Test
 	public void editMatchDriver() {
 		final Object[][] testingData = {
-		//actor,idMatch,expected exception
-		{
-				"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), 2, 1, 117, null
-		}, {
-				"manager1", new DateTime().plusHours(3).toDate(), new DateTime().plusHours(1).toDate(), 2, 1, 117, IllegalArgumentException.class
-		}, {
-				"manager1", new DateTime().plusHours(-1).toDate(), new DateTime().plusHours(-2).toDate(), 2, 1, 117, IllegalArgumentException.class
-		}, {
-				"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), -1, 1, 115, ConstraintViolationException.class
-		}, {
-				"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), 2, -2, 115, ConstraintViolationException.class
-		}
+			//actor,start moment, end moment, local result, visitor result, match id, expected exception
+			{
+				"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), 2, 1, 121, null
+			}, {
+				"manager1", new DateTime().plusHours(3).toDate(), new DateTime().plusHours(1).toDate(), 2, 1, 121, IllegalArgumentException.class
+			}, {
+				"manager1", new DateTime().plusHours(-1).toDate(), new DateTime().plusHours(-2).toDate(), 2, 1, 121, IllegalArgumentException.class
+			}, {
+				"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), -1, 1, 121, ConstraintViolationException.class
+			}, {
+				"manager1", new DateTime().plusHours(1).toDate(), new DateTime().plusHours(3).toDate(), 2, -2, 121, ConstraintViolationException.class
+			}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
-			this.editMatchTemplated((String) testingData[i][0], (Date) testingData[i][1], (Date) testingData[i][2], (int) testingData[i][3], (int) testingData[i][4], (int) testingData[i][5], (Class<?>) testingData[i][6]);
+			this.editMatchTemplated((String) testingData[i][0], (Date) testingData[i][1], (Date) testingData[i][2], (int) testingData[i][3], (int) testingData[i][4], (int) testingData[i][5],
+				(Class<?>) testingData[i][6]);
 		}
 	}
 
-	protected void editMatchTemplated(String principal, Date startMoment, Date endMoment, Integer localResult, Integer visitorResult, int idMatch, Class<?> expectedException) {
+	protected void editMatchTemplated(final String principal, final Date startMoment, final Date endMoment, final Integer localResult, final Integer visitorResult, final int idMatch,
+		final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
 
-			Match match = matchService.findOne(idMatch);
+			final Match match = this.matchService.findOne(idMatch);
 			match.setStartMoment(startMoment);
 			match.setEndMoment(endMoment);
 			match.setLocalResult(localResult);
 			match.setVisitorResult(visitorResult);
-			matchService.save(match);
+			this.matchService.save(match);
 			this.unauthenticate();
 			this.matchService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);
@@ -142,20 +147,20 @@ public class MatchServiceTest extends AbstractTest {
 	 * Delete match
 	 * 1º Good test -> expected: match deleted
 	 * 2º Bad test -> an customer cannot delete a match
-	 * 3º Bad test -> an admin cannot delete a match
+	 * 3º Bad test -> an administrator cannot delete a match
 	 */
 
 	@Test
 	public void deleteTeamDriver() {
 		final Object[][] testingData = {
-		//actor, matchId , expected exception
-		{
-				"manager1", 119, null
-		}, {
-				"customer1", 118, IllegalArgumentException.class
-		}, {
-				"admin", 118, IllegalArgumentException.class
-		}
+			//actor, matchId , expected exception
+			{
+				"manager1", 125, null
+			}, {
+				"customer1", 121, IllegalArgumentException.class
+			}, {
+				"admin", 122, IllegalArgumentException.class
+			}
 		};
 
 		for (int i = 0; i < testingData.length; i++) {
@@ -163,18 +168,18 @@ public class MatchServiceTest extends AbstractTest {
 		}
 	}
 
-	protected void deleteMatchTemplated(String principal, int idMatch, Class<?> expectedException) {
+	protected void deleteMatchTemplated(final String principal, final int idMatch, final Class<?> expectedException) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(principal);
 
-			Match match = matchService.findOne(idMatch);
+			final Match match = this.matchService.findOne(idMatch);
 
-			matchService.delete(match);
+			this.matchService.delete(match);
 			this.unauthenticate();
 			this.matchService.flush();
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expectedException, caught);

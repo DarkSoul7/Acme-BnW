@@ -48,6 +48,7 @@ public class BetService {
 
 	//Simple CRUD methods
 
+	//Crea una apuesta simple
 	public Bet createSimple(Double quantity, Market market) {
 		Assert.notNull(quantity);
 		Assert.isTrue(quantity > 0.0);
@@ -86,6 +87,7 @@ public class BetService {
 		return result;
 	}
 
+	//Crea una apuesta para la selección
 	public Bet createDefault(Market market) {
 		Assert.notNull(market);
 		Bet result;
@@ -107,6 +109,7 @@ public class BetService {
 		return result;
 	}
 
+	//Crea una apuesta múltiple
 	public Bet createMultiple(Double quantity) {
 		Assert.notNull(quantity);
 		Assert.isTrue(quantity > 0.0);
@@ -140,6 +143,19 @@ public class BetService {
 
 	}
 
+	/**
+	 * Guarda una apuesta en BBDD
+	 * 
+	 * @param bet
+	 *            la apuesta a guardar
+	 * @param payment
+	 *            indica si se debe cobrar/pagar algo al cliente. No se debe cobrar/pagar cuando se guarda una apuesta
+	 *            en la selección y tampoco en las apuesta de tipo CHILD, puesto que en ese caso se cobrará/pagará lo
+	 *            indicado en la padre de tipo MULTIPLE.
+	 * @param solvingBets
+	 *            Indica si la apuesta se está resolviendo o es nueva. El valor falso indica que es nueva
+	 * @return La apuesta guardada
+	 * **/
 	public Bet save(Bet bet, Boolean payment, Boolean solvingBets) throws IllegalStateException, IllegalArgumentException {
 		Customer customer;
 		Double balance;
