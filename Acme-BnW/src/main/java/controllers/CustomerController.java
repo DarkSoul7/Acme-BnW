@@ -121,24 +121,30 @@ public class CustomerController extends AbstractController {
 	public ModelAndView editSave(@Valid final CustomerForm customerForm, final BindingResult binding) throws CheckDigitException {
 		ModelAndView result = new ModelAndView();
 		final Customer customer;
+		Boolean error = false;
 
 		try {
 			customer = this.customerService.reconstruct(customerForm, binding);
-
-			if (binding.hasErrors()) {
-				result = this.editModelAndView(customerForm, "customer.creditCard.error");
-			} else {
-				try {
-					this.customerService.save(customer);
-					result = new ModelAndView("redirect:/customer/edit.do");
-					result.addObject("successMessage", "customer.edit.success");
-				} catch (final Throwable oops) {
-					result = this.editModelAndView(customerForm, "customer.commit.error");
-				}
+			if (binding.getAllErrors().toString().toUpperCase().contains("CREDITCARD")) {
+				error = true;
+				throw new IllegalArgumentException();
 			}
+			try {
+				this.customerService.save(customer);
+				result = new ModelAndView("redirect:/customer/edit.do");
+				result.addObject("successMessage", "customer.edit.success");
+			} catch (final Throwable oops) {
+				result = this.editModelAndView(customerForm, "customer.commit.error");
+			}
+			//			}
 
 		} catch (final Throwable oops) {
-			result = this.editModelAndView(customerForm, "customer.commit.error");
+			if (error == true) {
+				result = this.editModelAndView(customerForm, "customer.creditCard.error");
+			} else {
+				result = this.editModelAndView(customerForm, "customer.commit.error");
+			}
+
 		}
 
 		return result;
@@ -283,7 +289,7 @@ public class CustomerController extends AbstractController {
 		final List<Brand> brands = Arrays.asList(Brand.values());
 		result = new ModelAndView("customer/register");
 		result.addObject("customerForm", customerForm);
-		result.addObject("message", message);
+		result.addObject("errorMessage", message);
 		result.addObject("brands", brands);
 
 		return result;
@@ -298,7 +304,7 @@ public class CustomerController extends AbstractController {
 		ModelAndView result;
 		result = new ModelAndView("customer/edit");
 		result.addObject("customerForm", customerForm);
-		result.addObject("message", message);
+		result.addObject("errorMessage", message);
 		result.addObject("requestURI", "customer/edit.do");
 
 		return result;
@@ -315,7 +321,7 @@ public class CustomerController extends AbstractController {
 
 		result = new ModelAndView("customer/addBalance");
 		result.addObject("balanceForm", balanceForm);
-		result.addObject("message", message);
+		result.addObject("errorMessage", message);
 		result.addObject("currencies", currencies);
 		result.addObject("balanceNow", this.customerService.findByPrincipal().getBalance());
 
@@ -333,7 +339,7 @@ public class CustomerController extends AbstractController {
 
 		result = new ModelAndView("customer/extractBalance");
 		result.addObject("balanceForm", balanceForm);
-		result.addObject("message", message);
+		result.addObject("errorMessage", message);
 		result.addObject("balanceNow", this.customerService.findByPrincipal().getBalance());
 		result.addObject("currencies", currencies);
 

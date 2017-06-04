@@ -6,6 +6,8 @@ import javax.persistence.AccessType;
 import javax.persistence.Embeddable;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 
 @Embeddable
 @Access(AccessType.PROPERTY)
@@ -18,18 +20,21 @@ public class Coordinates {
 
 
 	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getCountry() {
 		return this.country;
 	}
 	public void setCountry(final String country) {
 		this.country = country;
 	}
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getState() {
 		return this.state;
 	}
 	public void setState(final String state) {
 		this.state = state;
 	}
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getProvince() {
 		return this.province;
 	}

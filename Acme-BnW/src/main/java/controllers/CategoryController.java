@@ -64,7 +64,7 @@ public class CategoryController extends AbstractController {
 
 		result = new ModelAndView("category/list");
 		result.addObject("categories", categories);
-		result.addObject("requestURI", "category/listOfTournament.do");
+		result.addObject("requestURI", "category/listByTournament.do");
 		result.addObject("errorMessage", errorMessage);
 		result.addObject("successMessage", successMessage);
 

@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ManagerService;
 import domain.Manager;
 import forms.ManagerForm;
-import services.ManagerService;
 
 @Controller
-@RequestMapping("/manager")
+@RequestMapping("/actionManager")
 public class ManagerController extends AbstractController {
 
 	@Autowired
-	private ManagerService managerService;
+	private ManagerService	managerService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -35,28 +35,28 @@ public class ManagerController extends AbstractController {
 
 		ModelAndView result;
 
-		ManagerForm managerForm = managerService.createForm();
+		final ManagerForm managerForm = this.managerService.createForm();
 		result = this.createModelAndView(managerForm);
 
 		return result;
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid ManagerForm managerForm, BindingResult binding) throws CheckDigitException {
+	public ModelAndView save(@Valid final ManagerForm managerForm, final BindingResult binding) throws CheckDigitException {
 
 		ModelAndView result = new ModelAndView();
 
 		Manager manager;
 
-		manager = managerService.reconstruct(managerForm, binding);
+		manager = this.managerService.reconstruct(managerForm, binding);
 		if (binding.hasErrors()) {
-			result = createModelAndView(managerForm);
+			result = this.createModelAndView(managerForm);
 		} else {
 			try {
-				managerService.save(manager);
+				this.managerService.save(manager);
 				result = new ModelAndView("redirect:/welcome/index.do");
-			} catch (Throwable oops) {
-				result = createModelAndView(managerForm, "manager.commit.error");
+			} catch (final Throwable oops) {
+				result = this.createModelAndView(managerForm, "manager.commit.error");
 			}
 		}
 
@@ -88,11 +88,11 @@ public class ManagerController extends AbstractController {
 			manager = this.managerService.reconstruct(managerForm, binding);
 
 			if (binding.hasErrors()) {
-				result = this.editModelAndView(managerForm, "chorbi.creditCard.error");
+				result = this.editModelAndView(managerForm, "manager.commit.error");
 			} else {
 				try {
 					this.managerService.editProfile(manager);
-					result = new ModelAndView("redirect:/manager/edit.do");
+					result = new ModelAndView("redirect:/actionManager/edit.do");
 					result.addObject("successMessage", "manager.edit.success");
 				} catch (final Throwable oops) {
 					result = this.editModelAndView(managerForm, "manager.commit.error");
@@ -113,7 +113,7 @@ public class ManagerController extends AbstractController {
 	protected ModelAndView createModelAndView(final ManagerForm managerForm, final String message) {
 		ModelAndView result;
 
-		result = new ModelAndView("manager/register");
+		result = new ModelAndView("actionManager/register");
 		result.addObject("managerForm", managerForm);
 		result.addObject("message", message);
 		return result;
@@ -126,10 +126,10 @@ public class ManagerController extends AbstractController {
 
 	protected ModelAndView editModelAndView(final ManagerForm managerForm, final String message) {
 		ModelAndView result;
-		result = new ModelAndView("manager/edit");
+		result = new ModelAndView("actionManager/edit");
 		result.addObject("managerForm", managerForm);
 		result.addObject("message", message);
-		result.addObject("requestURI", "manager/edit.do");
+		result.addObject("requestURI", "actionManager/edit.do");
 
 		return result;
 	}
