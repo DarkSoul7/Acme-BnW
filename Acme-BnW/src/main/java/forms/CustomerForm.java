@@ -152,6 +152,7 @@ public class CustomerForm {
 		this.birthDate = birthDate;
 	}
 
+	@Valid
 	public CreditCard getCreditCard() {
 		return this.creditCard;
 	}

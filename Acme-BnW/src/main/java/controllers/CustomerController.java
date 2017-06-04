@@ -125,7 +125,7 @@ public class CustomerController extends AbstractController {
 
 		try {
 			customer = this.customerService.reconstruct(customerForm, binding);
-			if (binding.getAllErrors().toString().contains("CreditCard")) {
+			if (binding.getAllErrors().toString().toUpperCase().contains("CREDITCARD")) {
 				error = true;
 				throw new IllegalArgumentException();
 			}
