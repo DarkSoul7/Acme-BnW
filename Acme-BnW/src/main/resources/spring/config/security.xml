@@ -59,8 +59,8 @@
 		<security:intercept-url pattern="/customer/generateInvoice.do" access="hasRole('CUSTOMER')" />
 		
 		<!-- Manager -->
-		<security:intercept-url pattern="/manager/register.do" access="hasRole('ADMINISTRATOR')" />
-		<security:intercept-url pattern="/manager/edit.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/actionManager/register.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/actionManager/edit.do" access="hasRole('MANAGER')" />
 		
 		<!-- Tournament -->
 		<security:intercept-url pattern="/tournament/list.do" access="permitAll" />
