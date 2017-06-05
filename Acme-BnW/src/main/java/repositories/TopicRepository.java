@@ -1,4 +1,3 @@
-
 package repositories;
 
 import java.util.Collection;
@@ -8,12 +7,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import domain.Topic;
+import forms.TopicListForm;
 
 @Repository
 public interface TopicRepository extends JpaRepository<Topic, Integer> {
 
-	@Query("select t from Topic t join t.punctuations p group by t order by sum(p.stars) desc")
-	public Collection<Topic> getTopicsOrderByStars();
+	@Query("select new forms.TopicListForm(t.id, t.title, t.description, t.creationMoment, 0L, t.customer) from Topic t where t.punctuations.size = 0")
+	public Collection<TopicListForm> findAllWithoutStars();
+
+	@Query("select new forms.TopicListForm(t.id, t.title, t.description, t.creationMoment, sum(p.stars), t.customer) from Topic t join t.punctuations p group by t order by sum(p.stars) desc")
+	public Collection<TopicListForm> getTopicsOrderByStars();
 
 	//DashBoard
 	//B.3
