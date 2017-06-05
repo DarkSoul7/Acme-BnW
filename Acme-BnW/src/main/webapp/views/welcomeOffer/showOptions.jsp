@@ -42,7 +42,7 @@
 	<acme:cancel code="welcomeOffer.declineButton" url="welcomeOffer/cancelWelcomeOffer.do" />
 </jstl:if>
 
-<jstl:if test="${activeWO == false}">
+<jstl:if test="${activeWO == false && activeWelcomeOffer != null}">
 	<spring:message code="welcomeOffer.extractionAmountFalse" var="extractionAmountFalse" />
 	<jstl:out value="${extractionAmountFalse }"></jstl:out>
 </jstl:if>

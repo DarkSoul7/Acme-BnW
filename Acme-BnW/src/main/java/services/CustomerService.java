@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.ArrayList;
@@ -201,7 +200,7 @@ public class CustomerService {
 			result.setWelcomeOffer(this.welcomeOfferService.getActive());
 			result.setBalance(0.);
 			result.setIsDisabled(false);
-			result.setActiveWO(true);
+			result.setActiveWO(result.getWelcomeOffer() != null);
 			result.setBanNum(0);
 
 			//Editing customer
@@ -234,7 +233,7 @@ public class CustomerService {
 		if (result.getOverAge() == false) {
 			FieldError fieldError;
 			final String[] codes = {
-				"customer.birthDate.error"
+					"customer.birthDate.error"
 			};
 			fieldError = new FieldError("customerForm", "overAge", result.getOverAge(), false, codes, null, "");
 			binding.addError(fieldError);
@@ -247,7 +246,7 @@ public class CustomerService {
 			if (this.checkCreditCard(result.getCreditCard()) == false) {
 				FieldError fieldError;
 				final String[] codes = {
-					"customer.creditCard.error"
+						"customer.creditCard.error"
 				};
 				fieldError = new FieldError("customerForm", "creditCard", result.getCreditCard(), false, codes, null, "");
 				binding.addError(fieldError);
@@ -261,7 +260,7 @@ public class CustomerService {
 			if (result.getUserAccount().getPassword() == "" || result.getUserAccount().getPassword() == null) {
 				FieldError fieldError;
 				final String[] codes = {
-					"customer.passwords.error"
+						"customer.passwords.error"
 				};
 				fieldError = new FieldError("customerForm", "userAccount.password", result.getUserAccount().getPassword(), false, codes, null, "");
 				binding.addError(fieldError);
@@ -293,7 +292,7 @@ public class CustomerService {
 
 		if (creditCard != null)
 			if (creditCard.getBrandName() != null || !creditCard.getHolderName().isEmpty() || creditCard.getCvv() != null || creditCard.getExpirationMonth() != null
-				|| creditCard.getExpirationYear() != null || !creditCard.getNumber().isEmpty())
+					|| creditCard.getExpirationYear() != null || !creditCard.getNumber().isEmpty())
 				result = true;
 		return result;
 	}
@@ -329,12 +328,13 @@ public class CustomerService {
 		final int days = Days.daysBetween(localDate, expirationDate).getDays();
 
 		if (luhn && (days > 1) && !creditCard.getHolderName().isEmpty() && creditCard.getBrandName() != null && !creditCard.getHolderName().isEmpty() && creditCard.getExpirationMonth() != null
-			&& creditCard.getExpirationYear() != null && !creditCard.getNumber().isEmpty()) {
+				&& creditCard.getExpirationYear() != null && !creditCard.getNumber().isEmpty()) {
 			result = true;
 		}
 
 		return result;
 	}
+
 	public void addBalance(final BalanceForm balanceForm) {
 		final Customer principal = this.findByPrincipal();
 		final Date currentMoment = new Date();
@@ -347,7 +347,7 @@ public class CustomerService {
 
 		if (!principal.getFinishedOffer() && principal.getActiveWO()) {
 			if (principal.getWelcomeOffer() != null && principal.getWelcomeOffer().getExtractionAmount() <= roundAmount && principal.getWelcomeOffer().getOpenPeriod().compareTo(currentMoment) <= 0
-				&& principal.getWelcomeOffer().getEndPeriod().compareTo(currentMoment) >= 0) {
+					&& principal.getWelcomeOffer().getEndPeriod().compareTo(currentMoment) >= 0) {
 				principal.setBalance(principal.getBalance() + principal.getWelcomeOffer().getAmount());
 			}
 			principal.setFinishedOffer(true);
