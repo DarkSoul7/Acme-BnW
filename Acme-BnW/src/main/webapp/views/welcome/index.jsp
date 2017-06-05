@@ -16,6 +16,7 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <jstl:if test="${fullName == null}">
@@ -91,7 +92,7 @@
 		</jstl:choose>
 		</display:column>
 		
-		<jstl:set var="validPromotion" value="${notedMarkets.promotion != null && !notedMarkets.promotion.cancel && notedMarkets.promotion.startMoment < currentMoment && notedMarkets.promotion.endMoment > currentMoment}" />
+		<jstl:set var="validPromotion" value="${fn:length(notedMarkets) > 0 && notedMarkets.promotion != null && !notedMarkets.promotion.cancel && notedMarkets.promotion.startMoment < currentMoment && notedMarkets.promotion.endMoment > currentMoment}" />
 		<spring:message code="market.fee" var="fee" />
 		<display:column style="${validPromotion? 'text-decoration:line-through;':''}" property="fee" title="${fee}"/>
 		
