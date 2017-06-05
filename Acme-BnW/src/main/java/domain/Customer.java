@@ -1,4 +1,3 @@
-
 package domain;
 
 import java.util.Collection;
@@ -172,7 +171,7 @@ public class Customer extends Actor {
 	}
 
 	@Valid
-	@ManyToMany
+	@ManyToMany(mappedBy = "customers")
 	public Collection<Team> getFavouriteTeams() {
 		return this.favouriteTeams;
 	}
