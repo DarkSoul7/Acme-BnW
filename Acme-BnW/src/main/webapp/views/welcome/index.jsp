@@ -72,54 +72,56 @@
 	<spring:message code="welcome.notedMarkets" var="markedMarkets" />
 	<h3><jstl:out value="${markedMarkets}"/></h3>
 	
-	<display:table name="notedMarketsTable" uid="notedMarketsTableTable" requestURI="${RequestURI}" pagesize="5">
-
-		<spring:message code="match.localTeam" var="localTeam" />
-		<display:column property="match.localTeam.name" title="${localTeam}"/>
-		
-		<spring:message code="match.visitorTeam" var="visitorTeam" />
-		<display:column property="match.visitorTeam.name" title="${visitorTeam}"/>
-		
-		<spring:message code="welcome.title" var="title" />
-		<display:column title="${title}">
-			<jstl:choose>
-			<jstl:when test="${pageContext.response.locale.language=='en'}">
-				<jstl:out value="${notedMarketsTable.type.getName()}"></jstl:out>
-			</jstl:when>
-			<jstl:otherwise>
-				<jstl:out value="${notedMarketsTable.type.getSpanishName()}"></jstl:out>
-			</jstl:otherwise>
-		</jstl:choose>
-		</display:column>
-		
-		<jstl:set var="validPromotion" value="${fn:length(notedMarkets) > 0 && notedMarketsTable.promotion != null && !notedMarketsTable.promotion.cancel && notedMarketsTable.promotion.startMoment < currentMoment && notedMarketsTable.promotion.endMoment > currentMoment}" />
-		<spring:message code="market.fee" var="fee" />
-		<display:column style="${validPromotion? 'text-decoration:line-through;':''}" property="fee" title="${fee}"/>
-		
-		<spring:message code="promotion.fee" var="promotionFee" />
-		<display:column title="${promotionFee}">
-			<jstl:if test="${validPromotion}">
-				<jstl:out value="${notedMarketsTable.promotion.fee}" />
-			</jstl:if>
-		</display:column>
-		
-		<spring:message code="match.startMoment" var="startMoment" />
-		<display:column title="${startMoment}">
-			<fmt:formatDate value="${notedMarketsTable.match.startMoment}" pattern="MM/dd/yyyy HH:mm" />
-		</display:column>
-		
-		<spring:message code="match.endMoment" var="endMoment" />
-		<display:column title="${endMoment}">
-			<fmt:formatDate value="${notedMarketsTable.match.endMoment}" pattern="MM/dd/yyyy HH:mm" />
-		</display:column>
-		
-		<display:column>
-			<acme:cancel code="welcome.goToMarket" url="market/listByMatch.do?matchId=${notedMarketsTable.match.id}" />
-		</display:column>
+	<jstl:if test="${fn:length(notedMarkets) > 0}">
+		<display:table name="notedMarkets" uid="notedMarkets" requestURI="${RequestURI}" pagesize="5">
 	
-	</display:table>
-	
-	<br/>
+			<spring:message code="match.localTeam" var="localTeam" />
+			<display:column property="match.localTeam.name" title="${localTeam}"/>
+			
+			<spring:message code="match.visitorTeam" var="visitorTeam" />
+			<display:column property="match.visitorTeam.name" title="${visitorTeam}"/>
+			
+			<spring:message code="welcome.title" var="title" />
+			<display:column title="${title}">
+				<jstl:choose>
+				<jstl:when test="${pageContext.response.locale.language=='en'}">
+					<jstl:out value="${notedMarkets.type.getName()}"></jstl:out>
+				</jstl:when>
+				<jstl:otherwise>
+					<jstl:out value="${notedMarkets.type.getSpanishName()}"></jstl:out>
+				</jstl:otherwise>
+			</jstl:choose>
+			</display:column>
+			
+			<jstl:set var="validPromotion" value="${notedMarkets.promotion != null && !notedMarkets.promotion.cancel && notedMarkets.promotion.startMoment < currentMoment && notedMarkets.promotion.endMoment > currentMoment}" />
+			<spring:message code="market.fee" var="fee" />
+			<display:column style="${validPromotion? 'text-decoration:line-through;':''}" property="fee" title="${fee}"/>
+			
+			<spring:message code="promotion.fee" var="promotionFee" />
+			<display:column title="${promotionFee}">
+				<jstl:if test="${validPromotion}">
+					<jstl:out value="${notedMarkets.promotion.fee}" />
+				</jstl:if>
+			</display:column>
+			
+			<spring:message code="match.startMoment" var="startMoment" />
+			<display:column title="${startMoment}">
+				<fmt:formatDate value="${notedMarkets.match.startMoment}" pattern="MM/dd/yyyy HH:mm" />
+			</display:column>
+			
+			<spring:message code="match.endMoment" var="endMoment" />
+			<display:column title="${endMoment}">
+				<fmt:formatDate value="${notedMarkets.match.endMoment}" pattern="MM/dd/yyyy HH:mm" />
+			</display:column>
+			
+			<display:column>
+				<acme:cancel code="welcome.goToMarket" url="market/listByMatch.do?matchId=${notedMarkets.match.id}" />
+			</display:column>
+		
+		</display:table>
+		
+		<br/>
+	</jstl:if>
 	
 	<spring:message code="welcome.favouriteTeamPromotions" var="favouriteTeamPromotions" />
 	<h3><jstl:out value="${favouriteTeamPromotions }"/></h3>
