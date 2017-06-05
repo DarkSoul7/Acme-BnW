@@ -35,6 +35,9 @@
 	<spring:message code="topic.customer" var="customerUserName" />
 	<display:column property="customer.userAccount.username" title="${customerUserName}" />
 	
+	<spring:message code="topic.starsNumber" var="starsNumber" />
+	<display:column property="starsNumber" title="${starsNumber}" sortable="true"/>
+	
 	<security:authorize access="hasRole('CUSTOMER')">
 		<spring:message code="topic.edit" var="edit" />
 		<display:column title="${edit}" >

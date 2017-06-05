@@ -46,7 +46,7 @@
 		<tiles:insertAttribute name="header" />
 	</div>
 	<div style="text-align:center">
-		<a href="/Acme-BnW"><img src="images/logo-bnw.jpg" alt="Acme-BnW Co., Inc." width="450px" height="250" /></a>
+		<a href="/"><img src="images/logo-bnw.jpg" alt="Acme-BnW Co., Inc." width="450px" height="250" /></a>
 	</div>
 	<div style="width: 80%;">
 		<h1>

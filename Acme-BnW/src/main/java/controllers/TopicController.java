@@ -1,4 +1,3 @@
-
 package controllers;
 
 import java.util.Collection;
@@ -23,6 +22,7 @@ import domain.Customer;
 import domain.Punctuation;
 import domain.Topic;
 import forms.TopicForm;
+import forms.TopicListForm;
 
 @Controller
 @RequestMapping("/topic")
@@ -55,13 +55,12 @@ public class TopicController extends AbstractController {
 		ModelAndView result;
 		Boolean admin = false;
 		Customer customer = null;
-		final Collection<Topic> topics = this.topicService.findAllOrderByStars();
+		final Collection<TopicListForm> topics = this.topicService.findAllOrderByStars();
 
 		final Actor actor = this.actorService.findByPrincipal();
 
 		if (actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("ADMINISTRATOR")) {
 			admin = true;
-
 		} else {
 			customer = this.customerService.findByPrincipal();
 		}

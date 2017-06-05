@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.ArrayList;
@@ -12,12 +11,13 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.TopicRepository;
 import domain.Customer;
 import domain.Message;
 import domain.Punctuation;
 import domain.Topic;
 import forms.TopicForm;
-import repositories.TopicRepository;
+import forms.TopicListForm;
 
 @Service
 @Transactional
@@ -109,12 +109,15 @@ public class TopicService {
 		return result;
 	}
 
-	public Collection<Topic> findAllOrderByStars() {
-		final Collection<Topic> all = this.findAll();
-		final Collection<Topic> result = this.topicRepository.getTopicsOrderByStars();
+	public Collection<TopicListForm> findAllWithoutStars() {
+		return this.topicRepository.findAllWithoutStars();
+	}
 
-		all.removeAll(result);
-		result.addAll(all);
+	public Collection<TopicListForm> findAllOrderByStars() {
+		final Collection<TopicListForm> topicsWithoutStars = this.findAllWithoutStars();
+		final Collection<TopicListForm> result = this.topicRepository.getTopicsOrderByStars();
+
+		result.addAll(topicsWithoutStars);
 
 		return result;
 	}
